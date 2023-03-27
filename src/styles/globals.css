@@ -1,0 +1,65 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.searchDrawer {
+  left: -100%;
+}
+.searchDrawer.active {
+  display: block;
+  animation: slideIn 300ms ease forwards;
+}
+.post-image {
+  opacity: 0;
+}
+.post-image.active {
+  opacity: 1;
+  animation: fadeIn 300ms ease forwards;
+
+}
+.wrapper::after {
+  display: block;
+  content: "";
+  padding-bottom: 100%;
+}
+
+.croppedImg {
+  width: 100%;
+  height: 100%;
+  max-width: 500px;
+  max-height: 500px;
+  object-fit: contain;
+}
+
+
+@keyframes slideIn {
+  0% {
+    display: none;
+    left: -100%;
+  }
+  100% {
+    display: block;
+    left: 79px;
+  }
+}
+@media screen and (min-width: 1024px) {
+  @keyframes slideIn {
+    0% {
+      display: none;
+      left: -100%;
+    }
+    100% {
+      display: block;
+      left: 80px; /* change left to 90px */
+    }
+  }
+}
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+  
+}
