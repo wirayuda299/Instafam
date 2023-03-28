@@ -1,17 +1,18 @@
 import { handleFollow } from '@/helper/follow';
-import { rgbDataURL } from '@/util/colorPicker';
 import { DocumentData } from 'firebase/firestore';
-import { useSession } from 'next-auth/react';
+import { Session } from 'next-auth';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useEffect } from 'react';
 import Footer from '../Footer';
 
 export default function Suggestions({
 	recommendation,
+	session
 }: {
 	recommendation: DocumentData[];
+	session:Session | null
 }) {
-	const { data: session } = useSession();
 
 	return (
 		<section className='min-w-[400px] hidden lg:block'>
@@ -66,20 +67,22 @@ export default function Suggestions({
 									alt={user?.name ?? ''}
 									width={40}
 									height={40}
-									loading='lazy'
-									placeholder='blur'
-									blurDataURL={rgbDataURL(216, 216, 216)}
+									priority
 									quality={50}
 								/>
 								<div className='flex flex-col items-start justify-center'>
 									<span className='text-black dark:text-white text-sm font-semibold'>
-										{user.username}
+										@{user.username}
 									</span>
-									<p className=' text-xs text-slate-500'>followed by</p>
+									<p className=' text-xs text-slate-500'>
+										{user.name}
+									</p>
 								</div>
 							</Link>
 							<div className='ml-auto'>
 								<button
+									type='button'
+									name='follow'
 									className='text-blue-600 font-light text-xs'
 									onClick={() =>
 										handleFollow(
@@ -89,7 +92,7 @@ export default function Suggestions({
 										)
 									}
 								>
-									Follow
+									{user.followers.find((foll:{followedBy:string}) => foll.followedBy === session?.user.uid) ? 'Following' : 'Follow'}
 								</button>
 							</div>
 						</div>

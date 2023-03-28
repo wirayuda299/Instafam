@@ -10,13 +10,18 @@ import {
 	query,
 	collection,
 	where,
+	getDocs,
+	orderBy,
+	doc,
+	getDoc,
 } from 'firebase/firestore';
 import { useState, useEffect, Suspense } from 'react';
 import { useSession } from 'next-auth/react';
-import { getServerSession } from 'next-auth';
+import { getServerSession, Session } from 'next-auth';
 import { GetServerSidePropsContext } from 'next';
 import { authOptions } from './api/auth/[...nextauth]';
 import { instance } from '@/lib/axios';
+import { IUser } from '@/types/user';
 
 export interface Props {
 	posts: {
@@ -29,51 +34,18 @@ const PostCard = dynamic(() => import('@/components/Card/Post'), {
 	ssr: true,
 });
 
-type follLists = {
-	userId: string;
-};
 
-export default function Home({ posts }: { posts: IUserPostProps[] }) {
-	const [users, setUsers] = useState<DocumentData[]>([]);
-	const [followingLists, setFollowingLists] = useState<follLists[]>([]);
-	const [recommendation, setRecommendation] = useState<DocumentData[]>([]);
-
+export default function Home({
+	posts,
+	user,
+	otherUsers,
+}: {
+	posts: IUserPostProps[];
+	user: IUser;
+	otherUsers: IUser[];
+}) {
 	const { data: session } = useSession();
-
-	useEffect(() => {
-		onSnapshot(
-			query(
-				collection(db, 'users'),
-				where('uid', '!=', `${session?.user.uid}`)
-			),
-			(snapshot) => {
-				const users = snapshot.docs.map((doc) => doc.data());
-				setUsers(users);
-			}
-		);
-	}, []);
-
-	useEffect(() => {
-		onSnapshot(
-			query(
-				collection(db, 'users'),
-				where('uid', '==', `${session?.user.uid}`)
-			),
-			(snapshot) => {
-				const res = snapshot.docs.map((doc) => doc.data());
-				setFollowingLists(res.map((user) => user.following));
-			}
-		);
-	}, []);
-
-	useEffect(() => {
-		const recommendation = users.filter(
-			(user) =>
-				!followingLists.every((following) => following.userId === user.uid)
-		);
-		setRecommendation(recommendation);
-	}, [users, db]);
-
+	
 	return (
 		<>
 			<Head>
@@ -85,18 +57,22 @@ export default function Home({ posts }: { posts: IUserPostProps[] }) {
 				<meta name='viewport' content='width=device-width, initial-scale=1' />
 				<link rel='icon' href='/favicon.ico' />
 			</Head>
-				<section className='w-full h-full md:p-3 max-w-7xl'>
-					<div className='w-full flex justify-between items-start first:flex-grow'>
-						<div className='w-full h-full flex flex-col p-5'>
-							<Suspense fallback={<Loader />} >
-								{posts?.map((post) => (
-									<PostCard post={post} key={post.docId} followingLists={followingLists} />
-								))}
-							</Suspense>
-						</div>
-						<Suggestions recommendation={recommendation} />
+			<section className='w-full h-full md:p-3 max-w-7xl'>
+				<div className='w-full flex justify-between items-start first:flex-grow'>
+					<div className='w-full h-full flex flex-col p-5'>
+						<Suspense fallback={<Loader />}>
+							{posts?.map((post) => (
+								<PostCard
+									post={post}
+									key={post.docId}
+									followingLists={user.following}
+								/>
+							))}
+						</Suspense>
 					</div>
-				</section>
+					<Suggestions recommendation={otherUsers} session={session}/>
+				</div>
+			</section>
 		</>
 	);
 }
@@ -112,16 +88,17 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 		};
 	}
 
-	const res = await instance.get('/api/posts', {
-		headers: {
-			Authorization: `Bearer ${session?.accessToken}`,
-		},
-	});
-	const posts = await res.data;
+	const res = await getDocs(query(collection(db, 'posts'), orderBy('createdAt', 'desc')));
+	const posts = res.docs.map((doc) => doc.data());
+	const user = await getDoc(doc(db, 'users', `${session.user.id}`))
+	const currentuser = user.data()
+	const otherUsers = await getDocs(query(collection(db, 'users'), where('uid', '!=', `${session.user.uid}`)))
 
 	return {
 		props: {
-			posts: posts.posts
+			posts: posts ?? [],
+			user: currentuser ?? [],
+			otherUsers: otherUsers.docs.map((doc) => doc.data()) ?? [],
 		},
 	};
 }

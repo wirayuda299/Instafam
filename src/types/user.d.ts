@@ -5,7 +5,8 @@ export interface IUser {
       userId: string,
   }[],
   followers: {
-      userId: string,
+      followedBy: string,
+      followedByName: string,
   }[],
   email: string,
   savedPosts: IUserPostProps[],

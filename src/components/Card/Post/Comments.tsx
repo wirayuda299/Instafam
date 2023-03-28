@@ -14,6 +14,12 @@ interface IProps {
 	commentOpen: boolean;
 }
 
+interface IComment {
+	comment: string;
+	commentByName: string;
+	commentByUid: string;
+}
+
 export const PostComment: FC<IProps> = ({
 	post,
 	comment,
@@ -22,17 +28,17 @@ export const PostComment: FC<IProps> = ({
 	username,
 	commentOpen,
 }) => {
-	const [currentComments, setCurrentComments] = useState<any[]>(post.comments);
+	const [currentComments, setCurrentComments] = useState<IComment[]>(post.comments);
 
 	useEffect(() => {
-		const unsub = onSnapshot(doc(db, 'posts', `post-${post.postId}`), (doc) => {
+		onSnapshot(doc(db, 'posts', `post-${post.postId}`), (doc) => {
 			if (doc.exists()) {
 				setCurrentComments(doc.data().comments);
 			}
 		});
-		return () => unsub();
-	}, [post.postId, db]);
+	}, [ db]);
 
+	
 	return (
 		<div>
 			<form

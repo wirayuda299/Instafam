@@ -1,6 +1,4 @@
 import { Suspense } from 'react';
-import { collection, getDocs, query, where } from 'firebase/firestore';
-import { db } from '@/config/firebase';
 import dynamic from 'next/dynamic';
 import Loader from '@/components/Loader/Loader';
 import Head from 'next/head';
@@ -13,7 +11,8 @@ import { getServerSession } from 'next-auth';
 import { authOptions } from '../api/auth/[...nextauth]';
 import { useSession } from 'next-auth/react';
 import StatisticLoader from '@/components/Loader/StatisticLoader';
-import { instance } from '@/lib/axios';
+import { collection, getDocs, query, where } from 'firebase/firestore';
+import { db } from '@/config/firebase';
 
 const PostsCard = dynamic(() => import('@/components/Card/Feeds'), {
 	loading: () => <Loader />,
@@ -40,8 +39,12 @@ export default function UserProfile({ user, posts, id }: any) {
 	const postTab = useRecoilValue(tabPosts);
 	const savedPostTab = useRecoilValue(tabSavedPosts);
 	const { data } = useSession();
-	console.log(user);
-
+	console.log({
+		uidFromSSR: id,
+		uidFromSession: data?.user?.uid,
+	})
+	
+	
 	return (
 		<>
 			<Head>
@@ -94,7 +97,7 @@ export default function UserProfile({ user, posts, id }: any) {
 					/>
 				</div>
 
-				{data?.user.uid === id ? <Tab /> : null}
+				{data?.user?.uid === id ? <Tab /> : null}
 				<div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5 p-5 justify-center items-center w-full '>
 					{postTab && (
 						<>
@@ -105,7 +108,7 @@ export default function UserProfile({ user, posts, id }: any) {
 									</h1>
 								</div>
 							)}
-							{posts?.posts.map((post: IUserPostProps) => (
+							{posts?.map((post: IUserPostProps) => (
 								<Suspense fallback={<Loader />} key={post.docId}>
 									<PostsCard post={post} />
 								</Suspense>
@@ -135,24 +138,16 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 		};
 	}
 	const { id } = context.query;
-	const user = await instance.get('/api/user', {
-		params: {
-			userId: id,
-		},
-	});
-	const currentuser = await user.data;
-	const userPosts = await instance.get('/api/currentuserposts', {
-		params: {
-			userId: id,
-		},
-	});
-	const userPostsData = await userPosts.data;
+	const user = await getDocs(query(collection(db, 'users'), where('uid', '==', id)))
+	const currentuser = user.docs.map((doc) => doc.data());
+	const userPosts = await getDocs(query(collection(db, 'posts'), where('postedById', '==', id)))
+	const userPostsData =  userPosts.docs.map((doc) => doc.data());
 
 	return {
 		props: {
-			user: currentuser.user[0],
+			user: currentuser[0],
 			posts: userPostsData,
-			id,
+			id
 		},
 	};
 }

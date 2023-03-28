@@ -20,23 +20,23 @@ export const authOptions = {
       }
       return session;
     },
-   async signIn(params:any) {
-    await setDoc(
-      doc(db, 'users', `${params.user?.id}`),
-      {
-        name: params?.user.name,
-        email: params?.user.email,
-        image: params?.user.image,
-        uid: params?.user.id,
-        savedPosts: [],
-        followers: [],
-        following: [],
-        createdAt: Date.now(),
-        username: params.user.name && params.user?.name.split(' ').join('').toLocaleLowerCase(),
-      },
-      {
-        merge: true,
-      }
+    async signIn(params: any) {
+      await setDoc(
+        doc(db, 'users', `${params.user?.id}`),
+        {
+          name: params?.user.name,
+          email: params?.user.email,
+          image: params?.user.image,
+          uid: params?.user.id,
+          savedPosts: [],
+          followers: [],
+          following: [],
+          createdAt: Date.now(),
+          username: params.user.name && params.user?.name.split(' ').join('').toLocaleLowerCase(),
+        },
+        {
+          merge: true,
+        }
       );
       return true;
     },
@@ -44,7 +44,7 @@ export const authOptions = {
 
   pages: {
     signIn: '/auth/signin',
-    
+
   },
   secret: process.env.NEXTAUTH_SECRET as string,
 }
@@ -52,9 +52,18 @@ export const authOptions = {
 export default NextAuth({
   providers: [
     GoogleProvider({
+      encoding: "base64",
       clientId: process.env.GOOGLE_CLIENT_ID as string,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET as string
-    })
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
+      authorization: {
+        params: {
+          prompt: "consent",
+          access_type: "offline",
+          response_type: "code",
+
+        },
+      },
+    }),
   ],
   callbacks: {
     async session({ session, token }: { session: any, token: JWT }) {
@@ -64,23 +73,23 @@ export default NextAuth({
       }
       return session;
     },
-   async signIn(params) {
-    await setDoc(
-      doc(db, 'users', `${params.user?.id}`),
-      {
-        name: params?.user.name,
-        email: params?.user.email,
-        image: params?.user.image,
-        uid: params?.user.id,
-        savedPosts: [],
-        followers: [],
-        following: [],
-        createdAt: Date.now(),
-        username: params.user.name && params.user?.name.split(' ').join('').toLocaleLowerCase(),
-      },
-      {
-        merge: true,
-      }
+    async signIn(params) {
+      await setDoc(
+        doc(db, 'users', `${params.user?.id}`),
+        {
+          name: params?.user.name,
+          email: params?.user.email,
+          image: params?.user.image,
+          uid: params?.user.id,
+          savedPosts: [],
+          followers: [],
+          following: [],
+          createdAt: Date.now(),
+          username: params.user.name && params.user?.name.split(' ').join('').toLocaleLowerCase(),
+        },
+        {
+          merge: true,
+        }
       );
       return true;
     },

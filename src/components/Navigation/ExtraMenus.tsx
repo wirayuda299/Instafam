@@ -82,13 +82,7 @@ export default function ExtraMenus() {
 			});
 		};
 	}, []);
-	function getTheme() {
-		if(window.matchMedia && window.matchMedia("(prefers-color-scheme:dark)").matches) {
-			return "dark";
-		} else {
-			return "light";
-		}
-	}
+
 	return (
 		<div
 			className={` flex-col justify-center w-full space-y-1 lg:space-y-3 relative  ${
@@ -106,10 +100,10 @@ export default function ExtraMenus() {
 							key={list.id}
 							className='py-2 truncate md:py-3 border-b dark:border-b-0'
 							title={list.title}
-
 						>
-							<button
-								onClick={list.id === 6 ? handleSignOut : list.id === 2 ?getTheme : undefined}
+					
+								<button
+								onClick={list.id === 6 ? handleSignOut : undefined}
 								className='w-full flex items-center space-x-2 gap-2 justify-between'
 								type='button'
 								name={list.title}
@@ -120,6 +114,7 @@ export default function ExtraMenus() {
 								</span>
 								<span>{list.icon}</span>
 							</button>
+						
 						</li>
 					))}
 				</ul>

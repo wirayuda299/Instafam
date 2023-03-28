@@ -52,6 +52,7 @@ export default function Statistic({ username, uid, image, name }: IProps) {
 			value: users[0]?.following.length,
 		},
 	];
+	
 	return (
 		<div className='w-full'>
 			<div className='text-black dark:text-white w-full'>
@@ -92,7 +93,8 @@ export default function Statistic({ username, uid, image, name }: IProps) {
 													</span>
 												) : (
 													<span className='text-sm font-medium text-black'>
-														Follow
+														{users[0]?.followers.find(foll => foll.followedBy === session?.user?.uid) ? 'Unfollow' : 'Follow'}
+														
 													</span>
 												)}
 											</button>
@@ -122,7 +124,10 @@ export default function Statistic({ username, uid, image, name }: IProps) {
 					className={`justify-evenly sm:hidden border-t border-gray-400 py-5 w-full flex sm:px-5 items-center space-x-3 mt-5`}
 				>
 					{data.map((item) => (
-						<li className='text-sm text-center font-semibold mt-2' key={item.id}>
+						<li
+							className='text-sm text-center font-semibold mt-2'
+							key={item.id}
+						>
 							<div className='flex space-x-2 items-center'>
 								<span className='font-semibold'>{item.value}</span>
 								<span>{item.title}</span>

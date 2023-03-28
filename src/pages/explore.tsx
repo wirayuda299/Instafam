@@ -7,6 +7,8 @@ import { instance } from '@/lib/axios';
 import { GetServerSidePropsContext } from 'next';
 import { getServerSession } from 'next-auth';
 import { authOptions } from './api/auth/[...nextauth]';
+import { db } from '@/config/firebase';
+import { getDocs, query, collection, orderBy } from 'firebase/firestore';
 
 
 const ExplorePostCard = dynamic(() => import('@/components/Card/Feeds'), {
@@ -64,16 +66,13 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 		};
 	}
 
-	const res = await instance.get('/api/posts', {
-		headers: {
-			Authorization: `Bearer ${session?.accessToken}`,
-		},
-	});
-	const posts = await res.data;
+	const res = await getDocs(query(collection(db, 'posts'), orderBy('createdAt', 'desc')));
+	const posts = res.docs.map((doc) => doc.data());
+
 
 	return {
 		props: {
-			posts: posts.posts
+			posts: posts ?? [],
 		},
 	};
 }
