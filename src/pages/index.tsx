@@ -93,7 +93,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 	const user = await getDoc(doc(db, 'users', `${session.user.id}`))
 	const currentuser = user.data()
 	const otherUsers = await getDocs(query(collection(db, 'users'), where('uid', '!=', `${session.user.uid}`)))
-
+	context.res.setHeader('Cache-Control', 's-maxage=60, stale-while-revalidate') 
 	return {
 		props: {
 			posts: posts ?? [],

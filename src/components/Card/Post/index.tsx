@@ -42,7 +42,7 @@ export default function PostCard({
 
 
 	return (
-		<div className={`w-full my-2 `}>
+		<div className={`w-full my-2 card`}>
 			<div className='bg-white shadow-lg  dark:bg-black dark:border-black dark:text-white rounded-sm '>
 				<PostHeader
 					currentuserUid={session?.user?.uid as string}

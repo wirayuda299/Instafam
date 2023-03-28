@@ -74,7 +74,7 @@ export const PostHeader: FC<IProps> = ({ post, currentuserUid, username }) => {
 	return (
 		<div className='flex items-center px-4 py-3 h-fit'>
 			<Image
-				className='h-8 w-8 rounded-full'
+				className='h-8 w-8 rounded-full avatar'
 				alt={post?.author ?? 'user profile'}
 				width={50}
 				height={50}

@@ -83,7 +83,7 @@ export const NavbarList: FC<IProps> = () => {
 			path: `/profile/${session?.user.uid}`,
 			icon: (
 				<Image
-					className={`${drawerOpen ? 'w-full ' : 'w-8 h-8 border md:border-0 object-cover'} rounded-full`}
+					className={`${drawerOpen ? 'w-full ' : 'w-8 h-8 border  md:border-0 object-cover'} rounded-full`}
 					src={session?.user?.image || ''}
 					width={40}
 					height={40}

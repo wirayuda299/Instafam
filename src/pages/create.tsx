@@ -12,8 +12,7 @@ import dynamic from 'next/dynamic';
 import Head from 'next/head';
 
 const Captions = dynamic(() => import('@/components/Captions/Captions'), {
-	ssr: false,
-	loading: () => <p>Loading...</p>,
+	ssr: false
 });
 
 export default function CreatePost() {
