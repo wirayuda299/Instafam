@@ -7,14 +7,14 @@ import { instance } from '@/lib/axios';
 import { GetServerSidePropsContext } from 'next';
 import { getServerSession } from 'next-auth';
 import { authOptions } from './api/auth/[...nextauth]';
-import { Props } from '.';
+
 
 const ExplorePostCard = dynamic(() => import('@/components/Card/Feeds'), {
 	loading: () => <Loader />,
 	ssr: true,
 });
 
-export default function Explore({ posts }: Props) {
+export default function Explore({ posts }:{posts:IUserPostProps[]}) {	
 	return (
 		<>
 			<Head>
@@ -43,7 +43,7 @@ export default function Explore({ posts }: Props) {
 				<h1 className='text-center font-semibold text-5xl py-5 '>Explore</h1>
 				<div className='container mx-auto'>
 					<div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 p-5 gap-5'>
-						{posts?.posts.map((post: IUserPostProps) => (
+						{posts?.map((post: IUserPostProps) => (
 							<ExplorePostCard post={post} key={post.postId} />
 						))}
 					</div>
@@ -73,7 +73,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 
 	return {
 		props: {
-			posts,
+			posts: posts.posts
 		},
 	};
 }

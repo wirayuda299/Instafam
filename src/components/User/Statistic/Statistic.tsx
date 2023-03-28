@@ -70,7 +70,7 @@ export default function Statistic({ username, uid, image, name }: IProps) {
 									/>
 									<div className='w-full'>
 										<div className='flex justify-between items-center gap-5 flex-col sm:flex-row'>
-											<h1 className='font-semibold text-2xl sm:text-4xl text-start'>
+											<h1 className='font-semibold text-2xl sm:text-4xl'>
 												@{username}
 											</h1>
 											<button
@@ -119,7 +119,7 @@ export default function Statistic({ username, uid, image, name }: IProps) {
 					</div>
 				</div>
 				<ul
-					className={`justify-evenly sm:hidden border-t py-5 w-full flex sm:px-5 items-center space-x-3 mt-5`}
+					className={`justify-evenly sm:hidden border-t border-gray-400 py-5 w-full flex sm:px-5 items-center space-x-3 mt-5`}
 				>
 					{data.map((item) => (
 						<li className='text-sm text-center font-semibold mt-2' key={item.id}>

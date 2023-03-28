@@ -103,7 +103,7 @@ export const NavbarList: FC<IProps> = () => {
 		setDrawerOpen(false)
 	}
 	return (
-		<ul className='flex w-full dark:bg-black justify-around md:justify-start md:space-y-4 items-center sm:items-start flex-row md:flex-col transition-all ease duration-500'>
+		<ul className='flex w-full dark:bg-black justify-around md:justify-start md:space-y-4 items-center sm:items-start flex-row md:flex-col last:flex-grow transition-all ease duration-500'>
 			{navList.map((list) => (
 				<li
 					key={list.id}

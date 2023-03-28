@@ -33,7 +33,7 @@ type follLists = {
 	userId: string;
 };
 
-export default function Home({ posts }: Props) {
+export default function Home({ posts }: { posts: IUserPostProps[] }) {
 	const [users, setUsers] = useState<DocumentData[]>([]);
 	const [followingLists, setFollowingLists] = useState<follLists[]>([]);
 	const [recommendation, setRecommendation] = useState<DocumentData[]>([]);
@@ -72,7 +72,7 @@ export default function Home({ posts }: Props) {
 				!followingLists.every((following) => following.userId === user.uid)
 		);
 		setRecommendation(recommendation);
-	}, [users]);
+	}, [users, db]);
 
 	return (
 		<>
@@ -89,7 +89,7 @@ export default function Home({ posts }: Props) {
 					<div className='w-full flex justify-between items-start first:flex-grow'>
 						<div className='w-full h-full flex flex-col p-5'>
 							<Suspense fallback={<Loader />} >
-								{posts?.posts?.map((post) => (
+								{posts?.map((post) => (
 									<PostCard post={post} key={post.docId} followingLists={followingLists} />
 								))}
 							</Suspense>
@@ -121,7 +121,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 
 	return {
 		props: {
-			posts,
+			posts: posts.posts
 		},
 	};
 }
