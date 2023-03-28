@@ -31,7 +31,7 @@ export const PostComment: FC<IProps> = ({
 			}
 		});
 		return () => unsub();
-	}, [post.postId]);
+	}, [post.postId, db]);
 
 	return (
 		<div>

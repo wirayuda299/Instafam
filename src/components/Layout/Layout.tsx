@@ -1,23 +1,9 @@
 import { useSession } from 'next-auth/react';
 import dynamic from 'next/dynamic';
+import Header from '../Header/Header';
+import BottomNav from '../Navigation/BottomNav';
 import Sidebar from '../Navigation/Sidebar';
-
-const Search = dynamic(() => import('../Search'), {
-	loading: () => <p>Loading..</p>,
-	ssr: false,
-});
-const Header = dynamic(() => import('../Header/Header'), {
-	loading: () => <p>Loading..</p>,
-	ssr: false,
-});
-
-const BottomNav = dynamic(() => import('../Navigation/BottomNav'), {
-	loading: () => <p>Loading..</p>,
-	ssr: false,
-});
-
-
-
+import Search from '../Search';
 
 export default function Layout({ children }: { children: React.ReactNode }) {
 	const { data: session } = useSession();

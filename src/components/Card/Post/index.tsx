@@ -6,7 +6,7 @@ import { PostHeader } from './Header';
 import { PostAuthor } from './Author';
 import { PostComment } from './Comments';
 import { db } from '@/config/firebase';
-import { collection, doc, onSnapshot, query, where } from 'firebase/firestore';
+import {  doc, onSnapshot} from 'firebase/firestore';
 import { useSession } from 'next-auth/react';
 
 export interface ICommentsProps {
@@ -27,7 +27,6 @@ export default function PostCard({
 	const [likesCount, setLikesCount] = useState<number>(0);
 	const [commentOpen, setCommentOpen] = useState<boolean>(false);
 	const { data: session } = useSession();
-	const [savedPosts, setSavedPosts] = useState<string[]>([]);
 	
 	useEffect(() => {
 		const unsub = onSnapshot(doc(db, 'posts', `post-${post.postId}`), (doc) => {
