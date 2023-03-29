@@ -3,7 +3,6 @@ import Loader from '@/components/Loader/Loader';
 import dynamic from 'next/dynamic';
 import Head from 'next/head';
 import { IUserPostProps } from '@/types/post';
-import { instance } from '@/lib/axios';
 import { GetServerSidePropsContext } from 'next';
 import { getServerSession } from 'next-auth';
 import { authOptions } from './api/auth/[...nextauth]';

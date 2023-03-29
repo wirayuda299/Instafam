@@ -1,7 +1,7 @@
 /** @type {import('next').NextConfig} */
+
 const nextConfig = {
   compress: true,
-  poweredByHeader: false,
   reactStrictMode: true,
   images: {
     minimumCacheTTL : 60 * 60 * 60 * 24 * 365,
@@ -37,7 +37,6 @@ const nextConfig = {
     NEXTAUTH_SECRET: process.env.NEXTAUTH_SECRET,
   },
   optimizeFonts: true,
-  crossOrigin: 'anonymous',
   
 }
 

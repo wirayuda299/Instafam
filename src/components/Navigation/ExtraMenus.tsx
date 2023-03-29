@@ -1,11 +1,11 @@
 import { extraListToggler } from '../../store/extraListToggler';
-import { getCsrfToken, signOut } from 'next-auth/react';
+import { getCsrfToken, signOut, useSession } from 'next-auth/react';
 import { AiOutlineWarning } from 'react-icons/ai';
 import { BsFillGearFill, BsFillMoonStarsFill } from 'react-icons/bs';
 import { RxCountdownTimer } from 'react-icons/rx';
 import { useRecoilState } from 'recoil';
 import { useEffect } from 'react';
-
+import { Url } from 'url';
 interface INavProps {
 	id: number;
 	title: string;
@@ -15,7 +15,7 @@ interface INavProps {
 
 export default function ExtraMenus() {
 	const [extraListOpen, setExtraListOpen] = useRecoilState(extraListToggler);
-
+	const { data: session } = useSession();
 	const extraList: INavProps[] = [
 		{
 			id: 1,
@@ -61,23 +61,38 @@ export default function ExtraMenus() {
 			title: 'Log Out',
 		},
 	];
-
 	const handleSignOut = async () => {
+		const url = require('url');
+		const callbackUrl = `${process.env.NEXTAUTH_URL}/auth/signin?callbackUrl=http%3A%2F%2Flocalhost%3A3000%2F`;
+		const parsedUrl = url.parse(callbackUrl, true);
+		const getBaseUrl = (urlObj:any) => {
+			const { protocol, host, pathname } = urlObj;
+			return `${protocol}//${host}${pathname}`;
+		};
+		const baseUrl = getBaseUrl(parsedUrl);
 		try {
-			const csrfToken = await getCsrfToken();
-			if (!csrfToken) throw Error('CSRF Token not found');
-			await signOut();
-		} catch (error:any) {
+			if (session) {
+				const csrfToken = await getCsrfToken();
+				if (!csrfToken) {
+					throw new Error('No CSRF token');
+				}
+
+				await signOut({
+					callbackUrl: baseUrl,
+					redirect: true,
+				});
+			}
+			return null;
+		} catch (error: any) {
 			console.log(error.message);
 		}
 	};
-
 	useEffect(() => {
-		window.addEventListener('resize', (e) => {
+		window.addEventListener('resize', () => {
 			setExtraListOpen(false);
 		});
 		return () => {
-			window.removeEventListener('resize', (e) => {
+			window.removeEventListener('resize', () => {
 				setExtraListOpen(false);
 			});
 		};
@@ -98,11 +113,10 @@ export default function ExtraMenus() {
 					{extraList.map((list) => (
 						<li
 							key={list.id}
-							className='py-2 truncate md:py-3 border-b dark:border-b-0'
+							className='py-2 truncate md:py-3 border-b dark:border-b-0  hover:bg-gray-200  transition-all ease duration-300 rounded-full w-fit md:w-full dark:hover:bg-[#b9b9b917] hover:bg-[#a8a8a817] px-5'
 							title={list.title}
 						>
-					
-								<button
+							<button
 								onClick={list.id === 6 ? handleSignOut : undefined}
 								className='w-full flex items-center space-x-2 gap-2 justify-between'
 								type='button'
@@ -114,7 +128,6 @@ export default function ExtraMenus() {
 								</span>
 								<span>{list.icon}</span>
 							</button>
-						
 						</li>
 					))}
 				</ul>
@@ -122,5 +135,3 @@ export default function ExtraMenus() {
 		</div>
 	);
 }
-
-

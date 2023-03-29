@@ -11,7 +11,7 @@ import { getServerSession } from 'next-auth';
 import { authOptions } from '../api/auth/[...nextauth]';
 import { useSession } from 'next-auth/react';
 import StatisticLoader from '@/components/Loader/StatisticLoader';
-import { collection, getDocs, query, where } from 'firebase/firestore';
+import { collection, getDocs, query, where, orderBy } from 'firebase/firestore';
 import { db } from '@/config/firebase';
 
 const PostsCard = dynamic(() => import('@/components/Card/Feeds'), {
@@ -39,11 +39,6 @@ export default function UserProfile({ user, posts, id }: any) {
 	const postTab = useRecoilValue(tabPosts);
 	const savedPostTab = useRecoilValue(tabSavedPosts);
 	const { data } = useSession();
-	console.log({
-		uidFromSSR: id,
-		uidFromSession: data?.user?.uid,
-	})
-	
 	
 	return (
 		<>
@@ -140,8 +135,9 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 	const { id } = context.query;
 	const user = await getDocs(query(collection(db, 'users'), where('uid', '==', id)))
 	const currentuser = user.docs.map((doc) => doc.data());
-	const userPosts = await getDocs(query(collection(db, 'posts'), where('postedById', '==', id)))
+	const userPosts = await getDocs(query(collection(db, 'posts'), where('postedById', '==', id), orderBy('createdAt', 'desc')))
 	const userPostsData =  userPosts.docs.map((doc) => doc.data());
+	context.res.setHeader('Cache-Control', 's-maxage=60, stale-while-revalidate=59'); 
 
 	return {
 		props: {

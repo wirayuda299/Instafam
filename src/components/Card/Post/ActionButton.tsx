@@ -80,6 +80,7 @@ export const PostActions: FC<IProps> = ({
 				onClick={() => savePost(post, uid)}
 				name='save post'
 				type='button'
+				title="save post"
 			>
 				{savedPosts?.includes(post.postId) ? (
 					<RiBookmarkFill className='text-3xl' />

@@ -37,10 +37,6 @@ export default function PostCard({
 		return () => unsub();
 	}, [ post.postId]);
 
-		
-
-
-
 	return (
 		<div className={`w-full my-2 card`}>
 			<div className='bg-white shadow-lg  dark:bg-black dark:border-black dark:text-white rounded-sm '>
@@ -58,6 +54,10 @@ export default function PostCard({
 					quality={55}
 					className=' object-cover w-full'
 					alt={post?.author ?? 'user post image'}
+					loader={({ src, width, quality}) => {
+						return `${src}?w=${width}&q=${quality || 75}`;
+					}}
+
 				/>
 				<PostActions
 					post={post}
