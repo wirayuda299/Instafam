@@ -58,7 +58,6 @@ export default function Home({
 				content='upgrade-insecure-requests'
 			/>
 			 <meta httpEquiv='Content-Security-Policy' content='block-all-mixed-content' />
-			 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'"/>
 			 <meta http-equiv="X-Frame-Options" content="DENY"/>
 			 <meta name="referrer" content="strict-origin"/>
 			 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
