@@ -13,7 +13,8 @@ export default function ExplorePostCard({ post }: IExplorePostCardProps) {
 					src={post?.image}
 					width={500}
 					height={500}
-					priority
+					loading='lazy'
+					blurDataURL={post?.image}
 					quality={55}
 					className=' object-cover w-full'
 					alt={post?.author ?? 'user post image'}
