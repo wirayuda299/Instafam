@@ -6,8 +6,9 @@ import { PostHeader } from './Header';
 import { PostAuthor } from './Author';
 import { PostComment } from './Comments';
 import { db } from '@/config/firebase';
-import {  doc, onSnapshot} from 'firebase/firestore';
+import { doc, onSnapshot } from 'firebase/firestore';
 import { useSession } from 'next-auth/react';
+import { rgbDataURL } from '@/util/colorPicker';
 
 export interface ICommentsProps {
 	comment: string;
@@ -19,15 +20,12 @@ export interface IPostCardProps {
 	followingLists: { userId: string }[] | undefined;
 }
 
-export default function PostCard({
-	post,
-	followingLists,
-}: IPostCardProps) {
+export default function PostCard({ post, followingLists }: IPostCardProps) {
 	const [comment, setComment] = useState<string>('');
 	const [likesCount, setLikesCount] = useState<number>(0);
 	const [commentOpen, setCommentOpen] = useState<boolean>(false);
 	const { data: session } = useSession();
-	
+
 	useEffect(() => {
 		const unsub = onSnapshot(doc(db, 'posts', `post-${post.postId}`), (doc) => {
 			if (doc.exists()) {
@@ -35,7 +33,7 @@ export default function PostCard({
 			}
 		});
 		return () => unsub();
-	}, [ post.postId]);
+	}, [post.postId]);
 
 	return (
 		<div className={`w-full my-2 card`}>
@@ -48,18 +46,18 @@ export default function PostCard({
 				/>
 				<Image
 					src={post?.image}
-					width={500}
-					height={500}
+					width={600}
+					height={600}
+					sizes='100vw'
 					loading='lazy'
 					placeholder='blur'
-					blurDataURL={post?.image}
+					blurDataURL={rgbDataURL(255, 255, 255)}
 					quality={55}
-					className=' object-cover w-full'
+					className=' object-cover'
 					alt={post?.author ?? 'user post image'}
-					loader={({ src, width, quality}) => {
+					loader={({ src, width, quality }) => {
 						return `${src}?w=${width}&q=${quality || 75}`;
 					}}
-
 				/>
 				<PostActions
 					post={post}

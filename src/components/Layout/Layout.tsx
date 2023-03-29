@@ -16,8 +16,8 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 							<Search />
 						</>
 					) : null}
-					<main className='w-full h-full'>
-						<section className='w-full h-full'>
+					<main className='w-full h-full overflow-hidden'>
+						<section className='w-full h-full '>
 							<Header />
 							{children}
 							<BottomNav />

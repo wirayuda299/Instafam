@@ -1,3 +1,4 @@
+import { rgbDataURL } from '@/util/colorPicker';
 import { DocumentData } from 'firebase/firestore';
 import Image from 'next/image';
 import { AiFillHeart, AiTwotoneMessage } from 'react-icons/ai';
@@ -11,13 +12,18 @@ export default function ExplorePostCard({ post }: IExplorePostCardProps) {
 			<div className='relative w-full group'>
 				<Image
 					src={post?.image}
-					width={500}
-					height={500}
+					width={600}
+					height={600}
+					sizes='100vw'
 					loading='lazy'
-					blurDataURL={post?.image}
+					placeholder='blur'
+					blurDataURL={rgbDataURL(255, 255, 255)}
 					quality={55}
 					className=' object-cover w-full'
 					alt={post?.author ?? 'user post image'}
+					loader={({ src, width, quality }) => {
+						return `${src}?w=${width}&q=${quality || 75}`;
+					}}
 				/>
 				<div className='absolute inset-0 flex justify-around items-center bg-black bg-opacity-0 hover:bg-opacity-25'>
 					<button

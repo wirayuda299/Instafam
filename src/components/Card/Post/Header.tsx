@@ -79,6 +79,7 @@ export const PostHeader: FC<IProps> = ({ post, currentuserUid, username }) => {
 				width={50}
 				height={50}
 				priority
+				sizes='50px'
 				src={post?.postedByPhotoUrl || ''}
 			/>
 			<div className='ml-3 flex-1'>
