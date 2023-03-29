@@ -59,7 +59,7 @@ export default function Home({
 					httpEquiv='Content-Security-Policy'
 					content='block-all-mixed-content'
 				/>
-				<meta http-equiv='X-Frame-Options' content='DENY' />
+				<meta httpEquiv='X-Frame-Options' content='DENY' />
 				<meta name='referrer' content='strict-origin' />
 				<meta http-equiv='Content-Type' content='text/html; charset=utf-8' />
 				<meta name='viewport' content='width=device-width, initial-scale=1.0' />
