@@ -106,12 +106,6 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 			},
 		};
 	}
-	context.res.setHeader('Content-Security-Policy', 'upgrade-insecure-requests');
-	context.res.setHeader('Content-Security-Policy', 'block-all-mixed-content');
-	context.res.setHeader('X-Frame-Options', 'DENY');
-	context.res.setHeader('referrer', 'strict-origin');
-	context.res.setHeader('Content-Type', 'text/html; charset=utf-8');
-
 	const providers = await getProviders();
 	return {
 		props: { providers: providers ?? [] },
