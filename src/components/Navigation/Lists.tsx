@@ -129,7 +129,12 @@ export const NavbarList: FC<IProps> = () => {
 									</span>
 								</div>
 							) : (
-								<Link href={list.path} onClick={toggler} title={list.title}>
+								<Link
+									href={list.path}
+									onClick={toggler}
+									title={list.title}
+									shallow
+								>
 									<button className={`flex space-x-2 `} name={list.title}>
 										{list.icon}
 										<span
