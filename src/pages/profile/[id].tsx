@@ -82,7 +82,7 @@ export default function UserProfile({ user, posts, id }: any) {
 				/>
 				<meta name='twitter:image' content={user?.image} />
 			</Head>
-			<div className='w-full py-5 max-w-5xl mx-auto p-5'>
+			<div className='w-full h-screen overflow-y-auto py-5 mx-auto p-5'>
 				<div className='flex items-center border-b border-gray-400 w-full space-x-3 md:justify-center md:space-x-10'>
 					<Statistic
 						image={user.image}

@@ -1,13 +1,10 @@
-
 import { db } from "@/config/firebase";
 import { setDoc, doc } from "firebase/firestore";
-import NextAuth from "next-auth";
+import NextAuth, { NextAuthOptions } from "next-auth";
 import { JWT } from "next-auth/jwt";
 import GoogleProvider from "next-auth/providers/google";
-const cookiePrefix= process.env.NEXTAUTH_COOKIE_PREFIX || 'next-auth.'
-const useSecureCookies = process.env.NODE_ENV === 'production'
 
-export const authOptions = {
+export const authOptions:NextAuthOptions = {
   providers: [
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID as string,
@@ -62,16 +59,18 @@ export const authOptions = {
       return true  
     },
     async redirect({ url, baseUrl }: { url: string, baseUrl: string }) {
-      // Allows relative callback URLs
-      if (url.startsWith("/")) return `${baseUrl}${url}`
-      // Allows callback URLs on the same origin
-      else if (new URL(url).origin === baseUrl) return url
-      return baseUrl
-    }
+      if (url === '/api/auth/signin') {
+        return Promise.resolve(baseUrl)
+      } else {
+        return Promise.resolve(url)
+      }
+    },
+  
   },
   pages: {
     signIn: '/auth/signin',
   },
+ 
   secret: process.env.NEXTAUTH_SECRET as string,
 }
 

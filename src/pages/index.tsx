@@ -50,6 +50,8 @@ export default function Home({
 					name='description'
 					content='Instafam is social media web app that let you connect with people around the world'
 				/>
+				<meta name='X-Frame-Options' content='DENY' />
+				<meta name='keywords' content='social media, instafam' />
 				<meta name='viewport' content='width=device-width, initial-scale=1' />
 				<meta
 					httpEquiv='Content-Security-Policy'
@@ -74,7 +76,7 @@ export default function Home({
 				<link rel='icon' href='/favicon.ico' />
 			</Head>
 			<Suspense fallback={<h1>Loading...</h1>}>
-				<section className='w-full h-full md:p-3 max-w-7xl'>
+				<section className='w-full h-screen md:p-3 max-w-7xl overflow-y-auto'>
 					<div className='w-full flex justify-between items-start first:flex-grow'>
 						<div className='w-full h-full flex flex-col p-5'>
 							<Suspense fallback={<Loader />}>
@@ -99,23 +101,14 @@ export default function Home({
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
 	const session = await getServerSession(context.req, context.res, authOptions);
-	if (!session || !session.user) {
-		return {
-			redirect: {
-				destination: '/auth/signin',
-				permanent: false,
-			},
-		};
-	}
-
 	const res = await getDocs(
 		query(collection(db, 'posts'), orderBy('createdAt', 'desc'))
 	);
 	const posts = res.docs.map((doc) => doc.data());
-	const user = await getDoc(doc(db, 'users', `${session.user.id}`));
+	const user = await getDoc(doc(db, 'users', `${session?.user.uid}`));
 	const currentuser = user.data();
 	const otherUsers = await getDocs(
-		query(collection(db, 'users'), where('uid', '!=', `${session.user.uid}`))
+		query(collection(db, 'users'), where('uid', '!=', `${session?.user.uid}`))
 	);
 	context.res.setHeader(
 		'Cache-Control',

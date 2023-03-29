@@ -9,13 +9,12 @@ import { authOptions } from './api/auth/[...nextauth]';
 import { db } from '@/config/firebase';
 import { getDocs, query, collection, orderBy } from 'firebase/firestore';
 
-
 const ExplorePostCard = dynamic(() => import('@/components/Card/Feeds'), {
 	loading: () => <Loader />,
 	ssr: true,
 });
 
-export default function Explore({ posts }:{posts:IUserPostProps[]}) {	
+export default function Explore({ posts }: { posts: IUserPostProps[] }) {
 	return (
 		<>
 			<Head>
@@ -40,9 +39,9 @@ export default function Explore({ posts }:{posts:IUserPostProps[]}) {
 					content='Explore new posts and discover new accounts on Instafam.'
 				/>
 			</Head>
-			<div className='text-black dark:text-white p-5'>
+			<div className='text-black dark:text-white p-5 w-full h-screen overflow-y-auto'>
 				<div>
-				<h1 className='text-center font-semibold text-5xl py-5'>Explore</h1>
+					<h1 className='text-center font-semibold text-5xl py-5'>Explore</h1>
 				</div>
 				<div className='container mx-auto'>
 					<div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 p-5 gap-5'>
@@ -67,10 +66,11 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 		};
 	}
 
-	const res = await getDocs(query(collection(db, 'posts'), orderBy('createdAt', 'desc')));
+	const res = await getDocs(
+		query(collection(db, 'posts'), orderBy('createdAt', 'desc'))
+	);
 	const posts = res.docs.map((doc) => doc.data());
-	context.res.setHeader('Cache-Control', 's-maxage=60, stale-while-revalidate') 
-
+	context.res.setHeader('Cache-Control', 's-maxage=60, stale-while-revalidate');
 
 	return {
 		props: {

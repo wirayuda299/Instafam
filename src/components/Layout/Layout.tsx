@@ -8,18 +8,20 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 	const { data: session } = useSession();
 	return (
 		<>
-			<div className='bg-white dark:bg-black overflow-x-hidden'>
-				<div className='flex'>
+			<div className='bg-white h-full w-full dark:bg-black '>
+				<div className='flex h-full w-full'>
 					{session ? (
 						<>
 							<Sidebar />
 							<Search />
 						</>
 					) : null}
-					<main className='w-full h-screen transition-all overflow-y-scroll'>
-						<Header />
-						{children}
-						<BottomNav />
+					<main className='w-full h-full'>
+						<section className='w-full h-full'>
+							<Header />
+							{children}
+							<BottomNav />
+						</section>
 					</main>
 				</div>
 			</div>

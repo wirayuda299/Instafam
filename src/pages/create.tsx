@@ -10,6 +10,9 @@ import { croppedImageState, imagesState } from '@/store/images';
 import { captionsState } from '@/store/captions';
 import dynamic from 'next/dynamic';
 import Head from 'next/head';
+import { GetServerSidePropsContext } from 'next';
+import { getServerSession } from 'next-auth';
+import { authOptions } from './api/auth/[...nextauth]';
 
 const Captions = dynamic(() => import('@/components/Captions/Captions'), {
 	ssr: false
@@ -90,7 +93,7 @@ export default function CreatePost() {
 					content='Create a new post on Instafam and share your thoughts with the world.'
 				/>
 			</Head>
-			<section className='w-full h-full bg-white dark:bg-[#121212] overflow-y-auto p-5'>
+			<section className='w-full h-screen bg-white dark:bg-[#121212] overflow-y-auto p-5'>
 				<div
 					className={`grid grid-cols-1  place-items-center w-full h-full ${
 						!img ? '' : 'md:grid-cols-2'
@@ -102,4 +105,16 @@ export default function CreatePost() {
 			</section>
 		</>
 	);
+}
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+	const session = await getServerSession(context.req, context.res, authOptions);
+	if(!session) {
+		return {
+			redirect: {
+				destination: '/auth/signin',
+				permanent: false
+			}
+		}
+	}
+
 }

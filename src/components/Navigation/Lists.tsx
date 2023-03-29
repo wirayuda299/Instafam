@@ -134,6 +134,10 @@ export const NavbarList: FC<IProps> = () => {
 									onClick={toggler}
 									title={list.title}
 									shallow
+									scroll
+									
+									aria-current={pathname === list.path ? 'page' : undefined}
+									as={list.path}
 								>
 									<button className={`flex space-x-2 `} name={list.title}>
 										{list.icon}
