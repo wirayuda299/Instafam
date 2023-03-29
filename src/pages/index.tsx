@@ -59,7 +59,6 @@ export default function Home({
 					httpEquiv='Content-Security-Policy'
 					content='block-all-mixed-content'
 				/>
-				<meta httpEquiv='X-Frame-Options' content='DENY' />
 				<meta name='referrer' content='strict-origin' />
 				<meta http-equiv='Content-Type' content='text/html; charset=utf-8' />
 				<meta name='viewport' content='width=device-width, initial-scale=1.0' />
@@ -74,24 +73,26 @@ export default function Home({
 				<meta name='referrer' content='strict-origin' />
 				<link rel='icon' href='/favicon.ico' />
 			</Head>
-			<section className='w-full h-full md:p-3 max-w-7xl'>
-				<div className='w-full flex justify-between items-start first:flex-grow'>
-					<div className='w-full h-full flex flex-col p-5'>
-						<Suspense fallback={<Loader />}>
-							{posts?.map((post) => (
-								<PostCard
-									post={post}
-									followingLists={user.following}
-									key={post.docId}
-								/>
-							))}
+			<Suspense fallback={<h1>Loading...</h1>}>
+				<section className='w-full h-full md:p-3 max-w-7xl'>
+					<div className='w-full flex justify-between items-start first:flex-grow'>
+						<div className='w-full h-full flex flex-col p-5'>
+							<Suspense fallback={<Loader />}>
+								{posts?.map((post) => (
+									<PostCard
+										post={post}
+										followingLists={user.following}
+										key={post.docId}
+									/>
+								))}
+							</Suspense>
+						</div>
+						<Suspense>
+							<Suggestions recommendation={otherUsers} session={session} />
 						</Suspense>
 					</div>
-					<Suspense>
-						<Suggestions recommendation={otherUsers} session={session} />
-					</Suspense>
-				</div>
-			</section>
+				</section>
+			</Suspense>
 		</>
 	);
 }
