@@ -10,9 +10,6 @@ import { croppedImageState, imagesState } from '@/store/images';
 import { captionsState } from '@/store/captions';
 import dynamic from 'next/dynamic';
 import Head from 'next/head';
-import { GetServerSidePropsContext } from 'next';
-import { getServerSession } from 'next-auth';
-import { authOptions } from './api/auth/[...nextauth]';
 
 const Captions = dynamic(() => import('@/components/Captions/Captions'), {
 	ssr: false
@@ -105,16 +102,4 @@ export default function CreatePost() {
 			</section>
 		</>
 	);
-}
-export async function getServerSideProps(context: GetServerSidePropsContext) {
-	const session = await getServerSession(context.req, context.res, authOptions);
-	if(!session) {
-		return {
-			redirect: {
-				destination: '/auth/signin',
-				permanent: false
-			}
-		}
-	}
-
 }
