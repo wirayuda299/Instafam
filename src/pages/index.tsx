@@ -1,47 +1,17 @@
 import Head from 'next/head';
 import Suggestions from '@/components/Suggestions/Suggestions';
 import { IUserPostProps } from '@/types/post';
-import Loader from '@/components/Loader/Loader';
-import dynamic from 'next/dynamic';
-import { db } from '@/config/firebase';
-import {
-	query,
-	collection,
-	where,
-	getDocs,
-	orderBy,
-	doc,
-	getDoc,
-} from 'firebase/firestore';
 import { Suspense } from 'react';
 import { useSession } from 'next-auth/react';
-import { getServerSession } from 'next-auth';
-import { GetServerSidePropsContext } from 'next';
-import { authOptions } from './api/auth/[...nextauth]';
-import { IUser } from '@/types/user';
+import InfiniteScroll from '@/hooks/usePosts';
 
 export interface Props {
 	posts: {
 		posts: IUserPostProps[];
 	};
 }
-
-const PostCard = dynamic(() => import('@/components/Card/Post'), {
-	loading: () => <Loader />,
-	ssr: true,
-});
-
-export default function Home({
-	posts,
-	user,
-	otherUsers,
-}: {
-	posts: IUserPostProps[];
-	user: IUser;
-	otherUsers: IUser[];
-}) {
-	const { data: session } = useSession();
-
+export default function Home() {
+	const { data: session } = useSession();	
 	return (
 		<>
 			<Head>
@@ -62,7 +32,7 @@ export default function Home({
 					content='block-all-mixed-content'
 				/>
 				<meta name='referrer' content='strict-origin' />
-				<meta http-equiv='Content-Type' content='text/html; charset=utf-8' />
+				<meta httpEquiv='Content-Type' content='text/html; charset=utf-8' />
 				<meta name='viewport' content='width=device-width, initial-scale=1.0' />
 				<meta name='theme-color' content='#000000' />
 				<meta name='robots' content='noindex, nofollow' />
@@ -76,21 +46,15 @@ export default function Home({
 				<link rel='icon' href='/favicon.ico' />
 			</Head>
 			<Suspense fallback={<h1>Loading...</h1>}>
-				<section className='w-full h-screen md:p-3 max-w-7xl overflow-y-auto'>
+				<section
+					className='w-full h-screen md:p-3 max-w-7xl overflow-y-auto'
+				>
 					<div className='w-full flex justify-between items-start first:flex-grow'>
 						<div className='w-full h-full flex flex-col p-5'>
-							<Suspense fallback={<Loader />}>
-								{posts?.map((post) => (
-									<PostCard
-										post={post}
-										followingLists={user.following}
-										key={post.docId}
-									/>
-								))}
-							</Suspense>
+							<InfiniteScroll/>
 						</div>
 						<Suspense>
-							<Suggestions recommendation={otherUsers} session={session} />
+							<Suggestions recommendation={[]} session={session} />
 						</Suspense>
 					</div>
 				</section>
@@ -99,26 +63,26 @@ export default function Home({
 	);
 }
 
-export async function getServerSideProps(context: GetServerSidePropsContext) {
-	const session = await getServerSession(context.req, context.res, authOptions);
-	const res = await getDocs(
-		query(collection(db, 'posts'), orderBy('createdAt', 'desc'))
-	);
-	const posts = res.docs.map((doc) => doc.data());
-	const user = await getDoc(doc(db, 'users', `${session?.user.uid}`));
-	const currentuser = user.data();
-	const otherUsers = await getDocs(
-		query(collection(db, 'users'), where('uid', '!=', `${session?.user.uid}`))
-	);
-	context.res.setHeader(
-		'Cache-Control',
-		's-maxage=60, stale-while-revalidate=59'
-	);
-	return {
-		props: {
-			posts: posts ?? [],
-			user: currentuser ?? [],
-			otherUsers: otherUsers.docs.map((doc) => doc.data()) ?? [],
-		},
-	};
-}
+// export async function getServerSideProps(context: GetServerSidePropsContext) {
+// 	const session = await getServerSession(context.req, context.res, authOptions);
+// 	// const res = await getDocs(
+// 	// 	query(collection(db, 'posts'), orderBy('createdAt', 'desc'))
+// 	// );
+// 	// const posts = res.docs.map((doc) => doc.data());
+// 	// const user = await getDoc(doc(db, 'users', `${session?.user.uid}`));
+// 	// const currentuser = user.data();
+// 	// const otherUsers = await getDocs(
+// 	// 	query(collection(db, 'users'), where('uid', '!=', `${session?.user.uid}`))
+// 	// );
+// 	// context.res.setHeader(
+// 	// 	'Cache-Control',
+// 	// 	's-maxage=60, stale-while-revalidate=59'
+// 	// );
+// 	return {
+// 		props: {
+// 			posts: posts ?? [],
+// 			user: currentuser ?? [],
+// 			otherUsers: otherUsers.docs.map((doc) => doc.data()) ?? [],
+// 		},
+// 	};
+// }

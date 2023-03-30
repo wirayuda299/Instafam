@@ -36,7 +36,7 @@ export default function PostCard({ post, followingLists }: IPostCardProps) {
 	}, [post.postId]);
 
 	return (
-		<div className={`w-full my-2 card`}>
+		<div className='w-full my-2'>
 			<div className='bg-white shadow-lg  dark:bg-black dark:border-black dark:text-white rounded-sm '>
 				<PostHeader
 					currentuserUid={session?.user?.uid as string}
@@ -49,14 +49,13 @@ export default function PostCard({ post, followingLists }: IPostCardProps) {
 					width={600}
 					height={600}
 					sizes='100vw'
-					loading='lazy'
-					placeholder='blur'
-					blurDataURL={rgbDataURL(255, 255, 255)}
-					quality={55}
+					priority
+					referrerPolicy='no-referrer'
+					security='restricted'
 					className=' object-cover'
 					alt={post?.author ?? 'user post image'}
 					loader={({ src, width, quality }) => {
-						return `${src}?w=${width}&q=${quality || 75}`;
+						return `${src}?w=${8}&q=${quality || 75}`;
 					}}
 				/>
 				<PostActions
