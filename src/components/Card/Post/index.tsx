@@ -52,7 +52,7 @@ export default function PostCard({ post, followingLists }: IPostCardProps) {
 					priority
 					quality={55}
 					placeholder='blur'
-					blurDataURL={rgbDataURL(200, 200, 200)}
+					blurDataURL={post.image}
 					referrerPolicy='no-referrer'
 					security='restricted'
 					className=' object-cover w-full h-auto'

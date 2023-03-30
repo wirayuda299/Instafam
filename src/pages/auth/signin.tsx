@@ -7,6 +7,7 @@ import { GetServerSidePropsContext } from 'next';
 import { authOptions } from '../api/auth/[...nextauth]';
 import { useEffect } from 'react';
 import Head from 'next/head';
+import path from 'path';
 interface Providers {
 	id: string;
 	name: string;
@@ -33,24 +34,15 @@ export default function SignIn({ providers }: { providers: Providers }) {
 
 	return (
 		<>
-		<Head>
-			<title>Sign In - Instafam</title>
-			<meta name='description' content='Sign in to your Instafam account' />
-			<meta
-				httpEquiv='Content-Security-Policy'
-				content='upgrade-insecure-requests'
-			/>
-			 <meta httpEquiv='Content-Security-Policy' content='block-all-mixed-content' />
-			 <meta name="referrer" content="strict-origin"/>
-			 <meta httpEquiv="Content-Type" content="text/html; charset=utf-8"/>
-			 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-			 <meta name="theme-color" content="#000000"/>
-			 <meta name='robots' content='noindex, nofollow'/>
-			 <meta name='googlebot' content='noindex, nofollow'/>
-			 <meta name='google' content='notranslate'/>
-			 <meta name='google' content='nositelinkssearchbox'/>
-			 
-		</Head>
+			<Head>
+				<title>Sign In - Instafam</title>
+				<meta name='description' content='Sign in to your Instafam account' />
+				<meta name='viewport' content='width=device-width, initial-scale=1.0' />
+				<meta name='robots' content='noindex, nofollow' />
+				<meta name='googlebot' content='noindex, nofollow' />
+				<meta name='google' content='notranslate' />
+				<meta name='google' content='nositelinkssearchbox' />
+			</Head>
 			<div
 				className='w-full h-screen grid place-items-center p-5'
 				style={{
@@ -95,12 +87,14 @@ export default function SignIn({ providers }: { providers: Providers }) {
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
 	const session = await getServerSession(context.req, context.res, authOptions);
+	const normmalise = path.normalize(context.resolvedUrl);
+	console.log(normmalise)
 
 	if (session) {
 		return {
 			redirect: {
-				permanent: false,
 				destination: '/',
+				permanent: false,
 			},
 		};
 	}

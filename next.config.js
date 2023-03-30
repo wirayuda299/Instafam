@@ -38,6 +38,10 @@ const securityHeaders =[
   {
     key: 'Content-Security-Policy',
     value: ContentSecurityPolicy.replace(/\s{2,}/g, ' ').trim()
+  },
+  {
+    name: 'X-Content-Type-Options',
+    value: 'nosniff',
   }
 ]
 

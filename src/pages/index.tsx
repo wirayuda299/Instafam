@@ -39,7 +39,7 @@ export default function Home() {
 	return (
 		<>
 			<Head>
-				<title>Instafam | Connect with people around the world</title>
+				<title>Instafam - Connect with people around the world</title>
 				<meta
 					name='description'
 					content='Instafam is social media web app that let you connect with people around the world'
@@ -57,31 +57,35 @@ export default function Home() {
 			</Head>
 			<section className='w-full h-screen md:p-3 overflow-y-auto'>
 				<div className='w-full flex justify-between items-start'>
-					<div className='flex flex-col p-5'>
-						<Suspense fallback={<h1>Loading...</h1>}>
-							{data?.map((post) => (
-								<PostCard
-									post={post}
-									followingLists={user && user[0]?.following}
-									key={post.docId}
-								/>
-							))}
-							{isValidating && (
-								<h1 className='text-black dark:text-white'>Loading...</h1>
-							)}
-							{hasMore ? (
-								<button
-									onClick={loadMore}
-									className=' text-black dark:text-white p-2 rounded-md text-xl font-semibold'
-								>
-									Load More
-								</button>
-							) : (
-								<h1 className='text-black dark:text-white text-center'>
-									No more posts
-								</h1>
-							)}
-						</Suspense>
+					<div className='flex flex-col p-5 mb-20 lg:mb-5'>
+						{isLoading ? (
+							<Loader />
+						) : (
+							<Suspense fallback={<Loader />}>
+								{data?.map((post) => (
+									<PostCard
+										post={post}
+										followingLists={user && user[0]?.following}
+										key={post.docId}
+									/>
+								))}
+								{isValidating && (
+									<h1 className='text-black dark:text-white'>Loading...</h1>
+								)}
+								{hasMore ? (
+									<button
+										onClick={loadMore}
+										className=' text-black dark:text-white p-2 rounded-md text-xl font-semibold'
+									>
+										Load More
+									</button>
+								) : (
+									<h1 className='text-black dark:text-white text-center'>
+										No more posts
+									</h1>
+								)}
+							</Suspense>
+						)}
 					</div>
 					<Suspense fallback={<h1>Loading...</h1>}>
 						{recomendationLoading || userLoading || userError ? (
