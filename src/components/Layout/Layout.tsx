@@ -10,18 +10,13 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 		<>
 			<div className='bg-white h-full w-full dark:bg-black '>
 				<div className='flex h-full w-full'>
-					{session ? (
-						<>
-							<Sidebar />
-							<Search />
-						</>
-					) : null}
-					<main className='w-full h-full overflow-hidden'>
-						<section className='w-full h-full '>
-							<Header />
-							{children}
-							<BottomNav />
-						</section>
+					<Sidebar />
+					<Search />
+
+					<main className='w-full h-full'>
+						<Header />
+						{children}
+						<BottomNav />
 					</main>
 				</div>
 			</div>

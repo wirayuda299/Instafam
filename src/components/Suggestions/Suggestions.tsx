@@ -3,14 +3,13 @@ import { DocumentData } from 'firebase/firestore';
 import { Session } from 'next-auth';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useEffect } from 'react';
 import Footer from '../Footer';
 
 export default function Suggestions({
 	recommendation,
 	session
 }: {
-	recommendation: DocumentData[];
+	recommendation: DocumentData[] | undefined;
 	session:Session | null
 }) {
 
@@ -67,6 +66,7 @@ export default function Suggestions({
 									alt={user?.name ?? ''}
 									width={40}
 									height={40}
+									sizes='40px'
 									priority
 									quality={50}
 								/>

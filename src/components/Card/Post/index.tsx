@@ -50,12 +50,15 @@ export default function PostCard({ post, followingLists }: IPostCardProps) {
 					height={600}
 					sizes='100vw'
 					priority
+					quality={55}
+					placeholder='blur'
+					blurDataURL={rgbDataURL(200, 200, 200)}
 					referrerPolicy='no-referrer'
 					security='restricted'
-					className=' object-cover'
+					className=' object-cover w-full h-auto'
 					alt={post?.author ?? 'user post image'}
 					loader={({ src, width, quality }) => {
-						return `${src}?w=${8}&q=${quality || 75}`;
+						return `${src}?w=${width}&q=${quality || 75}`;
 					}}
 				/>
 				<PostActions

@@ -3,15 +3,39 @@ import Suggestions from '@/components/Suggestions/Suggestions';
 import { IUserPostProps } from '@/types/post';
 import { Suspense } from 'react';
 import { useSession } from 'next-auth/react';
-import InfiniteScroll from '@/hooks/usePosts';
-
+import useRecommendation from '@/hooks/useRecommendation';
+import usePosts from '@/hooks/usePosts';
+import PostCard from '@/components/Card/Post';
+import Loader from '@/components/Loader/Loader';
+import Recommendation from '@/components/Loader/Recommendation';
 export interface Props {
 	posts: {
 		posts: IUserPostProps[];
 	};
 }
 export default function Home() {
-	const { data: session } = useSession();	
+	const { data: session } = useSession();
+	const { reccomend, recomendationLoading } = useRecommendation(
+		session?.user?.uid
+	);
+	const {
+		data,
+		isLoading,
+		isValidating,
+		error,
+		hasMore,
+		loadMore,
+		user,
+		userError,
+		userLoading,
+	} = usePosts(session?.user?.uid);
+	if (isLoading) {
+		return (
+			<div className='max-w-2xl flex justify-center mx-auto'>
+				<Loader />
+			</div>
+		);
+	}
 	return (
 		<>
 			<Head>
@@ -20,69 +44,54 @@ export default function Home() {
 					name='description'
 					content='Instafam is social media web app that let you connect with people around the world'
 				/>
-				<meta name='X-Frame-Options' content='DENY' />
-				<meta name='keywords' content='social media, instafam' />
+				<meta
+					name='keywords'
+					content='social media, instafam, nextjs, tailwindcss, reactjs, firebase'
+				/>
 				<meta name='viewport' content='width=device-width, initial-scale=1' />
-				<meta
-					httpEquiv='Content-Security-Policy'
-					content='upgrade-insecure-requests'
-				/>
-				<meta
-					httpEquiv='Content-Security-Policy'
-					content='block-all-mixed-content'
-				/>
-				<meta name='referrer' content='strict-origin' />
-				<meta httpEquiv='Content-Type' content='text/html; charset=utf-8' />
-				<meta name='viewport' content='width=device-width, initial-scale=1.0' />
-				<meta name='theme-color' content='#000000' />
 				<meta name='robots' content='noindex, nofollow' />
 				<meta name='googlebot' content='noindex, nofollow' />
 				<meta name='google' content='notranslate' />
 				<meta name='google' content='nositelinkssearchbox' />
-				<meta name='X-Content-Type-Options' content='nosniff' />
-				<meta name='X-Frame-Options' content='DENY' />
-				<meta name='X-XSS-Protection' content='1; mode=block' />
-				<meta name='referrer' content='strict-origin' />
 				<link rel='icon' href='/favicon.ico' />
 			</Head>
-			<Suspense fallback={<h1>Loading...</h1>}>
-				<section
-					className='w-full h-screen md:p-3 max-w-7xl overflow-y-auto'
-				>
-					<div className='w-full flex justify-between items-start first:flex-grow'>
-						<div className='w-full h-full flex flex-col p-5'>
-							<InfiniteScroll/>
-						</div>
-						<Suspense>
-							<Suggestions recommendation={[]} session={session} />
+			<section className='w-full h-screen md:p-3 overflow-y-auto'>
+				<div className='w-full flex justify-between items-start'>
+					<div className='flex flex-col p-5'>
+						<Suspense fallback={<h1>Loading...</h1>}>
+							{data?.map((post) => (
+								<PostCard
+									post={post}
+									followingLists={user && user[0]?.following}
+									key={post.docId}
+								/>
+							))}
+							{isValidating && (
+								<h1 className='text-black dark:text-white'>Loading...</h1>
+							)}
+							{hasMore ? (
+								<button
+									onClick={loadMore}
+									className=' text-black dark:text-white p-2 rounded-md text-xl font-semibold'
+								>
+									Load More
+								</button>
+							) : (
+								<h1 className='text-black dark:text-white text-center'>
+									No more posts
+								</h1>
+							)}
 						</Suspense>
 					</div>
-				</section>
-			</Suspense>
+					<Suspense fallback={<h1>Loading...</h1>}>
+						{recomendationLoading || userLoading || userError ? (
+							<Recommendation />
+						) : (
+							<Suggestions recommendation={reccomend} session={session} />
+						)}
+					</Suspense>
+				</div>
+			</section>
 		</>
 	);
 }
-
-// export async function getServerSideProps(context: GetServerSidePropsContext) {
-// 	const session = await getServerSession(context.req, context.res, authOptions);
-// 	// const res = await getDocs(
-// 	// 	query(collection(db, 'posts'), orderBy('createdAt', 'desc'))
-// 	// );
-// 	// const posts = res.docs.map((doc) => doc.data());
-// 	// const user = await getDoc(doc(db, 'users', `${session?.user.uid}`));
-// 	// const currentuser = user.data();
-// 	// const otherUsers = await getDocs(
-// 	// 	query(collection(db, 'users'), where('uid', '!=', `${session?.user.uid}`))
-// 	// );
-// 	// context.res.setHeader(
-// 	// 	'Cache-Control',
-// 	// 	's-maxage=60, stale-while-revalidate=59'
-// 	// );
-// 	return {
-// 		props: {
-// 			posts: posts ?? [],
-// 			user: currentuser ?? [],
-// 			otherUsers: otherUsers.docs.map((doc) => doc.data()) ?? [],
-// 		},
-// 	};
-// }
