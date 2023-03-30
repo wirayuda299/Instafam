@@ -31,7 +31,7 @@ export default function Home() {
 	} = usePosts(session?.user?.uid);
 	if (isLoading) {
 		return (
-			<div className='max-w-2xl flex justify-center mx-auto'>
+			<div className='max-w-2xl h-screen flex justify-center mx-auto'>
 				<Loader />
 			</div>
 		);
