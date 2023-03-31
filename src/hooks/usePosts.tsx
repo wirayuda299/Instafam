@@ -12,7 +12,6 @@ import { db } from '@/config/firebase';
 import { startTransition, useCallback, useEffect, useState } from 'react';
 import { IUser } from '@/types/user';
 import { IUserPostProps } from '@/types/post';
-import Loader from '@/components/Loader/Loader';
 
 export default function usePosts(uid?: string | undefined) {
 	const [hasMore, setHasMore] = useState(true);

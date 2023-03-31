@@ -1,26 +1,27 @@
 import dynamic from 'next/dynamic';
-import SidebarLoader from '../Loader/Sidebar';
-const Search = dynamic(() => import('../Search'), { ssr: false });
+const Search = dynamic(() => import('../Search'), { ssr: true });
 const BottomNav = dynamic(() => import('../Navigation/BottomNav'), {
-	ssr: false,
+	ssr: true,
 });
-const Sidebar = dynamic(() => import('../Navigation/Sidebar'), { ssr: false, loading: () => <SidebarLoader/> });
-const Header = dynamic(() => import('../Header/Header'), { ssr: false });
+const Sidebar = dynamic(() => import('../Navigation/Sidebar'), { ssr: true });
+const Header = dynamic(() => import('../Header/Header'), { ssr: true });
 
 export default function Layout({ children }: { children: React.ReactNode }) {
 	return (
-		<>
-			<div className='bg-white h-full w-full dark:bg-black '>
-				<div className='flex h-full w-full'>
+		<div className='bg-white h-full w-full dark:bg-black transition-all'>
+			<div className='flex h-full w-full'>
+				<section className='hidden md:block'>
 					<Sidebar />
-					<Search />
-					<main className='w-full h-full'>
-						<Header />
-						{children}
+				</section>
+				<Search />
+				<main className='w-full h-full'>
+					<Header />
+					{children}
+					<section className='block md:hidden'>
 						<BottomNav />
-					</main>
-				</div>
+					</section>
+				</main>
 			</div>
-		</>
+		</div>
 	);
 }

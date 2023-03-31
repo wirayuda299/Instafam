@@ -32,6 +32,7 @@ export default function Form({ height, children }: Props) {
 								placeholder='search user'
 								className='bg-transparent text-xs md:text-sm w-full py-2 focus:outline-none focus:border-0 focus:ring-0'
 								defaultValue={defaultValues.search}
+								pattern='^[a-zA-Z0-9_@./#&+-]*$'
 								{...register('search')}
 							/>
 							{children}

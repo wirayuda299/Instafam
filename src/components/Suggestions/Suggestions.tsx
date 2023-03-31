@@ -8,7 +8,7 @@ import { Suspense, memo } from 'react';
 import Recommendation from '../Loader/Recommendation';
 
 const Footer = dynamic(() => import('@/components/Footer'), {
-	ssr: false,
+	ssr: true,
 });
 
 function Suggestions({
@@ -25,8 +25,8 @@ function Suggestions({
 					<div className='flex items-center space-x-3 mb-2'>
 						<Image
 							className=' rounded-full'
-							src={session?.user.image as string}
-							alt={session?.user.name as string}
+							src={session?.user.image as string ?? ''}
+							alt={session?.user.username as string ?? ''}
 							width={45}
 							height={45}
 							sizes='45px'

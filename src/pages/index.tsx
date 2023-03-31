@@ -6,17 +6,16 @@ import Loader from '@/components/Loader/Loader';
 import Recommendation from '@/components/Loader/Recommendation';
 const UserPosts = dynamic(
 	() => import('@/components/User/UserPosts/UserPosts'),
-	{ ssr: false, loading: () => <Loader /> }
+	{ ssr: true, loading: () => <Loader /> }
 );
 const Suggestions = dynamic(
 	() => import('@/components/Suggestions/Suggestions'),
-	{ ssr: false, loading: () => <Recommendation /> }
+	{ ssr: true, loading: () => <Recommendation /> }
 );
 
 export default function Home() {
 	const { data: session } = useSession();
 	const { reccomend } = useRecommendation(session?.user.uid);
-
 	return (
 		<>
 			<Head>

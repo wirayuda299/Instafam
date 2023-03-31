@@ -6,7 +6,7 @@ import Loader from '@/components/Loader/Loader';
 import dynamic from 'next/dynamic';
 
 interface ISavedPostsProps {
-	savedPosts: IUserPostProps[];
+	savedPosts: IUserPostProps[] | undefined;
 }
 const FeedsCards = dynamic(() => import('@/components/Card/Feeds'), {
 	loading: () => <Loader />,
@@ -19,7 +19,7 @@ export default function SavedPosts({savedPosts}: ISavedPostsProps) {
 		<>
 			{savedPostsTab && (
 				<>
-					{savedPosts.length < 1 ? (
+					{savedPosts && savedPosts.length < 1 ? (
 						<div className='mx-auto w-full h-full col-span-3'>
 							<h1 className='text-2xl font-semibold text-center w-full text-gray-500 dark:text-gray-400'>
 								No saved posts

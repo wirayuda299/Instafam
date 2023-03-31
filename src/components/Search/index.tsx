@@ -17,7 +17,6 @@ export default function SearchDrawer() {
 		};
 	}, []);
 
-
 	return (
 		<section
 			className={`fixed hidden searchDrawer z-50 bg-white transition-all ease-out duration-300 dark:bg-black ${

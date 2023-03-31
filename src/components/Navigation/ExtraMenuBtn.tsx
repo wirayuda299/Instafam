@@ -8,14 +8,18 @@ import { useRecoilState } from 'recoil';
 export const ExtraMenuBtn: FC = () => {
 	const [extraListOpen, setExtraListOpen] = useRecoilState(extraListToggler);
 	const [drawerOpen, setDrawerOpen] = useRecoilState(searchDrawer);
-	
+
 	const handleClick = () => {
 		setExtraListOpen(!extraListOpen);
 		setDrawerOpen(false);
 	};
 
 	return (
-		<button className='hidden md:block '>
+		<button
+			className='hidden md:block'
+			name='extra menu button'
+			title='extra menus'
+		>
 			<div
 				className='flex items-center space-x-2 px-3 text-base sm:text-lg lg:mt-4 transition-all ease duration-300'
 				onClick={handleClick}

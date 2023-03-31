@@ -105,51 +105,55 @@ export const NavbarList: FC<IProps> = () => {
 	};
 	return (
 		<ul className='flex w-full dark:bg-black justify-around md:justify-start md:space-y-4 items-center sm:items-start flex-row md:flex-col last:flex-grow transition-all ease duration-500'>
-		{navList.map((list) => (
-			<li
-				key={list.id}
-				className={`font-light p-2 md:px-3 md:py-3 text-base hover:bg-gray-200  transition-all ease duration-300 rounded-full w-fit md:w-full dark:hover:bg-[#b9b9b917] hover:bg-[#a8a8a817] ${
-					list.id === 2 || list.id === 5 ? 'hidden md:block' : ''
-				} ${list.id === 8 ? 'hidden md:block' : ''} ${
-					pathname === list.path ? 'font-semibold' : ''
-				}`}
-			>
-				{list.id === 2 ? (
-					<div
-						className='flex space-x-2 cursor-pointer'
-						onClick={() => setDrawerOpen(!drawerOpen)}
-					>
-						{list.icon}
-						<span
-							className={`${drawerOpen ? 'hidden' : 'hidden lg:block'}`}
+			{navList.map((list) => (
+				<li
+					key={list.id}
+					className={`font-light p-2 md:px-3 md:py-3 text-base hover:bg-gray-200  transition-all ease duration-300 rounded-full w-fit md:w-full dark:hover:bg-[#b9b9b917] hover:bg-[#a8a8a817] ${
+						list.id === 2 || list.id === 5 ? 'hidden md:block' : ''
+					} ${list.id === 8 ? 'hidden md:block' : ''} ${
+						pathname === list.path ? 'font-semibold' : ''
+					}`}
+				>
+					{list.id === 2 ? (
+						<button
+							type='button'
+							name='search'
+							title='search'
+							className='flex space-x-2 cursor-pointer'
+							onClick={() => setDrawerOpen(!drawerOpen)}
 						>
-							{list.title}
-						</span>
-					</div>
-				) : (
-					<Link
-						href={list.path}
-						onClick={toggler}
-						title={list.title}
-						shallow
-						scroll
-						
-						aria-current={pathname === list.path ? 'page' : undefined}
-						as={list.path}
-					>
-						<button className={`flex space-x-2 `} name={list.title}>
 							{list.icon}
-							<span
-								className={`${drawerOpen ? 'hidden' : 'hidden lg:block'}`}
-							>
+							<span className={`${drawerOpen ? 'hidden' : 'hidden lg:block'}`}>
 								{list.title}
 							</span>
 						</button>
-					</Link>
-				)}
-			</li>
-		))}
-		<ExtraMenuBtn />
-	</ul>
+					) : (
+						<Link
+							href={list.path}
+							onClick={toggler}
+							title={list.title}
+							shallow
+							scroll
+							aria-current={pathname === list.path ? 'page' : undefined}
+							as={list.path}
+						>
+							<button
+								title={list.title}
+								className={`flex space-x-2 `}
+								name={list.title}
+							>
+								{list.icon}
+								<span
+									className={`${drawerOpen ? 'hidden' : 'hidden lg:block'}`}
+								>
+									{list.title}
+								</span>
+							</button>
+						</Link>
+					)}
+				</li>
+			))}
+			<ExtraMenuBtn />
+		</ul>
 	);
 };

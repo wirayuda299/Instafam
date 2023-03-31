@@ -1,23 +1,32 @@
-import { Suspense } from 'react';
+import {
+	Suspense,
+	startTransition,
+	useCallback,
+	useEffect,
+	useState,
+} from 'react';
 import dynamic from 'next/dynamic';
 import Loader from '@/components/Loader/Loader';
 import Head from 'next/head';
 import Tab from '@/components/Tab/Tab';
 import { useRecoilValue } from 'recoil';
 import { tabPosts, tabSavedPosts } from '@/store/TabToggler';
-import { GetServerSidePropsContext } from 'next';
 import { IUserPostProps } from '@/types/post';
-import { getServerSession } from 'next-auth';
-import { authOptions } from '../api/auth/[...nextauth]';
 import { useSession } from 'next-auth/react';
 import StatisticLoader from '@/components/Loader/StatisticLoader';
-import { collection, getDocs, query, where, orderBy } from 'firebase/firestore';
+import {
+	collection,
+	getDocs,
+	query,
+	where,
+	orderBy,
+	limit,
+	startAfter,
+} from 'firebase/firestore';
 import { db } from '@/config/firebase';
-
-const PostsCard = dynamic(() => import('@/components/Card/Feeds'), {
-	loading: () => <Loader />,
-	ssr: true,
-});
+import useSWR from 'swr';
+import { IUser } from '@/types/user';
+import { useRouter } from 'next/router';
 
 const SavedPosts = dynamic(
 	() => import('@/components/User/savedPosts/savedPosts'),
@@ -26,7 +35,10 @@ const SavedPosts = dynamic(
 		ssr: true,
 	}
 );
-
+const ExplorePostCard = dynamic(() => import('@/components/Card/Feeds'), {
+	loading: () => <Loader />,
+	ssr: true,
+});
 const Statistic = dynamic(
 	() => import('@/components/User/Statistic/Statistic'),
 	{
@@ -35,115 +47,132 @@ const Statistic = dynamic(
 	}
 );
 
-export default function UserProfile({ user, posts, id }: any) {
+export default function UserProfile() {
 	const postTab = useRecoilValue(tabPosts);
 	const savedPostTab = useRecoilValue(tabSavedPosts);
-	const { data } = useSession();
-	
+	const { data: session } = useSession();
+	const [hasMore, setHasMore] = useState(true);
+	const { query: queries } = useRouter();
+	const { data: user } = useSWR('currentUser', async () => {
+		const userQuery = query(
+			collection(db, 'users'),
+			where('uid', '==', session?.user?.uid)
+		);
+		const snapshot = await getDocs(userQuery);
+		const user = snapshot.docs.map((doc) => doc.data()) as IUser[];
+		return user;
+	});
+	const { data, mutate } = useSWR<IUserPostProps[]>(
+		'currentUserPosts',
+		async () => {
+			const postsQuery = query(
+				collection(db, 'posts'),
+				orderBy('createdAt', 'desc'),
+				where('postedById', '==', session?.user?.uid),
+				limit(5)
+			);
+			const snapshot = await getDocs(postsQuery);
+			const posts = snapshot.docs.map((doc) => doc.data());
+			return posts as IUserPostProps[];
+		}
+	);
+
+	const handleScroll = async () => {
+		const { scrollTop } = document.documentElement;
+		if (scrollTop === 0) {
+			await loadMore();
+		}
+	};
+
+	const loadMore = useCallback(async () => {
+		const lastPost = data && data[data.length - 1];
+		const postsQuery = query(
+			collection(db, 'posts'),
+			orderBy('createdAt', 'desc'),
+			where('postedById', '==', session?.user?.uid),
+			startAfter(lastPost?.createdAt),
+			limit(5)
+		);
+		const snapshot = await getDocs(postsQuery);
+		const newPosts = snapshot.docs.map((doc) => doc.data()) as IUserPostProps[];
+		setHasMore(newPosts.length === 5);
+		startTransition(() => {
+			mutate(data ? [...data, ...newPosts] : newPosts, false);
+		});
+	}, [data, setHasMore, mutate]);
+
+	useEffect(() => {
+		window.addEventListener('scroll', handleScroll);
+		return () => {
+			window.removeEventListener('scroll', handleScroll);
+		};
+	}, [handleScroll]);
+
 	return (
 		<>
 			<Head>
 				<title>
-					{user.name} (@{user?.username} - Instafam)
+					{user ? user[0].name : ''}(@{user ? user[0].username : ''}) - Instafam
 				</title>
-				<link rel='icon' href={user?.image} />
+				<link rel='icon' href={user && user[0]?.image} />
 				<meta
 					name='description'
-					content={`This is profile page of ${user?.username}`}
+					content={`This is profile page of ${user && user[0]?.username}`}
 				/>
-				<meta property='og:image' content={user?.image} />
-				<meta property='og:type' content='profile' />
-				<meta property='profile:username' content={user?.username} />
-				<meta property='og:title' content={`${user?.username} | Instafam`} />
 				<meta
 					property='og:description'
-					content={`This is profile page of ${user?.username}`}
+					content={`This is profile page of ${user && user[0]?.username}`}
 				/>
-				<meta
-					property='og:url'
-					content={`https://instafam.vercel.app/profile/${id}`}
-				/>
+
 				<link
 					rel='canonical'
-					href={`https://instafam.vercel.app/profile/${id}`}
+					href={`https://instafam.vercel.app/profile/${session?.user?.uid}`}
 				/>
-				<link rel='apple-touch-icon' href={user?.image} />
-				<link referrerPolicy='no-referrer' />
-				<meta name='twitter:card' content='summary' />
-				<meta name='twitter:site' content='@instafam' />
-				<meta name='twitter:creator' content='@instafam' />
-				<meta
-					name='twitter:title'
-					content={`${user[0]?.username} | Instafam`}
-				/>
-				<meta
-					name='twitter:description'
-					content={`This is profile page of ${user?.username}`}
-				/>
-				<meta name='twitter:image' content={user?.image} />
 			</Head>
 			<div className='w-full h-screen overflow-y-auto py-5 mx-auto p-5'>
 				<div className='flex items-center border-b border-gray-400 w-full space-x-3 md:justify-center md:space-x-10'>
 					<Statistic
-						image={user.image}
-						name={user.name}
-						uid={user.uid}
-						username={user.username}
+						image={user && user[0]?.image ? user[0]?.image : ''}
+						name={user && user[0]?.name ? user[0]?.name : ''}
+						uid={user && user[0]?.uid ? user[0]?.uid : ''}
+						username={user && user[0]?.username ? user[0]?.username : ''}
 					/>
 				</div>
 
-				{data?.user?.uid === id ? <Tab /> : null}
+				{session?.user?.uid === queries.id ? <Tab /> : null}
 				<div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5 p-5 justify-center items-center w-full '>
 					{postTab && (
 						<>
-							{posts.length === 0 && (
-								<div className='mx-auto w-full h-full col-span-3'>
-									<h1 className='text-2xl font-semibold text-center w-full text-gray-500 dark:text-gray-400'>
-										No Posts
-									</h1>
-								</div>
-							)}
-							{posts?.map((post: IUserPostProps) => (
-								<Suspense fallback={<Loader />} key={post.docId}>
-									<PostsCard post={post} />
-								</Suspense>
+							{data?.map((post) => (
+								<ExplorePostCard post={post} key={post.docId} />
 							))}
 						</>
 					)}
+
 					{savedPostTab && (
 						<Suspense fallback={<Loader />}>
-							<SavedPosts savedPosts={user?.savedPosts} />
+							<SavedPosts savedPosts={user && user[0].savedPosts} />
 						</Suspense>
+					)}
+				</div>
+				<div className='flex justify-center w-full'>
+					{hasMore ? (
+						<button
+							type='button'
+							name='loadMore'
+							title='Load More'
+							onClick={loadMore}
+							className=' text-black dark:text-white p-2 rounded-md text-xl font-semibold'
+						>
+							Load More
+						</button>
+					) : (
+						<p className='text-black dark:text-white text-center'>
+							No more posts
+						</p>
 					)}
 				</div>
 			</div>
 		</>
 	);
-}
-
-export async function getServerSideProps(context: GetServerSidePropsContext) {
-	const session = await getServerSession(context.req, context.res, authOptions);
-
-	if (!session) {
-		return {
-			redirect: {
-				destination: '/auth/signin',
-				permanent: false,
-			},
-		};
-	}
-	const { id } = context.query;
-	const user = await getDocs(query(collection(db, 'users'), where('uid', '==', id)))
-	const currentuser = user.docs.map((doc) => doc.data());
-	const userPosts = await getDocs(query(collection(db, 'posts'), where('postedById', '==', id), orderBy('createdAt', 'desc')))
-	const userPostsData =  userPosts.docs.map((doc) => doc.data());
-	context.res.setHeader('Cache-Control', 's-maxage=60, stale-while-revalidate=59'); 
-
-	return {
-		props: {
-			user: currentuser[0],
-			posts: userPostsData,
-			id
-		},
-	};
 }
