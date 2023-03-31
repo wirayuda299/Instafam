@@ -2,21 +2,20 @@ import Head from 'next/head';
 import { useSession } from 'next-auth/react';
 import useRecommendation from '@/hooks/useRecommendation';
 import dynamic from 'next/dynamic';
+import Loader from '@/components/Loader/Loader';
+import Recommendation from '@/components/Loader/Recommendation';
 const UserPosts = dynamic(
 	() => import('@/components/User/UserPosts/UserPosts'),
-	{ ssr: false }
+	{ ssr: false, loading: () => <Loader /> }
 );
 const Suggestions = dynamic(
 	() => import('@/components/Suggestions/Suggestions'),
-	{ ssr: false, loading: () => <p>Loading reccommendation...</p>}
+	{ ssr: false, loading: () => <Recommendation /> }
 );
 
 export default function Home() {
 	const { data: session } = useSession();
-	
-	const { reccomend } = useRecommendation(
-		session?.user.uid
-	);
+	const { reccomend } = useRecommendation(session?.user.uid);
 
 	return (
 		<>

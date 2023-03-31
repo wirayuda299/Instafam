@@ -5,17 +5,18 @@ import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Suspense, memo } from 'react';
+import Recommendation from '../Loader/Recommendation';
 
 const Footer = dynamic(() => import('@/components/Footer'), {
 	ssr: false,
 });
 
- function Suggestions({
+function Suggestions({
 	recommendation,
 	session,
 }: {
-	recommendation: IUser[] | undefined ;
-	session: Session | null ;
+	recommendation: IUser[] | undefined;
+	session: Session | null;
 }) {
 	return (
 		<section className='min-w-[400px] hidden lg:block'>
@@ -29,7 +30,7 @@ const Footer = dynamic(() => import('@/components/Footer'), {
 							width={45}
 							height={45}
 							sizes='45px'
-							priority		
+							priority
 							quality={50}
 						/>
 						<span className='text-black dark:text-white text-base font-semibold'>
@@ -67,7 +68,7 @@ const Footer = dynamic(() => import('@/components/Footer'), {
 						</p>
 					</div>
 				)}
-				<Suspense fallback={<p>Loading user....</p>}>
+				<Suspense fallback={<Recommendation />}>
 					{recommendation?.map((user) => (
 						<div
 							key={user.uid}

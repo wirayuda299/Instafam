@@ -9,7 +9,7 @@ import dynamic from 'next/dynamic';
 import { useSession } from 'next-auth/react';
 
 const ExtraMenus = dynamic(() => import('./ExtraMenus'), {
-	ssr: true,
+	ssr: false,
 });
 
 const oleo = Oleo_Script({

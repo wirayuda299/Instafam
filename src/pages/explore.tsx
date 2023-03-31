@@ -1,12 +1,15 @@
 import dynamic from 'next/dynamic';
 import Head from 'next/head';
 import usePosts from '@/hooks/usePosts';
-
+import Loader from '@/components/Loader/Loader';
 const ExplorePostCard = dynamic(() => import('@/components/Card/Feeds'));
-const Footer = dynamic(() => import('@/components/Footer'));
+const Footer = dynamic(() => import('@/components/Footer'), {
+	ssr: false,
+	loading: () => <Loader />,
+});
 
 export default function Explore() {
-	const { data, isLoading, isValidating, hasMore, loadMore } = usePosts();
+	const { data, hasMore, loadMore } = usePosts();
 	return (
 		<>
 			<Head>
@@ -37,14 +40,9 @@ export default function Explore() {
 				</div>
 				<div className='container mx-auto'>
 					<div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 p-5 gap-5'>
-							{data?.map((post) => (
-								<ExplorePostCard key={post.docId} post={post} />
-							))}
-							{isValidating ? (
-								<h1>Loading...</h1>
-							) : (
-								<h1 className='text-black dark:text-white'>Loading...</h1>
-							)}
+						{data?.map((post) => (
+							<ExplorePostCard key={post.docId} post={post} />
+						))}
 					</div>
 					<div className='w-full flex justify-center flex-col items-center'>
 						{hasMore ? (

@@ -1,12 +1,13 @@
 import { IUserPostProps } from '@/types/post';
 import { rgbDataURL } from '@/util/colorPicker';
 import Image from 'next/image';
+import { memo } from 'react';
 import { AiFillHeart, AiTwotoneMessage } from 'react-icons/ai';
 interface IExplorePostCardProps {
 	post: IUserPostProps;
 }
 
-export default function ExplorePostCard({ post }: IExplorePostCardProps) {
+ function ExplorePostCard({ post }: IExplorePostCardProps) {
 	return (
 		<div className=' rounded-lg shadow-md'>
 			<div className='relative w-full group'>
@@ -57,3 +58,4 @@ export default function ExplorePostCard({ post }: IExplorePostCardProps) {
 		</div>
 	);
 }
+export default memo(ExplorePostCard);

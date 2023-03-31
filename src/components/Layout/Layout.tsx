@@ -1,9 +1,10 @@
 import dynamic from 'next/dynamic';
+import SidebarLoader from '../Loader/Sidebar';
 const Search = dynamic(() => import('../Search'), { ssr: false });
 const BottomNav = dynamic(() => import('../Navigation/BottomNav'), {
 	ssr: false,
 });
-const Sidebar = dynamic(() => import('../Navigation/Sidebar'), { ssr: false });
+const Sidebar = dynamic(() => import('../Navigation/Sidebar'), { ssr: false, loading: () => <SidebarLoader/> });
 const Header = dynamic(() => import('../Header/Header'), { ssr: false });
 
 export default function Layout({ children }: { children: React.ReactNode }) {

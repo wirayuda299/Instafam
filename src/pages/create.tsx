@@ -4,7 +4,6 @@ import { doc, setDoc } from 'firebase/firestore';
 import { getDownloadURL, ref, uploadString } from 'firebase/storage';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
-import ImageCropper from '@/components/Images/Cropper';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { croppedImageState, imagesState } from '@/store/images';
 import { captionsState } from '@/store/captions';
@@ -12,6 +11,9 @@ import dynamic from 'next/dynamic';
 import Head from 'next/head';
 
 const Captions = dynamic(() => import('@/components/Captions/Captions'), {
+	ssr: false
+});
+const ImageCropper = dynamic(() => import('@/components/Images/Cropper'), {
 	ssr: false
 });
 
@@ -25,7 +27,6 @@ export default function CreatePost() {
 
 	const handlePost = async () => {
 		if (!img) return;
-
 		setLoading(true);
 		const hashtags =
 			captions
@@ -34,7 +35,6 @@ export default function CreatePost() {
 				.split(' ') || [];
 		const randomNum = Math.floor(Math.random() * 7654391);
 		const uuid = crypto.randomUUID();
-
 		try {
 			if (!session) router.push('/auth/signin');
 
