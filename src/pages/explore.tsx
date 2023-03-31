@@ -1,10 +1,9 @@
-import Footer from '@/components/Footer';
 import dynamic from 'next/dynamic';
 import Head from 'next/head';
 import usePosts from '@/hooks/usePosts';
-import { Suspense } from 'react';
 
 const ExplorePostCard = dynamic(() => import('@/components/Card/Feeds'));
+const Footer = dynamic(() => import('@/components/Footer'));
 
 export default function Explore() {
 	const { data, isLoading, isValidating, hasMore, loadMore } = usePosts();
@@ -38,7 +37,6 @@ export default function Explore() {
 				</div>
 				<div className='container mx-auto'>
 					<div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 p-5 gap-5'>
-						<Suspense fallback={<h1>Loading...</h1>}>
 							{data?.map((post) => (
 								<ExplorePostCard key={post.docId} post={post} />
 							))}
@@ -47,7 +45,6 @@ export default function Explore() {
 							) : (
 								<h1 className='text-black dark:text-white'>Loading...</h1>
 							)}
-						</Suspense>
 					</div>
 					<div className='w-full flex justify-center flex-col items-center'>
 						{hasMore ? (

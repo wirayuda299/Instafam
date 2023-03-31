@@ -8,12 +8,13 @@ const UserPosts = dynamic(
 );
 const Suggestions = dynamic(
 	() => import('@/components/Suggestions/Suggestions'),
-	{ ssr: false }
+	{ ssr: false, loading: () => <p>Loading reccommendation...</p>}
 );
 
 export default function Home() {
 	const { data: session } = useSession();
-	const { reccomend, recomendationLoading } = useRecommendation(
+	
+	const { reccomend } = useRecommendation(
 		session?.user.uid
 	);
 
@@ -39,11 +40,7 @@ export default function Home() {
 			<section className='w-full h-screen md:p-3 overflow-y-auto'>
 				<div className='w-full flex justify-between items-start'>
 					<UserPosts uid={session?.user.uid} />
-					{recomendationLoading ? (
-						<h1>Loading....</h1>
-					) : (
-						<Suggestions recommendation={reccomend} session={session} />
-					)}
+					<Suggestions recommendation={reccomend} session={session} />
 				</div>
 			</section>
 		</>

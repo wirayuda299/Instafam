@@ -1,4 +1,5 @@
 import { db } from '@/config/firebase';
+import { IUser } from '@/types/user';
 import {
 	query,
 	collection,
@@ -12,7 +13,7 @@ export default function useRecommendation(uid: string | undefined) {
 		async () => {
 			const userQuery = query(collection(db, 'users'), where('uid', '!=', uid));
 			const snapshot = await getDocs(userQuery);
-			const user = snapshot.docs.map((doc) => doc.data()) ;
+			const user = snapshot.docs.map((doc) => doc.data()) as IUser[];
 			return user;
 		}
 	);

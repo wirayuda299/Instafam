@@ -22,7 +22,7 @@ export default function usePosts(uid?: string | undefined) {
 		const postsQuery = query(
 			collection(db, 'posts'),
 			orderBy('createdAt', 'desc'),
-			limit(10)
+			limit(5)
 		);
 		const snapshot = await getDocs(postsQuery);
 		const posts = snapshot.docs.map((doc) => doc.data());
@@ -51,11 +51,11 @@ export default function usePosts(uid?: string | undefined) {
 			collection(db, 'posts'),
 			orderBy('createdAt', 'desc'),
 			startAfter(lastPost?.createdAt),
-			limit(10)
+			limit(5)
 		);
 		const snapshot = await getDocs(postsQuery);
 		const newPosts = snapshot.docs.map((doc) => doc.data()) as IUserPostProps[];
-		setHasMore(newPosts.length === 10);
+		setHasMore(newPosts.length === 5);
 		startTransition(() => {
 			mutate(data ? [...data, ...newPosts] : newPosts, false);
 		});

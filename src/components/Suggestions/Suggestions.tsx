@@ -1,18 +1,22 @@
 import { handleFollow } from '@/helper/follow';
-import { DocumentData } from 'firebase/firestore';
+import { IUser } from '@/types/user';
 import { Session } from 'next-auth';
+import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import Link from 'next/link';
-import Footer from '../Footer';
+import { Suspense, memo } from 'react';
 
-export default function Suggestions({
+const Footer = dynamic(() => import('@/components/Footer'), {
+	ssr: false,
+});
+
+ function Suggestions({
 	recommendation,
-	session
+	session,
 }: {
-	recommendation: DocumentData[] | undefined | void;
-	session:Session | null
+	recommendation: IUser[] | undefined ;
+	session: Session | null ;
 }) {
-
 	return (
 		<section className='min-w-[400px] hidden lg:block'>
 			<div className='w-full h-full p-5 max-w-sm'>
@@ -24,7 +28,8 @@ export default function Suggestions({
 							alt={session?.user.name as string}
 							width={45}
 							height={45}
-							priority
+							sizes='45px'
+							priority		
 							quality={50}
 						/>
 						<span className='text-black dark:text-white text-base font-semibold'>
@@ -32,7 +37,12 @@ export default function Suggestions({
 						</span>
 					</div>
 					<div>
-						<button className='text-blue-600 text-xs font-semibold'>
+						<button
+							type='button'
+							name='switch '
+							title='switch accounts'
+							className='text-blue-600 text-xs font-semibold'
+						>
 							Switch
 						</button>
 					</div>
@@ -41,16 +51,23 @@ export default function Suggestions({
 					<p className='text-gray-500 text-sm font-semibold'>
 						Recommendation for you
 					</p>
-					<button className='text-xs dark:text-blue-600 '>See all</button>
+					<button
+						type='button'
+						name='see all'
+						title='see all'
+						className='text-xs dark:text-blue-600 '
+					>
+						See all
+					</button>
 				</div>
-				<div>
-					{!recommendation?.length && (
-						<div className='flex items-center justify-center mt-5'>
-							<p className='text-gray-500 text-sm font-semibold'>
-								No users to follow
-							</p>
-						</div>
-					)}
+				{!recommendation?.length && (
+					<div className='flex items-center justify-center mt-5'>
+						<p className='text-gray-500 text-sm font-semibold'>
+							No users to follow
+						</p>
+					</div>
+				)}
+				<Suspense fallback={<p>Loading user....</p>}>
 					{recommendation?.map((user) => (
 						<div
 							key={user.uid}
@@ -67,6 +84,8 @@ export default function Suggestions({
 									width={40}
 									height={40}
 									sizes='40px'
+									placeholder='blur'
+									blurDataURL={user?.image}
 									priority
 									quality={50}
 								/>
@@ -74,9 +93,7 @@ export default function Suggestions({
 									<span className='text-black dark:text-white text-sm font-semibold'>
 										@{user.username}
 									</span>
-									<p className=' text-xs text-slate-500'>
-										{user.name}
-									</p>
+									<p className=' text-xs text-slate-500'>{user.name}</p>
 								</div>
 							</Link>
 							<div className='ml-auto'>
@@ -92,14 +109,20 @@ export default function Suggestions({
 										)
 									}
 								>
-									{user.followers.find((foll:{followedBy:string}) => foll.followedBy === session?.user.uid) ? 'Following' : 'Follow'}
+									{user.followers.find(
+										(foll: { followedBy: string }) =>
+											foll.followedBy === session?.user.uid
+									)
+										? 'Following'
+										: 'Follow'}
 								</button>
 							</div>
 						</div>
 					))}
-				</div>
+				</Suspense>
 			</div>
 			<Footer />
 		</section>
 	);
 }
+export default memo(Suggestions);

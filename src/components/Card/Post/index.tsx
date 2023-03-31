@@ -48,7 +48,7 @@ export default function PostCard({ post, followingLists }: IPostCardProps) {
 					src={post?.image}
 					width={600}
 					height={600}
-					sizes='100vw'
+					sizes='100%'
 					priority
 					quality={55}
 					placeholder='blur'
