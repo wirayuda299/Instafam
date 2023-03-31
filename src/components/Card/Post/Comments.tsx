@@ -57,7 +57,7 @@ export const PostComment: FC<IProps> = ({ post, session, commentOpen }) => {
 				setCurrentComments(doc.data().comments);
 			}
 		});
-	}, [db, post.postId]);
+	}, [db]);
 
 	return (
 		<div>
@@ -76,7 +76,7 @@ export const PostComment: FC<IProps> = ({ post, session, commentOpen }) => {
 				) : (
 					currentComments.map((comment) => (
 						<div className='flex space-x-2 items-center' key={comment.comment}>
-							<h5 className='font-semibold text-sm'>{comment.commentByName}</h5>
+							<h3 className='font-semibold text-sm'>{comment.commentByName}</h3>
 							<p className='text-xs font-normal'>{comment.comment}</p>
 						</div>
 					))

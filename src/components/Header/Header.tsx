@@ -31,7 +31,7 @@ export default function Header() {
 								<AiOutlineSearch size={20} />
 							</button>
 						</Form>
-						<button name='notifications' title='notifications'>
+						<button name='notifications' type='button' title='notifications'>
 							<AiOutlineHeart size={25} />
 						</button>
 					</div>

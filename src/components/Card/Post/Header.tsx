@@ -1,7 +1,5 @@
 import { FC, useEffect, useState } from 'react';
 import Image from 'next/image';
-import { handleFollow } from '@/helper/follow';
-import { IUserPostProps } from '@/types/post';
 import { db } from '@/config/firebase';
 import {
 	query,
@@ -11,7 +9,6 @@ import {
 	DocumentData,
 } from 'firebase/firestore';
 import { useSession } from 'next-auth/react';
-import { rgbDataURL } from '@/util/colorPicker';
 import Link from 'next/link';
 
 interface IProps {
@@ -42,7 +39,9 @@ export const PostHeader: FC<IProps> = ({ post, currentuserUid, username }) => {
 		if (diffSeconds < 60) {
 			diffString = 'just now';
 		} else if (diffMinutes < 60) {
-			diffString = `${diffMinutes} ${diffMinutes > 1 ? 'minutes' : 'minute'} ago`;
+			diffString = `${diffMinutes} ${
+				diffMinutes > 1 ? 'minutes' : 'minute'
+			} ago`;
 		} else if (diffHours < 24) {
 			diffString = `${diffHours} ${diffHours > 1 ? 'hours' : 'hour'} ago`;
 		} else if (diffDays < 7) {
@@ -70,7 +69,6 @@ export const PostHeader: FC<IProps> = ({ post, currentuserUid, username }) => {
 		return () => unsub();
 	}, [db, post, currentuserUid]);
 
-
 	return (
 		<div className='flex items-center px-4 py-3 h-fit'>
 			<Image
@@ -83,7 +81,10 @@ export const PostHeader: FC<IProps> = ({ post, currentuserUid, username }) => {
 				src={post?.postedByPhotoUrl || ''}
 			/>
 			<div className='ml-3 flex-1'>
-				<Link  href={`profile/${post.postedById}`} className='text-sm font-semibold antialiased block leading-tight'>
+				<Link
+					href={`profile/${post.postedById}`}
+					className='text-sm font-semibold antialiased block leading-tight'
+				>
 					{post?.author}
 				</Link>
 
@@ -100,17 +101,20 @@ export const PostHeader: FC<IProps> = ({ post, currentuserUid, username }) => {
 			<div className='relative flex justify-between items-center'>
 				{currentuserUid !== post.postedById ? (
 					<button
-						onClick={() =>
-							handleFollow(post.postedById, currentuserUid, username)
-						}
+						type='button'
+						name='follow'
+						title='follow'
+						onClick={async () => {
+							const follow = await import('@/helper/follow');
+							follow.handleFollow(post.postedById, currentuserUid, username);
+						}}
 						className='follBtn text-xs  antialiased block leading-tight'
 					>
-						{users[0]?.following?.find((user: { userId: string; }) => user.userId === post.postedById) ? (
-							'Following'
-						) : (
-							'Follow'
+						{users[0]?.following?.find(
+							(user: { userId: string }) => user.userId === post.postedById
 						)
-					}
+							? 'Following'
+							: 'Follow'}
 					</button>
 				) : (
 					<p className='text-xs font-thin antialiased block leading-tight'>

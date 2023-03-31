@@ -1,4 +1,3 @@
-import { handleFollow } from '@/helper/follow';
 import { IUser } from '@/types/user';
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
@@ -16,7 +15,7 @@ function Suggestions({
 }: {
 	recommendation: IUser[] | undefined;
 }) {
-	const {data: session} = useSession();
+	const { data: session } = useSession();
 	return (
 		<section className='min-w-[400px] hidden lg:block'>
 			<div className='w-full h-full p-5 max-w-sm'>
@@ -24,8 +23,8 @@ function Suggestions({
 					<div className='flex items-center space-x-3 mb-2'>
 						<Image
 							className=' rounded-full'
-							src={session?.user.image as string ?? ''}
-							alt={session?.user.username as string ?? ''}
+							src={(session?.user.image as string) ?? ''}
+							alt={(session?.user.username as string) ?? ''}
 							width={45}
 							height={45}
 							sizes='45px'
@@ -101,13 +100,14 @@ function Suggestions({
 									type='button'
 									name='follow'
 									className='text-blue-600 font-light text-xs'
-									onClick={() =>
-										handleFollow(
+									onClick={async () => {
+										const follow = await import('@/helper/follow');
+										follow.handleFollow(
 											user.uid,
 											session?.user?.uid,
 											session?.user.username
-										)
-									}
+										);
+									}}
 								>
 									{user.followers.find(
 										(foll: { followedBy: string }) =>

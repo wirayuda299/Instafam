@@ -1,5 +1,3 @@
-import { handleLikes } from '@/helper/like';
-import { savePost } from '@/helper/savePost';
 import { IUserPostProps } from '@/types/post';
 import { Dispatch, FC, SetStateAction, useEffect, useState } from 'react';
 import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai';
@@ -54,7 +52,10 @@ export const PostActions: FC<IProps> = ({
 		<div className='flex items-center justify-between mt-3 mb-2 p-1'>
 			<div className='flex gap-x-5'>
 				<button
-					onClick={() => handleLikes(post, uid)}
+					onClick={async () => {
+						const handleLike = await import('@/helper/like');
+						handleLike.handleLikes(post, uid);
+					}}
 					data-postid={post.postId}
 					name='like'
 					title='Like'
@@ -77,7 +78,10 @@ export const PostActions: FC<IProps> = ({
 				</button>
 			</div>
 			<button
-				onClick={() => savePost(post, uid)}
+				onClick={async () => {
+					const handleSavePost = await import('@/helper/savePost');
+					handleSavePost.savePost(post, uid);
+				}}
 				name='save post'
 				type='button'
 				title="save post"
