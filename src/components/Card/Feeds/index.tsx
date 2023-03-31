@@ -1,9 +1,9 @@
+import { IUserPostProps } from '@/types/post';
 import { rgbDataURL } from '@/util/colorPicker';
-import { DocumentData } from 'firebase/firestore';
 import Image from 'next/image';
 import { AiFillHeart, AiTwotoneMessage } from 'react-icons/ai';
 interface IExplorePostCardProps {
-	post: DocumentData;
+	post: IUserPostProps;
 }
 
 export default function ExplorePostCard({ post }: IExplorePostCardProps) {
@@ -15,7 +15,7 @@ export default function ExplorePostCard({ post }: IExplorePostCardProps) {
 					width={600}
 					height={600}
 					sizes='100vw'
-					loading='lazy'
+					priority
 					placeholder='blur'
 					blurDataURL={rgbDataURL(255, 255, 255)}
 					quality={55}
@@ -29,6 +29,7 @@ export default function ExplorePostCard({ post }: IExplorePostCardProps) {
 					<button
 						type='button'
 						name='likes count button'
+						title='likes count button'
 						className='opacity-0 group-hover:opacity-100 transition-all ease duration-500 text-center text-white'
 					>
 						<p className='text-center flex items-center space-x-2'>
@@ -40,6 +41,7 @@ export default function ExplorePostCard({ post }: IExplorePostCardProps) {
 					</button>
 					<button
 						type='button'
+						title='comments count button'
 						name='posts comment count button'
 						className='opacity-0 group-hover:opacity-100 transition-all ease duration-500 text-center text-white'
 					>

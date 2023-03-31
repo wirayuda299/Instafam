@@ -37,6 +37,7 @@ export default function Results({
 								src={result.image}
 								width={40}
 								height={40}
+								priority
 								className='rounded-full w-10 h-10'
 								alt='profile'
 							/>
@@ -46,6 +47,9 @@ export default function Results({
 							</div>
 						</Link>
 						<button
+							type='button'
+							name='close'
+							title='close'
 							onClick={() =>
 								setResults(results.filter((user) => user.uid !== result.uid))
 							}

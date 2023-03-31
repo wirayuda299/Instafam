@@ -9,7 +9,7 @@ export default function Suggestions({
 	recommendation,
 	session
 }: {
-	recommendation: DocumentData[] | undefined;
+	recommendation: DocumentData[] | undefined | void;
 	session:Session | null
 }) {
 

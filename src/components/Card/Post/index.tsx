@@ -77,10 +77,7 @@ export default function PostCard({ post, followingLists }: IPostCardProps) {
 				<PostAuthor post={post} />
 				<PostComment
 					post={post}
-					comment={comment}
-					setComment={setComment}
-					uid={session?.user?.uid as string}
-					username={session?.user.username as string}
+					session={session}
 					commentOpen={commentOpen}
 					setCommentOpen={setCommentOpen}
 				/>

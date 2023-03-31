@@ -44,8 +44,9 @@ export default function Captions({ handlePost, loading }: Props) {
 				></textarea>
 				<button
 					disabled={loading}
-					name='post button'
+					name='post '
 					type='button'
+					title='post'
 					onClick={handlePost}
 					className='w-full h-16 bg-black bg-opacity-90 hover:bg-opacity-100 transition-all ease duration-300 text-white rounded-md text-lg uppercase font-semibold dark:bg-white dark:bg-opacity-50 dark:text-black'
 				>

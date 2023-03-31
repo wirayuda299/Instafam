@@ -72,23 +72,6 @@ export default function CreatePost() {
 		<>
 			<Head>
 				<title>Create New Post | Instafam</title>
-				<meta
-					name='description'
-					content='Create a new post on My Blog and share your thoughts with the world.'
-				/>
-				<meta property='og:title' content='Create New Post | Instafam' />
-				<meta
-					property='og:description'
-					content='Create a new post on My Blog and share your thoughts with the world.'
-				/>
-				<meta property='og:type' content='website' />
-				<meta property='og:url' content='https://instafam.vercel.app/create' />
-				<meta name='twitter:card' content='summary_large_image' />
-				<meta name='twitter:title' content='Create New Post | Instafam' />
-				<meta
-					name='twitter:description'
-					content='Create a new post on Instafam and share your thoughts with the world.'
-				/>
 			</Head>
 			<section className='w-full h-screen bg-white dark:bg-[#121212] overflow-y-auto p-5'>
 				<div

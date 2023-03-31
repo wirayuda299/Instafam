@@ -56,6 +56,9 @@ export default function ImageCropper() {
 								onCropComplete={onCropComplete}
 							/>
 							<button
+								name='delete'
+								title='delete'
+								type='button'
 								className='absolute -top-3 -right-3 text-black dark:text-white'
 								onClick={(e) => deleteImage(e)}
 							>

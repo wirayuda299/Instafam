@@ -5,9 +5,7 @@ import { IUserPostProps } from "@/types/post"
 export async function savePost(post: IUserPostProps, uid: string = '') {
   try {
     const userSnap = await getDoc(doc(db, 'users', `${uid}`));
-    const savedPosts = userSnap.data()?.savedPosts.map((post: { postId: string; }) => post.postId);
-    console.log(savedPosts);
-    
+    const savedPosts = userSnap.data()?.savedPosts.map((post: { postId: string; }) => post.postId);    
     const hasSaved = savedPosts.includes(post.postId);
     if(hasSaved) {
       return await updateDoc(doc(db, 'users', `${uid}`), {

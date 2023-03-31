@@ -1,23 +1,13 @@
 import Footer from '@/components/Footer';
-import Loader from '@/components/Loader/Loader';
 import dynamic from 'next/dynamic';
 import Head from 'next/head';
-import { GetServerSidePropsContext } from 'next';
-import { getServerSession } from 'next-auth';
-import { authOptions } from './api/auth/[...nextauth]';
-import { db } from '@/config/firebase';
-import { getDocs, query, collection, orderBy } from 'firebase/firestore';
 import usePosts from '@/hooks/usePosts';
 import { Suspense } from 'react';
 
-const ExplorePostCard = dynamic(() => import('@/components/Card/Feeds'), {
-	loading: () => <Loader />,
-	ssr: true,
-});
+const ExplorePostCard = dynamic(() => import('@/components/Card/Feeds'));
 
 export default function Explore() {
-	const { data, isLoading, isValidating, hasMore, loadMore } =
-		usePosts();
+	const { data, isLoading, isValidating, hasMore, loadMore } = usePosts();
 	return (
 		<>
 			<Head>
@@ -48,53 +38,34 @@ export default function Explore() {
 				</div>
 				<div className='container mx-auto'>
 					<div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 p-5 gap-5'>
-						{isLoading && <Loader />}
 						<Suspense fallback={<h1>Loading...</h1>}>
 							{data?.map((post) => (
 								<ExplorePostCard key={post.docId} post={post} />
 							))}
-							{isValidating && (
+							{isValidating ? (
+								<h1>Loading...</h1>
+							) : (
 								<h1 className='text-black dark:text-white'>Loading...</h1>
 							)}
 						</Suspense>
 					</div>
 					<div className='w-full flex justify-center flex-col items-center'>
-					{hasMore ? (
-						<button onClick={loadMore} className=' text-black dark:text-white p-2 rounded-md text-xl font-semibold'>
-							Load More
-						</button>
-					) : (
-						<h1 className='text-black dark:text-white text-center'>
-							No more posts
-						</h1>
-					)}
+						{hasMore ? (
+							<button
+								onClick={loadMore}
+								className=' text-black dark:text-white p-2 rounded-md text-xl font-semibold'
+							>
+								Load More
+							</button>
+						) : (
+							<h1 className='text-black dark:text-white text-center'>
+								No more posts
+							</h1>
+						)}
 					</div>
 					<Footer />
 				</div>
 			</div>
 		</>
 	);
-}
-export async function getServerSideProps(context: GetServerSidePropsContext) {
-	const session = await getServerSession(context.req, context.res, authOptions);
-	if (!session || !session.user) {
-		return {
-			redirect: {
-				destination: '/auth/signin',
-				permanent: false,
-			},
-		};
-	}
-
-	const res = await getDocs(
-		query(collection(db, 'posts'), orderBy('createdAt', 'desc'))
-	);
-	const posts = res.docs.map((doc) => doc.data());
-	context.res.setHeader('Cache-Control', 's-maxage=60, stale-while-revalidate');
-
-	return {
-		props: {
-			posts: posts ?? [],
-		},
-	};
 }

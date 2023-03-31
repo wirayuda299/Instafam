@@ -66,6 +66,7 @@ export default function Statistic({ username, uid, image, name }: IProps) {
 										alt={username ?? ''}
 										width={500}
 										height={500}
+										sizes='(max-width: 500px) 100vw, 500px'
 										priority
 										className='w-24 h-24 sm:w-36 sm:h-36 rounded-full border p-1'
 									/>

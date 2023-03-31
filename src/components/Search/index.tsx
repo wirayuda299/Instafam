@@ -28,7 +28,7 @@ export default function SearchDrawer() {
 				<aside className='w-64 p-5 border-b'>
 					<h1 className='font-semibold text-2xl py-5'>Search</h1>
 					<Form height='h-screen'>
-						<button>
+						<button type='submit' name='search' title='search'>
 							<AiOutlineSearch size={20} />
 						</button>
 					</Form>

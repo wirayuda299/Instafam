@@ -51,7 +51,7 @@ export default function Footer() {
 			</ul>
 			<p className={`text-xs text-gray-500 mt-5 w-full ${router.pathname === '/explore' ? 'text-center' : ''}`}>
 				© 2023 INSTAFAM by <a href='https://instafam.vercel.app' className='pr-1'>Instafam</a> 
-				from  <a href='https://www.facebook.com/'>INSTAFAM</a>
+				from  <a href='https://instafam.vercel.app'>INSTAFAM</a>
 			</p>
 		</footer>
 	);

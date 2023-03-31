@@ -27,7 +27,7 @@ export default function Header() {
 							</Link>
 						</div>
 						<Form height='h-min'>
-							<button>
+							<button type='submit' name='Search' title='search'>
 								<AiOutlineSearch size={20} />
 							</button>
 						</Form>

@@ -18,7 +18,7 @@ export default function usePosts(uid?: string | undefined) {
 	const [hasMore, setHasMore] = useState(true);
 	const { data, error, mutate, isValidating, isLoading } = useSWR<
 		IUserPostProps[]
-	>('posts', async () => {
+	>('userPosts', async () => {
 		const postsQuery = query(
 			collection(db, 'posts'),
 			orderBy('createdAt', 'desc'),

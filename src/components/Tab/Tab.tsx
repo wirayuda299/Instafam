@@ -53,12 +53,15 @@ export default function Tab() {
 				{tabValue.map((tab) => (
 					<button
 						key={tab.id}
+						type='button'
+						name='tab'
+						title={tab.id.toString()}
 						className={`${
 							activeTab === tab.id
 								? 'border-b-2 border-black dark:border-white pb-1'
 								: ''
 						}`}
-						onClick={(e) => handleTabClick(tab.id)}
+						onClick={() => handleTabClick(tab.id)}
 					>
 						<span>{tab.icon}</span>
 					</button>
