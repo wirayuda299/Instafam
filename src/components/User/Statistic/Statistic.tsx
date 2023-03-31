@@ -1,58 +1,33 @@
-import { db } from '@/config/firebase';
 import { IUserPostProps } from '@/types/post';
-import { IUser } from '@/types/user';
-import { onSnapshot, query, collection, where } from 'firebase/firestore';
-import { useSession } from 'next-auth/react';
-import { useEffect, useState } from 'react';
 import Image from 'next/image';
+import { Session } from 'next-auth';
+import { DocumentData } from 'firebase/firestore';
 interface IProps {
-	username: string;
-	uid: string;
-	image: string;
-	name: string;
+	sessions: Session | null;
+	uid: string[] | string | undefined;
+	users: DocumentData | undefined;
+	posts: DocumentData[] | [];
 }
 
-export default function Statistic({ username, uid, image, name }: IProps) {
-	const [userPosts, setUserPosts] = useState<IUserPostProps[]>([]);
-	const [users, setUsers] = useState<IUser[]>([]);
-	const { data: session } = useSession();
-
-	useEffect(() => {
-		onSnapshot(
-			query(collection(db, 'posts'), where('postedById', '==', `${uid}`)),
-			(snapshot) => {
-				setUserPosts(snapshot.docs.map((doc) => doc.data() as IUserPostProps));
-			}
-		);
-	}, [db]);
-
-	useEffect(() => {
-		onSnapshot(
-			query(collection(db, 'users'), where('uid', '==', `${uid}`)),
-			(snapshot) => {
-				setUsers(snapshot.docs.map((doc) => doc.data() as IUser));
-			}
-		);
-	}, [db]);
-
+export default function Statistic({ sessions, uid, users, posts }: IProps) {
 	const data = [
 		{
 			id: 1,
 			title: 'Posts',
-			value: userPosts.length,
+			value: posts?.length,
 		},
 		{
 			id: 2,
 			title: 'Followers',
-			value: users[0]?.followers.length,
+			value: users && users?.followers.length,
 		},
 		{
 			id: 3,
 			title: 'Following',
-			value: users[0]?.following.length,
+			value: users && users?.following.length,
 		},
 	];
-	
+
 	return (
 		<div className='w-full'>
 			<div className='text-black dark:text-white w-full'>
@@ -62,8 +37,8 @@ export default function Statistic({ username, uid, image, name }: IProps) {
 							<div className='pb-10'>
 								<div className='flex gap-6 items-center'>
 									<Image
-										src={image ?? ''}
-										alt={username ?? ''}
+										src={sessions?.user.image ?? ''}
+										alt={sessions?.user.username ?? ''}
 										width={500}
 										height={500}
 										sizes='(max-width: 500px) 100vw, 500px'
@@ -73,29 +48,32 @@ export default function Statistic({ username, uid, image, name }: IProps) {
 									<div className='w-full'>
 										<div className='flex justify-between items-center gap-5 flex-col sm:flex-row'>
 											<h1 className='font-semibold text-2xl sm:text-4xl'>
-												@{username}
+												@{sessions?.user.username}
 											</h1>
 											<button
 												className='w-44 sm:w-fit bg-gray-200 font-semibold rounded-md px-2 sm:px-3 py-1'
 												name={
-													session?.user?.uid === uid
+													sessions?.user?.uid === uid
 														? 'Edit profile '
 														: 'Follow '
 												}
 												title={
-													session?.user?.uid === uid
+													sessions?.user?.uid === uid
 														? 'Edit profile '
 														: 'Follow '
 												}
 											>
-												{session?.user?.uid === uid ? (
+												{sessions?.user?.uid === uid ? (
 													<span className='text-sm font-medium text-black text-center'>
 														Edit Profile
 													</span>
 												) : (
 													<span className='text-sm font-medium text-black'>
-														{users[0]?.followers.find(foll => foll.followedBy === session?.user?.uid) ? 'Unfollow' : 'Follow'}
-														
+														{users?.followers.find(
+															(foll: { followedBy: string | undefined; }) => foll.followedBy === sessions?.user?.uid
+														)
+															? 'Unfollow'
+															: 'Follow'}
 													</span>
 												)}
 											</button>

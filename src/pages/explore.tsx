@@ -1,14 +1,16 @@
 import dynamic from 'next/dynamic';
 import Head from 'next/head';
-import usePosts from '@/hooks/usePosts';
+import usePosts, { fetcher } from '@/hooks/usePosts';
 import Loader from '@/components/Loader/Loader';
+import { SWRConfig, preload } from 'swr';
+import { Suspense } from 'react';
 const ExplorePostCard = dynamic(() => import('@/components/Card/Feeds'));
 const Footer = dynamic(() => import('@/components/Footer'), {
 	ssr: false,
 	loading: () => <Loader />,
 });
 
-export default function Explore() {
+export default function Explore({ fallback }: { fallback: any }) {
 	const { data, hasMore, loadMore } = usePosts();
 	return (
 		<>
@@ -40,13 +42,21 @@ export default function Explore() {
 				</div>
 				<div className='container mx-auto'>
 					<div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 p-5 gap-5'>
-						{data?.map((post) => (
-							<ExplorePostCard key={post.docId} post={post} />
-						))}
+						<SWRConfig value={{ fallback }}>
+							{data?.map((post) => (
+								<Suspense fallback={<Loader />} key={post.docId}>
+									<ExplorePostCard post={post} />
+								</Suspense>
+							))}
+						</SWRConfig>
 					</div>
-					<div className='w-full flex justify-center flex-col items-center'>
+					<div className=' flex justify-center flex-col items-center'>
 						{hasMore ? (
 							<button
+								type='button'
+								name='loadMore'
+								title='Load More'
+								onMouseEnter={() => preload('userPosts', fetcher)}
 								onClick={loadMore}
 								className=' text-black dark:text-white p-2 rounded-md text-xl font-semibold'
 							>
@@ -63,4 +73,14 @@ export default function Explore() {
 			</div>
 		</>
 	);
+}
+export async function getStaticProps() {
+	const postsQuery = await fetcher()
+	return {
+		props: {
+			fallback: {
+				'/api/posts': postsQuery,
+			},
+		},
+	};
 }

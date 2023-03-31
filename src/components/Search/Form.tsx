@@ -28,8 +28,11 @@ export default function Form({ height, children }: Props) {
 					<div>
 						<div className='w-full flex items-center justify-between bg-[#b9b9b917] rounded-md px-3'>
 							<input
-								type='text'
+								type='search'
 								placeholder='search user'
+								autoComplete='off'
+								alt='search user'
+								security='restricted'
 								className='bg-transparent text-xs md:text-sm w-full py-2 focus:outline-none focus:border-0 focus:ring-0'
 								defaultValue={defaultValues.search}
 								pattern='^[a-zA-Z0-9_@./#&+-]*$'

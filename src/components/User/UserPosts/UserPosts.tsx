@@ -1,24 +1,28 @@
 import Loader from '@/components/Loader/Loader';
-import usePosts from '@/hooks/usePosts';
+import usePosts, { fetcher } from '@/hooks/usePosts';
+import { useSession } from 'next-auth/react';
 import dynamic from 'next/dynamic';
-import { memo } from 'react';
+import { Suspense, memo } from 'react';
+import { preload } from 'swr';
 const PostCard = dynamic(() => import('@/components/Card/Post'), {
 	loading: () => <Loader />,
-	ssr: false,
+	ssr: true,
 });
 
-function UserPosts({ uid }: { uid: string | undefined }) {
-	const { data, hasMore, loadMore, user } = usePosts(uid);
+function UserPosts( ) {
+	const {data:session} = useSession();
+	const { data, hasMore, loadMore, user } = usePosts(session?.user.uid);
 
 	return (
 		<div className='w-full'>
 			<div className='flex flex-col p-5 mb-20 lg:mb-5 w-full'>
 				{data?.map((post) => (
-					<PostCard
-						post={post}
-						followingLists={user && user[0]?.following}
-						key={post.docId}
-					/>
+					<Suspense fallback={<Loader />} key={post.docId}>
+						<PostCard
+							post={post}
+							followingLists={user && user[0]?.following}
+						/>
+					</Suspense>
 				))}
 				{hasMore ? (
 					<button
@@ -27,6 +31,7 @@ function UserPosts({ uid }: { uid: string | undefined }) {
 						title='Load More'
 						onClick={loadMore}
 						className=' text-black dark:text-white p-2 rounded-md text-xl font-semibold'
+						onMouseEnter={() => preload('userPosts', fetcher)}
 					>
 						Load More
 					</button>

@@ -132,10 +132,11 @@ export default function UserProfile() {
 			<div className='w-full h-screen overflow-y-auto py-5 mx-auto p-5'>
 				<div className='flex items-center border-b border-gray-400 w-full space-x-3 md:justify-center md:space-x-10'>
 					<Statistic
-						image={user && user[0]?.image ? user[0]?.image : ''}
-						name={user && user[0]?.name ? user[0]?.name : ''}
-						uid={user && user[0]?.uid ? user[0]?.uid : ''}
-						username={user && user[0]?.username ? user[0]?.username : ''}
+						sessions={session}
+						uid={queries.id}
+						users={user && user[0] }
+						posts={data ?? []}
+
 					/>
 				</div>
 
@@ -155,7 +156,7 @@ export default function UserProfile() {
 						</Suspense>
 					)}
 				</div>
-				<div className='flex justify-center w-full'>
+				<div className={`flex justify-center w-full ${savedPostTab ? 'hidden' : 'block'}`}>
 					{hasMore ? (
 						<button
 							type='button'

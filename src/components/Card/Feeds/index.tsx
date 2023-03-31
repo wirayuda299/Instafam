@@ -1,10 +1,11 @@
 import { IUserPostProps } from '@/types/post';
 import { rgbDataURL } from '@/util/colorPicker';
+import { DocumentData } from 'firebase/firestore';
 import Image from 'next/image';
 import { memo } from 'react';
 import { AiFillHeart, AiTwotoneMessage } from 'react-icons/ai';
 interface IExplorePostCardProps {
-	post: IUserPostProps;
+	post: DocumentData;
 }
 
  function ExplorePostCard({ post }: IExplorePostCardProps) {

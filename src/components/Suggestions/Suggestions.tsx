@@ -1,11 +1,11 @@
 import { handleFollow } from '@/helper/follow';
 import { IUser } from '@/types/user';
-import { Session } from 'next-auth';
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Suspense, memo } from 'react';
 import Recommendation from '../Loader/Recommendation';
+import { useSession } from 'next-auth/react';
 
 const Footer = dynamic(() => import('@/components/Footer'), {
 	ssr: true,
@@ -13,11 +13,10 @@ const Footer = dynamic(() => import('@/components/Footer'), {
 
 function Suggestions({
 	recommendation,
-	session,
 }: {
 	recommendation: IUser[] | undefined;
-	session: Session | null;
 }) {
+	const {data: session} = useSession();
 	return (
 		<section className='min-w-[400px] hidden lg:block'>
 			<div className='w-full h-full p-5 max-w-sm'>

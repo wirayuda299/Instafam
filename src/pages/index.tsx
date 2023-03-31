@@ -4,6 +4,8 @@ import useRecommendation from '@/hooks/useRecommendation';
 import dynamic from 'next/dynamic';
 import Loader from '@/components/Loader/Loader';
 import Recommendation from '@/components/Loader/Recommendation';
+import { SWRConfig } from 'swr';
+import { fetcher } from '@/hooks/usePosts';
 const UserPosts = dynamic(
 	() => import('@/components/User/UserPosts/UserPosts'),
 	{ ssr: true, loading: () => <Loader /> }
@@ -13,7 +15,7 @@ const Suggestions = dynamic(
 	{ ssr: true, loading: () => <Recommendation /> }
 );
 
-export default function Home() {
+export default function Home({ fallback }: { fallback: any }) {
 	const { data: session } = useSession();
 	const { reccomend } = useRecommendation(session?.user.uid);
 	return (
@@ -37,10 +39,23 @@ export default function Home() {
 			</Head>
 			<section className='w-full h-screen md:p-3 overflow-y-auto'>
 				<div className='w-full flex justify-between items-start'>
-					<UserPosts uid={session?.user.uid} />
-					<Suggestions recommendation={reccomend} session={session} />
+					<SWRConfig value={{ fallback }}>
+						<UserPosts />
+					</SWRConfig>
+					<Suggestions recommendation={reccomend} />
 				</div>
 			</section>
 		</>
 	);
+}
+
+export async function getStaticProps() {
+	const postsQuery = await fetcher();
+	return {
+		props: {
+			fallback: {
+				'/api/posts': postsQuery,
+			},
+		},
+	};
 }

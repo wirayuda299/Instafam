@@ -13,19 +13,24 @@ import { startTransition, useCallback, useEffect, useState } from 'react';
 import { IUser } from '@/types/user';
 import { IUserPostProps } from '@/types/post';
 
+export async function fetcher() {
+	const postsQuery = query(
+		collection(db, 'posts'),
+		orderBy('createdAt', 'desc'),
+		limit(5)
+	);
+	const snapshot = await getDocs(postsQuery);
+	const posts = snapshot.docs.map((doc) => doc.data());
+	return posts as IUserPostProps[];
+	
+}
+
 export default function usePosts(uid?: string | undefined) {
 	const [hasMore, setHasMore] = useState(true);
 	const { data, error, mutate, isValidating, isLoading } = useSWR<
 		IUserPostProps[]
 	>('userPosts', async () => {
-		const postsQuery = query(
-			collection(db, 'posts'),
-			orderBy('createdAt', 'desc'),
-			limit(5)
-		);
-		const snapshot = await getDocs(postsQuery);
-		const posts = snapshot.docs.map((doc) => doc.data());
-		return posts as IUserPostProps[];
+		return fetcher();
 	});
 	const {
 		data: user,
