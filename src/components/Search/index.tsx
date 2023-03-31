@@ -19,8 +19,8 @@ export default function SearchDrawer() {
 
 	return (
 		<section
-			className={`fixed hidden searchDrawer z-50 bg-white transition-all ease-out duration-300 dark:bg-black ${
-				drawerOpen ? 'active' : ''
+			className={`fixed z-50 bg-white transition-all ease-out duration-300 dark:bg-black ${
+				drawerOpen ? 'animate-slideIn lg:animate-slideIn' : 'animate-slideOut lg:animate-slideOutWidth -left-full'
 			}`}
 		>
 			<div className=' w-full h-full text-black dark:text-white'>

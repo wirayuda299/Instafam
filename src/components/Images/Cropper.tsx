@@ -16,7 +16,6 @@ export type Area = {
 export default function ImageCropper() {
 	const [img, setImg] = useRecoilState(imagesState);
 	const [zoom, setZoom] = useState(1);
-	const [aspect, setAspect] = useState(1);
 	const [croppedImg, setCroppedImg] = useRecoilState(croppedImageState);
 
 	const deleteImage = (e: any) => {
@@ -28,7 +27,7 @@ export default function ImageCropper() {
 		try {
 			const canvasSize = {
 				width: 1200,
-				height: 1200 * aspect,
+				height: 1200 * 1,
 			};
 			const image = await getCroppedImg(img, croppedArea, canvasSize);
 			setCroppedImg(image);
@@ -51,7 +50,7 @@ export default function ImageCropper() {
 							<Cropper
 								src={img}
 								zoom={zoom}
-								aspect={aspect}
+								aspect={1}
 								onZoomChange={setZoom}
 								onCropComplete={onCropComplete}
 							/>
