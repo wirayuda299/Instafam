@@ -1,57 +1,21 @@
-import Head from 'next/head';
 import dynamic from 'next/dynamic';
 import Loader from '@/components/Loader/Loader';
 import Recommendation from '@/components/Loader/Recommendation';
-import { SWRConfig } from 'swr';
-import { fetcher } from '@/hooks/usePosts';
 const UserPosts = dynamic(
 	() => import('@/components/User/UserPosts/UserPosts'),
 	{ ssr: true, loading: () => <Loader /> }
 );
 const Suggestions = dynamic(
 	() => import('@/components/Suggestions/Suggestions'),
-	{ ssr: false, loading: () => <Recommendation /> }
+	{ ssr: true, loading: () => <Recommendation /> }
 );
-
-export default function Home({ fallback }: { fallback: any }) {	
+export default function Home() {
 	return (
-		<>
-			<Head>
-				<title>Instafam - Connect with people around the world</title>
-				<meta
-					name='description'
-					content='Instafam is social media web app that let you connect with people around the world'
-				/>
-				<meta
-					name='keywords'
-					content='social media, instafam, nextjs, tailwindcss, reactjs, firebase'
-				/>
-				<meta name='viewport' content='width=device-width, initial-scale=1' />
-				<meta name='robots' content='noindex, nofollow' />
-				<meta name='googlebot' content='noindex, nofollow' />
-				<meta name='google' content='notranslate' />
-				<meta name='google' content='nositelinkssearchbox' />
-				<link rel='icon' href='/favicon.ico' />
-			</Head>
-			<section className='w-full h-screen md:p-3 overflow-y-auto'>
-				<div className='w-full flex justify-between items-start'>
-					<SWRConfig value={{ fallback }}>
-						<UserPosts />
-					</SWRConfig>
-					<Suggestions />
-				</div>
-			</section>
-		</>
+		<section className='w-full h-screen md:p-3 overflow-y-auto'>
+			<div className='w-full flex justify-between items-start'>
+				<UserPosts />
+				<Suggestions />
+			</div>
+		</section>
 	);
-}
-
-export async function getStaticProps() {
-	const postsQuery = await fetcher();
-	return {
-		props: {
-			fallback: {
-				'/api/posts': postsQuery,
-			},
-		},
-	};
 }
