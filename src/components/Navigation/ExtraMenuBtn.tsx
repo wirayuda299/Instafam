@@ -21,7 +21,7 @@ export const ExtraMenuBtn: FC = () => {
 			title='extra menus'
 		>
 			<div
-				className='flex items-center space-x-2 px-3 text-base sm:text-lg lg:mt-4 transition-all ease duration-300'
+				className='flex items-center space-x-2 px-3 text-base sm:text-lg mt-5 transition-all ease duration-300'
 				onClick={handleClick}
 			>
 				{extraListOpen ? (

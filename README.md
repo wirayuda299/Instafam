@@ -18,6 +18,7 @@ Welcome to Instafam! This is a social media app that allows you to connect with 
 - View your posts
 
 
+
 Other features is comming soon.
 
 ## Technologies Used
@@ -30,7 +31,7 @@ Other features is comming soon.
 
 ## Contributing
 
-If you'd like to contribute to My Awesome App, please fork the repository and make your changes. Once you're happy with your changes, submit a pull request.
+If you'd like to contribute to Instafam, please fork the repository and make your changes. Once you're happy with your changes, submit a pull request.
 
 ## License
 
