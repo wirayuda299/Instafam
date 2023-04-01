@@ -1,21 +1,20 @@
-import { IUser } from '@/types/user';
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Suspense, memo } from 'react';
 import Recommendation from '../Loader/Recommendation';
 import { useSession } from 'next-auth/react';
-
+import useRecommendation from '@/hooks/useRecommendation';
 const Footer = dynamic(() => import('@/components/Footer'), {
 	ssr: true,
 });
 
-function Suggestions({
-	recommendation,
-}: {
-	recommendation: IUser[] | undefined;
-}) {
+function Suggestions() {
 	const { data: session } = useSession();
+	const { reccomend, recomendationLoading } = useRecommendation(
+		session?.user.uid
+	);
+
 	return (
 		<section className='min-w-[400px] hidden lg:block'>
 			<div className='w-full h-full p-5 max-w-sm'>
@@ -59,67 +58,76 @@ function Suggestions({
 						See all
 					</button>
 				</div>
-				{!recommendation?.length && (
+				{!reccomend?.length && (
 					<div className='flex items-center justify-center mt-5'>
 						<p className='text-gray-500 text-sm font-semibold'>
 							No users to follow
 						</p>
 					</div>
 				)}
-				<Suspense fallback={<Recommendation />}>
-					{recommendation?.map((user) => (
-						<div
-							key={user.uid}
-							className='flex items-center space-x-2 mb-2 mt-5 w-full justify-between'
-						>
-							<Link
-								href={`profile/${user.uid}`}
-								className='flex space-x-2 items-center pb-3'
-							>
-								<Image
-									className=' rounded-full'
-									src={user?.image}
-									alt={user?.name ?? ''}
-									width={40}
-									height={40}
-									sizes='40px'
-									placeholder='blur'
-									blurDataURL={user?.image}
-									priority
-									quality={50}
-								/>
-								<div className='flex flex-col items-start justify-center'>
-									<span className='text-black dark:text-white text-sm font-semibold'>
-										@{user.username}
-									</span>
-									<p className=' text-xs text-slate-500'>{user.name}</p>
-								</div>
-							</Link>
-							<div className='ml-auto'>
-								<button
-									type='button'
-									name='follow'
-									className='text-blue-600 font-light text-xs'
-									onClick={async () => {
-										const follow = await import('@/helper/follow');
-										follow.handleFollow(
-											user.uid,
-											session?.user?.uid,
-											session?.user.username
-										);
-									}}
+				{recomendationLoading ? (
+					<div className='flex items-center space-x-3 mb-2 animate-pulse'>
+						<div className='bg-gray-200   dark:bg-gray-700 rounded-full w-9 h-9'></div>
+						<div className='bg-gray-200   dark:bg-gray-700 rounded-full w-24 h-5'></div>
+					</div>
+				) : (
+					<>
+						<Suspense fallback={<Recommendation />}>
+							{reccomend?.map((user) => (
+								<div
+									key={user.uid}
+									className='flex items-center space-x-2 mb-2 mt-5 w-full justify-between'
 								>
-									{user.followers.find(
-										(foll: { followedBy: string }) =>
-											foll.followedBy === session?.user.uid
-									)
-										? 'Following'
-										: 'Follow'}
-								</button>
-							</div>
-						</div>
-					))}
-				</Suspense>
+									<Link
+										href={`profile/${user.uid}`}
+										className='flex space-x-2 items-center pb-3'
+									>
+										<Image
+											className=' rounded-full'
+											src={user?.image}
+											alt={user?.name ?? ''}
+											width={40}
+											height={40}
+											sizes='40px'
+											placeholder='blur'
+											blurDataURL={user?.image}
+											priority
+											quality={50}
+										/>
+										<div className='flex flex-col items-start justify-center'>
+											<span className='text-black dark:text-white text-sm font-semibold'>
+												{user.username}
+											</span>
+											<p className=' text-xs text-slate-500'>{user.name}</p>
+										</div>
+									</Link>
+									<div className='ml-auto'>
+										<button
+											type='button'
+											name='follow'
+											className='text-blue-600 font-light text-xs'
+											onClick={async () => {
+												const follow = await import('@/helper/follow');
+												follow.handleFollow(
+													user.uid,
+													session?.user?.uid,
+													session?.user.username
+												);
+											}}
+										>
+											{user.followers.find(
+												(foll: { followedBy: string }) =>
+													foll.followedBy === session?.user.uid
+											)
+												? 'Following'
+												: 'Follow'}
+										</button>
+									</div>
+								</div>
+							))}
+						</Suspense>
+					</>
+				)}
 			</div>
 			<Footer />
 		</section>

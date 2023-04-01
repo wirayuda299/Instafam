@@ -31,6 +31,7 @@ export default function Results({
 						<Link
 							href={`/profile/${result.uid}`}
 							onClick={handleDrawerToggler}
+							security='restricted'
 							className='flex space-x-3 items-center justify-center'
 						>
 							<Image
@@ -42,8 +43,10 @@ export default function Results({
 								alt='profile'
 							/>
 							<div className='flex flex-col'>
-								<p className='text-sm sm:text-xl'>@{result.username}</p>
-								<span className='text-sm sm:text-base'>{result.name}</span>
+								<p className='text-sm sm:text-xl'>
+									{result.username}
+									<span className='text-xs sm:text-base block'>{result.name}</span>
+								</p>
 							</div>
 						</Link>
 						<button

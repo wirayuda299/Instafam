@@ -41,9 +41,9 @@ export default function Explore({ fallback }: { fallback: any }) {
 					<h1 className='text-center font-semibold text-5xl py-5'>Explore</h1>
 				</div>
 				<div className='container mx-auto'>
-					<div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 p-5 gap-5'>
+					<div className=' grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3'>
 						<SWRConfig value={{ fallback }}>
-							{data?.map((post) => (
+							{data?.map((post, i) => (
 								<Suspense fallback={<Loader />} key={post.docId}>
 									<ExplorePostCard post={post} />
 								</Suspense>

@@ -54,7 +54,7 @@ export default function PostCard({ post, followingLists }: IPostCardProps) {
 					blurDataURL={post.image}
 					referrerPolicy='no-referrer'
 					security='restricted'
-					className=' object-cover w-full h-auto'
+					className=' object-cover w-full h-auto rounded-lg'
 					alt={post?.author ?? 'user post image'}
 				
 				/>

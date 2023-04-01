@@ -1,4 +1,5 @@
 import { db } from "@/config/firebase";
+import { getUsernameFromEmail } from "@/util/usernameGenerator";
 import { setDoc, doc } from "firebase/firestore";
 import NextAuth, { NextAuthOptions } from "next-auth";
 import { JWT } from "next-auth/jwt";
@@ -33,7 +34,7 @@ export const authOptions:NextAuthOptions = {
   callbacks: {
     async session({ session, token }: { session: any, token: JWT }) {
       if (session && session.user) {
-        session.user.username = session.user?.name.split(' ').join('').toLocaleLowerCase();
+        session.user.username = `@${getUsernameFromEmail(session.user.email)}`
         session.user.uid = token.sub;
       }
       return session;
@@ -50,7 +51,7 @@ export const authOptions:NextAuthOptions = {
           followers: [],
           following: [],
           createdAt: Date.now(),
-          username: params.user.name && params.user?.name.split(' ').join('').toLocaleLowerCase(),
+          username: `@${getUsernameFromEmail(params?.user.email)}`,
         },
         {
           merge: true,
@@ -68,7 +69,7 @@ export const authOptions:NextAuthOptions = {
   
   },
   pages: {
-    signIn: '/auth/signin',
+    signIn: '/auth/signin'
   },
  
   secret: process.env.NEXTAUTH_SECRET as string,

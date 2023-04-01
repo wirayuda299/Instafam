@@ -1,6 +1,4 @@
 import Head from 'next/head';
-import { useSession } from 'next-auth/react';
-import useRecommendation from '@/hooks/useRecommendation';
 import dynamic from 'next/dynamic';
 import Loader from '@/components/Loader/Loader';
 import Recommendation from '@/components/Loader/Recommendation';
@@ -12,12 +10,10 @@ const UserPosts = dynamic(
 );
 const Suggestions = dynamic(
 	() => import('@/components/Suggestions/Suggestions'),
-	{ ssr: true, loading: () => <Recommendation /> }
+	{ ssr: false, loading: () => <Recommendation /> }
 );
 
-export default function Home({ fallback }: { fallback: any }) {
-	const { data: session } = useSession();
-	const { reccomend } = useRecommendation(session?.user.uid);
+export default function Home({ fallback }: { fallback: any }) {	
 	return (
 		<>
 			<Head>
@@ -42,7 +38,7 @@ export default function Home({ fallback }: { fallback: any }) {
 					<SWRConfig value={{ fallback }}>
 						<UserPosts />
 					</SWRConfig>
-					<Suggestions recommendation={reccomend} />
+					<Suggestions />
 				</div>
 			</section>
 		</>

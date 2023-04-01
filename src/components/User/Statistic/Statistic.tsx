@@ -47,7 +47,7 @@ export default function Statistic({ sessions, uid, users, posts }: IProps) {
 									<div className='w-full'>
 										<div className='flex justify-between flex-col sm:flex-row sm:items-center gap-2 sm:gap-5'>
 											<h1 className='font-semibold flex-1 text-left text-2xl sm:mb-5 xs1:text-4xl xs1:pb-3 sm:pb-0'>
-												@{sessions?.user.username}
+												{sessions?.user.username}
 											</h1>
 											<button
 												type='button'

@@ -1,5 +1,3 @@
-import { IUserPostProps } from '@/types/post';
-import { rgbDataURL } from '@/util/colorPicker';
 import { DocumentData } from 'firebase/firestore';
 import Image from 'next/image';
 import { memo } from 'react';
@@ -10,7 +8,7 @@ interface IExplorePostCardProps {
 
  function ExplorePostCard({ post }: IExplorePostCardProps) {
 	return (
-		<div className=' rounded-lg shadow-md'>
+		<div className=' rounded-lg shadow-md '>
 			<div className='relative w-full group'>
 				<Image
 					src={post?.image}
@@ -19,9 +17,9 @@ interface IExplorePostCardProps {
 					sizes='100vw'
 					priority
 					placeholder='blur'
-					blurDataURL={rgbDataURL(255, 255, 255)}
+					blurDataURL={ post?.image ?? ''}
 					quality={55}
-					className=' object-cover w-full'
+					className={`object-cover rounded-lg shadow-md `}
 					alt={post?.author ?? 'user post image'}
 					loader={({ src, width, quality }) => {
 						return `${src}?w=${width}&q=${quality || 75}`;
