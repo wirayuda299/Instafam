@@ -1,4 +1,3 @@
-import { IUserPostProps } from '@/types/post';
 import Image from 'next/image';
 import { Session } from 'next-auth';
 import { DocumentData } from 'firebase/firestore';
@@ -31,11 +30,11 @@ export default function Statistic({ sessions, uid, users, posts }: IProps) {
 	return (
 		<div className='w-full'>
 			<div className='text-black dark:text-white w-full'>
-				<div className='flex items-center flex-col sm:flex-row justify-between p-3 sm:justify-center'>
+				<div className='w-full flex items-center flex-col sm:flex-row justify-between sm:justify-around'>
 					<div className='flex items-center justify-start sm:space-x-5 flex-wrap'>
-						<div>
-							<div className='pb-10'>
-								<div className='flex gap-6 items-center'>
+						<div className='py-5'>
+							<div className='pb-5 md:pb-10'>
+								<div className='flex gap-6 xs1:space-x-10 items-center justify-evenly w-full'>
 									<Image
 										src={sessions?.user.image ?? ''}
 										alt={sessions?.user.username ?? ''}
@@ -43,15 +42,16 @@ export default function Statistic({ sessions, uid, users, posts }: IProps) {
 										height={500}
 										sizes='(max-width: 500px) 100vw, 500px'
 										priority
-										className='w-24 h-24 sm:w-36 sm:h-36 rounded-full border p-1'
+										className='w-24 h-24 xs1:w-28 xs1:h-28 rounded-full border p-1'
 									/>
 									<div className='w-full'>
-										<div className='flex justify-between items-center gap-5 flex-col sm:flex-row'>
-											<h1 className='font-semibold text-2xl sm:text-4xl'>
+										<div className='flex justify-between flex-col sm:flex-row sm:items-center gap-2 sm:gap-5'>
+											<h1 className='font-semibold flex-1 text-left text-2xl sm:mb-5 xs1:text-4xl xs1:pb-3 sm:pb-0'>
 												@{sessions?.user.username}
 											</h1>
 											<button
-												className='w-44 sm:w-fit bg-gray-200 font-semibold rounded-md px-2 sm:px-3 py-1'
+												type='button'
+												className='w-full bg-blue-600 truncate text-xs text-white rounded px-5 md:py-2 py-1'
 												name={
 													sessions?.user?.uid === uid
 														? 'Edit profile '
@@ -64,13 +64,14 @@ export default function Statistic({ sessions, uid, users, posts }: IProps) {
 												}
 											>
 												{sessions?.user?.uid === uid ? (
-													<span className='text-sm font-medium text-black text-center'>
+													<span className='text-sm font-medium text-center'>
 														Edit Profile
 													</span>
 												) : (
-													<span className='text-sm font-medium text-black'>
+													<span className='text-sm font-medium text-center'>
 														{users?.followers.find(
-															(foll: { followedBy: string | undefined; }) => foll.followedBy === sessions?.user?.uid
+															(foll: { followedBy: string | undefined }) =>
+																foll.followedBy === sessions?.user?.uid
 														)
 															? 'Unfollow'
 															: 'Follow'}
@@ -78,12 +79,15 @@ export default function Statistic({ sessions, uid, users, posts }: IProps) {
 												)}
 											</button>
 										</div>
+
 										<ul
-											className={`justify-start hidden sm:flex items-center space-x-3 mt-5`}
+											title='Statistic'
+											className={`justify-start hidden sm:flex items-center space-x-3 mt-2`}
 										>
 											{data.map((item) => (
 												<li
-													className='text-sm text-center font-medium mt-2'
+													title={item.title}
+													className='text-sm text-center font-medium mt-1'
 													key={item.id}
 												>
 													<div className='flex space-x-2 items-center font-semibold text-lg'>
@@ -99,11 +103,14 @@ export default function Statistic({ sessions, uid, users, posts }: IProps) {
 						</div>
 					</div>
 				</div>
+				{/* Mobile statistic start */}
 				<ul
+					title='Statistic'
 					className={`justify-evenly sm:hidden border-t border-gray-400 py-5 w-full flex sm:px-5 items-center space-x-3 mt-5`}
 				>
 					{data.map((item) => (
 						<li
+							title={item.title}
 							className='text-sm text-center font-semibold mt-2'
 							key={item.id}
 						>
@@ -114,6 +121,7 @@ export default function Statistic({ sessions, uid, users, posts }: IProps) {
 						</li>
 					))}
 				</ul>
+				{/* Mobile statistic end */}
 			</div>
 		</div>
 	);
