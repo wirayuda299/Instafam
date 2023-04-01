@@ -89,7 +89,7 @@ export const PostHeader: FC<IProps> = ({ post, currentuserUid, username }) => {
 				</Link>
 
 				<span
-					className={`text-xs font-thin antialiased block leading-tight ${
+					className={`text-xs font-thin text-gray-500 antialiased block leading-tight ${
 						currentuserUid === post.postedById
 							? 'hidden pointer-events-none'
 							: ''
@@ -108,7 +108,7 @@ export const PostHeader: FC<IProps> = ({ post, currentuserUid, username }) => {
 							const follow = await import('@/helper/follow');
 							follow.handleFollow(post.postedById, currentuserUid, username);
 						}}
-						className='follBtn text-xs  antialiased block leading-tight'
+						className='text-xs antialiased block leading-tight'
 					>
 						{users[0]?.following?.find(
 							(user: { userId: string }) => user.userId === post.postedById
@@ -117,8 +117,8 @@ export const PostHeader: FC<IProps> = ({ post, currentuserUid, username }) => {
 							: 'Follow'}
 					</button>
 				) : (
-					<p className='text-xs font-thin antialiased block leading-tight'>
-						{createdDate}
+					<p className='text-xs text-gray-500 font-thin antialiased block leading-tight'>
+						{createdDate} 
 					</p>
 				)}
 			</div>

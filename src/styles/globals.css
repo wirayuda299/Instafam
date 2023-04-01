@@ -15,4 +15,5 @@
   max-width: 500px;
   max-height: 500px;
   object-fit: contain;
+  border-radius: 5px;
 }

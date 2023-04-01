@@ -75,7 +75,7 @@ export default function CreatePost() {
 			</Head>
 			<section className='w-full h-screen bg-white dark:bg-[#121212] overflow-y-auto p-5'>
 				<div
-					className={`grid grid-cols-1  place-items-center w-full h-full ${
+					className={`grid grid-cols-1 gap-7 place-items-center w-full h-full ${
 						!img ? '' : 'md:grid-cols-2'
 					}`}
 				>

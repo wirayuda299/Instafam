@@ -4,7 +4,7 @@ import Image from 'next/image';
 import { PostActions } from './ActionButton';
 import { PostHeader } from './Header';
 import { PostAuthor } from './Author';
-import { PostComment } from './Comments';
+import { IComment, PostComment } from './Comments';
 import { db } from '@/config/firebase';
 import { doc, onSnapshot } from 'firebase/firestore';
 import { useSession } from 'next-auth/react';
@@ -19,7 +19,7 @@ export interface IPostCardProps {
 }
 
 export default function PostCard({ post, followingLists }: IPostCardProps) {
-	const [comment, setComment] = useState<string>('');
+	const [comment, setComment] = useState<IComment[]>([]);
 	const [likesCount, setLikesCount] = useState<number>(0);
 	const [commentOpen, setCommentOpen] = useState<boolean>(false);
 	const { data: session } = useSession();
@@ -32,6 +32,15 @@ export default function PostCard({ post, followingLists }: IPostCardProps) {
 		});
 		return () => unsub();
 	}, [post.postId]);
+
+	useEffect(() => {
+		const unsub = onSnapshot(doc(db, 'posts', `post-${post.postId}`), (doc) => {
+			if (doc.exists()) {				
+				setComment(doc.data().comments);
+			}
+		});
+		return () => unsub();
+	}, [db]);
 
 
 	return (
@@ -73,6 +82,7 @@ export default function PostCard({ post, followingLists }: IPostCardProps) {
 				</p>
 				<PostAuthor post={post} />
 				<PostComment
+				comments={comment}
 					post={post}
 					session={session}
 					commentOpen={commentOpen}

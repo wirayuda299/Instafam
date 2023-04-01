@@ -66,10 +66,12 @@ function Suggestions() {
 					</div>
 				)}
 				{recomendationLoading ? (
-					<div className='flex items-center space-x-3 mb-2 animate-pulse'>
+					[1,2,3,4,5].map((_, i) => (
+						<div className='flex items-center space-x-3 mb-2 animate-pulse' key={i}>
 						<div className='bg-gray-200   dark:bg-gray-700 rounded-full w-9 h-9'></div>
 						<div className='bg-gray-200   dark:bg-gray-700 rounded-full w-24 h-5'></div>
 					</div>
+					))
 				) : (
 					<>
 						<Suspense fallback={<Recommendation />}>

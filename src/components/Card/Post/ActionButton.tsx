@@ -46,8 +46,6 @@ export const PostActions: FC<IProps> = ({
 		};
 	}, [db, uid]);
 	
-
-
 	return (
 		<div className='flex items-center justify-between mt-3 mb-2 p-1'>
 			<div className='flex gap-x-5'>

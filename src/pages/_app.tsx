@@ -20,6 +20,7 @@ export default function App({
 				<Layout>
 					<Component {...pageProps} />
 					<Analytics/>
+				
 				</Layout>
 			</RecoilRoot>
 		</SessionProvider>

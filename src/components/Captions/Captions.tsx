@@ -15,7 +15,7 @@ export default function Captions({ handlePost, loading }: Props) {
 	return (
 		<div
 			id='create-post'
-			className={`w-full mt-14 rounded-md max-h-[800px] shadow-lg dark:border-gray-500 p-2 bg-white dark:bg-black ${
+			className={`w-full mt-14 rounded-md max-h-full shadow-lg dark:border-gray-500 p-2 bg-white dark:bg-black ${
 				!img ? 'hidden' : 'block'
 			}`}
 		>
@@ -44,7 +44,7 @@ export default function Captions({ handlePost, loading }: Props) {
 				></textarea>
 				<button
 					disabled={loading}
-					name='post '
+					name='post'
 					type='button'
 					title='post'
 					onClick={handlePost}

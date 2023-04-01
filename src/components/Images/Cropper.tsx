@@ -40,7 +40,7 @@ export default function ImageCropper() {
 		<>
 			<ImageInput setPreviewUrl={setImg} img={img} />
 			{img ? (
-				<div className={`w-full flex justify-center items-center `}>
+				<div className={`w-full flex justify-center items-center rounded-md`}>
 					<div
 						className={`w-full h-full relative ${
 							img !== '' ? 'block' : 'hidden'
