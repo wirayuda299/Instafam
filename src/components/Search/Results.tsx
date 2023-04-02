@@ -42,9 +42,9 @@ export default function Results({
 								alt='profile'
 							/>
 							<div className='flex flex-col'>
-								<p className='text-sm sm:text-xl'>
+								<p className='text-sm font-semibold'>
 									{result.username}
-									<span className='text-xs sm:text-base block'>{result.name}</span>
+									<span className='text-xs block'>{result.name}</span>
 								</p>
 							</div>
 						</Link>

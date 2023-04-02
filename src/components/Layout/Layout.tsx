@@ -10,7 +10,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 	return (
 		<>
 			<Head>
-				<title>Instafam - Connect with people around the world</title>
+				<title>Instafam &#8226; Connect with people around the world</title>
 				<meta
 					name='description'
 					content='Instafam is social media web app that let you connect with people around the world'
@@ -22,7 +22,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 				<meta name='viewport' content='width=device-width, initial-scale=1' />
 				<link rel='icon' href='/favicon.ico' />
 			</Head>
-			<div className='bg-white h-full w-full dark:bg-black transition-all'>
+			<div className='bg-white h-full w-full dark:bg-black transition-all max-w-[1600px] mx-auto'>
 				<div className='flex h-full w-full'>
 					<section className='hidden md:block'>
 						<Sidebar />

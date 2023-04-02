@@ -13,7 +13,7 @@ export default function Explore({ fallback }: { fallback: any }) {
 	return (
 		<>
 			<Head>
-				<title>Explore popular posts | Instafam</title>
+				<title>Explore popular posts  &#8226; Instafam</title>
 				<meta
 					name='description'
 					content='Explore new posts and discover new accounts on Instafam.'

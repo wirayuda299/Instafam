@@ -1,6 +1,6 @@
 import { db } from '@/config/firebase';
 import { resultsState } from '@/store/results';
-import { query, collection, getDocs } from 'firebase/firestore';
+import { query, collection, getDocs, where } from 'firebase/firestore';
 import { useForm } from 'react-hook-form';
 import { useRecoilState } from 'recoil';
 
@@ -10,18 +10,18 @@ export default function useSearchUser() {
   const [results, setResults] = useRecoilState(resultsState)
 
 	const onSubmit = async (data: any) => {
+		resetField('search');
 		try {
-			const q = query(collection(db, 'users'));
+			const q = query(collection(db, 'users'), where('username', '==', data.search));
+			const nameQueries = query(collection(db, 'users'), where('name', '==', data.search));
+			
 			const res = await getDocs(q);
-			const searchValueRegex = new RegExp(data.search, 'i');
-			const filtered = res.docs.filter((doc) => {
-				return (
-					searchValueRegex.test(doc.data().username) ||
-					searchValueRegex.test(doc.data().name)
-				);
-			});
-			setResults(filtered.map((doc) => doc.data()));
-			resetField('search');
+			if(res.docs.length < 1){
+				const nameRes = await getDocs(nameQueries);
+				setResults(nameRes.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+				return;
+			}
+			setResults(res.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
 		} catch (error: any) {
 			console.log(error.message);
 		}

@@ -71,7 +71,7 @@ export default function CreatePost() {
 	return (
 		<>
 			<Head>
-				<title>Create New Post | Instafam</title>
+				<title>Create New Post  &#8226; Instafam</title>
 			</Head>
 			<section className='w-full h-screen bg-white dark:bg-[#121212] overflow-y-auto p-5'>
 				<div

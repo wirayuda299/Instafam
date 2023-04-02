@@ -7,7 +7,7 @@ export default function Messages() {
 	return (
 		<>
 			<Head>
-				<title>Messages | Instafam</title>
+				<title>Messages  &#8226; Instafam</title>
 			</Head>
 			<div className='w-full h-full'>
 				<div className='flex flex-row h-screen antialiased text-gray-800 w-full overflow-hidden'>

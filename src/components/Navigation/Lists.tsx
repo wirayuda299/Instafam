@@ -129,8 +129,6 @@ export default function NavbarLists() {
 							href={list.path}
 							onClick={toggler}
 							title={list.title}
-							shallow
-							scroll
 							aria-current={pathname === list.path ? 'page' : undefined}
 							as={list.path}
 						>

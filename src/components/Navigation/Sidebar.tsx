@@ -25,7 +25,7 @@ export default function Sidebar() {
 			{session ? (
 				<aside
 					className={` hidden md:block min-h-screen border-r  dark:border-r-gray-600 transition-all ease-out duration-300  ${
-						drawerOpen ? 'w-20' : 'md:w-max lg:w-72 '
+						drawerOpen ? 'w-20' : 'md:w-max lg:w-64 '
 					}`}
 				>
 					<nav className='w-full bg-white dark:bg-black dark:text-white p-3 h-full transition-all ease-out duration-300'>

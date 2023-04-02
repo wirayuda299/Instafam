@@ -3,6 +3,7 @@ import { resultsState } from '@/store/results';
 import { ReactNode } from 'react';
 import { useRecoilState } from 'recoil';
 import Results from './Results';
+import { searchDrawer } from '@/store/searchDrawer';
 
 const defaultValues = {
 	search: '',
@@ -15,8 +16,10 @@ type Props ={
 export default function Form({ height, children }: Props) {
 	const { handleSubmit, onSubmit, register } = useSearchUser();
 	const [results, setResults] = useRecoilState(resultsState);
+	const [drawerOpen, setDrawerOpen] = useRecoilState(searchDrawer);
 	const handleDrawerToggler = () => {
-		setResults([]);
+		setResults([]);  
+				setDrawerOpen(false);
 	};
 	return (
 		<>
@@ -35,7 +38,6 @@ export default function Form({ height, children }: Props) {
 								security='restricted'
 								className='bg-transparent text-xs md:text-sm w-full py-2 focus:outline-none focus:border-0 focus:ring-0'
 								defaultValue={defaultValues.search}
-								pattern='^[a-zA-Z0-9_@./#&+-]*$'
 								{...register('search')}
 							/>
 							{children}

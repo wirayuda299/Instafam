@@ -112,7 +112,7 @@ export default function UserProfile() {
 		<>
 			<Head>
 				<title>
-					{user ? user[0].name : ''}({user ? user[0].username : ''}) - Instafam
+					{user ? user[0].name : ''}({user ? user[0].username : ''}) &#8226; Instafam
 				</title>
 				<link rel='icon' href={user && user[0]?.image} />
 				<meta
