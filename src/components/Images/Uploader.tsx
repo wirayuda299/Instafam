@@ -8,16 +8,42 @@ interface IProps {
 
 export const ImageInput: FC<IProps> = ({ setPreviewUrl, img }) => {
 	const handleInputImage = async (e: ChangeEvent<HTMLInputElement>) => {
-		let selectedFile = e.target.files?.[0];
-		if (!selectedFile) return;
+		try {
+			let selectedFile = e.target.files?.[0];
+			if (!selectedFile) return;
+			const data = new FormData();
+			data.append('image', selectedFile, selectedFile.name);
 
-		const reader = new FileReader();
-		reader.onload = async (event) => {
-			if (event.target) {
-				return setPreviewUrl(event.target.result as string);
-			}
-		};
-		reader.readAsDataURL(selectedFile);
+			const options = {
+				method: 'POST',
+				headers: {
+					'X-RapidAPI-Key': process.env.X_RapidAPI_KEY ?? '',
+					'X-RapidAPI-Host': process.env.X_RapidAPI_HOST ?? '',
+				},
+				body: data,
+			};
+			const getResult = await fetch(
+				'https://nsfw-images-detection-and-classification.p.rapidapi.com/adult-content-file',
+				options
+			);
+			const result = await getResult.json();
+
+			const reader = new FileReader();
+			reader.onload = async (event) => {
+				if (event.target) {
+					if (result.unsafe) {
+						alert(
+							'Your uploaded image is contains adult content, please upload an image that does not contain adult content for the safety of our users.'
+						);
+						return 
+					}
+					return setPreviewUrl(event.target.result as string);
+				}
+			};
+			reader.readAsDataURL(selectedFile);
+		} catch (error: any) {
+			console.log(error.message);
+		}
 	};
 	return (
 		<div

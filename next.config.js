@@ -37,6 +37,8 @@ const nextConfig = {
     GOOGLE_CLIENT_SECRET: process.env.GOOGLE_CLIENT_SECRET,
     NEXTAUTH_URL: process.env.NEXTAUTH_URL,
     NEXTAUTH_SECRET: process.env.NEXTAUTH_SECRET,
+    X_RapidAPI_KEY: process.env.X_RapidAPI_KEY,
+    X_RapidAPI_HOST: process.env.X_RapidAPI_HOST,
   },
   optimizeFonts: true,
 
