@@ -27,7 +27,7 @@ export default function Explore({ fallback }: { fallback: any }) {
 					<div className=' grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3'>
 						<SWRConfig value={{ fallback }}>
 							{data?.map((post) => (
-								<ExplorePostCard post={post} key={post.docId} />
+								<ExplorePostCard post={post} key={post.postId} />
 							))}
 						</SWRConfig>
 					</div>
