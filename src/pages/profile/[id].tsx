@@ -144,7 +144,7 @@ export default function UserProfile() {
 					{postTab && (
 						<>
 							{data?.map((post) => (
-								<ExplorePostCard post={post} key={post.docId} />
+								<ExplorePostCard post={post} key={post.postId} />
 							))}
 						</>
 					)}
