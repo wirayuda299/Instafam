@@ -17,7 +17,7 @@ function UserPosts() {
 					<PostCard
 						post={post}
 						followingLists={user && user[0]?.following}
-						key={post.docId}
+						key={post.postId}
 					/>
 				))}
 				{hasMore ? (
