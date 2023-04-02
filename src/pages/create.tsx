@@ -33,12 +33,12 @@ export default function CreatePost() {
 				.match(/#(?!\n)(.+)/g)
 				?.join(' ')
 				.split(' ') || [];
-		const randomNum = Math.floor(Math.random() * 7654391);
 		const uuid = crypto.randomUUID();
 		try {
 			if (!session) router.push('/auth/signin');
+			const storageRef =`post/${uuid}/image`
 
-			const imageRef = ref(storage, `post/${uuid}/image`);
+			const imageRef = ref(storage, storageRef);
 			await uploadString(imageRef, croppedImg ?? '', 'data_url').then(
 				async () => {
 					const downloadUrl = await getDownloadURL(imageRef);
@@ -50,7 +50,7 @@ export default function CreatePost() {
 						image: downloadUrl,
 						postedByPhotoUrl: session?.user?.image,
 						likedBy: [],
-						docId: `post-${randomNum}`,
+						storageRef,
 						createdAt: Date.now(),
 						hashtags,
 						tags: [],

@@ -1,9 +1,11 @@
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
-import { db } from '@/config/firebase';
-import { onSnapshot, DocumentData, doc } from 'firebase/firestore';
+import { db, storage } from '@/config/firebase';
+import { onSnapshot, DocumentData, doc, deleteDoc } from 'firebase/firestore';
 import { useSession } from 'next-auth/react';
 import Link from 'next/link';
+import { getCreatedDate } from '@/util/postDate';
+import { deleteObject, ref } from 'firebase/storage';
 type Props = {
 	currentuserUid: string;
 	post: DocumentData;
@@ -16,37 +18,8 @@ export default function Postheader({ currentuserUid, post, username }: Props) {
 	const { data: session } = useSession();
 
 	useEffect(() => {
-		const now = Date.now();
-		const diff = now - Number(post.createdAt);
-
-		const diffSeconds = Math.floor(diff / 1000);
-		const diffMinutes = Math.floor(diff / (1000 * 60));
-		const diffHours = Math.floor(diff / (1000 * 60 * 60));
-		const diffDays = Math.floor(diff / (1000 * 60 * 60 * 24));
-		const diffWeeks = Math.floor(diff / (1000 * 60 * 60 * 24 * 7));
-		const diffMonths = Math.floor(diff / (1000 * 60 * 60 * 24 * 30));
-		const diffYears = Math.floor(diff / (1000 * 60 * 60 * 24 * 365));
-
-		let diffString;
-		if (diffSeconds < 60) {
-			diffString = 'just now';
-		} else if (diffMinutes < 60) {
-			diffString = `${diffMinutes} ${
-				diffMinutes > 1 ? 'minutes' : 'minute'
-			} ago`;
-		} else if (diffHours < 24) {
-			diffString = `${diffHours} ${diffHours > 1 ? 'hours' : 'hour'} ago`;
-		} else if (diffDays < 7) {
-			diffString = `${diffDays}  ${diffDays > 1 ? 'days' : 'day'} ago`;
-		} else if (diffWeeks < 4) {
-			diffString = `${diffWeeks} ${diffWeeks > 1 ? 'weeks' : 'week'} ago`;
-		} else if (diffMonths < 12) {
-			diffString = `${diffMonths}  ${diffMonths > 1 ? 'months' : 'month'} ago`;
-		} else {
-			diffString = `${diffYears}  ${diffYears > 1 ? 'years' : 'year'} ago`;
-		}
-		setCreatedDate(diffString);
-	}, [post.postId, currentuserUid]);
+		setCreatedDate(getCreatedDate(post));
+	}, [post, currentuserUid]);
 
 	useEffect(() => {
 		const unsub = onSnapshot(
@@ -59,12 +32,26 @@ export default function Postheader({ currentuserUid, post, username }: Props) {
 		);
 		return () => unsub();
 	}, [db, post, currentuserUid]);
-	
+
+	const deletePost = async () => {
+		try {
+			const postRef = ref(storage, post.storageRef);
+			const deleteFromFirestore = await deleteDoc(
+				doc(db, 'posts', `post-${post.postId}`)
+			);
+			const deleteFromStorage = await deleteObject(postRef);
+			await Promise.all([deleteFromFirestore, deleteFromStorage]).then(() => {
+				window.location.reload();
+			});
+		} catch (error: any) {
+			console.log(error.message);
+		}
+	};
 
 	return (
 		<div className='flex items-center px-4 py-3 h-fit'>
 			<Image
-				className='h-8 w-8 rounded-full avatar'
+				className='h-8 w-8 rounded-full object-cover'
 				alt={post?.author ?? 'user profile'}
 				width={50}
 				height={50}
@@ -74,25 +61,53 @@ export default function Postheader({ currentuserUid, post, username }: Props) {
 				sizes='50px'
 				src={post?.postedByPhotoUrl || ''}
 			/>
-			<div className='ml-3 flex-1'>
-				<Link
-					href={`profile/${post.postedById}`}
-					className='text-sm font-semibold antialiased block leading-tight'
-				>
-					{post?.author}
-				</Link>
+			<div className='ml-3 w-full flex justify-between items-center'>
+				<div>
+					<Link
+						href={`profile/${post.postedById}`}
+						className='text-sm font-semibold antialiased block leading-tight'
+					>
+						{post?.author}
+						<span
+							className={`text-xs font-thin text-gray-500 antialiased block leading-tight `}
+						>
+							{createdDate}
+						</span>
+					</Link>
+				</div>
 
-				<span
-					className={`text-xs font-thin text-gray-500 antialiased block leading-tight ${
-						currentuserUid === post.postedById
-							? 'hidden pointer-events-none'
-							: ''
-					}`}
-				>
-					{createdDate}
-				</span>
+				<div>
+					{currentuserUid === post.postedById ? (
+						<button
+							onClick={deletePost}
+							type='button'
+							name='delete'
+							title='delete'
+							className='text-xs antialiased block leading-tight text-red-600'
+						>
+							Delete
+						</button>
+					) : (
+						<button
+							type='button'
+							name='follow'
+							title='follow'
+							onClick={async () => {
+								const follow = await import('@/helper/follow');
+								follow.handleFollow(post.postedById, currentuserUid, username);
+							}}
+							className='text-xs antialiased block leading-tight'
+						>
+							{users?.following?.find(
+								(user: { userId: string }) => user.userId === post.postedById
+							)
+								? 'Following'
+								: 'Follow'}
+						</button>
+					)}
+				</div>
 			</div>
-			<div className='relative flex justify-between items-center'>
+			{/* <div className='relative flex justify-between items-center'>
 				{currentuserUid !== post.postedById ? (
 					<button
 						type='button'
@@ -109,13 +124,23 @@ export default function Postheader({ currentuserUid, post, username }: Props) {
 						)
 							? 'Following'
 							: 'Follow'}
+						<span
+							className={`text-xs font-thin text-gray-500 antialiased block leading-tight `}
+						>
+							{createdDate}
+						</span>
 					</button>
 				) : (
-					<p className='text-xs text-gray-500 font-thin antialiased block leading-tight'>
-						{createdDate}
-					</p>
+					<button
+						type='button'
+						name='delete'
+						title='delete'
+						className='text-xs antialiased block leading-tight'
+					>
+						Delete
+					</button>
 				)}
-			</div>
+			</div> */}
 		</div>
 	);
 }

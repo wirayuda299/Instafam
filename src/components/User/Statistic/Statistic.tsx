@@ -69,7 +69,7 @@ export default function Statistic({ uid, users, posts }: IProps) {
 													<span className='text-sm font-medium text-center'>
 														{users?.followers.find(
 															(foll: { followedBy: string | undefined }) =>
-																foll.followedBy === users[0].uid.uid
+																foll.followedBy === users.uid
 														)
 															? 'Unfollow'
 															: 'Follow'}

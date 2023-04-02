@@ -27,11 +27,11 @@ export async function fetcher() {
 
 export default function usePosts(uid?: string | undefined) {
 	const [hasMore, setHasMore] = useState(true);
-	const { data, error, mutate, isValidating, isLoading } = useSWR<
+	const { data, error, mutate, isValidating, isLoading,} = useSWR<
 		IUserPostProps[]
-	>('userPosts', async () => {
+	>(['userPosts'], async () => {
 		return fetcher();
-	});
+	}, {revalidateOnMount: true});
 	const {
 		data: user,
 		error: userError,

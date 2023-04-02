@@ -1,18 +1,46 @@
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import Link from 'next/link';
-import { memo } from 'react';
+import { memo, useEffect, useState } from 'react';
 import { useSession } from 'next-auth/react';
 import useRecommendation from '@/hooks/useRecommendation';
+import { db } from '@/config/firebase';
 const Footer = dynamic(() => import('@/components/Footer'), {
 	ssr: true,
 });
-
+type Followers = {
+	followedBy: string;
+	followedByName: string;
+}[];
 function Suggestions() {
 	const { data: session } = useSession();
 	const { reccomend, recomendationLoading } = useRecommendation(
 		session?.user.uid
 	);
+	const [followers, setFollowers] = useState<Followers[] | undefined>([]);
+	useEffect(() => {
+		const follower = reccomend?.map((user) => user.followers);
+		setFollowers(follower);
+	}, [reccomend]);
+
+	const dataFollowers = [
+		[
+			[
+				{
+					followedBy: 'userID',
+					followedByName: 'user1',
+				},
+				{
+					followedBy: 'userID',
+					followedByName: 'user1',
+				},
+				{
+					followedBy: 'userID',
+					followedByName: 'user1',
+				},
+			],
+		],
+	];
 
 	return (
 		<section className='min-w-[400px] hidden lg:block'>
@@ -26,8 +54,7 @@ function Suggestions() {
 							width={45}
 							height={45}
 							sizes='45px'
-							loading='lazy'
-							
+							priority
 							quality={50}
 						/>
 						<span className='text-black dark:text-white text-base font-semibold'>
@@ -82,10 +109,7 @@ function Suggestions() {
 								key={user.uid}
 								className='flex items-center space-x-2 mb-2 mt-5 w-full justify-between'
 							>
-								<Link
-									href={`profile/${user.uid}`}
-									className='flex space-x-2 items-center pb-3'
-								>
+								<div className='flex space-x-2 items-center pb-3'>
 									<Image
 										className=' rounded-full'
 										src={user?.image}
@@ -104,29 +128,10 @@ function Suggestions() {
 										</span>
 										<p className=' text-xs text-slate-500'>{user.name}</p>
 									</div>
-								</Link>
-								<div className='ml-auto'>
-									<button
-										type='button'
-										name='follow'
-										className='text-blue-600 font-light text-xs'
-										onClick={async () => {
-											const follow = await import('@/helper/follow');
-											follow.handleFollow(
-												user.uid,
-												session?.user?.uid,
-												session?.user.username
-											);
-										}}
-									>
-										{user.followers.find(
-											(foll: { followedBy: string }) =>
-												foll.followedBy === session?.user.uid
-										)
-											? 'Following'
-											: 'Follow'}
-									</button>
 								</div>
+								<Link className='ml-auto' href={`/profile/${user?.uid}`}>
+									<span className='text-blue-600 font-light text-xs'>View</span>
+								</Link>
 							</div>
 						))}
 					</>

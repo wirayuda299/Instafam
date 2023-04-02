@@ -15,7 +15,8 @@ Welcome to Instafam! This is a social media app that allows you to connect with 
 - Save posts to your profile
 - View your saved posts
 - Create a post
-- View your posts
+- View your posts,
+- Delete your posts
 
 
 
