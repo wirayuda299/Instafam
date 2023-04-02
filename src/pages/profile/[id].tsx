@@ -56,7 +56,7 @@ export default function UserProfile() {
 	const { data: user } = useSWR('currentUser', async () => {
 		const userQuery = query(
 			collection(db, 'users'),
-			where('uid', '==', session?.user?.uid)
+			where('uid', '==',queries.id)
 		);
 		const snapshot = await getDocs(userQuery);
 		const user = snapshot.docs.map((doc) => doc.data()) as IUser[];
@@ -68,7 +68,7 @@ export default function UserProfile() {
 			const postsQuery = query(
 				collection(db, 'posts'),
 				orderBy('createdAt', 'desc'),
-				where('postedById', '==', session?.user?.uid),
+				where('postedById', '==',queries.id),
 				limit(5)
 			);
 			const snapshot = await getDocs(postsQuery);
@@ -89,7 +89,7 @@ export default function UserProfile() {
 		const postsQuery = query(
 			collection(db, 'posts'),
 			orderBy('createdAt', 'desc'),
-			where('postedById', '==', session?.user?.uid),
+			where('postedById', '==',queries.id),
 			startAfter(lastPost?.createdAt),
 			limit(5)
 		);
@@ -112,7 +112,7 @@ export default function UserProfile() {
 		<>
 			<Head>
 				<title>
-					{user ? user[0].name : ''}(@{user ? user[0].username : ''}) - Instafam
+					{user ? user[0].name : ''}({user ? user[0].username : ''}) - Instafam
 				</title>
 				<link rel='icon' href={user && user[0]?.image} />
 				<meta
@@ -132,8 +132,7 @@ export default function UserProfile() {
 			<div className='w-full h-screen overflow-y-auto py-5 mx-auto p-5'>
 				<div className='flex items-center border-b border-gray-400 w-full space-x-3 md:justify-center md:space-x-10'>
 					<Statistic
-						sessions={session}
-						uid={queries.id}
+						uid={session?.user?.uid}
 						users={user && user[0] }
 						posts={data ?? []}
 

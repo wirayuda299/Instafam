@@ -31,7 +31,7 @@ export const ImageInput: FC<IProps> = ({ setPreviewUrl, img }) => {
 			const reader = new FileReader();
 			reader.onload = async (event) => {
 				if (event.target) {
-					if (result.unsafe) {
+					if (await result.unsafe) {
 						alert(
 							'Your uploaded image is contains adult content, please upload an image that does not contain adult content for the safety of our users.'
 						);

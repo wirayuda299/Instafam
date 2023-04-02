@@ -15,6 +15,7 @@ export default function Results({
 	setResults,
 	customs,
 }: Props) {
+	
 	return (
 		<div
 			className={`w-full h-full px-5 md:px-0 result flex justify-center bg-white text-black dark:bg-black dark:text-white transition-all ${
@@ -30,7 +31,6 @@ export default function Results({
 						<Link
 							href={`/profile/${result.uid}`}
 							onClick={handleDrawerToggler}
-							security='restricted'
 							className='flex space-x-3 items-center justify-center'
 						>
 							<Image

@@ -1,14 +1,12 @@
 import Image from 'next/image';
-import { Session } from 'next-auth';
 import { DocumentData } from 'firebase/firestore';
 interface IProps {
-	sessions: Session | null;
 	uid: string[] | string | undefined;
 	users: DocumentData | undefined;
 	posts: DocumentData[] | [];
 }
 
-export default function Statistic({ sessions, uid, users, posts }: IProps) {
+export default function Statistic({ uid, users, posts }: IProps) {
 	const data = [
 		{
 			id: 1,
@@ -36,8 +34,8 @@ export default function Statistic({ sessions, uid, users, posts }: IProps) {
 							<div className='pb-5 md:pb-10'>
 								<div className='flex gap-6 xs1:space-x-10 items-center justify-evenly w-full'>
 									<Image
-										src={sessions?.user.image ?? ''}
-										alt={sessions?.user.username ?? ''}
+										src={users ? users?.image : ''}
+										alt={users ?  users?.username : ''}
 										width={500}
 										height={500}
 										sizes='(max-width: 500px) 100vw, 500px'
@@ -47,23 +45,23 @@ export default function Statistic({ sessions, uid, users, posts }: IProps) {
 									<div className='w-full'>
 										<div className='flex justify-between flex-col sm:flex-row sm:items-center gap-2 sm:gap-5'>
 											<h1 className='font-semibold flex-1 text-left text-2xl sm:mb-5 xs1:text-4xl xs1:pb-3 sm:pb-0'>
-												{sessions?.user.username}
+												{users ?  users?.username : ''}
 											</h1>
 											<button
 												type='button'
 												className='w-full bg-blue-600 truncate text-xs text-white rounded px-5 md:py-2 py-1'
 												name={
-													sessions?.user?.uid === uid
+													users?.uid === uid
 														? 'Edit profile '
 														: 'Follow '
 												}
 												title={
-													sessions?.user?.uid === uid
+													users?.uid === uid
 														? 'Edit profile '
 														: 'Follow '
 												}
 											>
-												{sessions?.user?.uid === uid ? (
+												{users?.uid === uid ? (
 													<span className='text-sm font-medium text-center'>
 														Edit Profile
 													</span>
@@ -71,7 +69,7 @@ export default function Statistic({ sessions, uid, users, posts }: IProps) {
 													<span className='text-sm font-medium text-center'>
 														{users?.followers.find(
 															(foll: { followedBy: string | undefined }) =>
-																foll.followedBy === sessions?.user?.uid
+																foll.followedBy === users[0].uid.uid
 														)
 															? 'Unfollow'
 															: 'Follow'}

@@ -6,7 +6,6 @@ import { doc, onSnapshot } from 'firebase/firestore';
 import { db } from '@/config/firebase';
 import { RiBookmarkFill } from 'react-icons/ri';
 import { BiBookmark } from 'react-icons/bi';
-import { IUser } from '@/types/user';
 
 type Props = {
 	post: IUserPostProps;
@@ -33,7 +32,8 @@ export default function ActionButton({
 	}, [post.postId, uid, db]);
 	useEffect(() => {
 		const unsub = onSnapshot(doc(db, 'users', `${uid}`), (doc) => {
-			setSavedPosts(doc.data()?.savedPosts);
+			const savedPosts = doc.data()?.savedPosts;
+			setSavedPosts(savedPosts.map((post: { postId: string; }) => post.postId));
 		});
 		return () => unsub();
 	}, [db, uid]);
