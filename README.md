@@ -17,6 +17,7 @@ Welcome to Instafam! This is a social media app that allows you to connect with 
 - Create a post
 - View your posts,
 - Delete your posts
+- Simple detection of nudity in images while create a post
 
 
 
