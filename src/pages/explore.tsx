@@ -59,7 +59,7 @@ export async function getStaticProps() {
 	return {
 		props: {
 			fallback: {
-				'/api/posts': postsQuery,
+				'/posts': postsQuery,
 			},
 		},
 	};

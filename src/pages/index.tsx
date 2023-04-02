@@ -22,7 +22,6 @@ export default function Home({ fallback }: { fallback: any }) {
 
 export async function getServerSideProps() {
 	const posts = await fetcher()
-	
 	return {
 		props: {
 			fallback: {

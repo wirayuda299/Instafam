@@ -5,7 +5,7 @@ export interface IUserPostProps {
   postedById: string
   author: string
   postedByPhotoUrl: string
-  docId: string,
+  storageRef: string,
   likedBy: string[]
   createdAt: string | number
   comments: ICommentsProps[]

@@ -29,14 +29,14 @@ export default function ActionButton({
 				setLikes(doc.data().likedBy);
 			}
 		});
-	}, [post.postId, uid, db]);
+	}, [db]);
 	useEffect(() => {
 		const unsub = onSnapshot(doc(db, 'users', `${uid}`), (doc) => {
 			const savedPosts = doc.data()?.savedPosts;
-			setSavedPosts(savedPosts.map((post: { postId: string; }) => post.postId));
+			setSavedPosts(savedPosts.map((post: { postId: string }) => post.postId));
 		});
 		return () => unsub();
-	}, [db, uid]);
+	}, [db]);
 
 	return (
 		<div className='flex items-center justify-between mt-3 mb-2 p-1'>

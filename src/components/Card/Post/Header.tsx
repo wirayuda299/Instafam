@@ -1,11 +1,10 @@
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
-import { db, storage } from '@/config/firebase';
-import { onSnapshot, DocumentData, doc, deleteDoc } from 'firebase/firestore';
+import { db } from '@/config/firebase';
+import { onSnapshot, DocumentData, doc } from 'firebase/firestore';
 import { useSession } from 'next-auth/react';
 import Link from 'next/link';
 import { getCreatedDate } from '@/util/postDate';
-import { deleteObject, ref } from 'firebase/storage';
 type Props = {
 	currentuserUid: string;
 	post: DocumentData;
@@ -33,21 +32,7 @@ export default function Postheader({ currentuserUid, post, username }: Props) {
 		return () => unsub();
 	}, [db, post, currentuserUid]);
 
-	const deletePost = async () => {
-		try {
-			const postRef = ref(storage, post.storageRef);
-			const deleteFromFirestore = await deleteDoc(
-				doc(db, 'posts', `post-${post.postId}`)
-			);
-			const deleteFromStorage = await deleteObject(postRef);
-			await Promise.all([deleteFromFirestore, deleteFromStorage]).then(() => {
-				window.location.reload();
-			});
-		} catch (error: any) {
-			console.log(error.message);
-		}
-	};
-
+	
 	return (
 		<div className='flex items-center px-4 py-3 h-fit'>
 			<Image
@@ -79,7 +64,11 @@ export default function Postheader({ currentuserUid, post, username }: Props) {
 				<div>
 					{currentuserUid === post.postedById ? (
 						<button
-							onClick={deletePost}
+							onClick={async () => {
+								const dlete = await import('@/helper/deletePost');
+								dlete.deletePost(post);
+
+							}}
 							type='button'
 							name='delete'
 							title='delete'
