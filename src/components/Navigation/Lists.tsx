@@ -1,6 +1,5 @@
 import { useSession } from 'next-auth/react';
 import Link from 'next/link';
-import { Dispatch, FC, SetStateAction } from 'react';
 import {
 	AiOutlineHome,
 	AiOutlineSearch,
@@ -10,29 +9,26 @@ import {
 import { MdOutlineExplore } from 'react-icons/md';
 import { RiMessengerLine } from 'react-icons/ri';
 import Image from 'next/image';
-import { ExtraMenuBtn } from './ExtraMenuBtn';
+import ExtraMenuBtn from './ExtraMenuBtn';
 import { searchDrawer } from '@/store/searchDrawer';
 import { useRecoilState } from 'recoil';
 import { rgbDataURL } from '@/util/colorPicker';
 import { resultsState } from '@/store/results';
 import { useRouter } from 'next/router';
-interface IProps {
-	extraListOpen: boolean;
-	setExtraListOpen: Dispatch<SetStateAction<boolean>>;
-}
-interface INavProps {
+
+type NavProps = {
 	id: number;
 	title: string;
 	path: string;
 	icon: JSX.Element | string;
-}
+};
 
-export const NavbarList: FC<IProps> = () => {
+export default function NavbarLists() {
 	const { data: session } = useSession();
 	const { pathname } = useRouter();
 	const [drawerOpen, setDrawerOpen] = useRecoilState(searchDrawer);
 	const [results, setResults] = useRecoilState(resultsState);
-	const navList: INavProps[] = [
+	const navList: NavProps[] = [
 		{
 			id: 1,
 			title: 'Home',
@@ -157,4 +153,4 @@ export const NavbarList: FC<IProps> = () => {
 			<ExtraMenuBtn />
 		</ul>
 	);
-};
+}

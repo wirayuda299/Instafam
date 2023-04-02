@@ -5,15 +5,15 @@ import { IUserPostProps } from '@/types/post';
 import Loader from '@/components/Loader/Loader';
 import dynamic from 'next/dynamic';
 
-interface ISavedPostsProps {
+type ISavedPostsProps = {
 	savedPosts: IUserPostProps[] | undefined;
-}
+};
 const FeedsCards = dynamic(() => import('@/components/Card/Feeds'), {
 	loading: () => <Loader />,
 	ssr: true,
 });
 
-export default function SavedPosts({savedPosts}: ISavedPostsProps) {
+export default function SavedPosts({ savedPosts }: ISavedPostsProps) {
 	const savedPostsTab = useRecoilValue(tabSavedPosts);
 	return (
 		<>

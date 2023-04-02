@@ -1,25 +1,27 @@
 import { db } from '@/config/firebase';
 import { IUserPostProps } from '@/types/post';
-import {  doc, arrayUnion, updateDoc } from 'firebase/firestore';
+import { doc, arrayUnion, updateDoc } from 'firebase/firestore';
 import { Session } from 'next-auth';
-import { Dispatch, FC, SetStateAction } from 'react';
 import { useForm } from 'react-hook-form';
-export interface IComment {
+export type IComment = {
 	comment: string;
 	commentByName: string;
 	commentByUid: string;
-}
+};
 
-interface IProps {
+type Props = {
 	post: IUserPostProps;
 	session: Session | null;
-	setCommentOpen: Dispatch<SetStateAction<boolean>>;
 	commentOpen: boolean;
 	comments: IComment[];
-}
+};
 
-
-export const PostComment: FC<IProps> = ({ post, session, commentOpen, comments }) => {
+export default function Comments({
+	post,
+	commentOpen,
+	comments,
+	session,
+}: Props) {
 	const { register, handleSubmit, resetField } = useForm();
 	const defaultValues = {
 		comments: '',
@@ -49,6 +51,7 @@ export const PostComment: FC<IProps> = ({ post, session, commentOpen, comments }
 					type='text'
 					placeholder='Add a comment...'
 					autoComplete='off'
+					autoFocus={false}
 					defaultValue={defaultValues.comments}
 					{...register('comments')}
 					className='focus:outline-none w-full bg-transparent text-xs'
@@ -73,4 +76,4 @@ export const PostComment: FC<IProps> = ({ post, session, commentOpen, comments }
 			</div>
 		</div>
 	);
-};
+}

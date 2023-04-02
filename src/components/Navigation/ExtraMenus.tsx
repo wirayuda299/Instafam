@@ -1,11 +1,10 @@
-import { extraListToggler } from '../../store/extraListToggler';
+import { extraListToggler } from '@/store/extraListToggler';
 import { getCsrfToken, signOut, useSession } from 'next-auth/react';
 import { AiOutlineWarning } from 'react-icons/ai';
 import { BsFillGearFill, BsFillMoonStarsFill } from 'react-icons/bs';
 import { RxCountdownTimer } from 'react-icons/rx';
 import { useRecoilState } from 'recoil';
 import { useEffect } from 'react';
-import { Url } from 'url';
 interface INavProps {
 	id: number;
 	title: string;
@@ -65,7 +64,7 @@ export default function ExtraMenus() {
 		const url = require('url');
 		const callbackUrl = `${process.env.NEXTAUTH_URL}/auth/signin?callbackUrl=http%3A%2F%2Flocalhost%3A3000%2F`;
 		const parsedUrl = url.parse(callbackUrl, true);
-		const getBaseUrl = (urlObj:any) => {
+		const getBaseUrl = (urlObj: any) => {
 			const { protocol, host, pathname } = urlObj;
 			return `${protocol}//${host}${pathname}`;
 		};

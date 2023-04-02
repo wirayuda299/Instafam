@@ -2,7 +2,7 @@ import {
 	tabPosts,
 	tabSavedPosts,
 	tabTaggedPosts,
-} from '../../store/TabToggler';
+} from '@/store/TabToggler';
 import { useState, useTransition } from 'react';
 import { BsGrid3X3Gap, BsBookmark, BsPersonSquare } from 'react-icons/bs';
 import { useRecoilState } from 'recoil';

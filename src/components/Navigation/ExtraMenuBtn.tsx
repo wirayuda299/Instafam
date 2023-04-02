@@ -1,11 +1,10 @@
 import { extraListToggler } from '@/store/extraListToggler';
 import { searchDrawer } from '@/store/searchDrawer';
-import { FC } from 'react';
 import { AiOutlineClose } from 'react-icons/ai';
 import { RxHamburgerMenu } from 'react-icons/rx';
 import { useRecoilState } from 'recoil';
 
-export const ExtraMenuBtn: FC = () => {
+export default function ExtraMenuBtn() {
 	const [extraListOpen, setExtraListOpen] = useRecoilState(extraListToggler);
 	const [drawerOpen, setDrawerOpen] = useRecoilState(searchDrawer);
 
@@ -16,14 +15,13 @@ export const ExtraMenuBtn: FC = () => {
 
 	return (
 		<button
+			type='button'
 			className='hidden md:block'
 			name='extra menu button'
 			title='extra menus'
+			onClick={handleClick}
 		>
-			<div
-				className='flex items-center space-x-2 px-3 text-base sm:text-lg mt-5 transition-all ease duration-300'
-				onClick={handleClick}
-			>
+			<div className='flex items-center space-x-2 px-3 text-base sm:text-lg mt-5 transition-all ease duration-300'>
 				{extraListOpen ? (
 					<AiOutlineClose className='text-xl md:text-2xl' size={30} />
 				) : (
@@ -35,4 +33,4 @@ export const ExtraMenuBtn: FC = () => {
 			</div>
 		</button>
 	);
-};
+}

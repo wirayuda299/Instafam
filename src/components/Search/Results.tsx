@@ -1,12 +1,11 @@
 import Link from 'next/link';
 import { AiOutlineClose } from 'react-icons/ai';
 import Image from 'next/image';
-import { DocumentData } from 'firebase/firestore';
 import { Dispatch, SetStateAction } from 'react';
 interface Props {
-	results: DocumentData[];
+	results: any[];
 	handleDrawerToggler: () => void;
-	setResults: Dispatch<SetStateAction<DocumentData[]>>;
+	setResults: Dispatch<SetStateAction<any[]>>;
 	customs?: string;
 }
 

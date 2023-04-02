@@ -1,12 +1,10 @@
 import { searchDrawer } from '@/store/searchDrawer';
-import { FormEvent, useEffect, useRef, useState } from 'react';
-import { useForm } from 'react-hook-form';
-import { FormProvider } from 'react-hook-form';
+import { useEffect } from 'react';
 import { AiOutlineClose } from 'react-icons/ai';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { useRecoilState } from 'recoil';
 
 export default function SearchField() {
-  const [drawerOpen, setDrawerOpen] = useRecoilState(searchDrawer);
+	const [drawerOpen, setDrawerOpen] = useRecoilState(searchDrawer);
 	useEffect(() => {
 		window.addEventListener('resize', (e) => {
 			setDrawerOpen(false);
@@ -15,7 +13,7 @@ export default function SearchField() {
 			window.removeEventListener('resize', (e) => {
 				setDrawerOpen(false);
 			});
-		}
+		};
 	}, []);
 
 	return (

@@ -1,8 +1,11 @@
+import dynamic from 'next/dynamic';
 import Head from 'next/head';
-import Header from '../Header/Header';
-import Sidebar from '@/components/Navigation/Sidebar';
-import BottomNav from '../Navigation/BottomNav';
-import Search from '../Search';
+const MainHeader = dynamic(() => import('@/components/Header/Header'));
+const Sidebar = dynamic(() => import('@/components/Navigation/Sidebar'));
+const SearchForm = dynamic(() => import('@/components/Search'));
+const BottomNavigation = dynamic(
+	() => import('@/components/Navigation/BottomNav')
+);
 export default function Layout({ children }: { children: React.ReactNode }) {
 	return (
 		<>
@@ -24,12 +27,12 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 					<section className='hidden md:block'>
 						<Sidebar />
 					</section>
-					<Search />
+					<SearchForm />
 					<main className='w-full h-full'>
-						<Header />
+						<MainHeader />
 						{children}
 						<section className='block md:hidden'>
-							<BottomNav />
+							<BottomNavigation />
 						</section>
 					</main>
 				</div>

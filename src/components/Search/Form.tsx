@@ -8,7 +8,7 @@ const defaultValues = {
 	search: '',
 };
 
-interface Props {
+type Props ={
 	height: string;
 	children: ReactNode;
 }

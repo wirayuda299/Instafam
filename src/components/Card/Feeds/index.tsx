@@ -2,28 +2,23 @@ import { DocumentData } from 'firebase/firestore';
 import Image from 'next/image';
 import { memo } from 'react';
 import { AiFillHeart, AiTwotoneMessage } from 'react-icons/ai';
-interface IExplorePostCardProps {
+type Props = {
 	post: DocumentData;
-}
+};
 
- function ExplorePostCard({ post }: IExplorePostCardProps) {
+function ExplorePostCard({ post }: Props) {
 	return (
 		<div className=' rounded-lg shadow-md '>
 			<div className='relative w-full group'>
 				<Image
 					src={post?.image}
-					width={600}
-					height={600}
+					width={1300}
+					height={1300}
 					sizes='100vw'
 					priority
-					placeholder='blur'
-					blurDataURL={ post?.image ?? ''}
 					quality={55}
-					className={`object-cover rounded-lg shadow-md `}
+					className=' object-cover w-full h-auto rounded-lg'
 					alt={post?.author ?? 'user post image'}
-					loader={({ src, width, quality }) => {
-						return `${src}?w=${width}&q=${quality || 75}`;
-					}}
 				/>
 				<div className='absolute inset-0 flex justify-around items-center bg-black bg-opacity-0 hover:bg-opacity-25'>
 					<button

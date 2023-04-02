@@ -1,8 +1,7 @@
-import { useState } from 'react';
 import { AiOutlineInstagram } from 'react-icons/ai';
 import Link from 'next/link';
 import { Oleo_Script } from 'next/font/google';
-import { NavbarList } from './Lists';
+import NavbarList from './Lists';
 import { useRecoilValue } from 'recoil';
 import { searchDrawer } from '@/store/searchDrawer';
 import dynamic from 'next/dynamic';
@@ -18,7 +17,6 @@ const oleo = Oleo_Script({
 });
 
 export default function Sidebar() {
-	const [extraListOpen, setExtraListOpen] = useState(false);
 	const drawerOpen = useRecoilValue(searchDrawer);
 	const { data: session } = useSession();
 
@@ -48,10 +46,7 @@ export default function Sidebar() {
 								)}
 							</Link>
 						</header>
-						<NavbarList
-							extraListOpen={extraListOpen}
-							setExtraListOpen={setExtraListOpen}
-						/>
+						<NavbarList />
 						<ExtraMenus />
 					</nav>
 				</aside>

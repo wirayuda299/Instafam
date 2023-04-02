@@ -5,7 +5,6 @@ import { Session } from 'next-auth';
 import { RecoilRoot } from 'recoil';
 import Layout from '@/components/Layout/Layout';
 import React from 'react';
-import { Analytics } from '@vercel/analytics/react';
 interface Props extends AppProps {
 	session: Session;
 }
@@ -19,8 +18,6 @@ export default function App({
 			<RecoilRoot>
 				<Layout>
 					<Component {...pageProps} />
-					<Analytics/>
-				
 				</Layout>
 			</RecoilRoot>
 		</SessionProvider>

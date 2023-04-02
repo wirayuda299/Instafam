@@ -1,26 +1,18 @@
-import { FC, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { db } from '@/config/firebase';
-import {
-	query,
-	collection,
-	onSnapshot,
-	where,
-	DocumentData,
-} from 'firebase/firestore';
+import { onSnapshot, DocumentData, doc } from 'firebase/firestore';
 import { useSession } from 'next-auth/react';
 import Link from 'next/link';
-
-interface IProps {
+type Props = {
 	currentuserUid: string;
 	post: DocumentData;
-	followingLists: { userId: string }[] | undefined;
 	username: string;
-}
+};
 
-export const PostHeader: FC<IProps> = ({ post, currentuserUid, username }) => {
+export default function Postheader({ currentuserUid, post, username }: Props) {
 	const [createdDate, setCreatedDate] = useState<string>('');
-	const [users, setUsers] = useState<DocumentData[]>([]);
+	const [users, setUsers] = useState<DocumentData>([]);
 	const { data: session } = useSession();
 
 	useEffect(() => {
@@ -58,16 +50,16 @@ export const PostHeader: FC<IProps> = ({ post, currentuserUid, username }) => {
 
 	useEffect(() => {
 		const unsub = onSnapshot(
-			query(
-				collection(db, 'users'),
-				where('uid', '==', `${session?.user.uid}`)
-			),
-			(snapshot) => {
-				setUsers(snapshot.docs.map((doc) => doc.data()));
+			doc(db, 'users', `${session?.user.uid}`),
+			(docs) => {
+				if (docs.exists()) {
+					setUsers(docs.data());
+				}
 			}
 		);
 		return () => unsub();
 	}, [db, post, currentuserUid]);
+	
 
 	return (
 		<div className='flex items-center px-4 py-3 h-fit'>
@@ -77,6 +69,8 @@ export const PostHeader: FC<IProps> = ({ post, currentuserUid, username }) => {
 				width={50}
 				height={50}
 				priority
+				placeholder='blur'
+				blurDataURL={post?.postedByPhotoUrl ?? ''}
 				sizes='50px'
 				src={post?.postedByPhotoUrl || ''}
 			/>
@@ -110,7 +104,7 @@ export const PostHeader: FC<IProps> = ({ post, currentuserUid, username }) => {
 						}}
 						className='text-xs antialiased block leading-tight'
 					>
-						{users[0]?.following?.find(
+						{users?.following?.find(
 							(user: { userId: string }) => user.userId === post.postedById
 						)
 							? 'Following'
@@ -118,10 +112,10 @@ export const PostHeader: FC<IProps> = ({ post, currentuserUid, username }) => {
 					</button>
 				) : (
 					<p className='text-xs text-gray-500 font-thin antialiased block leading-tight'>
-						{createdDate} 
+						{createdDate}
 					</p>
 				)}
 			</div>
 		</div>
 	);
-};
+}

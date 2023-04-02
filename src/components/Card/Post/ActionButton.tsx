@@ -1,28 +1,28 @@
 import { IUserPostProps } from '@/types/post';
-import { Dispatch, FC, SetStateAction, useEffect, useState } from 'react';
+import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai';
 import { FaRegComment } from 'react-icons/fa';
-import { collection, doc, onSnapshot, query, where } from 'firebase/firestore';
+import { doc, onSnapshot } from 'firebase/firestore';
 import { db } from '@/config/firebase';
 import { RiBookmarkFill } from 'react-icons/ri';
 import { BiBookmark } from 'react-icons/bi';
+import { IUser } from '@/types/user';
 
-interface IProps {
+type Props = {
 	post: IUserPostProps;
 	uid: string;
 	setCommentOpen: Dispatch<SetStateAction<boolean>>;
 	commentOpen: boolean;
-}
+};
 
-export const PostActions: FC<IProps> = ({
+export default function ActionButton({
 	post,
-	uid,
-	setCommentOpen,
 	commentOpen,
-}) => {
+	setCommentOpen,
+	uid,
+}: Props) {
 	const [likes, setLikes] = useState<string[]>([]);
 	const [savedPosts, setSavedPosts] = useState<string[]>([]);
-	
 
 	useEffect(() => {
 		onSnapshot(doc(db, 'posts', `post-${post.postId}`), (doc) => {
@@ -32,20 +32,12 @@ export const PostActions: FC<IProps> = ({
 		});
 	}, [post.postId, uid, db]);
 	useEffect(() => {
-		onSnapshot(
-			query(collection(db, 'users'), where('uid', '==', `${uid}`)),
-			(doc) => {
-				if (doc.docs.length > 0 && doc.docs[0].exists()) {
-					const data = doc.docs[0].get('savedPosts');
-					setSavedPosts(data?.map((post: IUserPostProps) => post.postId));
-				}
-			}
-		);
-		return () => {
-			setSavedPosts([]);
-		};
+		const unsub = onSnapshot(doc(db, 'users', `${uid}`), (doc) => {
+			setSavedPosts(doc.data()?.savedPosts);
+		});
+		return () => unsub();
 	}, [db, uid]);
-	
+
 	return (
 		<div className='flex items-center justify-between mt-3 mb-2 p-1'>
 			<div className='flex gap-x-5'>
@@ -82,7 +74,7 @@ export const PostActions: FC<IProps> = ({
 				}}
 				name='save post'
 				type='button'
-				title="save post"
+				title='save post'
 			>
 				{savedPosts?.includes(post.postId) ? (
 					<RiBookmarkFill className='text-3xl' />
@@ -92,4 +84,4 @@ export const PostActions: FC<IProps> = ({
 			</button>
 		</div>
 	);
-};
+}

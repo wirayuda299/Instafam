@@ -1,13 +1,9 @@
 import dynamic from 'next/dynamic';
-import Loader from '@/components/Loader/Loader';
-import Recommendation from '@/components/Loader/Recommendation';
 const UserPosts = dynamic(
-	() => import('@/components/User/UserPosts/UserPosts'),
-	{ ssr: true, loading: () => <Loader /> }
+	() => import('@/components/User/UserPosts/UserPosts')
 );
 const Suggestions = dynamic(
-	() => import('@/components/Suggestions/Suggestions'),
-	{ ssr: true, loading: () => <Recommendation /> }
+	() => import('@/components/Suggestions/Suggestions')
 );
 export default function Home() {
 	return (

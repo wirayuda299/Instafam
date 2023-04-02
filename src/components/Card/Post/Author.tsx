@@ -1,10 +1,9 @@
 import { IUserPostProps } from '@/types/post';
-import { FC } from 'react';
-interface IProps {
+type Props = {
 	post: IUserPostProps;
-}
+};
 
-export const PostAuthor: FC<IProps> = ({ post }) => {
+export default function Author({ post }: Props) {
 	return (
 		<div className='overflow-hidden'>
 			<div className='flex space-x-2 flex-wrap'>
@@ -20,4 +19,4 @@ export const PostAuthor: FC<IProps> = ({ post }) => {
 			</div>
 		</div>
 	);
-};
+}
