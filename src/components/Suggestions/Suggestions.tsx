@@ -2,20 +2,8 @@ import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import Link from 'next/link';
 import { memo } from 'react';
-import { useSession } from 'next-auth/react';
-import useRecommendation from '@/hooks/useRecommendation';
 const Footer = dynamic(() => import('@/components/Footer'));
-type Followers = {
-	followedBy: string;
-	followedByName: string;
-}[];
-function Suggestions() {
-	const { data: session } = useSession();
-	const { reccomend, recomendationLoading } = useRecommendation(
-		session?.user.uid
-	);
-	
-
+function Suggestions({session, reccomend}: {session: any, reccomend: any}) {
 	return (
 		<section className='min-w-[400px] hidden lg:block'>
 			<div className='w-full h-full p-5 max-w-sm'>
@@ -23,8 +11,8 @@ function Suggestions() {
 					<div className='flex items-center space-x-3 mb-2'>
 						<Image
 							className=' rounded-full'
-							src={(session?.user.image as string) ?? ''}
-							alt={(session?.user.username as string) ?? ''}
+							src={session?.user?.image ?? ''}
+							alt={session?.user?.username ?? ''}
 							width={45}
 							height={45}
 							sizes='45px'
@@ -32,7 +20,7 @@ function Suggestions() {
 							quality={50}
 						/>
 						<span className='text-black dark:text-white text-base font-semibold'>
-							{session?.user.username}
+							{session?.user?.username}
 						</span>
 					</div>
 					<div>
@@ -66,50 +54,38 @@ function Suggestions() {
 						</p>
 					</div>
 				)}
-				{recomendationLoading ? (
-					[1, 2, 3].map((_, i) => (
+				<>
+					{reccomend?.map((user:any) => (
 						<div
-							className='flex items-center space-x-3 mb-2 animate-pulse'
-							key={i}
+							key={user.uid}
+							className='flex items-center space-x-2 mb-2 mt-5 w-full justify-between'
 						>
-							<div className='bg-gray-200   dark:bg-gray-700 rounded-full w-9 h-9'></div>
-							<div className='bg-gray-200   dark:bg-gray-700 rounded-full w-24 h-5'></div>
-						</div>
-					))
-				) : (
-					<>
-						{reccomend?.map((user) => (
-							<div
-								key={user.uid}
-								className='flex items-center space-x-2 mb-2 mt-5 w-full justify-between'
-							>
-								<div className='flex space-x-2 items-center pb-3'>
-									<Image
-										className=' rounded-full'
-										src={user?.image}
-										alt={user?.name ?? ''}
-										width={40}
-										height={40}
-										sizes='40px'
-										placeholder='blur'
-										blurDataURL={user?.image}
-										priority
-										quality={50}
-									/>
-									<div className='flex flex-col items-start justify-center'>
-										<span className='text-black dark:text-white text-sm font-semibold'>
-											{user.username}
-										</span>
-										<p className=' text-xs text-slate-500'>{user.name}</p>
-									</div>
+							<div className='flex space-x-2 items-center pb-3'>
+								<Image
+									className=' rounded-full'
+									src={user?.image}
+									alt={user?.name ?? ''}
+									width={40}
+									height={40}
+									sizes='40px'
+									placeholder='blur'
+									blurDataURL={user?.image}
+									priority
+									quality={50}
+								/>
+								<div className='flex flex-col items-start justify-center'>
+									<span className='text-black dark:text-white text-sm font-semibold'>
+										{user.username}
+									</span>
+									<p className=' text-xs text-slate-500'>{user.name}</p>
 								</div>
-								<Link className='ml-auto' href={`/profile/${user?.uid}`}>
-									<span className='text-blue-600 font-light text-xs'>View</span>
-								</Link>
 							</div>
-						))}
-					</>
-				)}
+							<Link className='ml-auto' href={`/profile/${user?.uid}`}>
+								<span className='text-blue-600 font-light text-xs'>View</span>
+							</Link>
+						</div>
+					))}
+				</>
 			</div>
 			<Footer />
 		</section>

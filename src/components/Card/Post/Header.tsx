@@ -32,7 +32,7 @@ export default function Postheader({ currentuserUid, post, username, users }: Pr
 			<div className='ml-3 w-full flex justify-between items-center'>
 				<div>
 					<Link
-						href={`profile/${post.postedById}`}
+						href={`/profile/${post.postedById}`}
 						className='text-sm font-semibold antialiased block leading-tight'
 					>
 						{post?.author}
@@ -47,6 +47,7 @@ export default function Postheader({ currentuserUid, post, username, users }: Pr
 				<div>
 					{currentuserUid === post.postedById ? (
 						<button
+						
 							onClick={async () => {
 								const dlete = await import('@/helper/deletePost');
 								dlete.deletePost(post);
@@ -79,40 +80,6 @@ export default function Postheader({ currentuserUid, post, username, users }: Pr
 					)}
 				</div>
 			</div>
-			{/* <div className='relative flex justify-between items-center'>
-				{currentuserUid !== post.postedById ? (
-					<button
-						type='button'
-						name='follow'
-						title='follow'
-						onClick={async () => {
-							const follow = await import('@/helper/follow');
-							follow.handleFollow(post.postedById, currentuserUid, username);
-						}}
-						className='text-xs antialiased block leading-tight'
-					>
-						{users?.following?.find(
-							(user: { userId: string }) => user.userId === post.postedById
-						)
-							? 'Following'
-							: 'Follow'}
-						<span
-							className={`text-xs font-thin text-gray-500 antialiased block leading-tight `}
-						>
-							{createdDate}
-						</span>
-					</button>
-				) : (
-					<button
-						type='button'
-						name='delete'
-						title='delete'
-						className='text-xs antialiased block leading-tight'
-					>
-						Delete
-					</button>
-				)}
-			</div> */}
 		</div>
 	);
 }

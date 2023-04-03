@@ -16,15 +16,13 @@ export const getPosts = async () => {
     console.log(error.message);
   }
 }
-export async function getPostByCurrentUser(uid: string | undefined, lastVisible?: any) {
+export async function getPostByCurrentUser(uid: string | undefined) {
   try {
     const q =
       query(
         collection(db, 'posts'),
         where('postedById', '==', `${uid}`),
         orderBy('createdAt', 'desc'),
-        limit(5),
-        startAfter(0)
       )
     const res = await getDocs(q)
     const posts = res.docs.map(data => data.data())

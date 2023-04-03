@@ -1,12 +1,12 @@
-import dynamic from 'next/dynamic';
 import Head from 'next/head';
-import { fetcher } from '@/hooks/usePosts';
-import { SWRConfig } from 'swr';
-const ExploreFeeds = dynamic(() => import('@/components/Explore'), {
-	ssr: false,
+import { getPosts } from '@/helper/getPosts';
+import { IUserPostProps } from '@/types/post';
+import dynamic from 'next/dynamic';
+const ExplorePostCard = dynamic(() => import('@/components/Card/Feeds'), {
+	ssr: true,
 });
 
-export default function Explore({ fallback }: { fallback: any }) {
+export default function Explore({ posts }: { posts: any }) {
 	return (
 		<>
 			<Head>
@@ -20,20 +20,20 @@ export default function Explore({ fallback }: { fallback: any }) {
 				<div>
 					<h1 className='text-center font-semibold text-5xl py-5'>Explore</h1>
 				</div>
-				<SWRConfig value={{ fallback }}>
-					<ExploreFeeds />
-				</SWRConfig>
+				<div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 place-items-center'>
+					{posts?.map((post: IUserPostProps) => (
+						<ExplorePostCard post={post} key={post.postId} />
+					))}
+				</div>
 			</div>
 		</>
 	);
 }
-export async function getStaticProps() {
-	const posts = await fetcher();
+export async function getServerSideProps() {
+	const posts = await getPosts();
 	return {
 		props: {
-			fallback: {
-				'/posts': posts,
-			},
+			posts,
 		},
 	};
 }

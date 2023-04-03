@@ -1,17 +1,17 @@
 import { searchDrawer } from '@/store/searchDrawer';
 import { useRecoilState } from 'recoil';
 import {  AiOutlineSearch } from 'react-icons/ai';
-import { useEffect } from 'react';
+import { memo, useEffect } from 'react';
 import Form from './Form';
 
-export default function SearchDrawer() {
+ function SearchDrawer() {
 	const [drawerOpen, setDrawerOpen] = useRecoilState(searchDrawer);
 	useEffect(() => {
-		window.addEventListener('resize', (e) => {
+		window.addEventListener('resize', () => {
 			setDrawerOpen(false);
 		});
 		return () => {
-			window.removeEventListener('resize', (e) => {
+			window.removeEventListener('resize', () => {
 				setDrawerOpen(false);
 			});
 		};
@@ -36,3 +36,4 @@ export default function SearchDrawer() {
 		</section>
 	);
 }
+export default memo(SearchDrawer);

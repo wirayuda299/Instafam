@@ -1,38 +1,42 @@
-import { fetcher } from '@/hooks/usePosts';
+import { getPosts } from '@/helper/getPosts';
+import { getUserRecommendation } from '@/helper/getUser';
+import { getSession, useSession } from 'next-auth/react';
 import dynamic from 'next/dynamic';
-import { SWRConfig } from 'swr';
-const UserPosts = dynamic(
-	() => import('@/components/User/UserPosts/UserPosts'),
-	{
-		ssr: false,
+const Suggestions = dynamic(() => import('@/components/Suggestions/Suggestions'),{
+		ssr: true
 	}
 );
-const Suggestions = dynamic(
-	() => import('@/components/Suggestions/Suggestions'),
-	{
-		ssr: false,
-	}
-);
-export default function Home({ fallback }: { fallback: any }) {
+const PostCard = dynamic(() => import('@/components/Card/Post'), {
+	ssr: true,
+});
+type Props = {
+	posts: any;
+	users: any;
+};
+export default function Home({ posts, users }: Props) {
+	const { data: session } = useSession();
 	return (
 		<section className='w-full h-screen md:p-3 overflow-y-auto'>
 			<div className='w-full flex justify-between items-start'>
-				<SWRConfig value={{ fallback }}>
-					<UserPosts />
-				</SWRConfig>
-				<Suggestions />
+				<div className='flex flex-col p-5'>
+					{posts.map((post: any) => (
+						<PostCard post={post} key={post.postId} />
+					))}
+				</div>
+				<Suggestions reccomend={users} session={session} />
 			</div>
 		</section>
 	);
 }
 
-export async function getStaticProps() {
-	const posts = await fetcher();
+export async function getServerSideProps({ req }: { req: any }) {
+	const session = await getSession({ req });
+	const posts = await getPosts();
+	const users = await getUserRecommendation(session?.user.uid);
 	return {
 		props: {
-			fallback: {
-				'/posts': posts,
-			},
+			posts,
+			users,
 		},
 	};
 }
