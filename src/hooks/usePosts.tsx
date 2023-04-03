@@ -31,7 +31,7 @@ export default function usePosts(uid?: string | undefined) {
 		IUserPostProps[]
 	>(['userPosts'], async () => {
 		return fetcher();
-	}, {revalidateOnMount: true});
+	});
 	const {
 		data: user,
 		error: userError,

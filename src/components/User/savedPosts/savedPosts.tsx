@@ -10,7 +10,6 @@ type ISavedPostsProps = {
 };
 const FeedsCards = dynamic(() => import('@/components/Card/Feeds'), {
 	loading: () => <Loader />,
-	ssr: true,
 });
 
 export default function SavedPosts({ savedPosts }: ISavedPostsProps) {

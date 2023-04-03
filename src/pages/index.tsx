@@ -2,10 +2,16 @@ import { fetcher } from '@/hooks/usePosts';
 import dynamic from 'next/dynamic';
 import { SWRConfig } from 'swr';
 const UserPosts = dynamic(
-	() => import('@/components/User/UserPosts/UserPosts')
+	() => import('@/components/User/UserPosts/UserPosts'),
+	{
+		ssr: false,
+	}
 );
 const Suggestions = dynamic(
-	() => import('@/components/Suggestions/Suggestions')
+	() => import('@/components/Suggestions/Suggestions'),
+	{
+		ssr: false,
+	}
 );
 export default function Home({ fallback }: { fallback: any }) {
 	return (
@@ -20,12 +26,12 @@ export default function Home({ fallback }: { fallback: any }) {
 	);
 }
 
-export async function getServerSideProps() {
-	const posts = await fetcher()
+export async function getStaticProps() {
+	const posts = await fetcher();
 	return {
 		props: {
 			fallback: {
-				'/posts': posts
+				'/posts': posts,
 			},
 		},
 	};

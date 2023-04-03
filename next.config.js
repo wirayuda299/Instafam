@@ -22,9 +22,8 @@ const nextConfig = {
         pathname: '/v0/b/**',
       },
     ],
-
   },
-  
+  swcMinify: true,
   env: {
     FIREBASE_API_KEY: process.env.FIREBASE_API_KEY,
     FIREBASE_AUTH_DOMAIN: process.env.FIREBASE_AUTH_DOMAIN,
@@ -40,9 +39,7 @@ const nextConfig = {
     X_RapidAPI_KEY: process.env.X_RapidAPI_KEY,
     X_RapidAPI_HOST: process.env.X_RapidAPI_HOST,
   },
-  optimizeFonts: true,
-
-  
+  optimizeFonts: true
 }
 
 module.exports = nextConfig

@@ -104,6 +104,7 @@ export default function NavbarLists() {
 		<ul className='flex w-full dark:bg-black justify-around md:justify-start md:space-y-4 items-center sm:items-start flex-row md:flex-col last:flex-grow transition-all ease duration-500'>
 			{navList.map((list) => (
 				<li
+					role='listitem'
 					key={list.id}
 					className={`font-light p-2 md:px-3 md:py-3 text-base hover:bg-gray-200  transition-all ease duration-300 rounded-full w-fit md:w-full dark:hover:bg-[#b9b9b917] hover:bg-[#a8a8a817] ${
 						list.id === 2 || list.id === 5 ? 'hidden md:block' : ''
@@ -113,6 +114,7 @@ export default function NavbarLists() {
 				>
 					{list.id === 2 ? (
 						<button
+							role='button'
 							type='button'
 							name='search'
 							title='search'
@@ -129,13 +131,13 @@ export default function NavbarLists() {
 							href={list.path}
 							onClick={toggler}
 							title={list.title}
-							aria-current={pathname === list.path ? 'page' : undefined}
-							as={list.path}
+							role='link'
 						>
 							<button
 								title={list.title}
 								className={`flex space-x-2 `}
 								name={list.title}
+								type='button'
 							>
 								{list.icon}
 								<span

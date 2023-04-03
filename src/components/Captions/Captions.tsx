@@ -25,7 +25,9 @@ export default function Captions({ handlePost, loading }: Props) {
 					src={session?.user?.image || ''}
 					alt={session?.user?.username || ''}
 					width={60}
-					priority
+					loading='lazy'
+					placeholder='blur'
+					blurDataURL={session?.user?.image || ''}
 					height={60}
 				/>
 				<p className='text-sm md:text-lg font-semibold dark:text-white'>

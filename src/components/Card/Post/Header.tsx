@@ -23,7 +23,7 @@ export default function Postheader({ currentuserUid, post, username, users }: Pr
 				alt={post?.author ?? 'user profile'}
 				width={50}
 				height={50}
-				priority
+				loading='lazy'
 				placeholder='blur'
 				blurDataURL={post?.postedByPhotoUrl ?? ''}
 				sizes='50px'

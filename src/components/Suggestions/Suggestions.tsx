@@ -1,13 +1,10 @@
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import Link from 'next/link';
-import { memo, useEffect, useState } from 'react';
+import { memo } from 'react';
 import { useSession } from 'next-auth/react';
 import useRecommendation from '@/hooks/useRecommendation';
-import { db } from '@/config/firebase';
-const Footer = dynamic(() => import('@/components/Footer'), {
-	ssr: true,
-});
+const Footer = dynamic(() => import('@/components/Footer'));
 type Followers = {
 	followedBy: string;
 	followedByName: string;
@@ -17,30 +14,7 @@ function Suggestions() {
 	const { reccomend, recomendationLoading } = useRecommendation(
 		session?.user.uid
 	);
-	const [followers, setFollowers] = useState<Followers[] | undefined>([]);
-	useEffect(() => {
-		const follower = reccomend?.map((user) => user.followers);
-		setFollowers(follower);
-	}, [reccomend]);
-
-	const dataFollowers = [
-		[
-			[
-				{
-					followedBy: 'userID',
-					followedByName: 'user1',
-				},
-				{
-					followedBy: 'userID',
-					followedByName: 'user1',
-				},
-				{
-					followedBy: 'userID',
-					followedByName: 'user1',
-				},
-			],
-		],
-	];
+	
 
 	return (
 		<section className='min-w-[400px] hidden lg:block'>

@@ -1,9 +1,10 @@
+import { IUserPostProps } from '@/types/post';
+import { IUser } from '@/types/user';
 import Image from 'next/image';
-import { DocumentData } from 'firebase/firestore';
 interface IProps {
 	uid: string[] | string | undefined;
-	users: DocumentData | undefined;
-	posts: DocumentData[] | [];
+	users: IUser | undefined;
+	posts: IUserPostProps[] | [];
 }
 
 export default function Statistic({ uid, users, posts }: IProps) {
