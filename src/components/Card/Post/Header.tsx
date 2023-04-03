@@ -1,38 +1,21 @@
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
-import { db } from '@/config/firebase';
-import { onSnapshot, DocumentData, doc } from 'firebase/firestore';
-import { useSession } from 'next-auth/react';
 import Link from 'next/link';
 import { getCreatedDate } from '@/util/postDate';
+import { IUser } from '@/types/user';
 type Props = {
 	currentuserUid: string;
-	post: DocumentData;
+	post: any;
 	username: string;
+	users: IUser;
 };
 
-export default function Postheader({ currentuserUid, post, username }: Props) {
+export default function Postheader({ currentuserUid, post, username, users }: Props) {
 	const [createdDate, setCreatedDate] = useState<string>('');
-	const [users, setUsers] = useState<DocumentData>([]);
-	const { data: session } = useSession();
 
 	useEffect(() => {
 		setCreatedDate(getCreatedDate(post));
 	}, [post, currentuserUid]);
-
-	useEffect(() => {
-		const unsub = onSnapshot(
-			doc(db, 'users', `${session?.user.uid}`),
-			(docs) => {
-				if (docs.exists()) {
-					setUsers(docs.data());
-				}
-			}
-		);
-		return () => unsub();
-	}, [db, post, currentuserUid]);
-
-	
 	return (
 		<div className='flex items-center px-4 py-3 h-fit'>
 			<Image

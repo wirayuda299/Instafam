@@ -8,16 +8,17 @@ Welcome to Instafam! This is a social media app that allows you to connect with 
 - Login
 - Like and comment on posts
 - Follow and unFollow other users
-- Search for users by username
+- Search for users by username or name
 - View your profile
 - View other users' profiles
 - View your feed
 - Save posts to your profile
 - View your saved posts
 - Create a post
-- View your posts,
+- View your posts
 - Delete your posts
 - Simple detection of nudity in images while create a post
+- Load more posts
 
 
 

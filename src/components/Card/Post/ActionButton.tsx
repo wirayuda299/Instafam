@@ -1,9 +1,7 @@
 import { IUserPostProps } from '@/types/post';
-import { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import { Dispatch, SetStateAction } from 'react';
 import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai';
 import { FaRegComment } from 'react-icons/fa';
-import { doc, onSnapshot } from 'firebase/firestore';
-import { db } from '@/config/firebase';
 import { RiBookmarkFill } from 'react-icons/ri';
 import { BiBookmark } from 'react-icons/bi';
 
@@ -12,6 +10,8 @@ type Props = {
 	uid: string;
 	setCommentOpen: Dispatch<SetStateAction<boolean>>;
 	commentOpen: boolean;
+	likes: string[];
+	savedPosts: string[];
 };
 
 export default function ActionButton({
@@ -19,25 +19,9 @@ export default function ActionButton({
 	commentOpen,
 	setCommentOpen,
 	uid,
+	likes,
+	savedPosts,
 }: Props) {
-	const [likes, setLikes] = useState<string[]>([]);
-	const [savedPosts, setSavedPosts] = useState<string[]>([]);
-
-	useEffect(() => {
-		onSnapshot(doc(db, 'posts', `post-${post.postId}`), (doc) => {
-			if (doc.exists()) {
-				setLikes(doc.data().likedBy);
-			}
-		});
-	}, [db]);
-	useEffect(() => {
-		const unsub = onSnapshot(doc(db, 'users', `${uid}`), (doc) => {
-			const savedPosts = doc.data()?.savedPosts;
-			setSavedPosts(savedPosts.map((post: { postId: string }) => post.postId));
-		});
-		return () => unsub();
-	}, [db]);
-
 	return (
 		<div className='flex items-center justify-between mt-3 mb-2 p-1'>
 			<div className='flex gap-x-5'>

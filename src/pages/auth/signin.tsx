@@ -1,5 +1,5 @@
 import { getCsrfToken, getProviders, signIn } from 'next-auth/react';
-import loginBg from '/public/login-background.jpg';
+import loginBg from '@/assets/images/login-background.jpg'
 import { FcGoogle } from 'react-icons/fc';
 import { AiOutlineInstagram } from 'react-icons/ai';
 import { getServerSession } from 'next-auth';

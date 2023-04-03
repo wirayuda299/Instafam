@@ -1,14 +1,10 @@
 import dynamic from 'next/dynamic';
 import Head from 'next/head';
-import usePosts, { fetcher } from '@/hooks/usePosts';
-import Loader from '@/components/Loader/Loader';
-import { SWRConfig } from 'swr';
+import usePosts from '@/hooks/usePosts';
 const ExplorePostCard = dynamic(() => import('@/components/Card/Feeds'));
-const Footer = dynamic(() => import('@/components/Footer'), {
-	loading: () => <Loader />,
-});
+const Footer = dynamic(() => import('@/components/Footer'));
 
-export default function Explore({ fallback }: { fallback: any }) {
+export default function Explore() {
 	const { data, hasMore, loadMore } = usePosts();
 	return (
 		<>
@@ -25,11 +21,9 @@ export default function Explore({ fallback }: { fallback: any }) {
 				</div>
 				<div className='container mx-auto'>
 					<div className=' grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3'>
-						<SWRConfig value={{ fallback }}>
 							{data?.map((post) => (
 								<ExplorePostCard post={post} key={post.postId} />
 							))}
-						</SWRConfig>
 					</div>
 					<div className=' flex justify-center flex-col items-center'>
 						{hasMore ? (
@@ -53,14 +47,4 @@ export default function Explore({ fallback }: { fallback: any }) {
 			</div>
 		</>
 	);
-}
-export async function getStaticProps() {
-	const postsQuery = await fetcher();
-	return {
-		props: {
-			fallback: {
-				'/posts': postsQuery,
-			},
-		},
-	};
 }
