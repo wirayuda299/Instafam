@@ -18,7 +18,7 @@ export default function Home({ posts, users }: Props) {
 	return (
 		<section className='w-full h-screen md:p-3 overflow-y-auto'>
 			<div className='w-full flex justify-between items-start'>
-				<div className='flex flex-col p-5'>
+				<div className='flex flex-col p-5 w-full'>
 					{posts.map((post: any) => (
 						<PostCard post={post} key={post.postId} />
 					))}
