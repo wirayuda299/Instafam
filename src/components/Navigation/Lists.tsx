@@ -78,7 +78,7 @@ export default function NavbarLists() {
 			path: `/profile/${session?.user.uid}`,
 			icon: (
 				<Image
-					className={`w-7 h-7 md:w-8 md:h-8 border md:border-0 object-cover ${
+					className={`w-7 h-7 sm:w-8 sm:h-8 border md:border-0 object-cover ${
 						drawerOpen ? '!w-full' : ''
 					} rounded-full`}
 					src={session?.user?.image || ''}

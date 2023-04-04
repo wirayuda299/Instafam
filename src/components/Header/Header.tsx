@@ -16,7 +16,7 @@ export default function Header() {
 	return (
 		<>
 			{session ? (
-				<header className='w-full relative md:hidden bg-white dark:bg-black dark:text-white px-5 border-b dark:border-b-0 py-2'>
+				<header className='w-full relative md:hidden bg-white dark:bg-black dark:text-white px-5 border-b dark:border-b-0 '>
 					<div className='w-full flex justify-between items-center space-x-2'>
 						<div className='w-full'>
 							<Link
