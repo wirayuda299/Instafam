@@ -1,12 +1,13 @@
 import { db } from "@/config/firebase";
 import { IUserPostProps } from "@/types/post";
-import { getDocs, query, collection, orderBy, where, limit, startAfter } from "firebase/firestore";
+import { getDocs, query, collection, orderBy, where, limit } from "firebase/firestore";
 
 export const getPosts = async () => {
   try {
    const q = query(
       collection(db, 'posts'),
       orderBy('createdAt', 'desc'),
+      limit(8)
     )
     const res = await getDocs(q)
     const userPosts: IUserPostProps[] = res.docs.map(data => data.data()) as IUserPostProps[]

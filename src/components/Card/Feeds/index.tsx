@@ -1,10 +1,14 @@
 import Image from 'next/image';
 import { memo } from 'react';
 import { AiFillHeart, AiTwotoneMessage } from 'react-icons/ai';
+type ExplorePostCardProps = {
+	post: any;
+	id: string | undefined;
+}
 
-function ExplorePostCard({ post }: any) {
+function ExplorePostCard({ post, id }: ExplorePostCardProps) {
 	return (
-		<div className=' rounded-lg shadow-md '>
+		<div className=' rounded-lg shadow-md ' id={id}>
 			<div className='relative w-full group'>
 				<Image
 					src={post?.image}

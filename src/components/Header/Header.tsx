@@ -21,7 +21,7 @@ export default function Header() {
 						<div className='w-full'>
 							<Link
 								href='/'
-								className={`text-xl md:text-2xl ${oleo.className}`}
+								className={`text-xl md:text-2xl ${oleo.style}`}
 							>
 								<h1>Instafams</h1>
 							</Link>

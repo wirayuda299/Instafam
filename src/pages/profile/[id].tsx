@@ -62,7 +62,7 @@ export default function UserProfile({ posts, session, user, query, }: any) {
 					{postTab && (
 						<>
 							{posts?.map((post:any) => (
-								<ExplorePostCard post={post} key={post.postId} />
+								<ExplorePostCard post={post} key={post.postId} id={undefined}/>
 							))}
 						</>
 					)}

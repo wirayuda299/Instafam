@@ -16,9 +16,10 @@ export interface ICommentsProps {
 }
 export interface IPostCardProps {
 	post: IUserPostProps;
+	id: string | undefined
 }
 
-function PostCard({post}: IPostCardProps) {
+function PostCard({post, id}: IPostCardProps) {
 	const [comment, setComment] = useState<IComment[]>([]);
 	const [likesCount, setLikesCount] = useState<string[]>([]);
 	const [commentOpen, setCommentOpen] = useState<boolean>(false);
@@ -52,9 +53,10 @@ function PostCard({post}: IPostCardProps) {
 		return () => unsub();
 	}, [db, post]);
 	
+	
 
 	return (
-		<div className='w-full mb-5'>
+		<div className='w-full mb-5' id={id} >
 			<div className='bg-white shadow-lg  dark:bg-black dark:border-black dark:text-white rounded-sm '>
 				<PostHeader
 					users={users as IUser}

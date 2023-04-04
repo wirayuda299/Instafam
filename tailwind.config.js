@@ -48,6 +48,9 @@ module.exports = {
         '2xl': '1536px',
       },
     },
+    transitionProperty: {
+      'width': 'width',
+    }
   },
   plugins: [require('@tailwindcss/typography')],
 }
