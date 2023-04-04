@@ -29,8 +29,12 @@ export default function Explore({ posts }: { posts: any }) {
 		</>
 	);
 }
-export async function getServerSideProps() {
+export async function getServerSideProps({res}:any) {
 	const posts = await getPosts();
+	res.setHeader(
+    'Cache-Control',
+    'public, s-maxage=60, stale-while-revalidate=59'
+  )
 	return {
 		props: {
 			posts,

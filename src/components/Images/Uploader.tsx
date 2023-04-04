@@ -8,7 +8,11 @@ interface IProps {
 
 export const ImageInput: FC<IProps> = ({ setPreviewUrl, img }) => {
 	const handleInputImage = async (e: ChangeEvent<HTMLInputElement>) => {
+
 		try {
+			const imageMetadata = e.target.blur()
+			console.log(imageMetadata);
+			
 			let selectedFile = e.target.files?.[0];
 			if (!selectedFile) return;
 			const data = new FormData();
@@ -37,6 +41,7 @@ export const ImageInput: FC<IProps> = ({ setPreviewUrl, img }) => {
 						);
 						return 
 					}
+					
 					return setPreviewUrl(event.target.result as string);
 				}
 			};
