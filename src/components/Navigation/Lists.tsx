@@ -78,12 +78,12 @@ export default function NavbarLists() {
 			path: `/profile/${session?.user.uid}`,
 			icon: (
 				<Image
-					className={`${
-						drawerOpen ? 'w-full ' : 'w-8 h-8 border  md:border-0 object-cover'
+					className={`w-7 h-7 md:w-8 md:h-8 border md:border-0 object-cover ${
+						drawerOpen ? '!w-full' : ''
 					} rounded-full`}
 					src={session?.user?.image || ''}
-					width={40}
-					height={40}
+					width={50}
+					height={50}
 					placeholder='blur'
 					blurDataURL={
 						'data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAP//////////////////////////////////////////////////////////////////////////////////////2wBDAf//////////////////////////////////////////////////////////////////////////////////////wAARCAACAAMDASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwBaKKKAP//Z'
@@ -102,12 +102,12 @@ export default function NavbarLists() {
 	};
 
 	return (
-		<ul className='flex w-full dark:bg-black justify-around md:justify-start md:space-y-4 items-center sm:items-start flex-row md:flex-col last:flex-grow transition-all ease duration-500'>
+		<ul className='flex w-full dark:bg-black justify-around md:justify-start md:space-y-4 items-center sm:items-start flex-row md:flex-col'>
 			{navList.map((list) => (
 				<li
 					role='listitem'
 					key={list.id}
-					className={`font-light p-2 md:px-3 md:py-3 text-base hover:bg-gray-200  transition-all ease duration-300 rounded-full w-fit md:w-full dark:hover:bg-[#b9b9b917] hover:bg-[#a8a8a817] ${
+					className={` font-light p-2 md:p-3 text-base hover:bg-gray-200  rounded-full w-fit md:w-full dark:hover:bg-[#b9b9b917] hover:bg-[#a8a8a817] ${
 						list.id === 2 || list.id === 5 ? 'hidden md:block' : ''
 					} ${list.id === 8 ? 'hidden md:block' : ''} ${
 						pathname === list.path ? 'font-semibold' : ''

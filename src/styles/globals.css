@@ -8,6 +8,9 @@
   content: "";
   padding-bottom: 100%;
 }
+.transition-width {
+  transition: width 0.5s ease;
+}
 
 .croppedImg {
   width: 100%;
