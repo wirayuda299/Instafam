@@ -119,6 +119,7 @@ export default function NavbarLists() {
 							type='button'
 							name='search'
 							title='search'
+							disabled={session ? false : true}
 							className='flex space-x-2 cursor-pointer'
 							onClick={() => setDrawerOpen(!drawerOpen)}
 						>
@@ -132,12 +133,12 @@ export default function NavbarLists() {
 							href={list.path}
 							onClick={toggler}
 							title={list.title}
-							role='link'
-							shallow
+							role='link'	
 						>
 							<button
+								disabled={session ? false : true}
 								title={list.title}
-								className={`flex space-x-2 `}
+								className='flex space-x-2'
 								name={list.title}
 								type='button'
 							>
