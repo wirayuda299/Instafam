@@ -9,9 +9,7 @@ import { db } from '@/config/firebase';
 import { doc, onSnapshot } from 'firebase/firestore';
 import { useSession } from 'next-auth/react';
 import { IUser } from '@/types/user';
-import { Dialog } from '@headlessui/react';
-import { useRecoilState } from 'recoil';
-import { modalState } from '@/store/modal';
+
 export interface IPostCardProps {
 	post: IUserPostProps;
 }
