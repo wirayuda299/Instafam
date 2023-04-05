@@ -4,26 +4,28 @@ import Link from 'next/link';
 import { getCreatedDate } from '@/util/postDate';
 import { IUser } from '@/types/user';
 import { IUserPostProps } from '@/types/post';
-type Props = {
+import { BsThreeDots } from 'react-icons/bs';
+import Menus from './Menus';
+
+export type HeaderProps = {
 	currentuserUid: string;
 	post: IUserPostProps;
-	username: string;
 	users: IUser;
 };
 
 export default function Postheader({
 	currentuserUid,
 	post,
-	username,
 	users,
-}: Props) {
+}: HeaderProps) {
 	const [createdDate, setCreatedDate] = useState<string>('');
+	const [isOpen, setIsOpen] = useState(false);
 
 	useEffect(() => {
 		setCreatedDate(getCreatedDate(post));
 	}, [post, currentuserUid]);
 	return (
-		<div className='flex items-center px-4 py-3 h-fit'>
+		<div className='flex items-center px-4 py-3 h-fit relative'>
 			<Image
 				className='h-8 w-8 rounded-full object-cover'
 				alt={post?.author ?? 'user profile'}
@@ -37,7 +39,7 @@ export default function Postheader({
 				sizes='50px'
 				src={post?.postedByPhotoUrl || ''}
 			/>
-			<div className='ml-3 w-full flex justify-between items-center'>
+			<div className='ml-3 w-full flex justify-between items-center '>
 				<div>
 					<Link
 						href={`/profile/${post.postedById}`}
@@ -51,40 +53,23 @@ export default function Postheader({
 						</span>
 					</Link>
 				</div>
-
-				<div>
-					{currentuserUid === post.postedById ? (
-						<button
-							onClick={async () => {
-								const dlete = await import('@/helper/deletePost');
-								dlete.deletePost(post);
-							}}
-							type='button'
-							name='delete'
-							title='delete'
-							className='text-xs antialiased block leading-tight text-red-600'
-						>
-							Delete
-						</button>
-					) : (
-						<button
-							type='button'
-							name='follow'
-							title='follow'
-							onClick={async () => {
-								const follow = await import('@/helper/follow');
-								follow.handleFollow(post.postedById, currentuserUid, username);
-							}}
-							className='text-xs antialiased block leading-tight'
-						>
-							{users?.following?.find(
-								(user: { userId: string }) => user.userId === post.postedById
-							)
-								? 'Following'
-								: 'Follow'}
-						</button>
-					)}
-				</div>
+			</div>
+			<Menus
+				currentuserUid={currentuserUid}
+				isOpen={isOpen}
+				post={post}
+				setIsOpen={setIsOpen}
+				users={users}
+			/>
+			<div>
+				<button
+					type='button'
+					name='menu'
+					title='menu'
+					onClick={() => setIsOpen(!isOpen)}
+				>
+					<BsThreeDots className='text-gray-500' size={20} />
+				</button>
 			</div>
 		</div>
 	);

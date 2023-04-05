@@ -36,6 +36,7 @@ export default function Captions({ handlePost, loading }: Props) {
 			</div>
 			<div className='w-full p-3'>
 				<textarea
+					spellCheck='false'
 					className='resize-none dark:bg-transparent dark:text-white focus:outline-none w-full'
 					value={captions}
 					placeholder='Your caption'

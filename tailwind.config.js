@@ -50,6 +50,16 @@ module.exports = {
     },
     transitionProperty: {
       'width': 'width',
+      'height': 'height',
+      'spacing': 'margin, padding',
+      'colors': 'background-color, border-color, color, fill, stroke',
+      'opacity': 'opacity',
+      'shadow': 'box-shadow',
+      'transform': 'transform',
+      'all': 'all',
+
+
+
     }
   },
   plugins: [require('@tailwindcss/typography')],

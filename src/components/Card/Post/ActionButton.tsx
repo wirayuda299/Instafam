@@ -23,14 +23,13 @@ export default function ActionButton({
 	savedPosts,
 }: Props) {
 	return (
-		<div className='flex items-center justify-between mt-3 mb-2 p-1'>
+		<div className='flex items-center justify-between mt-3 mb-2 p-1 relative'>
 			<div className='flex gap-x-5'>
 				<button
 					onClick={async () => {
 						const handleLike = await import('@/helper/like');
 						handleLike.handleLikes(post, uid);
 					}}
-					data-postid={post.postId}
 					name='like'
 					title='Like'
 					type='button'

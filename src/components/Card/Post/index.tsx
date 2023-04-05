@@ -9,6 +9,9 @@ import { db } from '@/config/firebase';
 import { doc, onSnapshot } from 'firebase/firestore';
 import { useSession } from 'next-auth/react';
 import { IUser } from '@/types/user';
+import { Dialog } from '@headlessui/react';
+import { useRecoilState } from 'recoil';
+import { modalState } from '@/store/modal';
 export interface IPostCardProps {
 	post: IUserPostProps;
 }
@@ -18,8 +21,10 @@ function PostCard({ post }: IPostCardProps) {
 	const [commentOpen, setCommentOpen] = useState<boolean>(false);
 	const [savedPosts, setSavedPosts] = useState<string[]>([]);
 	const [users, setUsers] = useState<IUser>();
+	const [isOpen, setIsOpen] = useState(false);
 	const { data: session } = useSession();
-	
+	console.log(users);
+
 	useEffect(() => {
 		const unsub = onSnapshot(doc(db, 'posts', `post-${post.postId}`), (doc) => {
 			if (doc.exists()) {
@@ -48,13 +53,12 @@ function PostCard({ post }: IPostCardProps) {
 	}, [db, post]);
 
 	return (
-		<div className='w-full mb-5'>
+		<div className='w-full mb-5 relative'>
 			<div className='bg-white shadow-lg  dark:bg-black dark:border-black dark:text-white rounded-sm '>
 				<PostHeader
 					users={users as IUser}
 					currentuserUid={session?.user?.uid as string}
 					post={post}
-					username={session?.user.username as string}
 				/>
 				<Image
 					src={post?.image}
