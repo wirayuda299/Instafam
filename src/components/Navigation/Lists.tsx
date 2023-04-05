@@ -134,7 +134,6 @@ export default function NavbarLists() {
 							onClick={toggler}
 							title={list.title}
 							role='link'	
-							prefetch
 						>
 							<button
 								disabled={session ? false : true}

@@ -28,9 +28,10 @@ type Props = {
 export default function Home({ posts, users, sessions, last }: Props) {
 	const { ref, postsState, loading } = useInfiniteScroll(last);
 	return (
-		<section className='w-full h-screen md:p-3 overflow-y-auto'>
+		<section className='w-full h-screen overflow-y-auto '>
+			<div className=' '>
 			<div className='w-full flex justify-between items-start'>
-				<div className='flex flex-col p-5 w-full'>
+				<div className='flex flex-col p-5 w-full overflow-y-auto'>
 					{posts?.map((post) => (
 						<PostCard post={post} key={post.postId} />
 					))}
@@ -41,6 +42,7 @@ export default function Home({ posts, users, sessions, last }: Props) {
 					))}
 				</div>
 				<Suggestions reccomend={users} session={sessions} />
+			</div>
 			</div>
 		</section>
 	);

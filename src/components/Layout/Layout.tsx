@@ -21,11 +21,11 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 				<meta name='viewport' content='width=device-width, initial-scale=1' />
 				<link rel='icon' href='/favicon.ico' />
 			</Head>
-			<div className='bg-white h-full w-full dark:bg-black transition-all max-w-[1600px] mx-auto'>
+			<div className='bg-white h-full w-full dark:bg-black transition-all max-w-[1600px] mx-auto '>
 				<div className='flex transition'>
 						<Sidebar />
 						<SearchForm />
-					<main className='w-full h-full transition-width'>
+					<main className='w-full h-full transition-width '>
 						<MainHeader />
 						{children}
 					</main>
