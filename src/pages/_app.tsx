@@ -10,11 +10,11 @@ export default function App({
 }: any) {
 	return (
 		<SessionProvider session={session}>
-			<RecoilRoot>
-				<Layout>
-					<Component {...pageProps} />
-				</Layout>
-			</RecoilRoot>
+					<RecoilRoot>
+						<Layout>
+							<Component {...pageProps} />
+						</Layout>
+					</RecoilRoot>
 		</SessionProvider>
 	);
 }

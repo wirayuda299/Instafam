@@ -1,7 +1,7 @@
 import { db } from "@/config/firebase";
 import { IUserPostProps } from "@/types/post";
 import { IUser } from "@/types/user";
-import { getDocs, query, collection, orderBy, where, limit } from "firebase/firestore";
+import { getDocs, query, collection, orderBy, where, limit, startAfter } from "firebase/firestore";
 
 export const getPosts = async () => {
   try {
@@ -18,6 +18,24 @@ export const getPosts = async () => {
     console.log(error.message);
   }
 }
+
+export async function fetchNextPosts(last:IUserPostProps | null) {
+  try {
+    const q =
+      query(
+        collection(db, 'posts'),
+        orderBy('createdAt', 'desc'),
+        startAfter(last?.createdAt),
+      )
+    const res = await getDocs(q)
+    const userPosts = res.docs.map(data => data.data()) as IUserPostProps[]
+    return userPosts
+
+  } catch (error: any) {
+    console.log(error.message);
+  }
+}
+
 export async function getPostByCurrentUser(uid: string | undefined) {
   try {
     const q =
