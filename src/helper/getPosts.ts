@@ -1,5 +1,6 @@
 import { db } from "@/config/firebase";
 import { IUserPostProps } from "@/types/post";
+import { IUser } from "@/types/user";
 import { getDocs, query, collection, orderBy, where, limit } from "firebase/firestore";
 
 export const getPosts = async () => {
@@ -10,7 +11,7 @@ export const getPosts = async () => {
       limit(8)
     )
     const res = await getDocs(q)
-    const userPosts: IUserPostProps[] = res.docs.map(data => data.data()) as IUserPostProps[]
+    const userPosts= res.docs.map(data => data.data()) as IUserPostProps[]
     return userPosts
 
   } catch (error: any) {
@@ -26,7 +27,7 @@ export async function getPostByCurrentUser(uid: string | undefined) {
         orderBy('createdAt', 'desc'),
       )
     const res = await getDocs(q)
-    const posts = res.docs.map(data => data.data())
+    const posts = res.docs.map(data => data.data()) as IUser[]
     return posts
 
   } catch (error: any) {

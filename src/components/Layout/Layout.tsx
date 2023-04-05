@@ -13,6 +13,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 					name='description'
 					content='Instafam is social media web app that let you connect with people around the world'
 				/>
+				<meta name='robots' content='/public/robots.txt' />
 				<meta
 					name='keywords'
 					content='social media, instafam, nextjs, tailwindcss, reactjs, firebase'

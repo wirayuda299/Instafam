@@ -1,0 +1,2 @@
+User-agent: *
+Disallow: */search/:*, */search/?, /search/?, /auth/login, /auth/logout, /auth/register, /auth/forgot-password, /auth/reset-password, /auth/confirm-email, /auth/connect, /auth/unlink, /auth/confirm, /auth/confirm-email, /auth/confirm-email/:*,

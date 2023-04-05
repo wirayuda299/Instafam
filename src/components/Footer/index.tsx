@@ -1,9 +1,12 @@
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-
+type FooterProps = {
+	name: string;
+	link: string;
+}
 export default function Footer() {
 	const router = useRouter();
-	const footerlists = [
+	const footerlists:FooterProps[] = [
 		{
 			name: 'About',
 			link: '/about',

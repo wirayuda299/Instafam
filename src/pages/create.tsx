@@ -3,7 +3,6 @@ import { db, storage } from '@/config/firebase';
 import { doc, setDoc } from 'firebase/firestore';
 import { getDownloadURL, ref, uploadString } from 'firebase/storage';
 import { useSession } from 'next-auth/react';
-import { useRouter } from 'next/navigation';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { croppedImageState, imagesState } from '@/store/images';
 import { captionsState } from '@/store/captions';
@@ -20,10 +19,9 @@ const ImageCropper = dynamic(() => import('@/components/Images/Cropper'), {
 export default function CreatePost() {
 	const [captions, setCaptions] = useRecoilState(captionsState);
 	const [img, setImg] = useRecoilState(imagesState);
-	const [loading, setLoading] = useState(false);
+	const [loading, setLoading] = useState<boolean>(false);
 	const { data: session } = useSession();
 	const croppedImg = useRecoilValue(croppedImageState);
-	const router = useRouter();
 
 	const handlePost = async () => {
 		if (!img) return;
@@ -35,7 +33,6 @@ export default function CreatePost() {
 				.split(' ') || [];
 		const uuid = crypto.randomUUID();
 		try {
-			if (!session) router.push('/auth/signin');
 			const storageRef =`post/${uuid}/image`
 
 			const imageRef = ref(storage, storageRef);
@@ -73,9 +70,9 @@ export default function CreatePost() {
 			<Head>
 				<title>Create New Post  &#8226; Instafam</title>
 			</Head>
-			<section className='w-full h-screen bg-white dark:bg-[#121212] overflow-y-auto p-5'>
+			<section className='w-full h-screen bg-white dark:bg-[#121212] overflow-y-auto p-10 md:p-5 sm:grid sm:place-content-center'>
 				<div
-					className={`grid grid-cols-1 gap-7 place-items-center w-full h-full ${
+					className={`container mx-auto grid grid-cols-1 gap-2 md:gap-7 place-items-center ${
 						!img ? '' : 'md:grid-cols-2'
 					}`}
 				>

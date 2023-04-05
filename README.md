@@ -20,8 +20,6 @@ Welcome to Instafam! This is a social media app that allows you to connect with 
 - Simple detection of nudity in images while create a post
 - Load more posts
 
-
-
 Other features is comming soon.
 
 ## Technologies Used

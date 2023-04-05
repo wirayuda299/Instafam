@@ -37,7 +37,7 @@ export default function ImageCropper() {
 		}
 	}
 	return (
-		<>
+		<div className='w-full h-full'>
 			<ImageInput setPreviewUrl={setImg} img={img} />
 			{img ? (
 				<div className={`w-full flex justify-center items-center rounded-md`}>
@@ -67,6 +67,6 @@ export default function ImageCropper() {
 					</div>
 				</div>
 			) : null}
-		</>
+		</div>
 	);
 }

@@ -1,6 +1,8 @@
 import { doc, getDoc, arrayRemove, arrayUnion, updateDoc } from "firebase/firestore";
 import { db } from "@/config/firebase";
-import { IFollowerProps } from "@/types/follower";
+import { IUser } from "@/types/user";
+type FollowerProps = Pick<IUser, 'followers'>
+
 
 export async function handleFollow(id: string = '', uid: string = '', followedByName: string = ''): Promise<void> {
   try {
@@ -12,7 +14,7 @@ export async function handleFollow(id: string = '', uid: string = '', followedBy
 
     if (getUsers) {
       const res = Array(getUsers.data());
-      const hasFollow: boolean = res[0]?.followers.some((follower: IFollowerProps) => follower.followedBy === uid);
+      const hasFollow: boolean = res[0]?.followers.some((follower: FollowerProps['followers'][0]) => follower.followedBy === uid);
       const updateAuthorFollowersLists = hasFollow
         ? {
           followers: arrayRemove({

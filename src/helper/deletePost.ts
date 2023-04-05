@@ -1,8 +1,9 @@
 import { storage, db } from "@/config/firebase";
-import { DocumentData, deleteDoc, doc } from "firebase/firestore";
+import { IUserPostProps } from "@/types/post";
+import { deleteDoc, doc } from "firebase/firestore";
 import { ref, deleteObject } from "firebase/storage";
 
-export const deletePost = async (post:DocumentData) => {
+export const deletePost = async (post: IUserPostProps) => {
   try {
     const postRef = ref(storage, post.storageRef);
     const deleteFromFirestore = await deleteDoc(

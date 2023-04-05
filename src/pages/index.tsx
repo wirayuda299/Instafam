@@ -1,12 +1,11 @@
 import { getPosts } from '@/helper/getPosts';
 import { getUserRecommendation } from '@/helper/getUser';
-import { useIntersectionObserver } from '@/hooks/useIntersectionObserver';
-import { getSession, useSession } from 'next-auth/react';
+import { IUserPostProps } from '@/types/post';
+import { IUser } from '@/types/user';
 import dynamic from 'next/dynamic';
-import { useMemo } from 'react';
-const Suggestions = dynamic(
-	() => import('@/components/Suggestions/Suggestions'),
-	{
+import { GetServerSidePropsContext } from 'next';
+import { getSession } from 'next-auth/react';
+const Suggestions = dynamic(() => import('@/components/Suggestions/Suggestions'),{
 		ssr: true,
 	}
 );
@@ -14,44 +13,37 @@ const PostCard = dynamic(() => import('@/components/Card/Post'), {
 	ssr: true,
 });
 
-export default function Home({ posts, users }: any) {
-	const { data: session } = useSession();
-	const { loading, newData } = useIntersectionObserver(posts);
+type Props = {
+	posts: IUserPostProps[] | [];
+	users: IUser[] | [];
+	sessions: any;
+};
+
+export default function Home({ posts, users, sessions }: Props) {
 	return (
 		<section className='w-full h-screen md:p-3 overflow-y-auto'>
 			<div className='w-full flex justify-between items-start'>
 				<div className='flex flex-col p-5 w-full'>
-					{posts.map((post: any, i: number) => (
-						<PostCard
-							post={post}
-							key={post.postId}
-							id={i === posts.length - 1 ? 'last' : undefined}
-						/>
+					{posts.map((post) => (
+						<PostCard post={post} key={post.postId} />
 					))}
-					{loading && <p className='text-center w-full'>Loading...</p>}
-					{newData.map((post: any, i: number) => (
-						<PostCard
-							post={post}
-							key={post.postId}
-							id={i === posts.length - 1 ? 'last' : undefined}
-						/>
-					))}
-
 				</div>
-				<Suggestions reccomend={users} session={session} />
+				<Suggestions reccomend={users} session={sessions} />
 			</div>
 		</section>
 	);
 }
 
-export async function getServerSideProps({ req, res }: any) {
-	const session = await getSession({ req });
+export async function getServerSideProps({ req }: GetServerSidePropsContext) {
 	const posts = await getPosts();
+	const session = await getSession({ req });
 	const users = await getUserRecommendation(session?.user.uid);
+
 	return {
 		props: {
-			posts,
-			users,
+			posts: posts ?? [],
+			users: users ?? [],
+			sessions: session,
 		},
 	};
 }

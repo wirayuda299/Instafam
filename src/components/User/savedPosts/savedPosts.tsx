@@ -4,13 +4,13 @@ import { useRecoilValue } from 'recoil';
 import { IUserPostProps } from '@/types/post';
 import Loader from '@/components/Loader/Loader';
 import dynamic from 'next/dynamic';
-
-type ISavedPostsProps = {
-	savedPosts: IUserPostProps[] | undefined;
-};
 const FeedsCards = dynamic(() => import('@/components/Card/Feeds'), {
 	loading: () => <Loader />,
 });
+
+type ISavedPostsProps = {
+	savedPosts: IUserPostProps[] | [];
+};
 
 export default function SavedPosts({ savedPosts }: ISavedPostsProps) {
 	const savedPostsTab = useRecoilValue(tabSavedPosts);
@@ -27,7 +27,7 @@ export default function SavedPosts({ savedPosts }: ISavedPostsProps) {
 					) : (
 						savedPosts?.map((post) => (
 							<Suspense key={post.postId} fallback={<Loader />}>
-								<FeedsCards post={post} id={undefined}/>
+								<FeedsCards post={post}/>
 							</Suspense>
 						))
 					)}

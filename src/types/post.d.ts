@@ -8,12 +8,16 @@ export interface IUserPostProps {
   storageRef: string,
   likedBy: string[]
   createdAt: string | number
-  comments: ICommentsProps[]
+  comments: {
+    commentByUid: string,
+    comment: string,
+    commentByName: string,
+  }[]
   hashtags: string[]
   postId: string
   posts: []
   followers: []
   following: []
-  savedPosts: []
+  savedPosts: IUserPostProps[]
   tagged: []
 }

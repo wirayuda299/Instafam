@@ -4,7 +4,6 @@ import { query, collection, getDocs, where } from 'firebase/firestore';
 import { useForm } from 'react-hook-form';
 import { useRecoilState } from 'recoil';
 
-
 export default function useSearchUser() {
 	const { register, handleSubmit, resetField } = useForm();
   const [results, setResults] = useRecoilState(resultsState)

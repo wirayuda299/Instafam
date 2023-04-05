@@ -6,26 +6,20 @@ import PostHeader from './Header';
 import Author from './Author';
 import Comments, { IComment } from './Comments';
 import { db } from '@/config/firebase';
-import { DocumentData, doc, onSnapshot } from 'firebase/firestore';
+import { doc, onSnapshot } from 'firebase/firestore';
 import { useSession } from 'next-auth/react';
 import { IUser } from '@/types/user';
-export interface ICommentsProps {
-	comment: string;
-	commentByName: string;
-	commentByUid: string;
-}
 export interface IPostCardProps {
 	post: IUserPostProps;
-	id: string | undefined
 }
-
-function PostCard({post, id}: IPostCardProps) {
-	const [comment, setComment] = useState<IComment[]>([]);
+function PostCard({ post }: IPostCardProps) {
+	const [comment, setComment] = useState<IComment['comments']>([]);
 	const [likesCount, setLikesCount] = useState<string[]>([]);
 	const [commentOpen, setCommentOpen] = useState<boolean>(false);
 	const [savedPosts, setSavedPosts] = useState<string[]>([]);
-	const [users, setUsers] = useState<DocumentData>();
+	const [users, setUsers] = useState<IUser>();
 	const { data: session } = useSession();
+	
 	useEffect(() => {
 		const unsub = onSnapshot(doc(db, 'posts', `post-${post.postId}`), (doc) => {
 			if (doc.exists()) {
@@ -41,7 +35,7 @@ function PostCard({post, id}: IPostCardProps) {
 			doc(db, 'users', `${session?.user.uid}`),
 			(docs) => {
 				if (docs.exists()) {
-					setUsers(docs.data());
+					setUsers(docs.data() as IUser);
 					setSavedPosts(
 						docs
 							.data()
@@ -52,11 +46,9 @@ function PostCard({post, id}: IPostCardProps) {
 		);
 		return () => unsub();
 	}, [db, post]);
-	
-	
 
 	return (
-		<div className='w-full mb-5' id={id} >
+		<div className='w-full mb-5'>
 			<div className='bg-white shadow-lg  dark:bg-black dark:border-black dark:text-white rounded-sm '>
 				<PostHeader
 					users={users as IUser}
@@ -70,7 +62,9 @@ function PostCard({post, id}: IPostCardProps) {
 					height={1300}
 					sizes='`100vw'
 					placeholder='blur'
-					blurDataURL={'data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAP//////////////////////////////////////////////////////////////////////////////////////2wBDAf//////////////////////////////////////////////////////////////////////////////////////wAARCAACAAMDASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwBaKKKAP//Z'}
+					blurDataURL={
+						'data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAP//////////////////////////////////////////////////////////////////////////////////////2wBDAf//////////////////////////////////////////////////////////////////////////////////////wAARCAACAAMDASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwBaKKKAP//Z'
+					}
 					priority
 					quality={65}
 					className='object-cover w-full h-auto rounded-lg'

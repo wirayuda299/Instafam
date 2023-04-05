@@ -72,7 +72,7 @@ const nextConfig = {
     X_RapidAPI_KEY: process.env.X_RapidAPI_KEY,
     X_RapidAPI_HOST: process.env.X_RapidAPI_HOST,
   },
-  optimizeFonts: true
+  optimizeFonts: true,
 }
 
 module.exports = nextConfig

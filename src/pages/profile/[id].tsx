@@ -7,6 +7,9 @@ import { tabPosts, tabSavedPosts } from '@/store/TabToggler';
 import { getSession } from 'next-auth/react';
 import { getPostByCurrentUser } from '@/helper/getPosts';
 import { getCurrentUserData } from '@/helper/getUser';
+import { IUserPostProps } from '@/types/post';
+import { Session } from 'next-auth';
+import { IUser } from '@/types/user';
 
 const SavedPosts = dynamic(
 	() => import('@/components/User/savedPosts/savedPosts'),
@@ -21,7 +24,16 @@ const Statistic = dynamic(
 	() => import('@/components/User/Statistic/Statistic')
 );
 
-export default function UserProfile({ posts, session, user, query, }: any) {
+type Props = {
+	posts: IUserPostProps[] | [];
+	session: Session | null;
+	user: IUser[] | [];
+	query: {
+		readonly id:  string;
+	};
+};
+
+export default function UserProfile({ posts, session, user, query }: Props) {
 	const postTab = useRecoilValue(tabPosts);
 	const savedPostTab = useRecoilValue(tabSavedPosts);
 	return (
@@ -48,21 +60,19 @@ export default function UserProfile({ posts, session, user, query, }: any) {
 			</Head>
 			<div className='w-full h-screen overflow-y-auto py-5 mx-auto p-5'>
 				<div className='flex items-center border-b border-gray-400 w-full space-x-3 md:justify-center md:space-x-10'>
-				
-						<Statistic
-							uid={session?.user?.uid}
-							users={user && user[0]}
-							posts={posts ?? []}
-						/>
-					
+					<Statistic
+						uid={session?.user?.uid}
+						users={user && user[0]}
+						posts={posts ?? []}
+					/>
 				</div>
 
 				{session?.user?.uid === query.id ? <Tab /> : null}
 				<div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5 p-5 justify-center items-center w-full '>
 					{postTab && (
 						<>
-							{posts?.map((post:any) => (
-								<ExplorePostCard post={post} key={post.postId} id={undefined}/>
+							{posts?.map((post) => (
+								<ExplorePostCard post={post} key={post.postId}/>
 							))}
 						</>
 					)}
@@ -71,12 +81,6 @@ export default function UserProfile({ posts, session, user, query, }: any) {
 							<SavedPosts savedPosts={user && user[0].savedPosts} />
 						)}
 					</>
-				</div>
-				<div
-					className={`flex justify-center w-full ${
-						savedPostTab ? 'hidden' : 'block'
-					}`}
-				>
 				</div>
 			</div>
 		</>
@@ -92,8 +96,7 @@ export async function getServerSideProps({ req, res, params, query }: any) {
 			posts,
 			user,
 			session,
-			query
+			query,
 		},
-	}
+	};
 }
-

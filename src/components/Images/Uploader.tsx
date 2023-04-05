@@ -10,9 +10,6 @@ export const ImageInput: FC<IProps> = ({ setPreviewUrl, img }) => {
 	const handleInputImage = async (e: ChangeEvent<HTMLInputElement>) => {
 
 		try {
-			const imageMetadata = e.target.blur()
-			console.log(imageMetadata);
-			
 			let selectedFile = e.target.files?.[0];
 			if (!selectedFile) return;
 			const data = new FormData();
@@ -52,7 +49,7 @@ export const ImageInput: FC<IProps> = ({ setPreviewUrl, img }) => {
 	};
 	return (
 		<div
-			className={` items-center justify-center w-full ${
+			className={` sm:min-w-[500px] items-center justify-center w-full ${
 				img === '' ? 'flex' : 'hidden'
 			}`}
 		>
