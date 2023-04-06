@@ -1,11 +1,12 @@
 import { doc, updateDoc, arrayRemove, arrayUnion, getDoc } from 'firebase/firestore';
-import { db } from '../config/firebase';
+import { db } from '@/config/firebase';
 import { IUserPostProps } from '@/types/post';
 
 export async function handleLikes(
 	post: IUserPostProps,
 	uid: string = '',
 ) {
+	if(typeof window === 'undefined') return;
 	try {
 		const postRef = doc(db, 'posts', `post-${post.postId}`);
 		const getPostDetails = await getDoc(postRef)

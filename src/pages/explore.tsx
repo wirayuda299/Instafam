@@ -1,8 +1,8 @@
 import Head from 'next/head';
-import { getPosts } from '@/helper/getPosts';
 import { IUserPostProps } from '@/types/post';
 import dynamic from 'next/dynamic';
 import useInfiniteScroll from '@/hooks/useInfiniteScroll';
+import { getPosts } from '@/helper/getPosts';
 
 const ExplorePostCard = dynamic(() => import('@/components/Card/Feeds'), {
 	ssr: true,
@@ -28,16 +28,15 @@ export default function Explore({
 					content='Explore new posts and discover new accounts on Instafam.'
 				/>
 			</Head>
-			<div className='text-black dark:text-white p-5 w-full h-screen overflow-y-auto'>
+			<div className='text-black dark:text-white w-full h-screen overflow-y-auto p-5'>
 				<div>
 					<h1 className='text-center font-semibold text-5xl py-5'>Explore</h1>
 				</div>
-				<div className='columns-1 md:columns-2 lg:columns-3 '>
+				<div className='w-full columns-1 sm:columns-2 lg:columns-3 gap-10 '>
 					{posts?.map((post: IUserPostProps) => (
-							<ExplorePostCard post={post} key={post.postId} />
+						<ExplorePostCard post={post} key={post.postId} />
 					))}
-					<br />
-					<p ref={ref}></p>
+					<span ref={ref}></span>
 					{loading && <CardLoader />}
 					{postsState?.map((post) => (
 						<ExplorePostCard post={post} key={post.postId} />
@@ -48,12 +47,9 @@ export default function Explore({
 	);
 }
 export async function getServerSideProps({ res }: any) {
-	const posts = await getPosts();
+	const posts = await getPosts(8);
 	const last = posts ? posts[posts.length - 1] : null;
-	res.setHeader(
-		'Cache-Control',
-		'public, s-maxage=60, stale-while-revalidate'
-	);
+	res.setHeader('Cache-Control', 'public, s-maxage=60, stale-while-revalidate');
 	return {
 		props: {
 			posts,

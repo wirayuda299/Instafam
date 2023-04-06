@@ -5,6 +5,7 @@ type FollowerProps = Pick<IUser, 'followers'>
 
 
 export async function handleFollow(id: string = '', uid: string = '', followedByName: string = ''): Promise<void> {
+  if(typeof window === 'undefined') return;
   try {
 
     const userRef = doc(db, 'users', id);

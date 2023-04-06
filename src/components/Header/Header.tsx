@@ -1,8 +1,9 @@
 import { useSession } from 'next-auth/react';
+import dynamic from 'next/dynamic';
 import { Oleo_Script } from 'next/font/google';
 import Link from 'next/link';
 import { AiOutlineSearch, AiOutlineHeart } from 'react-icons/ai';
-import Form from '../Search/Form';
+const Form = dynamic(() => import('../Search/Form'));
 
 const oleo = Oleo_Script({
 	subsets: ['latin', 'latin-ext'],
@@ -19,10 +20,7 @@ export default function Header() {
 				<header className='w-full relative md:hidden bg-white dark:bg-black dark:text-white px-5 border-b dark:border-b-0 '>
 					<div className='w-full flex justify-between items-center space-x-2'>
 						<div className='w-full'>
-							<Link
-								href='/'
-								className={`text-xl md:text-2xl ${oleo.style}`}
-							>
+							<Link href='/' className={`text-xl md:text-2xl ${oleo.style}`}>
 								<h1>Instafams</h1>
 							</Link>
 						</div>

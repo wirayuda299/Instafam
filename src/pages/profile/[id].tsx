@@ -1,7 +1,6 @@
 import dynamic from 'next/dynamic';
 import Loader from '@/components/Loader/Loader';
 import Head from 'next/head';
-import Tab from '@/components/Tab/Tab';
 import { useRecoilValue } from 'recoil';
 import { tabPosts, tabSavedPosts } from '@/store/TabToggler';
 import { getSession } from 'next-auth/react';
@@ -23,13 +22,14 @@ const ExplorePostCard = dynamic(() => import('@/components/Card/Feeds'), {
 const Statistic = dynamic(
 	() => import('@/components/User/Statistic/Statistic')
 );
+const Tab = dynamic(() => import('@/components/Tab/Tab'));
 
 type Props = {
 	posts: IUserPostProps[] | [];
 	session: Session | null;
 	user: IUser[] | [];
 	query: {
-		readonly id:  string;
+		readonly id: string;
 	};
 };
 
@@ -72,7 +72,7 @@ export default function UserProfile({ posts, session, user, query }: Props) {
 					{postTab && (
 						<>
 							{posts?.map((post) => (
-								<ExplorePostCard post={post} key={post.postId}/>
+								<ExplorePostCard post={post} key={post.postId} />
 							))}
 						</>
 					)}
@@ -86,7 +86,7 @@ export default function UserProfile({ posts, session, user, query }: Props) {
 		</>
 	);
 }
-export async function getServerSideProps({ req, res, params, query }: any) {
+export async function getServerSideProps({ req, query }: any) {
 	const posts = await getPostByCurrentUser(query.id);
 	const user = await getCurrentUserData(query.id);
 	const session = await getSession({ req });

@@ -5,6 +5,7 @@
 body {
   overflow: hidden !important;
 }
+
 .wrapper::after {
   display: block;
   content: "";

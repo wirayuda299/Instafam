@@ -29,7 +29,6 @@ export default function Home({ posts, users, sessions, last }: Props) {
 	const { ref, postsState, loading } = useInfiniteScroll(last);
 	return (
 		<section className='w-full h-screen overflow-y-auto '>
-			<div className=' '>
 			<div className='w-full flex justify-between items-start'>
 				<div className='flex flex-col p-5 w-full overflow-y-auto'>
 					{posts?.map((post) => (
@@ -43,16 +42,15 @@ export default function Home({ posts, users, sessions, last }: Props) {
 				</div>
 				<Suggestions reccomend={users} session={sessions} />
 			</div>
-			</div>
 		</section>
 	);
 }
 
 export async function getServerSideProps({ req, res }: any) {
-	const posts = await getPosts();
+	const posts = await getPosts(5);
 	const session = await getSession({ req });
 	const users = await getUserRecommendation(session?.user.uid);
-	res.setHeader('Cache-Control', 's-maxage=60, stale-while-revalidate');
+	res.setHeader('Cache-Control', 's-maxage=60, stale-while-revalidate=59');
 
 	return {
 		props: {

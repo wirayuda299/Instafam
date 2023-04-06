@@ -3,21 +3,24 @@ import { IUserPostProps } from "@/types/post";
 import { useState, useEffect } from "react";
 import { useInView } from "react-intersection-observer";
 
+const options = {
+	root: null,
+	rootMargin: "0px",
+	threshold: 1.0,
+}
+
 export default function useInfiniteScroll(last:any) {
-  const { ref, inView } = useInView();
+  const { ref, inView,  } = useInView(options);
 	const [postsState, setPostsState] = useState<IUserPostProps[]>([]);
 	const [loading, setLoading] = useState(true);
-	useEffect(() => {
-		try {
-			if (inView) {
-				fetchNextPosts(last).then((newPosts) => {
-					setPostsState(newPosts as IUserPostProps[]);
-					setLoading(false);
-				});
-			}
-		} catch (error) {
-			console.log(error);
+	useEffect( () => {
+		if (inView) {
+			fetchNextPosts(last).then((posts) => {
+				setPostsState(posts as IUserPostProps[]	);
+				setLoading(false);
+			});
 		}
 	}, [inView]);
+
   return { ref, postsState, loading, inView}
 }

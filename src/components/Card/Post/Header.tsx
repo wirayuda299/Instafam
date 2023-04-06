@@ -5,7 +5,8 @@ import { getCreatedDate } from '@/util/postDate';
 import { IUser } from '@/types/user';
 import { IUserPostProps } from '@/types/post';
 import { BsThreeDots } from 'react-icons/bs';
-import Menus from './Menus';
+import dynamic from 'next/dynamic';
+const Menus = dynamic(() => import('./Menus'), { ssr: false });
 
 export type HeaderProps = {
 	currentuserUid: string;

@@ -4,6 +4,7 @@ import { deleteDoc, doc } from "firebase/firestore";
 import { ref, deleteObject } from "firebase/storage";
 
 export const deletePost = async (post: IUserPostProps) => {
+  if(typeof window === 'undefined') return;
   try {
     const postRef = ref(storage, post.storageRef);
     const deleteFromFirestore = await deleteDoc(

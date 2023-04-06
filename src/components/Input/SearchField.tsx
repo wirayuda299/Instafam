@@ -29,11 +29,12 @@ export default function SearchField() {
 						<div className='border-b pb-5 w-full'>
 							<div className='w-full flex items-center justify-between bg-[#b9b9b917] rounded-md px-3'>
 								<input
+									autoComplete='off'
 									type='search'
 									className='bg-transparent w-full py-2 focus:outline-none focus:border-0 focus:ring-0'
 									placeholder='	Search for users'
 								/>
-								<button>
+								<button type='button' name='close' title='close'>
 									<AiOutlineClose size={20} />
 								</button>
 							</div>

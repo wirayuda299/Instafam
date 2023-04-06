@@ -8,9 +8,16 @@ export default function Author({ post }: Props) {
 	const [show, setShow] = useState(false);
 	return (
 		<div className='overflow-hidden'>
-			<div className={`flex space-x-2 max-w-xs cursor-pointer ${show ? 'flex-wrap' : ''}`} onClick={() => setShow(!show)}>
+			<div
+				className={`flex space-x-2 max-w-xs cursor-pointer ${
+					show ? 'flex-wrap' : ''
+				}`}
+				onClick={() => setShow(!show)}
+			>
 				<h3 className='font-semibold text-sm pb-2'>{post?.author}</h3>
-				<p className={`text-sm font-thin ${show ? '' : 'truncate'}`}>{post.captions}</p>
+				<p className={`text-sm font-thin ${show ? '' : 'truncate'}`}>
+					{post.captions}
+				</p>
 			</div>
 			<div className='flex flex-wrap'>
 				{post.hashtags.map((hastag) => (

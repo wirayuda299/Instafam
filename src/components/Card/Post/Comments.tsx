@@ -1,14 +1,13 @@
 import { db } from '@/config/firebase';
 import { IUserPostProps } from '@/types/post';
 import { doc, arrayUnion, updateDoc } from 'firebase/firestore';
-import { Session } from 'next-auth';
 import { useForm } from 'react-hook-form';
 
-export type IComment = Pick<IUserPostProps, 'comments'>
+export type IComment = Pick<IUserPostProps, 'comments'>;
 
 type Props = {
 	post: IUserPostProps;
-	session: Session | null;
+	session: any;
 	commentOpen: boolean;
 	comments: IComment['comments'];
 };
