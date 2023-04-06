@@ -4,6 +4,7 @@ import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai';
 import { FaRegComment } from 'react-icons/fa';
 import { RiBookmarkFill } from 'react-icons/ri';
 import { BiBookmark } from 'react-icons/bi';
+import { useRouter } from 'next/router';
 
 type Props = {
 	post: IUserPostProps;
@@ -22,13 +23,18 @@ export default function ActionButton({
 	likes,
 	savedPosts,
 }: Props) {
+	const router = useRouter();
+	 const refreshData = () => {
+		router.replace(router.asPath);
+	}
 	return (
 		<div className='flex items-center justify-between mt-3 mb-2 p-1 relative'>
 			<div className='flex gap-x-5'>
 				<button
 					onClick={async () => {
 						const handleLike = await import('@/helper/like');
-						handleLike.handleLikes(post, uid);
+						handleLike.handleLikes(post, uid, refreshData);
+			
 					}}
 					name='like'
 					title='Like'
@@ -53,7 +59,8 @@ export default function ActionButton({
 			<button
 				onClick={async () => {
 					const handleSavePost = await import('@/helper/savePost');
-					handleSavePost.savePost(post, uid);
+					handleSavePost.savePost(post, uid, refreshData);
+					
 				}}
 				name='save post'
 				type='button'

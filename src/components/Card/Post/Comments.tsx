@@ -1,6 +1,7 @@
 import { db } from '@/config/firebase';
 import { IUserPostProps } from '@/types/post';
 import { doc, arrayUnion, updateDoc } from 'firebase/firestore';
+import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
 
 export type IComment = Pick<IUserPostProps, 'comments'>;
@@ -22,6 +23,11 @@ export default function Comments({
 	const defaultValues = {
 		comments: '',
 	};
+	const router = useRouter();
+	 const refreshData = () => {
+		router.replace(router.asPath);
+	}
+
 	const handleSubmits = async (e: any) => {
 		if (e.comments === '') return;
 		try {
@@ -34,7 +40,8 @@ export default function Comments({
 				}),
 			}).then(() => {
 				resetField('comments');
-			});
+			})
+			refreshData();
 		} catch (error: any) {
 			console.log(error.message);
 		}

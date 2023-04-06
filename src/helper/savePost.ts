@@ -2,7 +2,7 @@ import { doc, updateDoc, arrayRemove, arrayUnion, getDoc } from "firebase/firest
 import { db } from "../config/firebase"
 import { IUserPostProps } from "@/types/post"
 
-export async function savePost(post: IUserPostProps, uid: string = '') {
+export async function savePost(post: IUserPostProps, uid: string = '', refreshData: () => void) {
   if (typeof window === 'undefined') return;
   try {
     const userSnap = await getDoc(doc(db, 'users', `${uid}`));
@@ -11,10 +11,14 @@ export async function savePost(post: IUserPostProps, uid: string = '') {
     if (hasSaved) {
       await updateDoc(doc(db, 'users', `${uid}`), {
         savedPosts: arrayRemove(post)
+      }).then(() => {
+        refreshData()
       })
     } else {
       await updateDoc(doc(db, 'users', `${uid}`), {
         savedPosts: arrayUnion(post)
+      }).then(() => {
+        refreshData()
       })
     }
 
