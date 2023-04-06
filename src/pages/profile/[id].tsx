@@ -3,7 +3,7 @@ import Loader from '@/components/Loader/Loader';
 import Head from 'next/head';
 import { useRecoilValue } from 'recoil';
 import { tabPosts, tabSavedPosts } from '@/store/TabToggler';
-import { getSession } from 'next-auth/react';
+import { useSession } from 'next-auth/react';
 import { getPostByCurrentUser } from '@/helper/getPosts';
 import { getCurrentUserData } from '@/helper/getUser';
 import { IUserPostProps } from '@/types/post';
@@ -18,9 +18,13 @@ const SavedPosts = dynamic(
 );
 const ExplorePostCard = dynamic(() => import('@/components/Card/Feeds'), {
 	loading: () => <Loader />,
+	ssr: true
 });
-const Statistic = dynamic(
-	() => import('@/components/User/Statistic/Statistic')
+const Statistic = dynamic(() => import('@/components/User/Statistic/Statistic'), {
+	ssr: true,
+}
+
+
 );
 const Tab = dynamic(() => import('@/components/Tab/Tab'));
 
@@ -33,9 +37,10 @@ type Props = {
 	};
 };
 
-export default function UserProfile({ posts, session, user, query }: Props) {
+export default function UserProfile({ posts, user, query }: Props) {
 	const postTab = useRecoilValue(tabPosts);
 	const savedPostTab = useRecoilValue(tabSavedPosts);
+	const { data: session } = useSession();
 	return (
 		<>
 			<Head>
@@ -89,13 +94,11 @@ export default function UserProfile({ posts, session, user, query }: Props) {
 export async function getServerSideProps({ req, query }: any) {
 	const posts = await getPostByCurrentUser(query.id);
 	const user = await getCurrentUserData(query.id);
-	const session = await getSession({ req });
 
 	return {
 		props: {
 			posts,
 			user,
-			session,
 			query,
 		},
 	};
