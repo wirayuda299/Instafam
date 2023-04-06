@@ -4,13 +4,12 @@ import Link from 'next/link';
 import { Suspense, memo } from 'react';
 import Recommendation from '../Loader/Recommendation';
 import { IUser } from '@/types/user';
-import { Session } from 'next-auth';
 const Footer = dynamic(() => import('@/components/Footer'));
 type Props = {
-	session: Session | null;
+	session: any;
 	reccomend: IUser[];
 };
-function Suggestions({ session, reccomend }: Props) {
+function Suggestions({ session, reccomend }: Props) {	
 	return (
 		<Suspense fallback={<Recommendation />}>
 			<section className='min-w-[400px] hidden lg:block'>

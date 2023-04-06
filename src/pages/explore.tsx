@@ -2,8 +2,6 @@ import Head from 'next/head';
 import { IUserPostProps } from '@/types/post';
 import dynamic from 'next/dynamic';
 import useInfiniteScroll from '@/hooks/useInfiniteScroll';
-import { getPosts } from '@/helper/getPosts';
-
 const ExplorePostCard = dynamic(() => import('@/components/Card/Feeds'), {
 	ssr: true,
 });
@@ -47,7 +45,8 @@ export default function Explore({
 	);
 }
 export async function getServerSideProps({ res }: any) {
-	const posts = await getPosts(8);
+	const getUserPosts = await import('@/helper/getPosts');
+	const posts = await getUserPosts.getPosts(8);
 	const last = posts ? posts[posts.length - 1] : null;
 	res.setHeader('Cache-Control', 'public, s-maxage=60, stale-while-revalidate');
 	return {

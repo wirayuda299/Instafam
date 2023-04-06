@@ -24,7 +24,7 @@ export default function Sidebar() {
 	>
 		<nav className='w-full bg-white dark:bg-black dark:text-white p-1 md:p-3 md:h-full'>
 			<header className='hidden md:flex w-full flex-col pl-6 md:pl-3 py-5'>
-				<Link href='/' className={`text-3xl font-semibold ${oleo.style}`}>
+				<Link href='/' className={`text-3xl font-semibold ${oleo.className}`}>
 					{drawerOpen ? (
 						<AiOutlineInstagram size={30} />
 					) : (

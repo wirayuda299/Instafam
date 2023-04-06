@@ -14,7 +14,7 @@ export default function SearchField() {
 				setDrawerOpen(false);
 			});
 		};
-	}, []);
+	}, [setDrawerOpen]);
 
 	return (
 		<section
