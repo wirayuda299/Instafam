@@ -5,6 +5,7 @@ import { BsFillGearFill, BsFillMoonStarsFill } from 'react-icons/bs';
 import { RxCountdownTimer } from 'react-icons/rx';
 import { useRecoilState } from 'recoil';
 import { useEffect } from 'react';
+import { handleSignOut } from '@/helper/signout';
 interface INavProps {
 	id: number;
 	title: string;
@@ -60,32 +61,7 @@ export default function ExtraMenus() {
 			title: 'Log Out',
 		},
 	];
-	const handleSignOut = async () => {
-		const url = require('url');
-		const callbackUrl = `${process.env.NEXTAUTH_URL}/auth/signin?callbackUrl=http%3A%2F%2Flocalhost%3A3000%2F`;
-		const parsedUrl = url.parse(callbackUrl, true);
-		const getBaseUrl = (urlObj: any) => {
-			const { protocol, host, pathname } = urlObj;
-			return `${protocol}//${host}${pathname}`;
-		};
-		const baseUrl = getBaseUrl(parsedUrl);
-		try {
-			if (session) {
-				const csrfToken = await getCsrfToken();
-				if (!csrfToken) {
-					throw new Error('No CSRF token');
-				}
-
-				await signOut({
-					callbackUrl: baseUrl,
-					redirect: true,
-				});
-			}
-			return null;
-		} catch (error: any) {
-			console.log(error.message);
-		}
-	};
+	
 	useEffect(() => {
 		window.addEventListener('resize', () => {
 			setExtraListOpen(false);
@@ -116,7 +92,7 @@ export default function ExtraMenus() {
 							title={list.title}
 						>
 							<button
-								onClick={list.id === 6 ? handleSignOut : undefined}
+								onClick={() => list.id === 6 ? handleSignOut(session) : undefined}
 								className='w-full flex items-center space-x-2 gap-2 justify-between'
 								type='button'
 								name={list.title}

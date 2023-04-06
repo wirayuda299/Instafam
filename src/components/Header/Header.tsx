@@ -1,9 +1,11 @@
+import { handleSignOut } from '@/helper/signout';
 import { useSession } from 'next-auth/react';
 import dynamic from 'next/dynamic';
 import { Oleo_Script } from 'next/font/google';
 import Link from 'next/link';
-import { AiOutlineSearch, AiOutlineHeart } from 'react-icons/ai';
+import { AiOutlineSearch } from 'react-icons/ai';
 const Form = dynamic(() => import('../Search/Form'));
+import { GiExitDoor } from 'react-icons/gi';
 
 const oleo = Oleo_Script({
 	subsets: ['latin', 'latin-ext'],
@@ -29,8 +31,8 @@ export default function Header() {
 								<AiOutlineSearch size={20} />
 							</button>
 						</Form>
-						<button name='notifications' type='button' title='notifications'>
-							<AiOutlineHeart size={25} />
+						<button name='sign out' type='button' title='sign out' onClick={() => handleSignOut(session)}>
+							<GiExitDoor size={25} />
 						</button>
 					</div>
 				</header>
