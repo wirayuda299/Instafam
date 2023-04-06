@@ -7,7 +7,7 @@ export async function handleLikes(
 	uid: string = '',
 	refreshData: () => void
 ) {
-	if(typeof window === 'undefined') return;
+	if (typeof window === 'undefined') return;
 	try {
 		const postRef = doc(db, 'posts', `post-${post.postId}`);
 		const getPostDetails = await getDoc(postRef)
@@ -15,9 +15,10 @@ export async function handleLikes(
 		const haslikedByUsers = likedBy.find((like: string) => like === uid)
 
 		if (haslikedByUsers) {
-			await updateDoc(postRef, { likedBy: arrayRemove(uid) }).then(() => {
-				refreshData()
-			})
+			await updateDoc(postRef, { likedBy: arrayRemove(uid) })
+				.then(() => {
+					refreshData()
+				})
 		} else {
 			await updateDoc(postRef, { likedBy: arrayUnion(uid) })
 		}

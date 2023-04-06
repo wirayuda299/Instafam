@@ -14,8 +14,8 @@ export async function handleFollow(id: string = '', uid: string = '', followedBy
     const [getUsers] = await Promise.all([getDoc(userRef), getDoc(currentUserRef)]);
 
     if (getUsers) {
-      const res = Array(getUsers.data());
-      const hasFollow: boolean = res[0]?.followers.some((follower: FollowerProps['followers'][0]) => follower.followedBy === uid);
+      const res = getUsers.data();
+      const hasFollow: boolean = res?.followers.some((follower: FollowerProps['followers'][0]) => follower.followedBy === uid);
       const updateAuthorFollowersLists = hasFollow
         ? {
           followers: arrayRemove({

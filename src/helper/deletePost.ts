@@ -3,7 +3,7 @@ import { IUserPostProps } from "@/types/post";
 import { deleteDoc, doc } from "firebase/firestore";
 import { ref, deleteObject } from "firebase/storage";
 
-export const deletePost = async (post: IUserPostProps) => {
+export const deletePost = async (post: IUserPostProps, refreshData:() => void) => {
   if(typeof window === 'undefined') return;
   try {
     const postRef = ref(storage, post.storageRef);
@@ -12,7 +12,7 @@ export const deletePost = async (post: IUserPostProps) => {
     );
     const deleteFromStorage = await deleteObject(postRef);
     await Promise.all([deleteFromFirestore, deleteFromStorage]).then(() => {
-      window.location.reload();
+      refreshData()
     });
   } catch (error: any) {
     console.log(error.message);
