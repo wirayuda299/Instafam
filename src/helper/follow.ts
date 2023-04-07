@@ -4,7 +4,7 @@ import { IUser } from "@/types/user";
 type FollowerProps = Pick<IUser, 'followers'>
 
 
-export async function handleFollow(id: string = '', uid: string = '', followedByName: string = ''): Promise<void> {
+export async function handleFollow(id: string = '', uid: string = '', followedByName: string = '', refreshData: () => void): Promise<void> {
   if(typeof window === 'undefined') return;
   try {
 
@@ -38,7 +38,9 @@ export async function handleFollow(id: string = '', uid: string = '', followedBy
       await Promise.all([
         updateDoc(userRef, updateAuthorFollowersLists),
         updateDoc(currentUserRef, updateCurrentUserFollowingLists)
-      ])
+      ]).then(() => {
+        refreshData();
+      })
     }
   } catch (error: any) {
     console.log(error.message);

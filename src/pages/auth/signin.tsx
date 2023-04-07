@@ -1,4 +1,4 @@
-import { getCsrfToken, getProviders, signIn } from 'next-auth/react';
+import {  getProviders } from 'next-auth/react';
 import loginBg from '@/assets/images/login-background.jpg'
 import { FcGoogle } from 'react-icons/fc';
 import { AiOutlineInstagram } from 'react-icons/ai';
@@ -15,20 +15,7 @@ interface Providers {
 }
 
 export default function SignIn({ providers }: { providers: Providers }) {
-	const handleSignin = async (providerId: string) => {
-		try {
-			const csrfToken = await getCsrfToken();
-			if (!csrfToken) {
-				throw new Error('CSRF token not found');
-			}
-			await signIn(providerId, {
-				redirect: false,
-				callbackUrl: process.env.NEXTAUTH_URL,
-			});
-		} catch (error: any) {
-			console.log(error.message);
-		}
-	};
+	
 
 	return (
 		<>
@@ -63,7 +50,11 @@ export default function SignIn({ providers }: { providers: Providers }) {
 								name='signin'
 								key={provider.id}
 								className='bg-black text-white hover:bg-opacity-80 transition-all ease duration-300 rounded-md px-5 py-3 text-center inline-flex items-center gap-x-5'
-								onClick={() => handleSignin(provider.id)}
+								onClick={async () => {
+									const signin = await import('@/helper/signIn');
+									await signin.handleSignin(provider.id)
+
+								}}
 							>
 								Sign in with {provider.name}{' '}
 								<span>

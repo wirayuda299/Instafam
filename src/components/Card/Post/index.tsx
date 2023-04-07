@@ -1,15 +1,17 @@
 import { memo, useEffect, useState } from 'react';
 import { IUserPostProps } from '@/types/post';
 import Image from 'next/image';
-import Comments, { IComment } from './Comments';
+import { IComment } from './Comments';
 import { db } from '@/config/firebase';
 import { doc, onSnapshot } from 'firebase/firestore';
 import { useSession } from 'next-auth/react';
 import { IUser } from '@/types/user';
 import dynamic from 'next/dynamic';
+import { useRouter } from 'next/router';
 const ActionButton = dynamic(() => import('./ActionButton'));
 const PostHeader = dynamic(() => import('./Header'));
 const Author = dynamic(() => import('./Author'));
+const Comments = dynamic(() => import('./Comments'));
 
 export interface IPostCardProps {
 	post: IUserPostProps;
@@ -21,12 +23,16 @@ function PostCard({ post }: IPostCardProps) {
 	const [savedPosts, setSavedPosts] = useState<string[]>([]);
 	const [users, setUsers] = useState<IUser>();
 	const { data: session } = useSession();
+	const router = useRouter();
+	const refreshData = () => {
+		router.replace(router.asPath);
+	};
 
 	useEffect(() => {
 		const unsub = onSnapshot(doc(db, 'posts', `post-${post.postId}`), (doc) => {
 			if (doc.exists()) {
 				setLikesCount(doc.data().likedBy);
-				setComment(doc.data().comments);
+				setComment(doc.data()?.comments);
 			}
 		});
 		return () => unsub();
@@ -53,8 +59,9 @@ function PostCard({ post }: IPostCardProps) {
 		<div className='w-full mb-5 relative'>
 			<div className='bg-white shadow-lg  dark:bg-black dark:border-black dark:text-white rounded-sm '>
 				<PostHeader
-					users={users as IUser}
-					currentuserUid={session?.user?.uid as string}
+					refreshData={refreshData}
+					users={users}
+					session={session}
 					post={post}
 				/>
 				<Image
@@ -73,6 +80,7 @@ function PostCard({ post }: IPostCardProps) {
 					alt={post?.author ?? 'user post image'}
 				/>
 				<ActionButton
+					refreshData={refreshData}
 					savedPosts={savedPosts}
 					likes={likesCount}
 					post={post}

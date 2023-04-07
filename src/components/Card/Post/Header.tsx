@@ -2,29 +2,30 @@ import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { getCreatedDate } from '@/util/postDate';
-import { IUser } from '@/types/user';
 import { IUserPostProps } from '@/types/post';
 import { BsThreeDots } from 'react-icons/bs';
 import dynamic from 'next/dynamic';
 const Menus = dynamic(() => import('./Menus'), { ssr: false });
 
 export type HeaderProps = {
-	currentuserUid: string;
+	session: any;
 	post: IUserPostProps;
-	users: IUser;
+	users: any;
+	refreshData: () => void;
 };
 
 export default function Postheader({
-	currentuserUid,
+	session,
 	post,
 	users,
+	refreshData,
 }: HeaderProps) {
 	const [createdDate, setCreatedDate] = useState<string>('');
 	const [isOpen, setIsOpen] = useState(false);
 
 	useEffect(() => {
 		setCreatedDate(getCreatedDate(post));
-	}, [post, currentuserUid]);
+	}, [post, session]);
 	return (
 		<div className='flex items-center px-4 py-3 h-fit relative'>
 			<Image
@@ -56,7 +57,8 @@ export default function Postheader({
 				</div>
 			</div>
 			<Menus
-				currentuserUid={currentuserUid}
+				refreshData={refreshData}
+				session={session}
 				isOpen={isOpen}
 				post={post}
 				setIsOpen={setIsOpen}

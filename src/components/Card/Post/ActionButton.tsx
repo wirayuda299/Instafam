@@ -4,7 +4,6 @@ import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai';
 import { FaRegComment } from 'react-icons/fa';
 import { RiBookmarkFill } from 'react-icons/ri';
 import { BiBookmark } from 'react-icons/bi';
-import { useRouter } from 'next/router';
 
 type Props = {
 	post: IUserPostProps;
@@ -13,6 +12,7 @@ type Props = {
 	commentOpen: boolean;
 	likes: string[];
 	savedPosts: string[];
+	refreshData: () => void;
 };
 
 export default function ActionButton({
@@ -22,11 +22,9 @@ export default function ActionButton({
 	uid,
 	likes,
 	savedPosts,
+	refreshData,
 }: Props) {
-	const router = useRouter();
-	 const refreshData = () => {
-		router.replace(router.asPath);
-	}
+
 	return (
 		<div className='flex items-center justify-between mt-3 mb-2 p-1 relative'>
 			<div className='flex gap-x-5'>

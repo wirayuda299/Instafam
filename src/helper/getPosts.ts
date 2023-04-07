@@ -18,7 +18,6 @@ export const getPosts = async (num: number): Promise<IUserPostProps[] | undefine
   }
 }
 
-
 export async function fetchNextPosts(last: IUserPostProps | null): Promise<IUserPostProps[] | undefined> {
   try {
     const q =
@@ -47,6 +46,22 @@ export async function getPostByCurrentUser(uid: string ='',): Promise<IUserPostP
     const res = await getDocs(q)
     const posts = res.docs.map(data => data.data()) as IUserPostProps[]
     return posts
+
+  } catch (error: any) {
+    console.log(error.message);
+  }
+}
+
+export async function getPostById(id: string): Promise<IUserPostProps | undefined> {
+  try {
+    const q =
+      query(
+        collection(db, 'posts'),
+        where('postId', '==', `${id}`),
+      )
+    const res = await getDocs(q)
+    const post = res.docs.map(data => data.data()) as IUserPostProps[]
+    return post[0]
 
   } catch (error: any) {
     console.log(error.message);

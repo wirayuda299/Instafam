@@ -45,8 +45,8 @@ export default function Explore({
 	);
 }
 export async function getServerSideProps({ res }: any) {
-	const getUserPosts = await import('@/helper/getPosts');
-	const posts = await getUserPosts.getPosts(8);
+	const { getPosts } = await import('@/helper/getPosts');
+	const posts = await getPosts(8);
 	const last = posts ? posts[posts.length - 1] : null;
 	res.setHeader('Cache-Control', 'public, s-maxage=60, stale-while-revalidate');
 	return {

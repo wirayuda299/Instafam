@@ -2,10 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 @supports (font: -apple-system-body) and (-webkit-appearance: none) { img[loading="lazy"] { clip-path: inset(0.6px) } }
+
 body {
   overflow: hidden !important;
 }
-
 .wrapper::after {
   display: block;
   content: "";

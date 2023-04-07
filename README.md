@@ -6,6 +6,7 @@ Welcome to Instafam! This is a social media app that allows you to connect with 
 
 - Create an account
 - Login
+- Log out
 - Like and comment on posts
 - Follow and unFollow other users
 - Search for users by username or name
@@ -18,7 +19,11 @@ Welcome to Instafam! This is a social media app that allows you to connect with 
 - View your posts
 - Delete your posts
 - Simple detection of nudity in images while create a post
-- Load more posts
+- Load more posts,
+- Go to spesific post,
+- Copy post link
+- Share post
+- Responsive design
 
 Other features is comming soon.
 
@@ -36,4 +41,4 @@ If you'd like to contribute to Instafam, please fork the repository and make you
 
 ## License
 
-Instafam  is licensed under the MIT License. See LICENSE for more information.
+Instafam is licensed under the MIT License. See LICENSE for more information.

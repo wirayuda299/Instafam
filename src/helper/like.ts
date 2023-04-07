@@ -20,7 +20,9 @@ export async function handleLikes(
 					refreshData()
 				})
 		} else {
-			await updateDoc(postRef, { likedBy: arrayUnion(uid) })
+			await updateDoc(postRef, { likedBy: arrayUnion(uid) }).then(() => {
+				refreshData()	
+			})
 		}
 	} catch (error: any) {
 		console.error(error.message);

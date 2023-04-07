@@ -12,6 +12,8 @@ export interface IUserPostProps {
     commentByUid: string,
     comment: string,
     commentByName: string,
+    commentByPhoto: string,
+    createdAt: string | number
   }[]
   hashtags: string[]
   postId: string
