@@ -1,5 +1,5 @@
-// import { Cropper, getCroppedImg } from 'react-cropper-custom';
-// import 'react-cropper-custom/dist/index.css';
+import { Cropper, getCroppedImg } from 'react-cropper-custom';
+import 'react-cropper-custom/dist/index.css';
 import { croppedImageState, imagesState } from '@/store/images';
 import { useState } from 'react';
 import { useRecoilState } from 'recoil';
@@ -22,20 +22,20 @@ export default function ImageCropper() {
 		e.preventDefault();
 		setImg('');
 	};
-	// async function onCropComplete(croppedArea: Area) {
-	// 	if (!img) return;
-	// 	try {
-	// 		const canvasSize = {
-	// 			width: 1200,
-	// 			height: 1200 * 1,
-	// 		};
-	// 		const image = await getCroppedImg(img, croppedArea, canvasSize);
-	// 		setCroppedImg(image);
-	// 		return;
-	// 	} catch (e: any) {
-	// 		console.error(e.message);
-	// 	}
-	// }
+	async function onCropComplete(croppedArea: Area) {
+		if (!img) return;
+		try {
+			const canvasSize = {
+				width: 1200,
+				height: 1200 * 1,
+			};
+			const image = await getCroppedImg(img, croppedArea, canvasSize);
+			setCroppedImg(image);
+			return;
+		} catch (e: any) {
+			console.error(e.message);
+		}
+	}
 	return (
 		<div className='w-full h-full'>
 			<ImageInput setPreviewUrl={setImg} img={img} />
@@ -47,13 +47,13 @@ export default function ImageCropper() {
 						} `}
 					>
 						<div className='wrapper h-full max-w-lg relative flex justify-center items-center rounded-sm'>
-							{/* <Cropper
+							<Cropper
 								src={img}
 								zoom={zoom}
 								aspect={1}
 								onZoomChange={setZoom}
 								onCropComplete={onCropComplete}
-							/> */}
+							/>
 							<button
 								name='delete'
 								title='delete'
