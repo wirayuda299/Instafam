@@ -16,9 +16,9 @@ export const authOptions:NextAuthOptions = {
           access_type: "offline",
           response_type: "code"
         },
-        url: "https://accounts.google.com/o/oauth2/v2/auth"
+        url: process.env.GOOGLE_URL as string
       },
-      wellKnown: "https://accounts.google.com/.well-known/openid-configuration",
+      wellKnown: process.env.GOOGLE_WELL_KNOWN_URL as string,
       profile(profile, tokens) {
         return {
           id: profile.sub,
@@ -61,7 +61,7 @@ export const authOptions:NextAuthOptions = {
     },
     async redirect({ url, baseUrl }: { url: string, baseUrl: string }) {
       if (url === '/api/auth/signin') {
-        return Promise.resolve(baseUrl)
+        return Promise.resolve(`${baseUrl}/auth/signin`)
       } else {
         return Promise.resolve(url)
       }

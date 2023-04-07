@@ -35,7 +35,7 @@ export default function PostDetail({
 		<div className='w-full h-full text-black dark:text-white'>
 			<div className='w-full h-full overflow-y-auto'>
 				<div className='w-full h-screen max-w-5xl rounded-lg grid place-items-center mx-auto '>
-					<div className='w-full max-h-[600px] grid grid-cols-1 lg:grid-cols-2 p-5 lg:p-0 relative border border-gray-500 border-opacity-50'>
+					<div className='w-full h-full lg:max-h-[600px] grid grid-cols-1 lg:grid-cols-2 p-5 lg:p-0 relative border border-gray-500 border-opacity-50'>
 						<figure className='shadow-sm'>
 							<div className='py-2 lg:hidden'>
 								<Link href={`/profile/${post.postedById}`} className='flex cursor-pointer items-center space-x-2'>
@@ -57,7 +57,12 @@ export default function PostDetail({
 								src={post.image}
 								width={1300}
 								height={1300}
-								sizes='(max-width: 768px) 100vw, 768px'
+								sizes='100vw'
+								placeholder='blur'
+								quality={60}
+								blurDataURL={
+									'data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAP//////////////////////////////////////////////////////////////////////////////////////2wBDAf//////////////////////////////////////////////////////////////////////////////////////wAARCAACAAMDASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwBaKKKAP//Z'
+								}
 								alt={post.captions ?? 'post'}
 								priority
 								className='rounded-md lg:rounded-none w-full'

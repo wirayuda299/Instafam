@@ -1,6 +1,4 @@
-import { db } from '@/config/firebase';
 import { resultsState } from '@/store/results';
-import { query, collection, getDocs, where } from 'firebase/firestore';
 import { useForm } from 'react-hook-form';
 import { useRecoilState } from 'recoil';
 
@@ -11,6 +9,8 @@ export default function useSearchUser() {
 	const onSubmit = async (data: any) => {
 		resetField('search');
 		try {
+			const {db} = await import('@/config/firebase');
+			const { query, collection, getDocs, where } = await import('firebase/firestore');
 			const q = query(collection(db, 'users'), where('username', '==', data.search));
 			const nameQueries = query(collection(db, 'users'), where('name', '==', data.search));
 			

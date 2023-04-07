@@ -30,6 +30,9 @@ export default function SearchField() {
 							<div className='w-full flex items-center justify-between bg-[#b9b9b917] rounded-md px-3'>
 								<input
 									autoComplete='off'
+									pattern='^[a-zA-Z0-9@]+$'
+									required
+									security='restricted'
 									type='search'
 									className='bg-transparent w-full py-2 focus:outline-none focus:border-0 focus:ring-0'
 									placeholder='	Search for users'

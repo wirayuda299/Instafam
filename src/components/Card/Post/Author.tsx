@@ -1,10 +1,7 @@
 import { IUserPostProps } from '@/types/post';
 import { useState } from 'react';
-type Props = {
-	post: IUserPostProps;
-};
 
-export default function Author({ post }: Props) {
+export default function Author({ post }: { post: IUserPostProps}) {
 	const [show, setShow] = useState(false);
 	return (
 		<div className='overflow-hidden'>

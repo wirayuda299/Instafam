@@ -3,7 +3,6 @@ import { db } from "@/config/firebase";
 import { IUser } from "@/types/user";
 type FollowerProps = Pick<IUser, 'followers'>
 
-
 export async function handleFollow(id: string = '', uid: string = '', followedByName: string = '', refreshData: () => void): Promise<void> {
   if(typeof window === 'undefined') return;
   try {

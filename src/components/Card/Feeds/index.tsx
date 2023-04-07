@@ -3,11 +3,8 @@ import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import { memo } from 'react';
 const PostInfo = dynamic(() => import('./PostInfo'), { ssr: false });
-type ExplorePostCardProps = {
-	post: IUserPostProps;
-};
 
-function ExplorePostCard({ post }: ExplorePostCardProps) {
+function ExplorePostCard({ post }: { post: IUserPostProps }) {
 	return (
 		<div className=' shadow-lg relative group mb-8'>
 			<Image

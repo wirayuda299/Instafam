@@ -1,8 +1,6 @@
-import {  getProviders } from 'next-auth/react';
-import loginBg from '@/assets/images/login-background.jpg'
+import loginBg from '@/assets/images/login-background.jpg';
 import { FcGoogle } from 'react-icons/fc';
 import { AiOutlineInstagram } from 'react-icons/ai';
-import { getServerSession } from 'next-auth';
 import { GetServerSidePropsContext } from 'next';
 import { authOptions } from '../api/auth/[...nextauth]';
 import Head from 'next/head';
@@ -15,8 +13,6 @@ interface Providers {
 }
 
 export default function SignIn({ providers }: { providers: Providers }) {
-	
-
 	return (
 		<>
 			<Head>
@@ -51,9 +47,8 @@ export default function SignIn({ providers }: { providers: Providers }) {
 								key={provider.id}
 								className='bg-black text-white hover:bg-opacity-80 transition-all ease duration-300 rounded-md px-5 py-3 text-center inline-flex items-center gap-x-5'
 								onClick={async () => {
-									const signin = await import('@/helper/signIn');
-									await signin.handleSignin(provider.id)
-
+									const { handleSignin } = await import('@/helper/signIn');
+									await handleSignin(provider.id);
 								}}
 							>
 								Sign in with {provider.name}{' '}
@@ -70,6 +65,8 @@ export default function SignIn({ providers }: { providers: Providers }) {
 }
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
+	const { getProviders } = await import('next-auth/react');
+	const { getServerSession } = await import('next-auth');
 	const session = await getServerSession(context.req, context.res, authOptions);
 
 	if (session) {

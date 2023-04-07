@@ -2,8 +2,9 @@ import useSearchUser from '@/hooks/useSearchUser';
 import { resultsState } from '@/store/results';
 import { ReactNode } from 'react';
 import { useRecoilState } from 'recoil';
-import Results from './Results';
 import { searchDrawer } from '@/store/searchDrawer';
+import dynamic from 'next/dynamic';
+const FormResult =dynamic (() => import('./Results'), { ssr: false });
 
 const defaultValues = {
 	search: '',
@@ -42,7 +43,7 @@ export default function Form({ height, children }: Props) {
 							/>
 							{children}
 						</div>
-						<Results
+						<FormResult
 							handleDrawerToggler={handleDrawerToggler}
 							results={results}
 							setResults={setResults}

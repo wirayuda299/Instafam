@@ -1,6 +1,5 @@
 import { db } from '@/config/firebase';
 import { IUserPostProps } from '@/types/post';
-import { doc, arrayUnion, updateDoc } from 'firebase/firestore';
 import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
 import Image from 'next/image';
@@ -31,6 +30,7 @@ export default function Comments({
 
 	const handleSubmits = async (e: any) => {
 		if (e.comments === '') return;
+		const {doc, updateDoc, arrayUnion } = await import('firebase/firestore')
 		try {
 			const postRef = doc(db, 'posts', `post-${post.postId}`);
 			await updateDoc(postRef, {

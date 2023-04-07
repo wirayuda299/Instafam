@@ -67,8 +67,11 @@ const nextConfig = {
     NEXTAUTH_SECRET: process.env.NEXTAUTH_SECRET,
     X_RapidAPI_KEY: process.env.X_RapidAPI_KEY,
     X_RapidAPI_HOST: process.env.X_RapidAPI_HOST,
+    GOOGLE_URL: process.env.GOOGLE_URL,
+    GOOGLE_WELL_KNOWN: process.env.GOOGLE_WELL_KNOWN_URL
   },
-  optimizeFonts: true
+  optimizeFonts: true,
+  poweredByHeader: false,
 }
 
 module.exports = nextConfig
