@@ -1,5 +1,5 @@
 import { extraListToggler } from '@/store/extraListToggler';
-import { getCsrfToken, signOut, useSession } from 'next-auth/react';
+import {  useSession } from 'next-auth/react';
 import { AiOutlineWarning } from 'react-icons/ai';
 import { BsFillGearFill, BsFillMoonStarsFill } from 'react-icons/bs';
 import { RxCountdownTimer } from 'react-icons/rx';

@@ -1,4 +1,5 @@
 import '@/styles/globals.css';
+import NextNProgress from 'nextjs-progressbar';
 import { SessionProvider } from 'next-auth/react';
 import { RecoilRoot } from 'recoil';
 import Layout from '@/components/Layout/Layout';
@@ -10,11 +11,12 @@ export default function App({
 }: any) {
 	return (
 		<SessionProvider session={session}>
-					<RecoilRoot>
-						<Layout>
-							<Component {...pageProps} />
-						</Layout>
-					</RecoilRoot>
+			<RecoilRoot>
+				<Layout>
+					<NextNProgress showOnShallow />
+					<Component {...pageProps} />
+				</Layout>
+			</RecoilRoot>
 		</SessionProvider>
 	);
 }

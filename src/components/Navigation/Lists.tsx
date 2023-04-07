@@ -133,7 +133,8 @@ export default function NavbarLists() {
 							href={list.path}
 							onClick={toggler}
 							title={list.title}
-							role='link'	
+							role='link'
+							shallow
 						>
 							<button
 								disabled={session ? false : true}
