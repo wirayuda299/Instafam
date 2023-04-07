@@ -2,6 +2,7 @@ import Head from 'next/head';
 import { IUserPostProps } from '@/types/post';
 import dynamic from 'next/dynamic';
 import useInfiniteScroll from '@/hooks/useInfiniteScroll';
+import Link from 'next/link';
 const ExplorePostCard = dynamic(() => import('@/components/Card/Feeds'), {
 	ssr: true,
 });
@@ -32,7 +33,9 @@ export default function Explore({
 				</div>
 				<div className='w-full columns-1 sm:columns-2 lg:columns-3 gap-10 '>
 					{posts?.map((post: IUserPostProps) => (
-						<ExplorePostCard post={post} key={post.postId} />
+						<Link key={post.postId} href={`/post/${post.postId}`}>
+							<ExplorePostCard post={post} />
+						</Link>
 					))}
 					<span ref={ref}></span>
 					{loading && <CardLoader />}

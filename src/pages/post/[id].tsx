@@ -1,13 +1,13 @@
 import { GetServerSidePropsContext } from 'next';
 import Image from 'next/image';
 import { IUserPostProps } from '@/types/post';
-import { getSession } from 'next-auth/react';
 import { getCommentcreatedAt, getCreatedDate } from '@/util/postDate';
 import { useState, useEffect } from 'react';
 import { BsThreeDots } from 'react-icons/bs';
 import { useRouter } from 'next/router';
 import { AiOutlineHeart } from 'react-icons/ai';
 import dynamic from 'next/dynamic';
+import Link from 'next/link';
 const Comments = dynamic(() => import('@/components/Card/Post/Comments'));
 const ActionButton = dynamic(() => import('@/components/Card/Post/ActionButton'));
 
@@ -37,11 +37,12 @@ export default function PostDetail({
 				<div className='w-full h-screen max-w-5xl rounded-lg grid place-items-center mx-auto'>
 					<div className='w-full max-h-[600px] grid grid-cols-1 lg:grid-cols-2 p-5 lg:p-0 relative border border-gray-500 border-opacity-50'>
 						<figure className='shadow-sm'>
-							<div className='py-2 lg:p-2 lg:hidden'>
-								<div className='flex items-center space-x-2'>
+							<div className='py-2 lg:hidden'>
+								<Link href={`/profile/${post.postedById}`} className='flex cursor-pointer items-center space-x-2'>
 									<Image
 										src={post.postedByPhotoUrl}
 										width={40}
+										priority
 										height={40}
 										className='rounded-full bg-gradient-to-bl from-pink-600 to-orange-600 p-0.5'
 										alt={post.captions ?? 'post'}
@@ -50,15 +51,16 @@ export default function PostDetail({
 										<h1 className='text-sm font-bold'>{post.author}</h1>
 										<p className='text-xs'>{createdDate}</p>
 									</div>
-								</div>
+								</Link>
 							</div>
 							<Image
 								src={post.image}
 								width={1300}
 								height={1300}
 								sizes='(max-width: 768px) 100vw, 768px'
-								alt=''
-								className='rounded-md lg:rounded-none'
+								alt={post.captions ?? 'post'}
+								priority
+								className='rounded-md lg:rounded-none w-full'
 							/>
 							<div className='block lg:hidden'>
 								<ActionButton
@@ -86,16 +88,17 @@ export default function PostDetail({
 						<div className=' relative '>
 							<div className='py-3 hidden lg:block h-full max-h-[400px] overflow-y-auto overflow-x-hidden '>
 								<div className='flex border-b px-2 w-full sticky -top-3 transition-all ease duration-300 py-3 bg-white dark:bg-black border-gray-500 border-opacity-50'>
-									<div className='flex-1 flex items-start space-x-2 '>
-										<div className='flex space-x-2'>
+									<div className='flex-1 flex items-start space-x-2'>
+										<div className='flex space-x-2 cursor-pointer' >
 											<Image
 												src={post.postedByPhotoUrl}
 												width={40}
 												height={40}
+												priority
 												alt={post.author}
 												className='rounded-full bg-gradient-to-bl from-pink-600 to-orange-600 p-0.5'
 											/>
-											<div>
+											<div className='cursor-pointer'>
 												<h4 className='font-semibold pr-1'> {post.author} </h4>
 												<p className='text-xs text-gray-500'>{createdDate}</p>
 											</div>
@@ -131,12 +134,13 @@ export default function PostDetail({
 										<BsThreeDots />
 									</button>
 								</div>
-								<div className='flex-1 mb-5 flex items-center bg-white dark:bg-black space-x-2 px-2 py-3 '>
+								<Link href={`/profile/${post.postedById}`} className='flex-1 mb-5 flex items-center bg-white dark:bg-black space-x-2 px-2 py-3 '>
 									<Image
 										src={post.postedByPhotoUrl}
 										width={40}
 										height={40}
 										alt={post.author}
+										priority
 										className='rounded-full bg-gradient-to-bl from-pink-600 to-orange-600 p-0.5'
 									/>
 									<h4 className='font-semibold pr-3'>
@@ -146,7 +150,7 @@ export default function PostDetail({
 										</span>
 									</h4>
 									<p>{post.captions}</p>
-								</div>
+								</Link>
 								{/* comments */}
 								{post?.comments.length === 0 && (
 									<div className='flex-1 flex items-center bg-white dark:bg-black space-x-2 px-2 py-3 w-full'>
@@ -161,15 +165,15 @@ export default function PostDetail({
 													src={comment.commentByPhoto}
 													width={40}
 													height={40}
-													alt=''
+													alt={comment.commentByName ?? 'comment'}
 													className='rounded-full'
 												/>
-												<h5 className='text-sm font-semibold'>
+												<Link href={`/profile/${comment.commentByUid}`} className='text-sm font-semibold'>
 													{comment.commentByName}
 													<small className='block text-xs font-semibold text-gray-500'>
 														{getCommentcreatedAt(comment)}
 													</small>
-												</h5>
+												</Link>
 											</div>
 											<div className='w-full flex-wrap overflow-hidden'>
 												<p className=' text-xs flex flex-wrap h-full '>
@@ -226,6 +230,7 @@ export async function getServerSideProps({
 	query,
 	req,
 }: GetServerSidePropsContext) {
+	const { getSession } = await import('next-auth/react');
 	const session = await getSession({ req });
 	const { getPostById } = await import('@/helper/getPosts');
 	const { getCurrentUserData } = await import('@/helper/getUser');
