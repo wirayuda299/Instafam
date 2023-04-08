@@ -123,23 +123,6 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 			},
 		};
 	}
-	if(!context.resolvedUrl.includes('edit')) {
-		return {
-			redirect: {
-				destination: `/post/${id}`,
-				permanent: false,
-			},
-
-	}
-}
-if(session.user.uid !== id) {
-	return {
-		redirect: {
-			destination: `/post/${id}`,
-			permanent: false,
-		}
-	}
-}
 	const { getPostById } = await import('@/helper/getPosts');
 
 	const posts = await getPostById(id as string);
