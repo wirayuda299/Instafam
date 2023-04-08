@@ -12,6 +12,7 @@ export type HeaderProps = {
 	post: IUserPostProps;
 	users: any;
 	refreshData: () => void;
+	ssr: boolean;
 };
 
 export default function Postheader({
@@ -19,6 +20,7 @@ export default function Postheader({
 	post,
 	users,
 	refreshData,
+	ssr,
 }: HeaderProps) {
 	const [createdDate, setCreatedDate] = useState<string>('');
 	const [isOpen, setIsOpen] = useState(false);
@@ -57,6 +59,7 @@ export default function Postheader({
 				</div>
 			</div>
 			<Menus
+			ssr={ssr}
 				refreshData={refreshData}
 				session={session}
 				isOpen={isOpen}

@@ -13,7 +13,7 @@ export default function App({
 		<SessionProvider session={session}>
 			<RecoilRoot>
 				<Layout>
-					<NextNProgress showOnShallow />
+					<NextNProgress />
 					<Component {...pageProps} />
 				</Layout>
 			</RecoilRoot>

@@ -1,7 +1,7 @@
 import { GetServerSidePropsContext } from 'next';
 import Image from 'next/image';
 import { IUserPostProps } from '@/types/post';
-import { getCommentcreatedAt, getCreatedDate } from '@/util/postDate';
+import { getCommentcreatedAt } from '@/util/postDate';
 import { useState, useEffect } from 'react';
 import { BsThreeDots } from 'react-icons/bs';
 import { useRouter } from 'next/router';
@@ -9,7 +9,9 @@ import { AiOutlineHeart } from 'react-icons/ai';
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
 const Comments = dynamic(() => import('@/components/Card/Post/Comments'));
-const ActionButton = dynamic(() => import('@/components/Card/Post/ActionButton'));
+const ActionButton = dynamic(
+	() => import('@/components/Card/Post/ActionButton')
+);
 
 export default function PostDetail({
 	post,
@@ -22,13 +24,14 @@ export default function PostDetail({
 }) {
 	const [createdDate, setCreatedDate] = useState<string>('');
 	const [commentOpen, setCommentOpen] = useState<boolean>(false);
-	const router = useRouter();
-	const refreshData = () => {
-		router.replace(router.asPath);
-	};
+	const { asPath, replace } = useRouter();
+	const refreshData = () => replace(asPath);
 
 	useEffect(() => {
-		setCreatedDate(getCreatedDate(post));
+		import('@/util/postDate').then((createdAt) => {
+			const { getCreatedDate } = createdAt;
+			setCreatedDate(getCreatedDate(post));
+		});
 	}, [post]);
 
 	return (
@@ -37,8 +40,12 @@ export default function PostDetail({
 				<div className='w-full h-screen max-w-5xl rounded-lg grid place-items-center mx-auto '>
 					<div className='w-full h-full lg:max-h-[600px] grid grid-cols-1 lg:grid-cols-2 p-5 lg:p-0 relative border border-gray-500 border-opacity-50'>
 						<figure className='shadow-sm'>
+							{/* mobile header start */}
 							<div className='py-2 lg:hidden'>
-								<Link href={`/profile/${post.postedById}`} className='flex cursor-pointer items-center space-x-2'>
+								<Link
+									href={`/profile/${post.postedById}`}
+									className='flex cursor-pointer items-center space-x-2'
+								>
 									<Image
 										src={post.postedByPhotoUrl}
 										width={40}
@@ -53,6 +60,7 @@ export default function PostDetail({
 									</div>
 								</Link>
 							</div>
+							{/* mobile header end */}
 							<Image
 								src={post.image}
 								width={1300}
@@ -65,10 +73,12 @@ export default function PostDetail({
 								}
 								alt={post.captions ?? 'post'}
 								priority
-								className='rounded-md lg:rounded-none w-full'
+								className='rounded-md lg:rounded-none h-full w-full'
 							/>
+							{/* action button mobile */}
 							<div className='block lg:hidden'>
 								<ActionButton
+									ssr={true}
 									refreshData={refreshData}
 									commentOpen={commentOpen}
 									likes={post.likedBy}
@@ -88,13 +98,14 @@ export default function PostDetail({
 									session={sessions}
 								/>
 							</div>
+							{/* action button mobile */}
 						</figure>
 						{/* comments container start */}
 						<div className=' relative '>
 							<div className='py-3 hidden lg:block h-full max-h-[400px] overflow-y-auto overflow-x-hidden '>
 								<div className='flex border-b px-2 w-full sticky -top-3 transition-all ease duration-300 py-3 bg-white dark:bg-black border-gray-500 border-opacity-50'>
 									<div className='flex-1 flex items-start space-x-2'>
-										<div className='flex space-x-2 cursor-pointer' >
+										<div className='flex space-x-2 cursor-pointer'>
 											<Image
 												src={post.postedByPhotoUrl}
 												width={40}
@@ -118,12 +129,14 @@ export default function PostDetail({
 												const { handleFollow } = await import(
 													'@/helper/follow'
 												);
-												handleFollow(
-													post.postedById,
-													sessions?.user.uid,
-													sessions?.user.username,
-													refreshData
-												);
+												const followArgs = {
+													id: post.postedById,
+													uid: sessions?.user.uid,
+													followedByName: sessions?.user.username,
+													refreshData,
+													ssr: true,
+												};
+												handleFollow(followArgs);
 											}}
 										>
 											{user &&
@@ -139,7 +152,10 @@ export default function PostDetail({
 										<BsThreeDots />
 									</button>
 								</div>
-								<Link href={`/profile/${post.postedById}`} className='flex-1 mb-5 flex items-center bg-white dark:bg-black space-x-2 px-2 py-3 '>
+								<Link
+									href={`/profile/${post.postedById}`}
+									className='flex-1 mb-5 flex bg-white dark:bg-black space-x-2 px-2 py-3 '
+								>
 									<Image
 										src={post.postedByPhotoUrl}
 										width={40}
@@ -164,7 +180,10 @@ export default function PostDetail({
 								)}
 								{post &&
 									post?.comments.map((comment) => (
-										<div className='w-full flex gap-x-14 mb-5 items-center pr-2' key={comment.comment}>
+										<div
+											className='w-full flex gap-x-14 mb-5 pr-2'
+											key={comment.comment}
+										>
 											<div className='py-2 px-2 flex items-center space-x-2 '>
 												<Image
 													src={comment.commentByPhoto}
@@ -173,7 +192,10 @@ export default function PostDetail({
 													alt={comment.commentByName ?? 'comment'}
 													className='rounded-full'
 												/>
-												<Link href={`/profile/${comment.commentByUid}`} className='text-sm font-semibold'>
+												<Link
+													href={`/profile/${comment.commentByUid}`}
+													className='text-sm font-semibold'
+												>
 													{comment.commentByName}
 													<small className='block text-xs font-semibold text-gray-500'>
 														{getCommentcreatedAt(comment)}
@@ -181,7 +203,7 @@ export default function PostDetail({
 												</Link>
 											</div>
 											<div className='w-full flex-wrap overflow-hidden'>
-												<p className=' text-xs flex flex-wrap h-full '>
+												<p className=' text-xs flex flex-wrap h-full pt-3'>
 													{comment.comment}
 												</p>
 											</div>
@@ -197,8 +219,9 @@ export default function PostDetail({
 									))}
 
 								{/* comments end */}
-								<div className='hidden lg:block absolute bottom-0 border-t border-gray-500 border-opacity-50 w-full'>
+								<div className='hidden lg:block absolute bottom-0 border-t border-gray-500 border-opacity-50 w-full px-2'>
 									<ActionButton
+										ssr={true}
 										refreshData={refreshData}
 										commentOpen={true}
 										likes={post.likedBy}
@@ -208,22 +231,24 @@ export default function PostDetail({
 										uid={sessions?.user.uid as string}
 									/>
 									<span
-										className={`text-s ${
+										className={`text-xs pl-1 ${
 											post.likedBy.length < 1 ? 'hidden' : 'block'
 										}`}
 									>
 										{post.likedBy.length} likes
 									</span>
-									<Comments
-										post={post}
-										commentOpen={commentOpen}
-										comments={post.comments}
-										session={sessions}
-									/>
+									<div className='py-2'>
+										<Comments
+											post={post}
+											commentOpen={commentOpen}
+											comments={post.comments}
+											session={sessions}
+										/>
+									</div>
 								</div>
 							</div>
 						</div>
-						{/* comments container start */}
+						{/* comments container end */}
 					</div>
 				</div>
 			</div>

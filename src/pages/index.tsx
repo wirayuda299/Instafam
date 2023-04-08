@@ -20,12 +20,12 @@ export default function Home({ posts, users, sessions, last }: any) {
 			<div className='w-full flex justify-between items-start h-screen'>
 				<div className='flex flex-col p-5 w-full '>
 					{posts?.map((post: any) => (
-						<PostCard post={post} key={post.postId} />
+						<PostCard post={post} key={post.postId} ssr={true} />
 					))}
 					<span ref={ref}></span>
 					{loading && <CardLoader />}
 					{postsState?.map((post) => (
-						<PostCard post={post} key={post.postId} />
+						<PostCard post={post} key={post.postId} ssr={false}/>
 					))}
 				</div>
 				<Suggestions reccomend={users} session={sessions} />

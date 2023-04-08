@@ -1,3 +1,4 @@
+import { deletePost } from '@/helper/deletePost';
 import { HeaderProps } from './Header';
 import { useRouter } from 'next/router';
 interface Menusprops extends HeaderProps {
@@ -5,6 +6,7 @@ interface Menusprops extends HeaderProps {
 	isOpen: boolean;
 	session: any;
 	refreshData: () => void;
+	ssr: boolean;
 }
 export default function Menus({
 	session,
@@ -13,15 +15,17 @@ export default function Menus({
 	setIsOpen,
 	isOpen,
 	refreshData,
+	ssr,
 }: Menusprops) {
 	const router = useRouter();
+
 	const buttonLists = [
 		{
 			id: 1,
 			name: post.postedById === session?.user.uid ? 'Edit' : 'Report',
 			event: () => {
 				post.postedById === session?.user.uid
-					? console.log('edit')
+					? router.push(`/post/${post.postId}/edit`)
 					: console.log('report');
 			},
 		},
@@ -36,13 +40,19 @@ export default function Menus({
 					? 'Unfollow'
 					: 'Follow',
 			event: async () => {
-				const { handleFollow } = await import('@/helper/follow');
-				await handleFollow(
-					post.postedById,
-					session?.user.uid,
-					session?.user.username,
-					refreshData
-				);
+				if (post.postedById === session?.user.uid) {
+					await deletePost(post, refreshData, ssr);
+				} else {
+					const followArgs = {
+						id: post.postedById,
+						uid: session?.user.uid,
+						followedByName: session?.user.username,
+						refreshData,
+						ssr,
+					};
+					const { handleFollow } = await import('@/helper/follow');
+					await handleFollow(followArgs);
+				}
 			},
 		},
 		{

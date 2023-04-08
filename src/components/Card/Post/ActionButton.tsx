@@ -13,6 +13,7 @@ type Props = {
 	likes: string[];
 	savedPosts: string[];
 	refreshData: () => void;
+	ssr: boolean;
 };
 
 export default function ActionButton({
@@ -23,16 +24,21 @@ export default function ActionButton({
 	likes,
 	savedPosts,
 	refreshData,
+	ssr,
 }: Props) {
-
+	const savedPostArgs = {
+		post,
+		uid,
+		refreshData,
+		ssr,
+	};
 	return (
 		<div className='flex items-center justify-between mt-3 mb-2 p-1 relative'>
 			<div className='flex gap-x-5'>
 				<button
 					onClick={async () => {
-						const handleLike = await import('@/helper/like');
-						handleLike.handleLikes(post, uid, refreshData);
-			
+						const { handleLikes } = await import('@/helper/like');
+						handleLikes(post, uid, refreshData, ssr);
 					}}
 					name='like'
 					title='Like'
@@ -56,9 +62,8 @@ export default function ActionButton({
 			</div>
 			<button
 				onClick={async () => {
-					const handleSavePost = await import('@/helper/savePost');
-					handleSavePost.savePost(post, uid, refreshData);
-					
+					const { savePost } = await import('@/helper/savePost');
+					savePost(savedPostArgs);
 				}}
 				name='save post'
 				type='button'

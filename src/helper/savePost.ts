@@ -1,8 +1,15 @@
 import { doc, updateDoc, arrayRemove, arrayUnion, getDoc } from "firebase/firestore"
 import { db } from "../config/firebase"
 import { IUserPostProps } from "@/types/post"
+type SavedPostProps = {
+  post: IUserPostProps;
+  uid: string;
+  refreshData: () => void;
+  ssr: boolean;
+}
 
-export async function savePost(post: IUserPostProps, uid: string = '', refreshData: () => void) {
+export async function savePost(params: SavedPostProps) {
+  const { post, uid, refreshData, ssr } = params;
   if (typeof window === 'undefined') return;
   try {
     const q = doc(db, 'users', `${uid}`);
@@ -13,13 +20,13 @@ export async function savePost(post: IUserPostProps, uid: string = '', refreshDa
       await updateDoc(q, {
         savedPosts: arrayRemove(post)
       }).then(() => {
-        refreshData()
+        ssr ? refreshData() : null;
       })
     } else {
       await updateDoc(q, {
         savedPosts: arrayUnion(post)
       }).then(() => {
-        refreshData()
+        ssr ? refreshData() : null;
       })
     }
 

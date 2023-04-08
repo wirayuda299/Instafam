@@ -52,7 +52,7 @@ export async function getPostByCurrentUser(uid: string ='',): Promise<IUserPostP
   }
 }
 
-export async function getPostById(id: string): Promise<IUserPostProps | undefined> {
+export async function getPostById(id: string ): Promise<IUserPostProps[] | undefined> {
   try {
     const q =
       query(
@@ -61,7 +61,7 @@ export async function getPostById(id: string): Promise<IUserPostProps | undefine
       )
     const res = await getDocs(q)
     const post = res.docs.map(data => data.data()) as IUserPostProps[]
-    return post[0]
+    return post
 
   } catch (error: any) {
     console.log(error.message);

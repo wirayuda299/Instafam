@@ -5,7 +5,8 @@ import { IUserPostProps } from '@/types/post';
 export async function handleLikes(
 	post: IUserPostProps,
 	uid: string = '',
-	refreshData: () => void
+	refreshData: () => void,
+	ssr?: boolean
 ) {
 	if (typeof window === 'undefined') return;
 	try {
@@ -17,11 +18,11 @@ export async function handleLikes(
 		if (haslikedByUsers) {
 			await updateDoc(postRef, { likedBy: arrayRemove(uid) })
 				.then(() => {
-					refreshData()
+					ssr ? refreshData() : null;
 				})
 		} else {
 			await updateDoc(postRef, { likedBy: arrayUnion(uid) }).then(() => {
-				refreshData()	
+				ssr ? refreshData() : null;
 			})
 		}
 	} catch (error: any) {

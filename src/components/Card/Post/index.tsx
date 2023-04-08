@@ -15,18 +15,17 @@ const Comments = dynamic(() => import('./Comments'));
 
 export interface IPostCardProps {
 	post: IUserPostProps;
+	ssr: boolean;
 }
-function PostCard({ post }: IPostCardProps) {
+function PostCard({ post, ssr }: IPostCardProps) {
 	const [comment, setComment] = useState<IComment['comments']>([]);
 	const [likesCount, setLikesCount] = useState<string[]>([]);
 	const [commentOpen, setCommentOpen] = useState<boolean>(false);
 	const [savedPosts, setSavedPosts] = useState<string[]>([]);
 	const [users, setUsers] = useState<IUser>();
 	const { data: session } = useSession();
-	const router = useRouter();
-	const refreshData = () => {
-		router.replace(router.asPath);
-	};
+	const { replace, asPath } = useRouter();
+	const refreshData = () => replace(asPath);
 
 	useEffect(() => {
 		const unsub = onSnapshot(doc(db, 'posts', `post-${post.postId}`), (doc) => {
@@ -59,6 +58,7 @@ function PostCard({ post }: IPostCardProps) {
 		<div className='w-full mb-5 relative'>
 			<div className='bg-white shadow-lg  dark:bg-black dark:border-black dark:text-white rounded-sm '>
 				<PostHeader
+					ssr={ssr}
 					refreshData={refreshData}
 					users={users}
 					session={session}
@@ -80,6 +80,7 @@ function PostCard({ post }: IPostCardProps) {
 					alt={post?.author ?? 'user post image'}
 				/>
 				<ActionButton
+					ssr={ssr}
 					refreshData={refreshData}
 					savedPosts={savedPosts}
 					likes={likesCount}

@@ -18,7 +18,7 @@ export default function Sidebar() {
 	const drawerOpen = useRecoilValue(searchDrawer);	
 	return (
 		<aside
-		className={`w-full md:w-fit fixed bottom-0 left-0 z-50 h-12 md:h-screen md:border-r md:staticmd:dark:border-r-gray-600 flex md:static items-center transition-width ease duration-300 ${
+		className={`w-full md:w-fit fixed bottom-0 left-0 z-50 h-12 md:h-screen md:border-r md:dark:border-r-gray-600 md:border-opacity-50 flex md:static items-center transition-width ease duration-300 ${
 			drawerOpen ? '!w-20' : ' lg:w-64 '
 		}`}
 	>

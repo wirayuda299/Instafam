@@ -3,8 +3,17 @@ import { db } from "@/config/firebase";
 import { IUser } from "@/types/user";
 type FollowerProps = Pick<IUser, 'followers'>
 
-export async function handleFollow(id: string = '', uid: string = '', followedByName: string = '', refreshData: () => void): Promise<void> {
-  if(typeof window === 'undefined') return;
+type FollowProps = {
+  id: string;
+  uid: string;
+  followedByName: string;
+  refreshData: () => void;
+  ssr: boolean;
+}
+
+export async function handleFollow(params: FollowProps) {
+  const { id, uid, followedByName, refreshData, ssr } = params;
+  if (typeof window === 'undefined') return;
   try {
 
     const userRef = doc(db, 'users', id);
@@ -38,7 +47,7 @@ export async function handleFollow(id: string = '', uid: string = '', followedBy
         updateDoc(userRef, updateAuthorFollowersLists),
         updateDoc(currentUserRef, updateCurrentUserFollowingLists)
       ]).then(() => {
-        refreshData();
+        ssr ? refreshData() : null;
       })
     }
   } catch (error: any) {
