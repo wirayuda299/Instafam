@@ -34,13 +34,6 @@ export default function PostDetail({
 		});
 	}, [post]);
 
-	console.log({
-		post,
-		sessions,
-		user,
-	});
-	
-
 	return (
 		<div className='w-full h-full text-black dark:text-white'>
 			<div className='w-full h-full overflow-y-auto'>
