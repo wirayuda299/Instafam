@@ -95,6 +95,12 @@ export async function getServerSideProps({ req, query }: any) {
 	const posts = await getPostByCurrentUser(query.id);
 	const user = await getCurrentUserData(query.id);
 
+	if(!user || !posts) {
+		return {
+			notFound: true,
+		}
+	}
+
 	return {
 		props: {
 			posts,

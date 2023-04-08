@@ -10,7 +10,7 @@ import { BsThreeDots } from 'react-icons/bs';
 
 export default function EditPosts({ posts }: { posts: IUserPostProps }) {
 	const [createdDate, setCreatedDate] = useState<string>('');
-	const [updated, setUpdated] = useState(posts.captions);
+	const [updated, setUpdated] = useState(`${posts?.captions} ${posts?.hashtags}`);
   const router = useRouter();
 	useEffect(() => {
 		setCreatedDate(getCreatedDate(posts));
@@ -20,8 +20,14 @@ export default function EditPosts({ posts }: { posts: IUserPostProps }) {
 		e.preventDefault();
 		try {
 			const q = doc(db, 'posts', `post-${posts.postId}`);
+			const hashtags =
+			updated 
+				.match(/#(?!\n)(.+)/g)
+				?.join(' ')
+				.split(' ') || [];
 			await updateDoc(q, {
-				captions: updated,
+				captions: updated.match(/^[^#]*/),
+				hashtags: hashtags,
 			}).then(() => {
 				alert('post updated');
         router.push(`/`);
