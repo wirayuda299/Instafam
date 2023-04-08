@@ -66,7 +66,7 @@ export default function Comments({
 			</form>
 			<Suspense fallback={'loading....'}>
 			<div className={`py-2 ${commentOpen ? 'block' : 'hidden'} ${router.pathname === '/post/[id]' ? 'pt-5 ' : ''}}`}>
-				{post?.comments.length < 1 ? (
+				{post?.comments?.length < 1 ? (
 					<p className='text-xs text-center'>There&apos;s no comment yet</p>
 				) : (
 					comments && comments?.map((comment) => (

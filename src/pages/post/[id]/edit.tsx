@@ -3,7 +3,6 @@ import { IUserPostProps } from '@/types/post';
 import { getCreatedDate } from '@/util/postDate';
 import { doc, updateDoc } from 'firebase/firestore';
 import { GetServerSidePropsContext } from 'next';
-import { getSession } from 'next-auth/react';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { FormEvent, useEffect, useState } from 'react';
@@ -113,6 +112,7 @@ export default function EditPosts({ posts }: { posts: IUserPostProps }) {
 export async function getServerSideProps(context: GetServerSidePropsContext) {
 	const { id } = context.query;
 	const { req } = context;
+	const { getSession } = await import('next-auth/react');
 
 	const session = await getSession({ req });
 	if (!session) {
@@ -123,6 +123,23 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 			},
 		};
 	}
+	if(!context.resolvedUrl.includes('edit')) {
+		return {
+			redirect: {
+				destination: `/post/${id}`,
+				permanent: false,
+			},
+
+	}
+}
+if(session.user.uid !== id) {
+	return {
+		redirect: {
+			destination: `/post/${id}`,
+			permanent: false,
+		}
+	}
+}
 	const { getPostById } = await import('@/helper/getPosts');
 
 	const posts = await getPostById(id as string);

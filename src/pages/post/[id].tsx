@@ -34,6 +34,13 @@ export default function PostDetail({
 		});
 	}, [post]);
 
+	console.log({
+		post,
+		sessions,
+		user,
+	});
+	
+
 	return (
 		<div className='w-full h-full text-black dark:text-white'>
 			<div className='w-full h-full overflow-y-auto'>
@@ -173,30 +180,30 @@ export default function PostDetail({
 									<p>{post.captions}</p>
 								</Link>
 								{/* comments */}
-								{post?.comments.length === 0 && (
+								{post && post?.comments?.length === 0 && (
 									<div className='flex-1 flex items-center bg-white dark:bg-black space-x-2 px-2 py-3 w-full'>
 										<p className='text-center'>There is no comments yet</p>
 									</div>
 								)}
 								{post &&
-									post?.comments.map((comment) => (
+									post?.comments?.map((comment) => (
 										<div
 											className='w-full flex gap-x-14 mb-5 pr-2'
-											key={comment.comment}
+											key={comment?.comment}
 										>
 											<div className='py-2 px-2 flex items-center space-x-2 '>
 												<Image
-													src={comment.commentByPhoto}
+													src={comment?.commentByPhoto}
 													width={40}
 													height={40}
-													alt={comment.commentByName ?? 'comment'}
+													alt={comment?.commentByName ?? 'comment'}
 													className='rounded-full'
 												/>
 												<Link
 													href={`/profile/${comment.commentByUid}`}
 													className='text-sm font-semibold'
 												>
-													{comment.commentByName}
+													{comment?.commentByName}
 													<small className='block text-xs font-semibold text-gray-500'>
 														{getCommentcreatedAt(comment)}
 													</small>
@@ -204,7 +211,7 @@ export default function PostDetail({
 											</div>
 											<div className='w-full flex-wrap overflow-hidden'>
 												<p className=' text-xs flex flex-wrap h-full pt-3'>
-													{comment.comment}
+													{comment?.comment}
 												</p>
 											</div>
 											<button
@@ -232,16 +239,16 @@ export default function PostDetail({
 									/>
 									<span
 										className={`text-xs pl-1 ${
-											post.likedBy.length < 1 ? 'hidden' : 'block'
+											post?.likedBy?.length < 1 ? 'hidden' : 'block'
 										}`}
 									>
-										{post.likedBy.length} likes
+										{post?.likedBy?.length} likes
 									</span>
 									<div className='py-2'>
 										<Comments
-											post={post}
+											post={post ?? []}
 											commentOpen={commentOpen}
-											comments={post.comments}
+											comments={post?.comments}
 											session={sessions}
 										/>
 									</div>
@@ -266,14 +273,14 @@ export async function getServerSideProps({
 	const { getCurrentUserData } = await import('@/helper/getUser');
 	const user = await getCurrentUserData(session?.user.uid as string);
 	const res = await getPostById(query.id as string);
-	if (!res) {
+	if (!res || !session || !user) {
 		return {
 			notFound: true,
 		};
 	}
 	return {
 		props: {
-			post: res ? res : null,
+			post: res ? res[0] : null,
 			sessions: session ? session : null,
 			user,
 		},
