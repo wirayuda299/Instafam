@@ -93,7 +93,7 @@ export default function Modal({
 	];
 	return (
 		<div
-			className={` fixed left-0 top-0 z-[1055] bg-black bg-opacity-50 text-black dark:text-white  h-full w-full overflow-y-auto overflow-x-hidden outline-none select-none ${
+			className={` fixed left-0 top-0 z-[1055] bg-black bg-opacity-50 text-black dark:text-white  h-full w-full !overflow-hidden outline-none select-none ${
 				isMenuOpen ? 'block ' : 'hidden'
 			}`}
 			aria-modal='true'
@@ -109,7 +109,7 @@ export default function Modal({
 								title={button.name}
 								key={button.id}
 								onClick={button.event}
-								className={`py-4 hover:bg-[#a8a8a817] transition-all ease-out duration-300 rounded-lg font-semibold ${
+								className={`py-3 md:py-4 text-sm md:text-base hover:bg-[#a8a8a817] transition-all ease-out duration-300 rounded-lg font-semibold ${
 									button.id === 1 || button.id === 2 ? 'text-red-600' : ''
 								}`}
 							>
