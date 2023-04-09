@@ -2,7 +2,7 @@ import { IUserPostProps } from '@/types/post';
 import { IUser } from '@/types/user';
 import { Session } from 'next-auth';
 import { useRouter } from 'next/router';
-import { Dispatch, SetStateAction } from 'react';
+import { Dispatch, SetStateAction, useEffect } from 'react';
 type Props = {
 	post: IUserPostProps;
 	session: Session | null ;
@@ -71,14 +71,10 @@ export default function Modal({
 			name: 'Go to post',
 			event: () => push(`/post/${post.postId}`),
 		},
-		{
-			id: 5,
-			name: 'About this account',
-			event: () => console.log('about this account'),
-		},
+		
 
 		{
-			id: 6,
+			id: 5,
 			name: 'Share to',
 			event: async () => {
 				const { share } = await import('@/util/share');
@@ -86,14 +82,21 @@ export default function Modal({
 			},
 		},
 		{
-			id: 7,
+			id: 6,
 			name: 'Cancel',
 			event: () => setIsMenuOpen(false),
 		},
 	];
+	useEffect(() => {
+		if (isMenuOpen) {
+			document.body.style.overflow = 'hidden';
+		} else {
+			document.body.style.overflow = 'auto';
+		}
+	}, [isMenuOpen])
 	return (
 		<div
-			className={` fixed left-0 top-0 z-[1055] bg-black bg-opacity-50 text-black dark:text-white  h-full w-full !overflow-hidden outline-none select-none ${
+			className={` fixed left-0 top-0 z-[99999999] bg-black bg-opacity-60 text-black dark:text-white  h-full w-full !overflow-hidden outline-none select-none ${
 				isMenuOpen ? 'block ' : 'hidden'
 			}`}
 			aria-modal='true'
