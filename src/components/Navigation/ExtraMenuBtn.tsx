@@ -21,7 +21,7 @@ export default function ExtraMenuBtn() {
 			title='extra menus'
 			onClick={handleClick}
 		>
-			<div className='flex items-center space-x-2 px-3 text-base sm:text-lg mt-5 transition-all ease duration-300'>
+			<div className='flex items-center space-x-2 px-3 text-base sm:text-lg transition-all ease duration-300'>
 				{extraListOpen ? (
 					<AiOutlineClose className='text-xl md:text-2xl' size={30} />
 				) : (

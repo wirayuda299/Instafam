@@ -26,12 +26,6 @@ export default function ActionButton({
 	refreshData,
 	ssr,
 }: Props) {
-	const savedPostArgs = {
-		post,
-		uid,
-		refreshData,
-		ssr,
-	};
 	return (
 		<div className='flex items-center justify-between mt-3 mb-2 p-1 relative'>
 			<div className='flex gap-x-5'>
@@ -62,6 +56,12 @@ export default function ActionButton({
 			</div>
 			<button
 				onClick={async () => {
+					const savedPostArgs = {
+						post,
+						uid,
+						refreshData,
+						ssr,
+					};
 					const { savePost } = await import('@/helper/savePost');
 					savePost(savedPostArgs);
 				}}
@@ -75,6 +75,7 @@ export default function ActionButton({
 					<BiBookmark className='text-3xl hover:text-gray-500' />
 				)}
 			</button>
+
 		</div>
 	);
 }

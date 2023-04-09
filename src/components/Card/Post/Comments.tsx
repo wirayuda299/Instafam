@@ -1,7 +1,6 @@
-import { db } from '@/config/firebase';
 import { IUserPostProps } from '@/types/post';
 import { useRouter } from 'next/router';
-import { useForm } from 'react-hook-form';
+import { FieldValues, useForm } from 'react-hook-form';
 import Image from 'next/image';
 import { Suspense } from 'react';
 export type IComment = Pick<IUserPostProps, 'comments'>;
@@ -28,8 +27,9 @@ export default function Comments({
 		router.replace(router.asPath);
 	};
 
-	const handleSubmits = async (e: any) => {
+	const handleSubmits = async (e:FieldValues) => {
 		if (e.comments === '') return;
+		const {db} = await import('@/config/firebase')
 		const {doc, updateDoc, arrayUnion } = await import('firebase/firestore')
 		try {
 			const postRef = doc(db, 'posts', `post-${post.postId}`);
@@ -40,7 +40,6 @@ export default function Comments({
 					commentByName: session?.user.username as string,
 					commentByPhoto: session?.user.image as string,
 					createdAt: Date.now(),
-					id: crypto.randomUUID()
 				}),
 			}).then(() => {
 				resetField('comments');

@@ -12,6 +12,7 @@ const ActionButton = dynamic(() => import('./ActionButton'));
 const PostHeader = dynamic(() => import('./Header'));
 const Author = dynamic(() => import('./Author'));
 const Comments = dynamic(() => import('./Comments'));
+const PostModal = dynamic(() => import('./Modal'));
 
 export interface IPostCardProps {
 	post: IUserPostProps;
@@ -26,6 +27,7 @@ function PostCard({ post, ssr }: IPostCardProps) {
 	const { data: session } = useSession();
 	const { replace, asPath } = useRouter();
 	const refreshData = () => replace(asPath);
+	const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
 
 	useEffect(() => {
 		const unsub = onSnapshot(doc(db, 'posts', `post-${post.postId}`), (doc) => {
@@ -58,9 +60,8 @@ function PostCard({ post, ssr }: IPostCardProps) {
 		<div className='w-full mb-5 relative'>
 			<div className='bg-white shadow-lg  dark:bg-black dark:border-black dark:text-white rounded-sm '>
 				<PostHeader
-					ssr={ssr}
-					refreshData={refreshData}
-					users={users}
+					isMenuOpen={isMenuOpen}
+					setIsMenuOpen={setIsMenuOpen}
 					session={session}
 					post={post}
 				/>
@@ -102,6 +103,15 @@ function PostCard({ post, ssr }: IPostCardProps) {
 					post={post}
 					session={session}
 					commentOpen={commentOpen}
+				/>
+				<PostModal
+					isMenuOpen={isMenuOpen}
+					post={post}
+					refreshData={refreshData}
+					session={session}
+					setIsMenuOpen={setIsMenuOpen}
+					ssr={ssr}
+					users={users}
 				/>
 			</div>
 		</div>

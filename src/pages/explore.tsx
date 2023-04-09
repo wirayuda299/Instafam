@@ -27,10 +27,8 @@ export default function Explore({
 				/>
 			</Head>
 			<div className='text-black dark:text-white w-full h-screen overflow-y-auto p-5'>
-				<div>
-					<h1 className='text-center font-semibold text-5xl py-5'>Explore</h1>
-				</div>
-				<div className='w-full columns-1 sm:columns-2 lg:columns-3 gap-10 '>
+				<h1 className='text-center font-semibold text-5xl py-5'>Explore</h1>
+				<div className='w-full columns-1 sm:columns-2 lg:columns-3 gap-10 mb-7'>
 					{posts?.map((post: IUserPostProps) => (
 						<ExplorePostCard post={post} key={post.postId} />
 					))}
@@ -46,9 +44,12 @@ export default function Explore({
 }
 export async function getServerSideProps({ res }: any) {
 	const { getPosts } = await import('@/helper/getPosts');
-	const posts = await getPosts(8);
+	const posts = await getPosts(10);
 	const last = posts ? posts[posts.length - 1] : null;
-	res.setHeader('Cache-Control', 'public, s-maxage=60, stale-while-revalidate');
+	res.setHeader(
+		'Cache-Control',
+		'public, s-maxage=120, stale-while-revalidate'
+	);
 	return {
 		props: {
 			posts,

@@ -80,8 +80,8 @@ export default function ExtraMenus() {
 			}`}
 		>
 			<div
-				className={`bg-white  rounded-md dark:bg-black dark:bg-opacity-95 dark:text-white py-4 -left-0 -top-[365px] md:bg-opacity-85 w-full sm:w-44 md:w-60 z-[9999] ${
-					extraListOpen ? ' absolute block  ' : 'hidden'
+				className={`bg-white  rounded-md dark:bg-black dark:bg-opacity-95 dark:text-white py-4 -left-0 md:-top-[330px] lg:-top-[300px] md:bg-opacity-85 w-full sm:w-44 md:w-60  ${
+					extraListOpen ? ' absolute  block z-[999] ' : 'hidden'
 				}`}
 			>
 				<ul className='w-full px-2'>

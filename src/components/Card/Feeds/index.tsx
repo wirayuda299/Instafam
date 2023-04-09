@@ -7,8 +7,8 @@ const PostInfo = dynamic(() => import('./PostInfo'), { ssr: false });
 
 function ExplorePostCard({ post }: { post: IUserPostProps }) {
 	return (
-		<Link href={`/post/${post.postId}`}>
-			<div className=' shadow-lg relative group mb-8'>
+		<Link href={`/post/${post.postId}`} as={post.postedById}>
+			<div className=' shadow-lg relative group '>
 				<Image
 					src={post?.image}
 					width={1300}

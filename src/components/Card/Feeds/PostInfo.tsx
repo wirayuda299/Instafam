@@ -2,7 +2,7 @@ import { AiFillHeart, AiTwotoneMessage } from "react-icons/ai";
 
 export default function PostInfo({post}:any) {
   return (
-    <div className='absolute inset-0 flex justify-around items-center bg-black bg-opacity-0 hover:bg-opacity-25'>
+    <div className='absolute inset-0 transition-opacity ease-in-out duration-300 flex justify-around items-center bg-black bg-opacity-0 hover:bg-opacity-30'>
     <button
       type='button'
       name='likes count button'

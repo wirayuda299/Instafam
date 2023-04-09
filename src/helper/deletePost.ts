@@ -3,8 +3,10 @@ import { IUserPostProps } from "@/types/post";
 import { deleteDoc, doc } from "firebase/firestore";
 import { ref, deleteObject } from "firebase/storage";
 
-export const deletePost = async (post: IUserPostProps, refreshData:() => void, ssr:boolean) => {
-  if(typeof window === 'undefined') return;
+type TDeletePost = (post: IUserPostProps, refreshData: () => void, ssr: boolean) => void;
+
+export const deletePost: TDeletePost = async (post, refreshData, ssr) => {
+  if (typeof window === 'undefined') return;
   try {
     const postRef = ref(storage, post.storageRef);
     const deleteFromFirestore = await deleteDoc(

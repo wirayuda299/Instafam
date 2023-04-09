@@ -9,7 +9,6 @@ import {
 import { MdOutlineExplore } from 'react-icons/md';
 import { RiMessengerLine } from 'react-icons/ri';
 import Image from 'next/image';
-import ExtraMenuBtn from './ExtraMenuBtn';
 import { searchDrawer } from '@/store/searchDrawer';
 import { useRecoilState } from 'recoil';
 import { resultsState } from '@/store/results';
@@ -32,14 +31,14 @@ export default function NavbarLists() {
 			id: 1,
 			title: 'Home',
 			path: '/',
-			icon: <AiOutlineHome size={30} className='text-black dark:text-white' />,
+			icon: <AiOutlineHome className='text-3xl text-black dark:text-white' />,
 		},
 		{
 			id: 2,
 			title: 'Search',
 			path: '',
 			icon: (
-				<AiOutlineSearch size={30} className='text-black dark:text-white' />
+				<AiOutlineSearch className='text-3xl text-black dark:text-white' />
 			),
 		},
 		{
@@ -47,7 +46,7 @@ export default function NavbarLists() {
 			title: 'Explore',
 			path: '/explore',
 			icon: (
-				<MdOutlineExplore size={30} className='text-black dark:text-white' />
+				<MdOutlineExplore className='text-3xl text-black dark:text-white' />
 			),
 		},
 		{
@@ -55,21 +54,21 @@ export default function NavbarLists() {
 			title: 'Messages',
 			path: '/messages',
 			icon: (
-				<RiMessengerLine size={30} className='text-black dark:text-white' />
+				<RiMessengerLine className='text-3xl text-black dark:text-white' />
 			),
 		},
 		{
 			id: 5,
 			title: 'Notifications',
 			path: '/notifications',
-			icon: <AiOutlineHeart size={30} className='text-black dark:text-white' />,
+			icon: <AiOutlineHeart className='text-3xl text-black dark:text-white' />,
 		},
 		{
 			id: 6,
 			title: 'Create',
 			path: '/create',
 			icon: (
-				<AiOutlinePlusSquare size={30} className='text-black dark:text-white' />
+				<AiOutlinePlusSquare className='text-3xl text-black dark:text-white' />
 			),
 		},
 		{
@@ -102,7 +101,7 @@ export default function NavbarLists() {
 	};
 
 	return (
-		<ul className='flex w-full dark:bg-black justify-around md:justify-start md:space-y-4 items-center sm:items-start flex-row md:flex-col'>
+		<ul className='flex w-full dark:bg-black justify-around md:justify-center md:space-y-2 lg:space-y-4 items-center sm:items-start flex-row md:flex-col'>
 			{navList.map((list) => (
 				<li
 					role='listitem'
@@ -154,7 +153,6 @@ export default function NavbarLists() {
 					)}
 				</li>
 			))}
-			<ExtraMenuBtn />
 		</ul>
 	);
 }

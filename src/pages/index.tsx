@@ -1,17 +1,8 @@
 import dynamic from 'next/dynamic';
 import useInfiniteScroll from '@/hooks/useInfiniteScroll';
-const Suggestions = dynamic(
-	() => import('@/components/Suggestions/Suggestions'),
-	{
-		ssr: true,
-	}
-);
-const PostCard = dynamic(() => import('@/components/Card/Post'), {
-	ssr: true,
-});
-const CardLoader = dynamic(() => import('@/components/Loader/Loader'), {
-	ssr: true,
-});
+const Suggestions = dynamic(() => import('@/components/Suggestions/Suggestions'));
+const PostCard = dynamic(() => import('@/components/Card/Post'));
+const CardLoader = dynamic(() => import('@/components/Loader/Loader'));
 
 export default function Home({ posts, users, sessions, last }: any) {
 	const { ref, postsState, loading } = useInfiniteScroll(last);
@@ -25,10 +16,12 @@ export default function Home({ posts, users, sessions, last }: any) {
 					<span ref={ref}></span>
 					{loading && <CardLoader />}
 					{postsState?.map((post) => (
-						<PostCard post={post} key={post.postId} ssr={false}/>
+						<PostCard post={post} key={post.postId} ssr={false} />
 					))}
 				</div>
-				<Suggestions reccomend={users} session={sessions} />
+				<div className='relative' >
+					<Suggestions reccomend={users} session={sessions} />
+				</div>
 			</div>
 		</section>
 	);
@@ -37,20 +30,20 @@ export default function Home({ posts, users, sessions, last }: any) {
 export async function getServerSideProps({ req, res }: any) {
 	const { getSession } = await import('next-auth/react');
 	const session = await getSession({ req });
-	if(!session) {
+	if (!session) {
 		return {
 			redirect: {
 				destination: '/auth/signin',
 				permanent: false,
-			}
-		}
+			},
+		};
 	}
 	const { getPosts } = await import('@/helper/getPosts');
-	const posts = await getPosts(5);
+	const posts = await getPosts(4);
 
 	const { getUserRecommendation } = await import('@/helper/getUser');
 	const users = await getUserRecommendation(session?.user?.uid);
-	res.setHeader('Cache-Control', 's-maxage=60, stale-while-revalidate=59');
+	res.setHeader('Cache-Control', 's-maxage=120, stale-while-revalidate');
 
 	return {
 		props: {

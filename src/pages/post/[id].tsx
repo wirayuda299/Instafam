@@ -129,14 +129,13 @@ export default function PostDetail({
 												const { handleFollow } = await import(
 													'@/helper/follow'
 												);
-												const followArgs = {
-													id: post.postedById,
-													uid: sessions?.user.uid,
-													followedByName: sessions?.user.username,
+												handleFollow(
+													post.postedById,
+													sessions?.user.uid,
+													sessions?.user.username,
 													refreshData,
-													ssr: true,
-												};
-												handleFollow(followArgs);
+													true
+												);
 											}}
 										>
 											{user &&

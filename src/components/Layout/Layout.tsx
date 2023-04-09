@@ -4,7 +4,7 @@ const MainHeader = dynamic(() => import('@/components/Header/Header'));
 const Sidebar = dynamic(() => import('@/components/Navigation/Sidebar'));
 const SearchForm = dynamic(() => import('@/components/Search'));
 
-export default function Layout({ children }: { children: any}) {
+export default function Layout({ children }: { children: any }) {
 	return (
 		<>
 			<Head>
@@ -21,7 +21,7 @@ export default function Layout({ children }: { children: any}) {
 				<meta name='viewport' content='width=device-width, initial-scale=1' />
 				<link rel='icon' href='/favicon.ico' />
 			</Head>
-			<div className='bg-white h-screen  dark:bg-black  max-w-[1600px] mx-auto '>
+			<div className='bg-white h-screen !select-none dark:bg-black  max-w-[1600px] mx-auto '>
 				<div className='flex'>
 					<Sidebar />
 					<SearchForm />

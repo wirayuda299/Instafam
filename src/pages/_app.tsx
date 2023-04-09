@@ -12,8 +12,8 @@ export default function App({
 	return (
 		<SessionProvider session={session}>
 			<RecoilRoot>
+				<NextNProgress />
 				<Layout>
-					<NextNProgress />
 					<Component {...pageProps} />
 				</Layout>
 			</RecoilRoot>
