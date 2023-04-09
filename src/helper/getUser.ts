@@ -16,9 +16,9 @@ export async function getUserRecommendation(uid: string = '') {
     console.log(error.message);
   }
 }
-export async function getCurrentUserData(uid: string = '') {
+export async function getCurrentUserData(username: string = '') {
   try {
-    const q = query(collection(db, 'users'), where('uid', '==', uid))
+    const q = query(collection(db, 'users'), where('username', '==', username))
     const res = await getDocs(q)
     return res.docs.map(doc => doc.data()) as IUser[]
 

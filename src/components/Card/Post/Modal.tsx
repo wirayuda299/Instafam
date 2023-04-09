@@ -90,21 +90,24 @@ export default function Modal({
 	useEffect(() => {
 		if (isMenuOpen) {
 			document.body.style.overflow = 'hidden';
+			document.body.style.top = `-${window.scrollY}px`;
 		} else {
 			document.body.style.overflow = 'auto';
+			const scrollY = document.body.style.top;
+			window.scrollTo(0, parseInt(scrollY || '0') * -1);
 		}
 	}, [isMenuOpen])
 	return (
 		<div
-			className={` fixed left-0 top-0 z-[99999999] bg-black bg-opacity-60 text-black dark:text-white  h-full w-full !overflow-hidden outline-none select-none ${
-				isMenuOpen ? 'block ' : 'hidden'
+			className={` fixed left-0 top-0 z-[99999999] shadow-sm shadow-white  bg-black bg-opacity-60 text-black dark:text-white  h-screen w-full !overflow-x-hidden outline-none select-none ${
+				isMenuOpen ? 'animate-popUp' : 'animate-fadeOut hidden'
 			}`}
 			aria-modal='true'
 			role='dialog'
 		>
 			<div className='max-w-lg mx-auto h-full'>
 				<div className='flex flex-col h-full justify-center items-center'>
-					<div className='flex flex-col p-5  bg-white min-w-[400px] rounded-lg text-black dark:bg-black dark:text-white'>
+					<div className='flex flex-col p-5 bg-white min-w-[400px] rounded-lg text-black dark:bg-black dark:text-white'>
 						{buttonLists.map((button) => (
 							<button
 								type='button'

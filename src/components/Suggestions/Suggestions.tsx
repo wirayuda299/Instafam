@@ -92,7 +92,7 @@ function Suggestions({ session, reccomend }: Props) {
 									<p className=' text-xs text-slate-500'>{user.name}</p>
 								</div>
 							</div>
-							<Link className='ml-auto' href={`/profile/${user?.uid}`}>
+							<Link className='ml-auto' href={`/profile/${user?.username}`}>
 								<span className='text-blue-600 font-light text-xs'>View</span>
 							</Link>
 						</div>

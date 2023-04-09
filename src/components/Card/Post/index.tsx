@@ -4,10 +4,10 @@ import Image from 'next/image';
 import { IComment } from './Comments';
 import { db } from '@/config/firebase';
 import { doc, onSnapshot } from 'firebase/firestore';
-import { useSession } from 'next-auth/react';
 import { IUser } from '@/types/user';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
+import { Session } from 'next-auth';
 const ActionButton = dynamic(() => import('./ActionButton'));
 const PostHeader = dynamic(() => import('./Header'));
 const Author = dynamic(() => import('./Author'));
@@ -17,14 +17,14 @@ const PostModal = dynamic(() => import('./Modal'));
 export interface IPostCardProps {
 	post: IUserPostProps;
 	ssr: boolean;
+	session: Session | null
 }
-function PostCard({ post, ssr }: IPostCardProps) {
+function PostCard({ post, ssr, session }: IPostCardProps) {
 	const [comment, setComment] = useState<IComment['comments']>([]);
 	const [likesCount, setLikesCount] = useState<string[]>([]);
 	const [commentOpen, setCommentOpen] = useState<boolean>(false);
 	const [savedPosts, setSavedPosts] = useState<string[]>([]);
 	const [users, setUsers] = useState<IUser>();
-	const { data: session } = useSession();
 	const { replace, asPath } = useRouter();
 	const refreshData = () => replace(asPath);
 	const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
@@ -58,7 +58,7 @@ function PostCard({ post, ssr }: IPostCardProps) {
 
 	return (
 		<div className='w-full mb-5 relative'>
-			<div className='bg-white shadow-lg  dark:bg-black dark:border-black dark:text-white rounded-sm '>
+			<div className='bg-white shadow-lg dark:bg-black dark:border-black dark:text-white rounded-sm '>
 				<PostHeader
 					isMenuOpen={isMenuOpen}
 					setIsMenuOpen={setIsMenuOpen}

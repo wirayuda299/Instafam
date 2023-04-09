@@ -15,6 +15,19 @@ module.exports = {
         slideOut: {
           "0%": { left: '79px', display: "block" },
           "100%": { left: '-100%', display: "none" }
+        },
+        popUp: {
+          "0%": {
+            display: 'none',
+            transform: "scale(1)"
+          },
+          "50%": {
+            transform: "scale(1.1)"
+          },
+          "100%": {
+            display: 'block',
+            transform: "scale(1)"
+          }
         }
       },
       slideInWidth: {
@@ -26,17 +39,24 @@ module.exports = {
         "100%": { left: '-100%', display: "none" }
       },
       fadeIn: {
-        "0%": { opacity: 0 },
-        "100%": { opacity: 1 }
+        "0%": { display: 'none', transform: 'scale(0)' },
+        "100%": { display: 'block', transform: 'scale(1)' }
       },
+      fadeOut: {
+        "0%": { display: 'block' },
+        "100%": { display: 'none' }
+      },
+
+
 
       animation: {
         slideIn: 'slideIn 0.4s ease forwards',
         slideOut: 'slideOut 0.4s ease forwards',
         slideInWidth: 'slideInWidth 0.4s ease forwards',
         slideOutWidth: 'slideOutWidth 0.4s ease forwards',
-        fadeIn: 'fadeIn 0.5s ease forwards',
-
+        fadeIn: 'fadeIn 1s ease-in-out forwards',
+        fadeOut: 'fadeOut 1s ease-in-out forwards',
+        popUp: 'popUp 0.3s'
       },
       screens: {
         'xs': '320px',

@@ -40,7 +40,7 @@ export default function ActionButton({
 					className='transition-all ease duration-500'
 				>
 					{likes?.includes(uid) ? (
-						<AiFillHeart className='text-3xl text-red-600 ' />
+						<AiFillHeart className='text-3xl text-red-600 animate-popUp ' />
 					) : (
 						<AiOutlineHeart className='text-3xl hover:text-gray-500' />
 					)}

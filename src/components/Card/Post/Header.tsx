@@ -41,7 +41,7 @@ export default function Postheader({
 			<div className='ml-3 w-full flex justify-between items-center '>
 				<div>
 					<Link
-						href={`/profile/${post.postedById}`}
+						href={`/profile/${post.author}`}
 						className='text-sm font-semibold antialiased block leading-tight'
 					>
 						{post?.author}

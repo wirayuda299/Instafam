@@ -74,7 +74,7 @@ export default function NavbarLists() {
 		{
 			id: 7,
 			title: 'Profile',
-			path: `/profile/${session?.user.uid}`,
+			path: `/profile/${session?.user.username}`,
 			icon: (
 				<Image
 					className={`w-7 h-7 sm:w-8 sm:h-8 border md:border-0 object-cover ${

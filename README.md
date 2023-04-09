@@ -20,7 +20,7 @@ Welcome to Instafam! This is a social media app that allows you to connect with 
 - Delete your posts
 - Simple detection of nudity in images while create a post
 - Load more posts,
-- Go to spesific post,
+- Navigate to spesific post,
 - Copy post link
 - Share post
 - Responsive design

@@ -29,7 +29,7 @@ export default function Results({
 						key={result.uid}
 					>
 						<Link
-							href={`/profile/${result.uid}`}
+							href={`/profile/${result.username}`}
 							onClick={handleDrawerToggler}
 							className='flex space-x-3 items-center justify-center'
 						>
