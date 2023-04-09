@@ -14,6 +14,7 @@ type Props ={
 	height: string;
 	children: ReactNode;
 }
+
 export default function Form({ height, children }: Props) {
 	const { handleSubmit, onSubmit, register } = useSearchUser();
 	const [results, setResults] = useRecoilState(resultsState);
@@ -35,6 +36,7 @@ export default function Form({ height, children }: Props) {
 								type='search'
 								placeholder='search user'
 								autoComplete='off'
+								autoFocus={false}
 								alt='search user'
 								security='restricted'
 								className='bg-transparent text-xs md:text-sm w-full py-2 focus:outline-none focus:border-0 focus:ring-0'

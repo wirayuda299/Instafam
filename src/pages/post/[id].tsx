@@ -22,7 +22,7 @@ export default function PostDetail({
 	sessions: any;
 	user: any;
 }) {
-	const [createdDate, setCreatedDate] = useState<string>('');
+	const [createdDate, setCreatedDate] = useState<string | undefined>('');
 	const [commentOpen, setCommentOpen] = useState<boolean>(false);
 	const { asPath, replace } = useRouter();
 	const refreshData = () => replace(asPath);

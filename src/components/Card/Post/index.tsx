@@ -8,6 +8,9 @@ import { IUser } from '@/types/user';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 import { Session } from 'next-auth';
+import { z } from 'zod';
+import { PostSchema } from '@/schema/PostSchema';
+import { SessionSchema } from '@/schema/comment';
 const ActionButton = dynamic(() => import('./ActionButton'));
 const PostHeader = dynamic(() => import('./Header'));
 const Author = dynamic(() => import('./Author'));
@@ -19,6 +22,11 @@ export interface IPostCardProps {
 	ssr: boolean;
 	session: Session | null
 }
+export const PostCardSchema = z.object({
+	post: PostSchema,
+	ssr: z.boolean(),
+	session: SessionSchema
+})
 function PostCard({ post, ssr, session }: IPostCardProps) {
 	const [comment, setComment] = useState<IComment['comments']>([]);
 	const [likesCount, setLikesCount] = useState<string[]>([]);
@@ -55,6 +63,9 @@ function PostCard({ post, ssr, session }: IPostCardProps) {
 		);
 		return () => unsub();
 	}, [db, post]);
+
+	const isValid = PostCardSchema.parse({ post, ssr, session })
+	if (!isValid) throw new Error('Invalid Props')
 
 	return (
 		<div className='w-full mb-5 relative'>

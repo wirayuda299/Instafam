@@ -1,8 +1,12 @@
+import { PostSchema } from '@/schema/PostSchema';
+import { userSchema } from '@/schema/User';
+import { SessionSchema } from '@/schema/comment';
 import { IUserPostProps } from '@/types/post';
 import { IUser } from '@/types/user';
 import { Session } from 'next-auth';
 import { useRouter } from 'next/router';
-import { Dispatch, SetStateAction, useEffect } from 'react';
+import { Dispatch, SetStateAction } from 'react';
+import { z } from 'zod';
 type Props = {
 	post: IUserPostProps;
 	session: Session | null ;
@@ -12,6 +16,16 @@ type Props = {
 	isMenuOpen: boolean;
 	setIsMenuOpen: Dispatch<SetStateAction<boolean>>;
 };
+const modalSchema = z.object({
+	post:PostSchema,
+	session: SessionSchema,
+	users: userSchema.nullish(),
+	refreshData: z.function().args(z.void()).returns(z.void()),
+	ssr: z.boolean(),
+	isMenuOpen: z.boolean(),
+	setIsMenuOpen: z.function().args(z.boolean()).returns(z.void())
+
+})
 export default function Modal({
 	post,
 	session,
@@ -21,6 +35,8 @@ export default function Modal({
 	isMenuOpen,
 	setIsMenuOpen,
 }: Props) {
+	const isValid = modalSchema.parse({ post, session, users, refreshData, ssr, isMenuOpen, setIsMenuOpen })
+	if(!isValid) throw new Error('Invalid Props')	
 	const { push } = useRouter();
 	const buttonLists = [
 		{
@@ -87,16 +103,7 @@ export default function Modal({
 			event: () => setIsMenuOpen(false),
 		},
 	];
-	useEffect(() => {
-		if (isMenuOpen) {
-			document.body.style.overflow = 'hidden';
-			document.body.style.top = `-${window.scrollY}px`;
-		} else {
-			document.body.style.overflow = 'auto';
-			const scrollY = document.body.style.top;
-			window.scrollTo(0, parseInt(scrollY || '0') * -1);
-		}
-	}, [isMenuOpen])
+	
 	return (
 		<div
 			className={` fixed left-0 top-0 z-[99999999] shadow-sm shadow-white  bg-black bg-opacity-60 text-black dark:text-white  h-screen w-full !overflow-x-hidden outline-none select-none ${

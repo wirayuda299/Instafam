@@ -17,9 +17,5 @@ export interface IUserPostProps {
   }[]
   hashtags: string[]
   postId: string
-  posts: []
-  followers: []
-  following: []
-  savedPosts: IUserPostProps[]
   tagged: []
 }

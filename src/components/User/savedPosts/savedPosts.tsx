@@ -3,7 +3,9 @@ import { tabSavedPosts } from '@/store/TabToggler';
 import { useRecoilValue } from 'recoil';
 import { IUserPostProps } from '@/types/post';
 import Loader from '@/components/Loader/Loader';
+import {z} from 'zod';
 import dynamic from 'next/dynamic';
+import { PostSchema } from '@/schema/PostSchema';
 const FeedsCards = dynamic(() => import('@/components/Card/Feeds'), {
 	loading: () => <Loader />,
 });
@@ -11,9 +13,14 @@ const FeedsCards = dynamic(() => import('@/components/Card/Feeds'), {
 type ISavedPostsProps = {
 	savedPosts: IUserPostProps[] | [];
 };
+const SavedPropsSchema = z.object({
+	savedPosts: z.array(PostSchema).nullish().optional()
+});
 
 export default function SavedPosts({ savedPosts }: ISavedPostsProps) {
 	const savedPostsTab = useRecoilValue(tabSavedPosts);
+	const isValid = SavedPropsSchema.parse({savedPosts})
+	if (!isValid) return null
 	return (
 		<>
 			{savedPostsTab && (

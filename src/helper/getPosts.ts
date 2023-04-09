@@ -1,9 +1,24 @@
 import { db } from "@/config/firebase";
+import { PostSchema } from "@/schema/PostSchema";
 import { IUserPostProps } from "@/types/post";
 import { getDocs, query, collection, orderBy, where, limit, startAfter } from "firebase/firestore";
-
+import { z } from 'zod';
+const GetPostsSchema = z.object({
+  num: z.number().positive().int()
+})
+const nextPostsSchema = z.object({
+  last:PostSchema.nullable()
+})
+const getPostByCurrentUserSchema = z.object({
+  uid: z.string().nonempty()
+})
+const getPostByIdSchema = z.object({
+  id: z.string().nonempty()
+})
 export const getPosts = async (num: number): Promise<IUserPostProps[] | undefined> => {
   try {
+    const isValid = GetPostsSchema.parse({ num })
+    if (!isValid) throw new Error('Invalid data passed to getPosts function. Args must be a number.')
     const q = query(
       collection(db, 'posts'),
       orderBy('createdAt', 'desc'),
@@ -20,6 +35,8 @@ export const getPosts = async (num: number): Promise<IUserPostProps[] | undefine
 
 export async function fetchNextPosts(last: IUserPostProps | null): Promise<IUserPostProps[] | undefined> {
   try {
+    const isValid = nextPostsSchema.parse({ last })
+    if (!isValid) throw new Error('Invalid data passed to fetchNextPosts function.')
     const q =
       query(
         collection(db, 'posts'),
@@ -37,6 +54,8 @@ export async function fetchNextPosts(last: IUserPostProps | null): Promise<IUser
 
 export async function getPostByCurrentUser(uid: string ='',): Promise<IUserPostProps[] | undefined> {
   try {
+    const isValid = getPostByCurrentUserSchema.parse({ uid })
+    if (!isValid) throw new Error('Invalid data passed to function. uid must be a string passed to the function and cannot be empty.')
     const q =
       query(
         collection(db, 'posts'),
@@ -54,6 +73,8 @@ export async function getPostByCurrentUser(uid: string ='',): Promise<IUserPostP
 
 export async function getPostById(id: string ): Promise<IUserPostProps[] | undefined> {
   try {
+    const isValid = getPostByIdSchema.parse({ id })
+    if (!isValid) throw new Error('Invalid data passed to function. id must be a string passed to the function and cannot be empty.')
     const q =
       query(
         collection(db, 'posts'),

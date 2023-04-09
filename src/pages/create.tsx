@@ -34,15 +34,16 @@ export default function CreatePost() {
 					<Captions
 						handlePost={async () => {
 							const { makePost } = await import('@/helper/makePost');
-							await makePost(
+							const makePostArgs = {
 								captions,
 								croppedImg,
 								session,
 								setCaptions,
 								setImg,
 								setLoading,
-								img
-							);
+								img,
+							};
+							await makePost(makePostArgs);
 						}}
 						loading={loading}
 					/>

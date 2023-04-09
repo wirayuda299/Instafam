@@ -4,6 +4,7 @@ import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai';
 import { FaRegComment } from 'react-icons/fa';
 import { RiBookmarkFill } from 'react-icons/ri';
 import { BiBookmark } from 'react-icons/bi';
+import { PropsChema } from '@/schema/PostSchema';
 
 type Props = {
 	post: IUserPostProps;
@@ -26,6 +27,8 @@ export default function ActionButton({
 	refreshData,
 	ssr,
 }: Props) {
+	const isValidProps = PropsChema.parse({post, uid, setCommentOpen, commentOpen, likes, savedPosts, refreshData, ssr})
+	if(!isValidProps) throw new Error('Invalid Props')
 	return (
 		<div className='flex items-center justify-between mt-3 mb-2 p-1 relative'>
 			<div className='flex gap-x-5'>

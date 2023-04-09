@@ -1,15 +1,24 @@
 import { ChangeEvent, FC } from 'react';
 import { AiOutlineCloudUpload } from 'react-icons/ai';
+import { z } from 'zod';
 
 interface IProps {
 	setPreviewUrl: React.Dispatch<React.SetStateAction<string>>;
 	img: string | undefined;
 }
+const imageInputSchema = z.object({
+	setPreviewUrl: z.function().args(z.any()).returns(z.any()),
+	img: z.string(),
+});
 
 export const ImageInput: FC<IProps> = ({ setPreviewUrl, img }) => {
 	const handleInputImage = async (e: ChangeEvent<HTMLInputElement>) => {
-
 		try {
+			const isValid = imageInputSchema.parse({ setPreviewUrl, img });
+			if (!isValid)
+				throw new Error(
+					'Invalid data passed to ImageInput, please pass valid data such as string for image and function for setPreviewUrl'
+				);
 			let selectedFile = e.target.files?.[0];
 			if (!selectedFile) return;
 			const data = new FormData();
@@ -36,9 +45,9 @@ export const ImageInput: FC<IProps> = ({ setPreviewUrl, img }) => {
 						alert(
 							'Your uploaded image is contains adult content, please upload an image that does not contain adult content for the safety of our users.'
 						);
-						return 
+						return;
 					}
-					
+
 					return setPreviewUrl(event.target.result as string);
 				}
 			};

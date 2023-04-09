@@ -3,15 +3,21 @@ import { imagesState } from '@/store/images';
 import { useRecoilValue, useRecoilState } from 'recoil';
 import { useSession } from 'next-auth/react';
 import { captionsState } from '@/store/captions';
-
+import {z} from 'zod';
 interface Props {
 	handlePost: () => Promise<void>;
 	loading: boolean;
 }
+const captionsSchema = z.object({
+	handlePost: z.function().args(z.any()).returns(z.any()),
+	loading: z.boolean(),
+});
 export default function Captions({ handlePost, loading }: Props) {
 	const [captions, setCaptions] = useRecoilState(captionsState);
 	const img = useRecoilValue(imagesState);
 	const { data: session } = useSession();
+	const isValid = captionsSchema.parse({ handlePost, loading });
+	if (!isValid) throw new Error('Invalid Props');
 	return (
 		<div
 			id='create-post'

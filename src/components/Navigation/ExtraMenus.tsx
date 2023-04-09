@@ -92,7 +92,7 @@ export default function ExtraMenus() {
 							title={list.title}
 						>
 							<button
-								onClick={() => list.id === 6 ? handleSignOut(session) : undefined}
+								onClick={() => list.id === 6 ? handleSignOut(session ) : undefined}
 								className='w-full flex items-center space-x-2 gap-2 justify-between'
 								type='button'
 								name={list.title}

@@ -19,13 +19,12 @@ export const authOptions:NextAuthOptions = {
         url: process.env.GOOGLE_URL as string
       },
       wellKnown: process.env.GOOGLE_WELL_KNOWN_URL as string,
-      profile(profile, tokens) {
+      profile(profile) {
         return {
           id: profile.sub,
           name: profile.name,
           email: profile.email,
           image: profile.picture,
-          token: tokens.access_token
         };
       },
 
@@ -73,6 +72,7 @@ export const authOptions:NextAuthOptions = {
   },
  
   secret: process.env.NEXTAUTH_SECRET as string,
+  useSecureCookies: process.env.NODE_ENV === 'production',
 }
 
 export default NextAuth(authOptions)

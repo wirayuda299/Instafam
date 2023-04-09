@@ -44,6 +44,7 @@ export default function SignIn({ providers }: { providers: Providers }) {
 							<button
 								type='button'
 								name='signin'
+								title='Sign in with Google'
 								key={provider.id}
 								className='bg-black text-white hover:bg-opacity-80 transition-all ease duration-300 rounded-md px-5 py-3 text-center inline-flex items-center gap-x-5'
 								onClick={async () => {
@@ -51,7 +52,7 @@ export default function SignIn({ providers }: { providers: Providers }) {
 									await handleSignin(provider.id);
 								}}
 							>
-								Sign in with {provider.name}{' '}
+								Sign in with {provider.name}
 								<span>
 									<FcGoogle />
 								</span>

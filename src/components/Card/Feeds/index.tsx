@@ -1,11 +1,21 @@
+import { PostSchema } from '@/schema/PostSchema';
 import { IUserPostProps } from '@/types/post';
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import Link from 'next/link';
 import { memo } from 'react';
 const PostInfo = dynamic(() => import('./PostInfo'), { ssr: false });
+import { z } from 'zod';
+
+const FeedSchema = z.object({
+	post:PostSchema
+
+})
 
 function ExplorePostCard({ post }: { post: IUserPostProps }) {
+	const isValid = FeedSchema.parse({ post });
+	if(!isValid) throw new Error('Invalid props')
+	
 	return (
 		<Link href={`/post/${post.postId}`} as={`/post/${post.postId}`}>
 			<div className='shadow-lg relative group'>
