@@ -7,10 +7,6 @@ import { useSession } from 'next-auth/react';
 import { IUserPostProps } from '@/types/post';
 import { Session } from 'next-auth';
 import { IUser } from '@/types/user';
-import {z} from 'zod';
-import { PostSchema } from '@/schema/PostSchema';
-import { userSchema } from '@/schema/User';
-
 
 const SavedPosts = dynamic(
 	() => import('@/components/User/savedPosts/savedPosts'),
@@ -46,52 +42,51 @@ export default function UserProfile({ posts, user, query }: Props) {
 	const { data: session } = useSession();
 	return (
 		<>
-		<Head>
-		<title>
-			{user ? user[0].name : ''}({user ? user[0].username : ''}) &#8226;
-			Instafam
-		</title>
-		<link rel='icon' href={user && user[0]?.image} />
-		<meta
-			name='description'
-			content={`This is profile page of ${user && user[0]?.username}`}
-		/>
-		<meta
-			property='og:description'
-			content={`This is profile page of ${user && user[0]?.username}`}
-		/>
+			<Head>
+				<title>
+					{user ? user[0].name : ''}({user ? user[0].username : ''}) &#8226;
+					Instafam
+				</title>
+				<link rel='icon' href={user && user[0]?.image} />
+				<meta
+					name='description'
+					content={`This is profile page of ${user && user[0]?.username}`}
+				/>
+				<meta
+					property='og:description'
+					content={`This is profile page of ${user && user[0]?.username}`}
+				/>
 
-		<link
-			rel='canonical'
-			href={`https://instafam.vercel.app/profile/${session?.user?.username}`}
-		/>
-	</Head>
-	<div className='w-full h-screen overflow-y-auto py-5 mx-auto p-5'>
-		<div className='flex items-center border-b border-gray-400 w-full space-x-3 md:justify-center md:space-x-10'>
-			<Statistic
-				uid={session?.user?.uid}
-				users={user && user[0]}
-				posts={posts ?? []}
-			/>
-		</div>
+				<link
+					rel='canonical'
+					href={`https://instafam.vercel.app/profile/${session?.user?.username}`}
+				/>
+			</Head>
+			<div className='w-full h-screen overflow-y-auto py-5 mx-auto p-5'>
+				<div className='flex items-center border-b border-gray-400 w-full space-x-3 md:justify-center md:space-x-10'>
+					<Statistic
+						uid={session?.user?.uid}
+						users={user && user[0]}
+						posts={posts ?? []}
+					/>
+				</div>
 
-		{session?.user?.username === query.username ? <Tab /> : null}
-		<div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5 p-5 justify-center items-center w-full '>
-			{postTab && (
-				<>
-					{posts?.map((post) => (
-						<ExplorePostCard post={post} key={post.postId} />
-					))}
-				</>
-			)}
-			<>
-				{savedPostTab && (
-					<SavedPosts savedPosts={user && user[0].savedPosts} />
-				)}
-			</>
-		</div>
-	</div>
-		
+				{session?.user?.username === query.username ? <Tab /> : null}
+				<div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5 p-5 justify-center items-center w-full '>
+					{postTab && (
+						<>
+							{posts?.map((post) => (
+								<ExplorePostCard post={post} key={post.postId} />
+							))}
+						</>
+					)}
+					<>
+						{savedPostTab && (
+							<SavedPosts savedPosts={user && user[0].savedPosts} />
+						)}
+					</>
+				</div>
+			</div>
 		</>
 	);
 }
@@ -100,11 +95,11 @@ export async function getServerSideProps({ req, query }: any) {
 	const { getCurrentUserData } = await import('@/helper/getUser');
 	const user = await getCurrentUserData(query.username);
 	const posts = await getPostByCurrentUser(user ? user[0].uid : '');
-	
-	if(!user || !posts) {
+
+	if (!user || !posts) {
 		return {
 			notFound: true,
-		}
+		};
 	}
 
 	return {

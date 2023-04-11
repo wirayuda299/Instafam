@@ -58,6 +58,7 @@ export default function Statistic({ uid, users, posts }: IProps) {
 													name='Follow unfollow'
 													title='follow unfollow'
 													className='w-full bg-blue-600 truncate text-xs text-white rounded px-5 md:py-2 py-1'
+													 
 												>
 													{users?.followers.find(
 														(foll: { followedBy: string | undefined }) =>

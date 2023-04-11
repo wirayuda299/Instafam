@@ -4,8 +4,10 @@ import { setDoc, doc } from "firebase/firestore";
 import { ref, uploadString, getDownloadURL } from "firebase/storage";
 import { Session } from "next-auth";
 import { Dispatch, SetStateAction } from "react";
+import toast from "react-hot-toast";
 import { SetterOrUpdater } from "recoil";
-import {z} from 'zod';
+import { z } from 'zod';
+
 type TMakePost = {
   captions: string;
   croppedImg: string;
@@ -26,20 +28,20 @@ const makePostSchema = z.object({
 })
 
 
-export const makePost = async (params:TMakePost) => {
+export const makePost = async (params: TMakePost) => {
   const { captions, croppedImg, session, setCaptions, setImg, setLoading, img } = params;
   if (!img) return;
-		setLoading(true);
-		const hashtags =
-			captions
-				.match(/#(?!\n)(.+)/g)
-				?.join(' ')
-				.split(' ') || [];
+  setLoading(true);
+  const hashtags =
+    captions
+      .match(/#(?!\n)(.+)/g)
+      ?.join(' ')
+      .split(' ') || [];
   const uuid = crypto.randomUUID();
   try {
-    const isValid = makePostSchema.parse({captions, croppedImg, session, setCaptions, setImg, setLoading, img})
+    const isValid = makePostSchema.parse({ captions, croppedImg, session, setCaptions, setImg, setLoading, img })
     if (!isValid) throw new Error('Invalid data passed to makePost function.');
-    const storageRef =`post/${uuid}/image`
+    const storageRef = `post/${uuid}/image`
 
     const imageRef = ref(storage, storageRef);
     await uploadString(imageRef, croppedImg ?? '', 'data_url').then(
@@ -62,11 +64,12 @@ export const makePost = async (params:TMakePost) => {
           setCaptions('');
           setImg('');
           setLoading(false);
+          toast.success('Post created successfully');
         });
       }
     );
   } catch (error: any) {
     setLoading(false);
-    console.error(error.message);
+    toast.error(error.message);
   }
 }

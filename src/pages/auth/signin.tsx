@@ -2,7 +2,6 @@ import loginBg from '@/assets/images/login-background.jpg';
 import { FcGoogle } from 'react-icons/fc';
 import { AiOutlineInstagram } from 'react-icons/ai';
 import { GetServerSidePropsContext } from 'next';
-import { authOptions } from '../api/auth/[...nextauth]';
 import Head from 'next/head';
 interface Providers {
 	id: string;
@@ -18,6 +17,42 @@ export default function SignIn({ providers }: { providers: Providers }) {
 			<Head>
 				<title>Sign In - Instafam</title>
 				<meta name='description' content='Sign in to your Instafam account' />
+				<meta name='keywords' content='instagram, sign in, login' />
+				<meta property='og:title' content='Sign In - Instafam' />
+				<meta property='og:description' content='Sign in to your Instafam account' />
+				<meta property='og:url' content='https://instafam.vercel.app/auth/signin' />
+				<meta property='og:type' content='website' />
+				<meta property='og:site_name' content='Instafam' />
+				<meta property='og:image' content={loginBg.src} />
+				<meta property='og:image:secure_url' content={loginBg.src} />
+				<meta property='og:image:alt' content='Instafam' />
+				<meta property='og:image:type' content='image/jpeg' />
+				<meta property='og:image:width' content='1200' />
+				<meta property='og:image:height' content='630' />
+				<meta property='og:image:alt' content='Instafam' />
+				<meta name='X-content-type-options' content='nosniff' />
+				<meta name='X-frame-options' content='DENY' />
+				<meta name='X-xss-protection' content='1; mode=block' />
+				<meta name='referrer' content='no-referrer' />
+				<meta name='robots' content='index, follow' />
+				<meta name='googlebot' content='index, follow' />
+				<meta name='google' content='notranslate' />
+				<meta name='format-detection' content='telephone=no' />
+				<meta name='theme-color' content='#ffffff' />
+				<meta name='msapplication-TileColor' content='#ffffff' />
+				<meta name='application-name' content='Instafam' />
+				<meta name='apple-mobile-web-app-title' content='Instafam' />
+				<meta name='apple-mobile-web-app-capable' content='yes' />
+				<meta name='apple-mobile-web-app-status-bar-style' content='default' />
+				<meta name='apple-mobile-web-app-status-bar-style' content='black-translucent' />
+				<meta name='apple-mobile-web-app-status-bar-style' content='black' />
+				<meta name='mobile-web-app-capable' content='yes' />
+				<meta name='HandheldFriendly' content='True' />
+				<meta name='MobileOptimized' content='320' />
+				<meta name='viewport' content='width=device-width, initial-scale=1.0' />
+				<meta name='twitter:card' content='summary_large_image' />
+				<meta name='twitter:site' content='@instafam' />
+
 			</Head>
 			<div
 				className='w-full h-screen grid place-items-center p-5'
@@ -43,13 +78,13 @@ export default function SignIn({ providers }: { providers: Providers }) {
 						{Object.values(providers).map((provider) => (
 							<button
 								type='button'
-								name='signin'
+								name='sign in with google'
 								title='Sign in with Google'
 								key={provider.id}
 								className='bg-black text-white hover:bg-opacity-80 transition-all ease duration-300 rounded-md px-5 py-3 text-center inline-flex items-center gap-x-5'
 								onClick={async () => {
-									const { handleSignin } = await import('@/helper/signIn');
-									await handleSignin(provider.id);
+									const { signIn } = await import('next-auth/react');
+									signIn(provider.id, { callbackUrl: '/' });
 								}}
 							>
 								Sign in with {provider.name}
@@ -65,10 +100,9 @@ export default function SignIn({ providers }: { providers: Providers }) {
 	);
 }
 
-export async function getServerSideProps(context: GetServerSidePropsContext) {
-	const { getProviders } = await import('next-auth/react');
-	const { getServerSession } = await import('next-auth');
-	const session = await getServerSession(context.req, context.res, authOptions);
+export async function getServerSideProps({ req }: GetServerSidePropsContext) {
+	const { getProviders, getSession } = await import('next-auth/react');
+	const session = await getSession({ req });
 
 	if (session) {
 		return {

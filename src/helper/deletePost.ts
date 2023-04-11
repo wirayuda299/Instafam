@@ -24,9 +24,10 @@ export const deletePost: TDeletePost = async (post, refreshData, ssr) => {
       doc(db, 'posts', `post-${post.postId}`)
     );
     const deleteFromStorage = await deleteObject(postRef);
-    await Promise.all([deleteFromFirestore, deleteFromStorage]).then(() => {
-      ssr ? refreshData() : null;
-    });
+    await Promise.all([deleteFromFirestore, deleteFromStorage])
+      .then(() => {
+        ssr ? refreshData() : null;
+      });
   } catch (error: any) {
     console.log(error.message);
   }

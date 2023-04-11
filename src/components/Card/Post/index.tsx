@@ -65,7 +65,7 @@ function PostCard({ post, ssr, session }: IPostCardProps) {
 	}, [db, post]);
 
 	const isValid = PostCardSchema.parse({ post, ssr, session })
-	if (!isValid) throw new Error('Invalid Props')
+	if (!isValid) throw new Error('Invalid Props for PostCard Component')
 
 	return (
 		<div className='w-full mb-5 relative'>

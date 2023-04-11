@@ -65,6 +65,7 @@ export const authOptions:NextAuthOptions = {
         return Promise.resolve(url)
       }
     },
+
   
   },
   pages: {
@@ -73,6 +74,19 @@ export const authOptions:NextAuthOptions = {
  
   secret: process.env.NEXTAUTH_SECRET as string,
   useSecureCookies: process.env.NODE_ENV === 'production',
+  cookies: {
+    sessionToken: {
+      name: 'next-auth.session-token',
+      options: {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: 'lax',
+        path: '/',
+        maxAge: 30 * 24 * 60 * 60,
+        
+      }
+    }
+  }
 }
 
 export default NextAuth(authOptions)

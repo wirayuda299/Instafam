@@ -1,4 +1,3 @@
-import { useSession } from 'next-auth/react';
 import Link from 'next/link';
 import {
 	AiOutlineHome,
@@ -13,6 +12,7 @@ import { searchDrawer } from '@/store/searchDrawer';
 import { useRecoilState } from 'recoil';
 import { resultsState } from '@/store/results';
 import { useRouter } from 'next/router';
+import { Session } from 'next-auth';
 
 type NavProps = {
 	id: number;
@@ -21,8 +21,7 @@ type NavProps = {
 	icon: JSX.Element | string;
 };
 
-export default function NavbarLists() {
-	const { data: session } = useSession();
+export default function NavbarLists({ session}: { session: Session | null }) {
 	const { pathname } = useRouter();
 	const [drawerOpen, setDrawerOpen] = useRecoilState(searchDrawer);
 	const [results, setResults] = useRecoilState(resultsState);
@@ -37,9 +36,7 @@ export default function NavbarLists() {
 			id: 2,
 			title: 'Search',
 			path: '',
-			icon: (
-				<AiOutlineSearch className='text-3xl text-black dark:text-white' />
-			),
+			icon: <AiOutlineSearch className='text-3xl text-black dark:text-white' />,
 		},
 		{
 			id: 3,
@@ -53,9 +50,7 @@ export default function NavbarLists() {
 			id: 4,
 			title: 'Messages',
 			path: '/messages',
-			icon: (
-				<RiMessengerLine className='text-3xl text-black dark:text-white' />
-			),
+			icon: <RiMessengerLine className='text-3xl text-black dark:text-white' />,
 		},
 		{
 			id: 5,

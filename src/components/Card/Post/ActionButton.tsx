@@ -5,6 +5,7 @@ import { FaRegComment } from 'react-icons/fa';
 import { RiBookmarkFill } from 'react-icons/ri';
 import { BiBookmark } from 'react-icons/bi';
 import { PropsChema } from '@/schema/PostSchema';
+import { IoPaperPlaneOutline } from 'react-icons/io5';
 
 type Props = {
 	post: IUserPostProps;
@@ -27,8 +28,17 @@ export default function ActionButton({
 	refreshData,
 	ssr,
 }: Props) {
-	const isValidProps = PropsChema.parse({post, uid, setCommentOpen, commentOpen, likes, savedPosts, refreshData, ssr})
-	if(!isValidProps) throw new Error('Invalid Props')
+	const isValidProps = PropsChema.parse({
+		post,
+		uid,
+		setCommentOpen,
+		commentOpen,
+		likes,
+		savedPosts,
+		refreshData,
+		ssr,
+	});
+	if (!isValidProps) throw new Error('Invalid props in ActionButton');
 	return (
 		<div className='flex items-center justify-between mt-3 mb-2 p-1 relative'>
 			<div className='flex gap-x-5'>
@@ -48,6 +58,7 @@ export default function ActionButton({
 						<AiOutlineHeart className='text-3xl hover:text-gray-500' />
 					)}
 				</button>
+
 				<button
 					onClick={() => setCommentOpen(!commentOpen)}
 					name='comment'
@@ -55,6 +66,17 @@ export default function ActionButton({
 					type='button'
 				>
 					<FaRegComment className='text-3xl hover:text-gray-500' />
+				</button>
+				<button
+					type='button'
+					name='share'
+					title='share'
+					onClick={async () => {
+						const { share } = await import('@/util/share');
+						share(post, `${process.env.NEXTAUTH_URL}/post/${post.postId}`);
+					}}
+				>
+					<IoPaperPlaneOutline className='text-3xl hover:text-gray-500' />
 				</button>
 			</div>
 			<button
@@ -78,7 +100,6 @@ export default function ActionButton({
 					<BiBookmark className='text-3xl hover:text-gray-500' />
 				)}
 			</button>
-
 		</div>
 	);
 }

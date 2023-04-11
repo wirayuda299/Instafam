@@ -3,7 +3,6 @@ import { AiOutlineClose } from 'react-icons/ai';
 import Image from 'next/image';
 import { Dispatch, SetStateAction } from 'react';
 import {z} from 'zod'
-import { userSchema } from '@/schema/User';
 import { DocumentData } from 'firebase/firestore';
 interface Props {
 	results: DocumentData[];

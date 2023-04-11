@@ -30,7 +30,7 @@ export default function Home({ posts, users, sessions, last }: any) {
 export async function getServerSideProps({ req, res }: any) {
 	const { getSession } = await import('next-auth/react');
 	const session = await getSession({ req });
-	if (!session) {
+	if (!session || !session?.user) {
 		return {
 			redirect: {
 				destination: '/auth/signin',

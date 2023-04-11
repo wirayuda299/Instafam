@@ -53,7 +53,7 @@ export default function Footer() {
 						key={list.name}
 						className='hover:border-b border-black dark:border-white'
 					>
-						<Link href={list.link} title={list.name}>
+						<Link href={list.link} title={list.name} as={list.link}>
 							{list.name}
 						</Link>
 					</li>

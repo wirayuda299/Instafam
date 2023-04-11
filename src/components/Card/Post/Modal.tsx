@@ -36,7 +36,7 @@ export default function Modal({
 	setIsMenuOpen,
 }: Props) {
 	const isValid = modalSchema.parse({ post, session, users, refreshData, ssr, isMenuOpen, setIsMenuOpen })
-	if(!isValid) throw new Error('Invalid Props')	
+	if(!isValid) throw new Error('Invalid Props for Modal Component')	
 	const { push } = useRouter();
 	const buttonLists = [
 		{

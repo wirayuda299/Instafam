@@ -3,11 +3,12 @@ import { PostSchema } from "@/schema/PostSchema";
 import { IUserPostProps } from "@/types/post";
 import { getDocs, query, collection, orderBy, where, limit, startAfter } from "firebase/firestore";
 import { z } from 'zod';
+
 const GetPostsSchema = z.object({
   num: z.number().positive().int()
 })
 const nextPostsSchema = z.object({
-  last:PostSchema.nullable()
+  last: PostSchema.nullable()
 })
 const getPostByCurrentUserSchema = z.object({
   uid: z.string().nonempty()
@@ -52,7 +53,7 @@ export async function fetchNextPosts(last: IUserPostProps | null): Promise<IUser
   }
 }
 
-export async function getPostByCurrentUser(uid: string ='',): Promise<IUserPostProps[] | undefined> {
+export async function getPostByCurrentUser(uid: string = ''): Promise<IUserPostProps[] | undefined> {
   try {
     const isValid = getPostByCurrentUserSchema.parse({ uid })
     if (!isValid) throw new Error('Invalid data passed to function. uid must be a string passed to the function and cannot be empty.')
@@ -71,7 +72,7 @@ export async function getPostByCurrentUser(uid: string ='',): Promise<IUserPostP
   }
 }
 
-export async function getPostById(id: string ): Promise<IUserPostProps[] | undefined> {
+export async function getPostById(id: string): Promise<IUserPostProps[] | undefined> {
   try {
     const isValid = getPostByIdSchema.parse({ id })
     if (!isValid) throw new Error('Invalid data passed to function. id must be a string passed to the function and cannot be empty.')

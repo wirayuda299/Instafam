@@ -9,12 +9,11 @@ import { z } from 'zod';
 
 const FeedSchema = z.object({
 	post:PostSchema
-
 })
 
 function ExplorePostCard({ post }: { post: IUserPostProps }) {
 	const isValid = FeedSchema.parse({ post });
-	if(!isValid) throw new Error('Invalid props')
+	if(!isValid) throw new Error('Invalid props for ExplorePostCard Component')
 	
 	return (
 		<Link href={`/post/${post.postId}`} as={`/post/${post.postId}`}>

@@ -5,7 +5,7 @@ import { useState } from 'react';
 export default function Author({ post }: { post: IUserPostProps }) {
 	const [show, setShow] = useState(false);
 	const isValidProps = PostSchema.parse(post);
-	if (!isValidProps) throw new Error('Invalid Props');
+	if (!isValidProps) throw new Error('Invalid Props for Author Component');
 	return (
 		<div className='overflow-hidden'>
 			<div

@@ -4,6 +4,7 @@ import { SessionProvider } from 'next-auth/react';
 import { RecoilRoot } from 'recoil';
 import Layout from '@/components/Layout/Layout';
 import React from 'react';
+import { Toaster } from 'react-hot-toast';
 
 export default function App({
 	Component,
@@ -14,6 +15,7 @@ export default function App({
 			<RecoilRoot>
 				<NextNProgress />
 				<Layout>
+					<Toaster />
 					<Component {...pageProps} />
 				</Layout>
 			</RecoilRoot>

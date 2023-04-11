@@ -1,7 +1,6 @@
 import { ChangeEvent, FC } from 'react';
 import { AiOutlineCloudUpload } from 'react-icons/ai';
 import { z } from 'zod';
-
 interface IProps {
 	setPreviewUrl: React.Dispatch<React.SetStateAction<string>>;
 	img: string | undefined;

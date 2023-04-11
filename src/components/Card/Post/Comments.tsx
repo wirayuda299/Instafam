@@ -57,11 +57,10 @@ export default function Comments({
 		post,
 		commentOpen,
 		comments,
-		session,
-
+		session
 	})
 
-	if(!isValidProps) throw new Error('Invalid Props')	
+	if(!isValidProps) throw new Error('Invalid Props for Comments Component')	
 	return (
 		<div className={router.pathname === '/post/[id]' ? 'flex flex-col-reverse ' : 'block'}>
 			<form className='py-1 px-1' onSubmit={handleSubmit(handleSubmits)}>
