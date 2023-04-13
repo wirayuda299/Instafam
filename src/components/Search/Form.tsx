@@ -16,7 +16,7 @@ type Props ={
 }
 
 export default function Form({ height, children }: Props) {
-	const { handleSubmit, onSubmit, register } = useSearchUser();
+	const { handleSubmit, onSubmit, register, isPending } = useSearchUser();
 	const [results, setResults] = useRecoilState(resultsState);
 	const [drawerOpen, setDrawerOpen] = useRecoilState(searchDrawer);
 	const handleDrawerToggler = () => {
@@ -26,7 +26,7 @@ export default function Form({ height, children }: Props) {
 	return (
 		<>
 			<form
-				className={` mt-4 dark:bg-black rounded-sm ${height}`}
+				className={`mt-5 dark:bg-black rounded-sm ${height}`}
 				onSubmit={handleSubmit(onSubmit)}
 			>
 				<div className=' pb-5 w-full'>
@@ -48,6 +48,7 @@ export default function Form({ height, children }: Props) {
 						<FormResult
 							handleDrawerToggler={handleDrawerToggler}
 							results={results}
+							isPending={isPending}
 							setResults={setResults}
 							customs='h-screen mt-5 -left-1 fixed z-50 top-16 md: h-full  md:top-0 md:left-0 md:w-full md:z-0  md:transition-all md:duration-300 md:ease-in-out md:static '
 						/>

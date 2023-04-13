@@ -1,5 +1,6 @@
 import dynamic from 'next/dynamic';
 import useInfiniteScroll from '@/hooks/useInfiniteScroll';
+import { GetServerSidePropsContext } from 'next';
 const Suggestions = dynamic(
 	() => import('@/components/Suggestions/Suggestions')
 );
@@ -32,14 +33,17 @@ export default function Home({ posts, users, sessions, last }: any) {
 					))}
 				</div>
 				<div className='relative'>
-						<Suggestions reccomend={users} session={sessions} />
+					<Suggestions reccomend={users} session={sessions} />
 				</div>
 			</div>
 		</section>
 	);
 }
 
-export async function getServerSideProps({ req, res }: any) {
+export async function getServerSideProps({
+	req,
+	res,
+}: GetServerSidePropsContext) {
 	const { getSession } = await import('next-auth/react');
 	const session = await getSession({ req });
 	if (!session || !session?.user) {

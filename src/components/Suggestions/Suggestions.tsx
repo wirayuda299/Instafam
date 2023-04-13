@@ -6,7 +6,6 @@ import { IUser } from '@/types/user';
 import { Session } from 'next-auth';
 import {z} from 'zod';
 import { SessionSchema } from '@/schema/comment';
-import { imageLoader } from '@/util/imageLoader';
 const Footer = dynamic(() => import('@/components/Footer'));
 type Props = {
 	session: Session | null;

@@ -10,4 +10,5 @@ declare module "next-auth" {
       uid:string
     } & DefaultSession['user']
   }
+  
 }

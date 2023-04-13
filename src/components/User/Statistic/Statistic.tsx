@@ -54,13 +54,7 @@ export default function Statistic({
 											<h1 className='font-semibold flex-1 text-left text-2xl sm:mb-5 xs1:text-4xl xs1:pb-3 sm:pb-0'>
 												{users ? users?.username : ''}
 											</h1>
-											{session?.user.uid === users?.uid ? (
-												<button className='w-full bg-blue-600 truncate text-xs text-white rounded px-5 md:py-2 py-1'>
-													<span className='text-sm font-semibold'>
-														Edit Profile
-													</span>
-												</button>
-											) : (
+											{session?.user.uid !== users?.uid ? (
 												<button
 													name='Follow unfollow'
 													title='follow unfollow'
@@ -86,7 +80,7 @@ export default function Statistic({
 														? 'Unfollow'
 														: 'Follow'}
 												</button>
-											)}
+											) : null}
 										</div>
 
 										<ul

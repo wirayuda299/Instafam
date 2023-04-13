@@ -1,2 +1,2 @@
 export { default } from "next-auth/middleware"
-export const config = { matcher: ["/", "/search", "/explore", "/notifications", "/messages", "/create", "/profile", "/api/auth/:path*", '/post/:path*, /((?!_next|fonts|api|svg|[\\w-]+\\.\\w+).*), /_next/:path*, /search/:path*, /_next/data, /_next/data/:path*'] }
+export const config = { matcher: ["/", "/explore", "/notifications", "/messages", "/create", "/profile", "/api/auth/:path*", '/post/:path*, /((?!_next|fonts|api|svg|[\\w-]+\\.\\w+).*), /_next/:path*, /_next/data, /_next/data/:path*'] }

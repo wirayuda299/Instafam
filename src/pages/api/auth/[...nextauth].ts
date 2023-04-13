@@ -1,9 +1,9 @@
 import { db } from "@/config/firebase";
+import { urlNormalize } from "@/util/urlNormalize";
 import { getUsernameFromEmail } from "@/util/usernameGenerator";
 import { setDoc, doc } from "firebase/firestore";
 import NextAuth, { NextAuthOptions } from "next-auth";
 import { JWT } from "next-auth/jwt";
-import { sanitizeUrl } from "@braintree/sanitize-url";
 import GoogleProvider from "next-auth/providers/google";
 
 export const authOptions:NextAuthOptions = {
@@ -60,20 +60,24 @@ export const authOptions:NextAuthOptions = {
       return true  
     },
     async redirect({ url, baseUrl }: { url: string, baseUrl: string }) {
+      const reg = / @"[^-A-Za-z0-9+&@#/%?=~_|!:,.;\(\)]"/g
       if (url === '/api/auth/signin') {
-        const reg = / @"[^-A-Za-z0-9+&@#/%?=~_|!:,.;\(\)]"/g
         const sanitized = baseUrl.replace(reg, '')
-        const base = sanitizeUrl(sanitized) as string
-        return Promise.resolve(`${base}/auth/signin`)
+        const urls = urlNormalize(sanitized)
+        let newUrl = urls.replace(/(http:\/\/localhost:3000\/auth\/signin).*/, '$1');
+
+        return Promise.resolve(`${newUrl}/auth/signin`)
       } else {
-        return Promise.resolve(url)
+        const sanitized = url.replace(reg, '')
+        let newUrl = sanitized.replace(/(http:\/\/localhost:3000\/auth\/signin).*/, '$1');
+        return Promise.resolve(newUrl)
       }
     },
   },
   pages: {
     signIn: '/auth/signin'
   },
-  secret: process.env.NEXTAUTH_SECRET as string,
+  secret: process.env.NEXTAUTH_SECRET,
   useSecureCookies: process.env.NODE_ENV === 'production',
   cookies: {
     sessionToken: {
@@ -83,7 +87,7 @@ export const authOptions:NextAuthOptions = {
         secure: process.env.NODE_ENV === 'production',
         sameSite: 'lax',
         path: '/',
-        maxAge: 30 * 24 * 60 * 60
+        maxAge: 30 * 24 * 60 * 7  
       }
     }
   }

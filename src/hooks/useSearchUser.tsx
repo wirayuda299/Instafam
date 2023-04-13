@@ -1,6 +1,7 @@
 import { resultsState } from '@/store/results';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
+import { useTransition } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-hot-toast';
 import { useRecoilState } from 'recoil';
@@ -8,6 +9,7 @@ import { useRecoilState } from 'recoil';
 export default function useSearchUser() {
 	const { register, handleSubmit, resetField } = useForm();
 	const [results, setResults] = useRecoilState(resultsState);
+	const [isPending, startTransition] = useTransition();
 	const { data: session } = useSession();
 	const router = useRouter();
 
@@ -20,12 +22,12 @@ export default function useSearchUser() {
 				setResults([]);
 				return;
 			}
-			const reg = /^@[A-Za-z0-9]+$/;
-			if (!reg.test(data.search)) {
-				toast.error('Invalid characters in search field');
-				setResults([]);
-				return;
-			}
+			// const reg = /^@[A-Za-z0-9]+$/g;
+			// if (!reg.test(data.search)) {
+			// 	toast.error('Invalid characters in search field');
+			// 	setResults([]);
+			// 	return;
+			// }
 
 			const { db } = await import('@/config/firebase');
 			const { query, collection, getDocs, where } = await import(
@@ -43,13 +45,28 @@ export default function useSearchUser() {
 			const res = await getDocs(q);
 			if (res.docs.length < 1) {
 				const nameRes = await getDocs(nameQueries);
-				setResults(nameRes.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+				if (!isPending) {
+					startTransition(() => {
+						setResults(
+							nameRes.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
+						);
+					});
+				}
 				return;
 			}
-			setResults(res.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+			startTransition(() => {
+				setResults(res.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+			});
 		} catch (error: any) {
 			console.log(error.message);
 		}
 	};
-	return { register, handleSubmit, onSubmit, setResults, resetField };
+	return {
+		register,
+		handleSubmit,
+		onSubmit,
+		setResults,
+		resetField,
+		isPending,
+	};
 }

@@ -7,10 +7,10 @@ const Form = dynamic(() => import('../Search/Form'));
 import { GiExitDoor } from 'react-icons/gi';
 
 const oleo = Oleo_Script({
-	subsets: ['latin', 'latin-ext'],
+	subsets: ['latin'],
 	weight: '400',
 	preload: true,
-	fallback: ['sans-serif'],
+	fallback: ['sans-serif']
 });
 
 export default function Header() {
@@ -18,7 +18,7 @@ export default function Header() {
 	return (
 		<>
 			{session ? (
-				<header className='w-full relative md:hidden bg-white dark:bg-black dark:text-white px-5 border-b dark:border-b-0 '>
+				<header className='w-full relative md:hidden bg-white dark:bg-black dark:text-white px-5 border-b border-gray-500 border-opacity-50'>
 					<div className='w-full flex justify-between items-center space-x-2'>
 						<div className='w-full'>
 							<Link
@@ -42,7 +42,7 @@ export default function Header() {
 								handleSignOut(session);
 							}}
 						>
-							<GiExitDoor size={25} />
+							<GiExitDoor size={28} />
 						</button>
 					</div>
 				</header>
