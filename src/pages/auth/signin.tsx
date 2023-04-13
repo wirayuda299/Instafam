@@ -1,4 +1,4 @@
-import {  signIn } from 'next-auth/react';
+import { signIn } from 'next-auth/react';
 import { FcGoogle } from 'react-icons/fc';
 import { AiOutlineInstagram } from 'react-icons/ai';
 import { GetServerSidePropsContext } from 'next';
@@ -13,7 +13,7 @@ interface Providers {
 
 export default function SignIn({ providers }: { providers: Providers }) {
 	if (!providers) return <h1>Something went wrong</h1>;
-	
+
 	return (
 		<>
 			<Head>
@@ -93,11 +93,13 @@ export default function SignIn({ providers }: { providers: Providers }) {
 export async function getServerSideProps({ req }: GetServerSidePropsContext) {
 	const { getProviders, getSession } = await import('next-auth/react');
 	const session = await getSession({ req });
-	if( session) return {
-		redirect: {
-			destination: '/',
-			permanent: false,
-		}
+	if (session) {
+		return {
+			redirect: {
+				destination: '/',
+				permanent: false,
+			},
+		};
 	}
 	const providers = await getProviders();
 	return {

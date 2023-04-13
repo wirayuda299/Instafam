@@ -1,10 +1,10 @@
 import { useState } from 'react';
-import { useSession } from 'next-auth/react';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { croppedImageState, imagesState } from '@/store/images';
 import { captionsState } from '@/store/captions';
 import dynamic from 'next/dynamic';
 import Head from 'next/head';
+import useAuth from '@/hooks/useAuth';
 const Captions = dynamic(() => import('@/components/Captions/Captions'), {
 	ssr: false,
 });
@@ -16,7 +16,7 @@ export default function CreatePost() {
 	const [captions, setCaptions] = useRecoilState(captionsState);
 	const [img, setImg] = useRecoilState(imagesState);
 	const [loading, setLoading] = useState<boolean>(false);
-	const { data: session } = useSession();
+	const { session } = useAuth();
 	const croppedImg = useRecoilValue(croppedImageState);
 
 	return (

@@ -3,12 +3,12 @@ import Loader from '@/components/Loader/Loader';
 import Head from 'next/head';
 import { useRecoilValue } from 'recoil';
 import { tabPosts, tabSavedPosts } from '@/store/TabToggler';
-import { useSession } from 'next-auth/react';
 import { IUserPostProps } from '@/types/post';
 import { Session } from 'next-auth';
 import { IUser } from '@/types/user';
 import { useRouter } from 'next/router';
 import { GetServerSidePropsContext } from 'next';
+import useAuth from '@/hooks/useAuth';
 
 const SavedPosts = dynamic(
 	() => import('@/components/User/savedPosts/savedPosts'),
@@ -27,7 +27,7 @@ const Statistic = dynamic(
 		ssr: true,
 	}
 );
-const Tab = dynamic(() => import('@/components/Tab/Tab'));
+const Tab = dynamic(() => import('@/components/User/Tab/Tab'));
 
 type Props = {
 	posts: IUserPostProps[] | [];
@@ -41,10 +41,10 @@ type Props = {
 export default function UserProfile({ posts, user, query }: Props) {
 	const postTab = useRecoilValue(tabPosts);
 	const savedPostTab = useRecoilValue(tabSavedPosts);
-	const { data: session } = useSession();
-	const { replace } = useRouter();
+	const { session } = useAuth();
+	const { replace, asPath } = useRouter();
 	const refreshData = () => {
-		replace(`/profile/${query.username}`);
+		replace(`/profile/${query.username}`, asPath, { shallow: true });
 	};
 	return (
 		<>
@@ -102,17 +102,20 @@ export default function UserProfile({ posts, user, query }: Props) {
 		</>
 	);
 }
-export async function getServerSideProps({ req, query }: GetServerSidePropsContext) {
+export async function getServerSideProps({
+	req,
+	query,
+}: GetServerSidePropsContext) {
 	const { getPostByCurrentUser } = await import('@/helper/getPosts');
 	const { getCurrentUserData } = await import('@/helper/getUser');
 	const user = await getCurrentUserData(query.username as string);
 	const posts = await getPostByCurrentUser(user ? user[0].uid : '');
-	if(query.username === 'undefined') {
+	if (query.username === 'undefined') {
 		return {
 			redirect: {
 				destination: '/auth/signin',
 				permanent: false,
-			}
+			},
 		};
 	}
 
