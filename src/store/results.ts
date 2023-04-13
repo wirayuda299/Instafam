@@ -5,3 +5,4 @@ export const resultsState = atom({
   key: "resultsState",
   default : [] as Results,
 });
+

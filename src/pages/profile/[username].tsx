@@ -76,9 +76,19 @@ export default function UserProfile({ posts, user, query }: Props) {
 				<div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5 p-5 justify-center items-center w-full '>
 					{postTab && (
 						<>
-							{posts?.map((post) => (
-								<ExplorePostCard post={post} key={post.postId} />
-							))}
+							{posts.length < 1 ? (
+								<div className='mx-auto w-full h-full col-span-3'>
+									<h1 className='text-2xl font-semibold text-center w-full text-gray-500 dark:text-gray-400'>
+										No Posts
+									</h1>
+								</div>
+							) : (
+								<>
+									{posts?.map((post) => (
+										<ExplorePostCard post={post} key={post.postId} />
+									))}
+								</>
+							)}
 						</>
 					)}
 					<>

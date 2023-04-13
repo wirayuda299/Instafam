@@ -25,6 +25,7 @@ Welcome to Instafam! This is a social media app that allows you to connect with 
 - Share post
 - Responsive design
 - Update your posts
+- Report posts
 
 Other features is comming soon.
 

@@ -1,11 +1,14 @@
 import { PostSchema } from '@/schema/PostSchema';
 import { userSchema } from '@/schema/User';
 import { SessionSchema } from '@/schema/comment';
+import { reportModal } from '@/store/modal';
+import { selectedPostState } from '@/store/selectedPost';
 import { IUserPostProps } from '@/types/post';
 import { IUser } from '@/types/user';
 import { Session } from 'next-auth';
 import { useRouter } from 'next/router';
 import { Dispatch, SetStateAction } from 'react';
+import { useRecoilState } from 'recoil';
 import { z } from 'zod';
 type Props = {
 	post: IUserPostProps;
@@ -43,9 +46,16 @@ export default function Modal({
 		isMenuOpen,
 		setIsMenuOpen,
 	});
+	const [selectedPost, setSelectedPost] = useRecoilState(selectedPostState);
 	if (!isValid) throw new Error('Invalid Props for Modal Component');
 	const { push } = useRouter();
-	
+	const [isReportModalOpen, setIsReportModalOpen] = useRecoilState(reportModal);
+
+	const handleCLose = () => {
+		setIsMenuOpen(false);
+		setSelectedPost(null);
+	}
+
 	const buttonLists = [
 		{
 			id: 1,
@@ -53,7 +63,7 @@ export default function Modal({
 			event: () => {
 				post.postedById === session?.user.uid
 					? push(`/post/${post.postId}/edit`)
-					: console.log('report');
+					: setIsReportModalOpen(true);
 			},
 		},
 		{
@@ -114,13 +124,13 @@ export default function Modal({
 		{
 			id: 6,
 			name: 'Cancel',
-			event: () => setIsMenuOpen(false),
+			event: handleCLose,
 		},
 	];
 
 	return (
 		<div
-			className={` fixed left-0 top-0 z-[99999999] shadow-sm shadow-white  bg-black bg-opacity-60 text-black dark:text-white  h-screen w-full !overflow-x-hidden outline-none select-none ${
+			className={` fixed left-0 top-0 z-[99999999] shadow-sm shadow-white  bg-black bg-opacity-60 text-black dark:text-white  h-screen w-full !overflow-y-hidden !overflow-x-hidden outline-none select-none ${
 				isMenuOpen ? 'animate-popUp' : 'animate-fadeOut hidden'
 			}`}
 			aria-modal='true'

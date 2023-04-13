@@ -5,7 +5,6 @@ import Image from 'next/image';
 import { Suspense } from 'react';
 import { Session } from 'next-auth';
 import { CommentSchemaProps } from '@/schema/comment';
-import {sanitizeUrl} from '@braintree/sanitize-url';
 export type IComment = Pick<IUserPostProps, 'comments'>;
 
 type Props = {
@@ -96,7 +95,7 @@ export default function Comments({
 							>
 								<div className='flex items-center space-x-3'>
 									<Image
-										src={sanitizeUrl(comment.commentByPhoto)}
+										src={comment.commentByPhoto}
 										alt={comment.comment}
 										width={40}
 										loading='lazy'

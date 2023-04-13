@@ -6,7 +6,6 @@ import Link from 'next/link';
 import { memo } from 'react';
 const PostInfo = dynamic(() => import('./PostInfo'), { ssr: false });
 import { z } from 'zod';
-import {sanitizeUrl} from '@braintree/sanitize-url';
 
 const FeedSchema = z.object({
 	post:PostSchema
@@ -20,7 +19,7 @@ function ExplorePostCard({ post }: { post: IUserPostProps }) {
 		<Link href={`/post/${post.postId}`} as={`/post/${post.postId}`}>
 			<div className='shadow-lg relative group'>
 				<Image
-					src={sanitizeUrl(post?.image)}
+					src={post?.image}
 					width={1300}
 					height={1300}
 					loading='lazy'

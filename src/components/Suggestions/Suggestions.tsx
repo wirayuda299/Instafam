@@ -6,7 +6,6 @@ import { IUser } from '@/types/user';
 import { Session } from 'next-auth';
 import {z} from 'zod';
 import { SessionSchema } from '@/schema/comment';
-import {sanitizeUrl} from '@braintree/sanitize-url';
 const Footer = dynamic(() => import('@/components/Footer'));
 type Props = {
 	session: Session | null;
@@ -32,7 +31,7 @@ function Suggestions({ session, reccomend }: Props) {
 					<div className='flex items-center space-x-3 mb-2'>
 						<Image
 							className=' rounded-full'
-							src={sanitizeUrl(session?.user?.image ?? '')}
+							src={session?.user?.image ?? ''}
 							alt={session?.user?.username ?? ''}
 							width={45}
 							height={45}
@@ -88,7 +87,7 @@ function Suggestions({ session, reccomend }: Props) {
 							<div className='flex space-x-2 items-center pb-3'>
 								<Image
 									className=' rounded-full'
-									src={sanitizeUrl(user?.image ?? '')}
+									src={user?.image}
 									alt={user?.name ?? ''}
 									width={40}
 									height={40}

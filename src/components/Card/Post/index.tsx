@@ -11,23 +11,22 @@ import { Session } from 'next-auth';
 import { z } from 'zod';
 import { PostSchema } from '@/schema/PostSchema';
 import { SessionSchema } from '@/schema/comment';
-import {sanitizeUrl} from '@braintree/sanitize-url'
 const ActionButton = dynamic(() => import('./ActionButton'));
 const PostHeader = dynamic(() => import('./Header'));
 const Author = dynamic(() => import('./Author'));
 const Comments = dynamic(() => import('./Comments'));
-const PostModal = dynamic(() => import('./Modal'));
-
+const PostModal = dynamic(() => import('./Modal/Menu'));
+const ReportModal = dynamic(() => import('./Modal/Report'));
 export interface IPostCardProps {
 	post: IUserPostProps;
 	ssr: boolean;
-	session: Session | null
+	session: Session | null;
 }
 export const PostCardSchema = z.object({
 	post: PostSchema,
 	ssr: z.boolean(),
-	session: SessionSchema
-})
+	session: SessionSchema,
+});
 function PostCard({ post, ssr, session }: IPostCardProps) {
 	const [comment, setComment] = useState<IComment['comments']>([]);
 	const [likesCount, setLikesCount] = useState<string[]>([]);
@@ -65,8 +64,8 @@ function PostCard({ post, ssr, session }: IPostCardProps) {
 		return () => unsub();
 	}, [db, post]);
 
-	const isValid = PostCardSchema.parse({ post, ssr, session })
-	if (!isValid) throw new Error('Invalid Props for PostCard Component')
+	const isValid = PostCardSchema.parse({ post, ssr, session });
+	if (!isValid) throw new Error('Invalid Props for PostCard Component');
 
 	return (
 		<div className='w-full mb-5 relative'>
@@ -78,7 +77,7 @@ function PostCard({ post, ssr, session }: IPostCardProps) {
 					post={post}
 				/>
 				<Image
-					src={sanitizeUrl(post?.image)}
+					src={post?.image}
 					width={1300}
 					height={1300}
 					sizes='100vw'
@@ -101,13 +100,11 @@ function PostCard({ post, ssr, session }: IPostCardProps) {
 					commentOpen={commentOpen}
 					setCommentOpen={setCommentOpen}
 				/>
-				<p
-					className={`font-light text-xs px-1 mt-1 mb-4 tracking-wider ${
-						likesCount.length < 1 ? 'hidden' : 'block'
-					}`}
-				>
-					<span>{likesCount.length} likes</span>
-				</p>
+				{likesCount && likesCount.length > 0 ? (
+					<p className='font-light text-xs px-1 mt-1 mb-4 tracking-wider '>
+						<span>{likesCount.length} likes</span>
+					</p>
+				) : null}
 				<Author post={post} />
 				<Comments
 					comments={comment}
@@ -124,6 +121,7 @@ function PostCard({ post, ssr, session }: IPostCardProps) {
 					ssr={ssr}
 					users={users}
 				/>
+				<ReportModal session={session}/>
 			</div>
 		</div>
 	);

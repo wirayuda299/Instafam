@@ -76,7 +76,7 @@ export default function ExtraMenus() {
 	return (
 		<div
 			className={` flex-col justify-center w-full space-y-1 lg:space-y-3 relative  ${
-				extraListOpen ? 'flex' : 'hidden'
+				extraListOpen ? 'flex animate-fadeIn' : 'animate-fadeOut hidden'
 			}`}
 		>
 			<div
