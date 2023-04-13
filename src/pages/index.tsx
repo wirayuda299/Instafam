@@ -4,7 +4,9 @@ import { GetServerSidePropsContext } from 'next';
 const Suggestions = dynamic(
 	() => import('@/components/Suggestions/Suggestions')
 );
-const PostCard = dynamic(() => import('@/components/Card/Post'));
+const PostCard = dynamic(() => import('@/components/Card/Post'), {
+	loading: () => <CardLoader />,
+});
 const CardLoader = dynamic(() => import('@/components/Loader/Loader'));
 
 export default function Home({ posts, users, sessions, last }: any) {
@@ -46,7 +48,7 @@ export async function getServerSideProps({
 }: GetServerSidePropsContext) {
 	const { getSession } = await import('next-auth/react');
 	const session = await getSession({ req });
-	if (!session || !session?.user) {
+	if (!session) {
 		return {
 			redirect: {
 				destination: '/auth/signin',

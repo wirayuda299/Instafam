@@ -44,7 +44,7 @@ export default function UserProfile({ posts, user, query }: Props) {
 	const { session } = useAuth();
 	const { replace, asPath } = useRouter();
 	const refreshData = () => {
-		replace(`/profile/${query.username}`, asPath, { shallow: true });
+		replace(asPath);
 	};
 	return (
 		<>
