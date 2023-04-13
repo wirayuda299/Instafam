@@ -14,7 +14,7 @@ export default function Author({ post }: { post: IUserPostProps }) {
 				}`}
 				onClick={() => setShow(!show)}
 			>
-				<h3 className='font-semibold text-sm pb-2'>{post?.author}</h3>
+				<h3 className='font-medium sm:font-semibold text-sm pb-2'>{post?.author}</h3>
 				<p className={`text-sm font-thin ${show ? '' : 'truncate'}`}>
 					{post.captions}
 				</p>

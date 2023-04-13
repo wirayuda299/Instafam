@@ -3,6 +3,7 @@ import { getUsernameFromEmail } from "@/util/usernameGenerator";
 import { setDoc, doc } from "firebase/firestore";
 import NextAuth, { NextAuthOptions } from "next-auth";
 import { JWT } from "next-auth/jwt";
+import { sanitizeUrl } from "@braintree/sanitize-url";
 import GoogleProvider from "next-auth/providers/google";
 
 export const authOptions:NextAuthOptions = {
@@ -60,18 +61,18 @@ export const authOptions:NextAuthOptions = {
     },
     async redirect({ url, baseUrl }: { url: string, baseUrl: string }) {
       if (url === '/api/auth/signin') {
-        return Promise.resolve(`${baseUrl}/auth/signin`)
+        const reg = / @"[^-A-Za-z0-9+&@#/%?=~_|!:,.;\(\)]"/g
+        const sanitized = baseUrl.replace(reg, '')
+        const base = sanitizeUrl(sanitized) as string
+        return Promise.resolve(`${base}/auth/signin`)
       } else {
         return Promise.resolve(url)
       }
     },
-
-  
   },
   pages: {
     signIn: '/auth/signin'
   },
- 
   secret: process.env.NEXTAUTH_SECRET as string,
   useSecureCookies: process.env.NODE_ENV === 'production',
   cookies: {
@@ -82,8 +83,7 @@ export const authOptions:NextAuthOptions = {
         secure: process.env.NODE_ENV === 'production',
         sameSite: 'lax',
         path: '/',
-        maxAge: 30 * 24 * 60 * 60,
-        
+        maxAge: 30 * 24 * 60 * 60
       }
     }
   }

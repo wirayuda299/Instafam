@@ -45,7 +45,13 @@ export default function ActionButton({
 				<button
 					onClick={async () => {
 						const { handleLikes } = await import('@/helper/like');
-						handleLikes(post, uid, refreshData, ssr);
+						const Likes = {
+							post,
+							uid,
+							refreshData,
+							ssr,
+						}
+						handleLikes(Likes);
 					}}
 					name='like'
 					title='Like'
@@ -53,9 +59,9 @@ export default function ActionButton({
 					className='transition-all ease duration-500'
 				>
 					{likes?.includes(uid) ? (
-						<AiFillHeart className='text-3xl text-red-600 animate-popUp ' />
+						<AiFillHeart className='text-2xl sm:text-3xl text-red-600 animate-popUp ' />
 					) : (
-						<AiOutlineHeart className='text-3xl hover:text-gray-500' />
+						<AiOutlineHeart className='text-2xl sm:text-3xl hover:text-gray-500' />
 					)}
 				</button>
 
@@ -65,7 +71,7 @@ export default function ActionButton({
 					title='comment'
 					type='button'
 				>
-					<FaRegComment className='text-3xl hover:text-gray-500' />
+					<FaRegComment className='text-2xl sm:text-3xl hover:text-gray-500' />
 				</button>
 				<button
 					type='button'
@@ -76,7 +82,7 @@ export default function ActionButton({
 						share(post, `${process.env.NEXTAUTH_URL}/post/${post.postId}`);
 					}}
 				>
-					<IoPaperPlaneOutline className='text-3xl hover:text-gray-500' />
+					<IoPaperPlaneOutline className='text-2xl sm:text-3xl hover:text-gray-500' />
 				</button>
 			</div>
 			<button
@@ -95,9 +101,9 @@ export default function ActionButton({
 				title='save post'
 			>
 				{savedPosts?.includes(post.postId) ? (
-					<RiBookmarkFill className='text-3xl' />
+					<RiBookmarkFill className='text-2xl sm:text-3xl' />
 				) : (
-					<BiBookmark className='text-3xl hover:text-gray-500' />
+					<BiBookmark className='text-2xl sm:text-3xl hover:text-gray-500' />
 				)}
 			</button>
 		</div>

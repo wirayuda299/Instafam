@@ -1,8 +1,4 @@
-import {
-	tabPosts,
-	tabSavedPosts,
-	tabTaggedPosts,
-} from '@/store/TabToggler';
+import { tabPosts, tabSavedPosts, tabTaggedPosts } from '@/store/TabToggler';
 import { useState, useTransition } from 'react';
 import { BsGrid3X3Gap, BsBookmark, BsPersonSquare } from 'react-icons/bs';
 import { useRecoilState } from 'recoil';
@@ -28,22 +24,28 @@ export default function Tab() {
 			icon: <BsPersonSquare size={25} className='text-black dark:text-white' />,
 		},
 	];
-	const handleTabClick = (tabId: number ) => {		
+	const handleTabClick = (tabId: number) => {
 		startTransition(() => {
 			setActiveTab(tabId);
 		});
-		if (tabId === 1) {
-			setPosts(true);
-			setSavedPosts(false);
-			setTaggedPosts(false);
-		} else if (tabId === 2) {
-			setPosts(false);
-			setSavedPosts(true);
-			setTaggedPosts(false);
-		} else if (tabId === 3) {
-			setPosts(false);
-			setSavedPosts(false);
-			setTaggedPosts(true);
+		switch (tabId) {
+			case 1:
+				setPosts(true);
+				setSavedPosts(false);
+				setTaggedPosts(false);
+				break;
+			case 2:
+				setPosts(false);
+				setSavedPosts(true);
+				setTaggedPosts(false);
+				break;
+			case 3:
+				setPosts(false);
+				setSavedPosts(false);
+				setTaggedPosts(true);
+				break;
+			default:
+				break;
 		}
 	};
 

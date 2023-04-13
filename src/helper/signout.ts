@@ -25,15 +25,15 @@ export const handleSignOut = async (session: Session | null) => {
       if (!csrfToken) {
         throw new Error('No CSRF token');
       }
-
       await signOut({
         callbackUrl: baseUrl,
         redirect: true,
       }).then(() => {
         toast.success('Signed out successfully');
       });
+    } else {
+      throw new Error('No session');
     }
-    return null;
   } catch (error: any) {
     console.log(error.message);
   }

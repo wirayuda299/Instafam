@@ -1,13 +1,20 @@
 import { IUserPostProps } from '@/types/post';
 import { IUser } from '@/types/user';
+import { Session } from 'next-auth';
 import Image from 'next/image';
 interface IProps {
-	uid: string[] | string | undefined;
 	users: IUser | undefined;
 	posts: IUserPostProps[] | [];
+	session: Session | null;
+	refreshData: () => void;
 }
 
-export default function Statistic({ uid, users, posts }: IProps) {
+export default function Statistic({
+	session,
+	users,
+	posts,
+	refreshData,
+}: IProps) {
 	const data = [
 		{
 			id: 1,
@@ -47,7 +54,7 @@ export default function Statistic({ uid, users, posts }: IProps) {
 											<h1 className='font-semibold flex-1 text-left text-2xl sm:mb-5 xs1:text-4xl xs1:pb-3 sm:pb-0'>
 												{users ? users?.username : ''}
 											</h1>
-											{uid === users?.uid ? (
+											{session?.user.uid === users?.uid ? (
 												<button className='w-full bg-blue-600 truncate text-xs text-white rounded px-5 md:py-2 py-1'>
 													<span className='text-sm font-semibold'>
 														Edit Profile
@@ -58,11 +65,23 @@ export default function Statistic({ uid, users, posts }: IProps) {
 													name='Follow unfollow'
 													title='follow unfollow'
 													className='w-full bg-blue-600 truncate text-xs text-white rounded px-5 md:py-2 py-1'
-													 
+													onClick={async () => {
+														const { handleFollow } = await import(
+															'@/helper/follow'
+														);
+														const followArgs = {
+															id: users?.uid as string,
+															uid: session?.user.uid as string,
+															followedByName: session?.user.username as string,
+															refreshData,
+															ssr: true,
+														};
+														handleFollow(followArgs);
+													}}
 												>
 													{users?.followers.find(
 														(foll: { followedBy: string | undefined }) =>
-															foll.followedBy === users.uid
+															foll.followedBy === session?.user.uid
 													)
 														? 'Unfollow'
 														: 'Follow'}

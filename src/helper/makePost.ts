@@ -28,8 +28,9 @@ const makePostSchema = z.object({
 })
 
 
-export const makePost = async (params: TMakePost) => {
+export const makePost = async<T extends TMakePost>(params: T) => {
   const { captions, croppedImg, session, setCaptions, setImg, setLoading, img } = params;
+  if (!session || !session.user) return toast.error('You must be logged in to make a post.');
   if (!img) return;
   setLoading(true);
   const hashtags =

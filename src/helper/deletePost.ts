@@ -4,6 +4,7 @@ import { IUserPostProps } from "@/types/post";
 import { deleteDoc, doc } from "firebase/firestore";
 import { ref, deleteObject } from "firebase/storage";
 import { z } from 'zod';
+import { Session } from "next-auth";
 
 const DeletePostSchema = z.object({
   post: PostSchema,
@@ -11,10 +12,18 @@ const DeletePostSchema = z.object({
   ssr: z.boolean()
 })
 
-type TDeletePost = (post: IUserPostProps, refreshData: () => void, ssr: boolean) => void;
+type DeletePostProps = {
+  post: IUserPostProps;
+  refreshData: () => void;
+  ssr: boolean;
+  session: Session | null;
+}
 
-export const deletePost: TDeletePost = async (post, refreshData, ssr) => {
+
+export const deletePost = async <T extends DeletePostProps>(props: T) => {
   if (typeof window === 'undefined') return;
+  const { post, refreshData, ssr, session } = props;
+  if (!session || !session.user) return;
   const isValid = DeletePostSchema.parse({ post, refreshData, ssr })
   try {
     if (!isValid) throw new Error('Invalid data passed to deletePost function.')

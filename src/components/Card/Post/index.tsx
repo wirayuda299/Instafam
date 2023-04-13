@@ -11,6 +11,7 @@ import { Session } from 'next-auth';
 import { z } from 'zod';
 import { PostSchema } from '@/schema/PostSchema';
 import { SessionSchema } from '@/schema/comment';
+import {sanitizeUrl} from '@braintree/sanitize-url'
 const ActionButton = dynamic(() => import('./ActionButton'));
 const PostHeader = dynamic(() => import('./Header'));
 const Author = dynamic(() => import('./Author'));
@@ -77,7 +78,7 @@ function PostCard({ post, ssr, session }: IPostCardProps) {
 					post={post}
 				/>
 				<Image
-					src={post?.image}
+					src={sanitizeUrl(post?.image)}
 					width={1300}
 					height={1300}
 					sizes='100vw'

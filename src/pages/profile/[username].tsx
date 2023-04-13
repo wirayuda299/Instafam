@@ -7,6 +7,7 @@ import { useSession } from 'next-auth/react';
 import { IUserPostProps } from '@/types/post';
 import { Session } from 'next-auth';
 import { IUser } from '@/types/user';
+import { useRouter } from 'next/router';
 
 const SavedPosts = dynamic(
 	() => import('@/components/User/savedPosts/savedPosts'),
@@ -40,6 +41,10 @@ export default function UserProfile({ posts, user, query }: Props) {
 	const postTab = useRecoilValue(tabPosts);
 	const savedPostTab = useRecoilValue(tabSavedPosts);
 	const { data: session } = useSession();
+	const { replace } = useRouter();
+	const refreshData = () => {
+		replace(`/profile/${query.username}`);
+	};
 	return (
 		<>
 			<Head>
@@ -52,11 +57,6 @@ export default function UserProfile({ posts, user, query }: Props) {
 					name='description'
 					content={`This is profile page of ${user && user[0]?.username}`}
 				/>
-				<meta
-					property='og:description'
-					content={`This is profile page of ${user && user[0]?.username}`}
-				/>
-
 				<link
 					rel='canonical'
 					href={`https://instafam.vercel.app/profile/${session?.user?.username}`}
@@ -65,7 +65,8 @@ export default function UserProfile({ posts, user, query }: Props) {
 			<div className='w-full h-screen overflow-y-auto py-5 mx-auto p-5'>
 				<div className='flex items-center border-b border-gray-400 w-full space-x-3 md:justify-center md:space-x-10'>
 					<Statistic
-						uid={session?.user?.uid}
+						session={session}
+						refreshData={refreshData}
 						users={user && user[0]}
 						posts={posts ?? []}
 					/>

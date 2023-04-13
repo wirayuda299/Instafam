@@ -16,7 +16,7 @@ const getPostByCurrentUserSchema = z.object({
 const getPostByIdSchema = z.object({
   id: z.string().nonempty()
 })
-export const getPosts = async (num: number): Promise<IUserPostProps[] | undefined> => {
+export const getPosts = async (num: number) => {
   try {
     const isValid = GetPostsSchema.parse({ num })
     if (!isValid) throw new Error('Invalid data passed to getPosts function. Args must be a number.')
@@ -28,9 +28,8 @@ export const getPosts = async (num: number): Promise<IUserPostProps[] | undefine
     const res = await getDocs(q)
     const userPosts = res.docs.map(data => data.data()) as IUserPostProps[]
     return userPosts
-
   } catch (error: any) {
-    console.log(error.message);
+    throw Error(error.message)
   }
 }
 

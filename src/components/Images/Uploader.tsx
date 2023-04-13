@@ -1,6 +1,7 @@
 import { ChangeEvent, FC } from 'react';
 import { AiOutlineCloudUpload } from 'react-icons/ai';
 import { z } from 'zod';
+import {sanitizeUrl} from '@braintree/sanitize-url';
 interface IProps {
 	setPreviewUrl: React.Dispatch<React.SetStateAction<string>>;
 	img: string | undefined;
@@ -47,7 +48,7 @@ export const ImageInput: FC<IProps> = ({ setPreviewUrl, img }) => {
 						return;
 					}
 
-					return setPreviewUrl(event.target.result as string);
+					return setPreviewUrl(sanitizeUrl(event.target.result as string));
 				}
 			};
 			reader.readAsDataURL(selectedFile);
@@ -80,7 +81,7 @@ export const ImageInput: FC<IProps> = ({ setPreviewUrl, img }) => {
 					<input
 						id='dropzone-file'
 						type='file'
-						accept='video/*,image/*, .png, .jpg, .jpeg, .gif, .mp4, .mov, .webm'
+						accept=',image/*, .png, .jpg, .jpeg, .gif, .mp4, .mov, .webm'
 						required
 						className='hidden '
 						onChange={async (e) => await handleInputImage(e)}

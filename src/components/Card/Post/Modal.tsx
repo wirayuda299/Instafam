@@ -9,7 +9,7 @@ import { Dispatch, SetStateAction } from 'react';
 import { z } from 'zod';
 type Props = {
 	post: IUserPostProps;
-	session: Session | null ;
+	session: Session | null;
 	users: IUser | undefined;
 	refreshData: () => void;
 	ssr: boolean;
@@ -17,15 +17,14 @@ type Props = {
 	setIsMenuOpen: Dispatch<SetStateAction<boolean>>;
 };
 const modalSchema = z.object({
-	post:PostSchema,
+	post: PostSchema,
 	session: SessionSchema,
 	users: userSchema.nullish(),
 	refreshData: z.function().args(z.void()).returns(z.void()),
 	ssr: z.boolean(),
 	isMenuOpen: z.boolean(),
-	setIsMenuOpen: z.function().args(z.boolean()).returns(z.void())
-
-})
+	setIsMenuOpen: z.function().args(z.boolean()).returns(z.void()),
+});
 export default function Modal({
 	post,
 	session,
@@ -35,9 +34,18 @@ export default function Modal({
 	isMenuOpen,
 	setIsMenuOpen,
 }: Props) {
-	const isValid = modalSchema.parse({ post, session, users, refreshData, ssr, isMenuOpen, setIsMenuOpen })
-	if(!isValid) throw new Error('Invalid Props for Modal Component')	
+	const isValid = modalSchema.parse({
+		post,
+		session,
+		users,
+		refreshData,
+		ssr,
+		isMenuOpen,
+		setIsMenuOpen,
+	});
+	if (!isValid) throw new Error('Invalid Props for Modal Component');
 	const { push } = useRouter();
+	
 	const buttonLists = [
 		{
 			id: 1,
@@ -61,16 +69,23 @@ export default function Modal({
 			event: async () => {
 				if (post.postedById === session?.user.uid) {
 					const { deletePost } = await import('@/helper/deletePost');
-					deletePost(post, refreshData, ssr);
+					const deletePostsArgs = {
+						post,
+						refreshData,
+						ssr: true,
+						session,
+					};
+					deletePost(deletePostsArgs).then(() => setIsMenuOpen(false));
 				} else {
 					const { handleFollow } = await import('@/helper/follow');
-					await handleFollow(
-						post.postedById,
-						session?.user.uid as string,
-						session?.user.username as string,
+					const followArgs = {
+						id: post.postedById as string,
+						uid: session?.user.uid as string,
+						followedByName: session?.user.username as string,
 						refreshData,
-						ssr
-					);
+						ssr,
+					};
+					await handleFollow(followArgs);
 				}
 			},
 		},
@@ -87,7 +102,6 @@ export default function Modal({
 			name: 'Go to post',
 			event: () => push(`/post/${post.postId}`),
 		},
-		
 
 		{
 			id: 5,
@@ -103,7 +117,7 @@ export default function Modal({
 			event: () => setIsMenuOpen(false),
 		},
 	];
-	
+
 	return (
 		<div
 			className={` fixed left-0 top-0 z-[99999999] shadow-sm shadow-white  bg-black bg-opacity-60 text-black dark:text-white  h-screen w-full !overflow-x-hidden outline-none select-none ${

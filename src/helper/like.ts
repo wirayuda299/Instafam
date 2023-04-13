@@ -11,11 +11,17 @@ const LikeSchema = z.object({
 	ssr: z.boolean().nullish().optional()
 });
 
-type THandleLikes = (post: IUserPostProps, uid: string, refreshData: () => void, ssr?: boolean) => void;
+type LikesProps = {
+	post: IUserPostProps;
+	uid: string;
+	refreshData: () => void;
+	ssr?: boolean;
+}
 
-export const handleLikes: THandleLikes = async (post, uid, refreshData, ssr) => {
+export const handleLikes = async<T extends LikesProps> (params:T) => {
 	if (typeof window === 'undefined') return;
 	try {
+		const { post, uid, refreshData, ssr } = params;
 		const isValid = LikeSchema.parse({ post, uid, refreshData, ssr });
 		if (!isValid) throw new Error('Invalid data passed to handleLikes function.');
 		const postRef = doc(db, 'posts', `post-${post.postId}`);

@@ -38,8 +38,8 @@ export default function Header() {
 							type='button'
 							title='sign out'
 							onClick={async () => {
-								const signOut = await import('@/helper/signout');
-								signOut.handleSignOut(session);
+								const { handleSignOut } = await import('@/helper/signout');
+								handleSignOut(session);
 							}}
 						>
 							<GiExitDoor size={25} />

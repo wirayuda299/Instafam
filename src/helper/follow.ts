@@ -11,9 +11,15 @@ const FollowSchema = z.object({
 })
 type FollowerProps = Pick<IUser, 'followers'>
 
-type THandleFollow = (id: string, uid: string, followedByName: string, refreshData: () => void, ssr: boolean) => Promise<void>;
-
-export const handleFollow: THandleFollow = async (id, uid, followedByName, refreshData, ssr) => {
+type HandleFollowProps = {
+  id: string;
+  uid: string;
+  followedByName: string;
+  refreshData: () => void;
+  ssr: boolean;
+};
+export const handleFollow = async<T extends HandleFollowProps>(props: T) => {
+  const { id, uid, followedByName, refreshData, ssr } = props;
   try {
     const isValidArgs = FollowSchema.parse({ id, uid, followedByName, refreshData, ssr });
     if (!isValidArgs) throw new Error('Invalid data passed to handleFollow function.');

@@ -1,8 +1,9 @@
-import loginBg from '@/assets/images/login-background.jpg';
+import { signIn } from 'next-auth/react';
 import { FcGoogle } from 'react-icons/fc';
 import { AiOutlineInstagram } from 'react-icons/ai';
 import { GetServerSidePropsContext } from 'next';
 import Head from 'next/head';
+import { toast } from 'react-hot-toast';
 interface Providers {
 	id: string;
 	name: string;
@@ -12,24 +13,17 @@ interface Providers {
 }
 
 export default function SignIn({ providers }: { providers: Providers }) {
+	if (!providers) return <h1>Something went wrong</h1>;
 	return (
 		<>
 			<Head>
-				<title>Sign In - Instafam</title>
+				<title>Sign In &#8226; Instafam</title>
 				<meta name='description' content='Sign in to your Instafam account' />
 				<meta name='keywords' content='instagram, sign in, login' />
-				<meta property='og:title' content='Sign In - Instafam' />
-				<meta property='og:description' content='Sign in to your Instafam account' />
-				<meta property='og:url' content='https://instafam.vercel.app/auth/signin' />
-				<meta property='og:type' content='website' />
-				<meta property='og:site_name' content='Instafam' />
-				<meta property='og:image' content={loginBg.src} />
-				<meta property='og:image:secure_url' content={loginBg.src} />
-				<meta property='og:image:alt' content='Instafam' />
-				<meta property='og:image:type' content='image/jpeg' />
-				<meta property='og:image:width' content='1200' />
-				<meta property='og:image:height' content='630' />
-				<meta property='og:image:alt' content='Instafam' />
+				<meta
+					property='og:url'
+					content='https://instafam.vercel.app/auth/signin'
+				/>
 				<meta name='X-content-type-options' content='nosniff' />
 				<meta name='X-frame-options' content='DENY' />
 				<meta name='X-xss-protection' content='1; mode=block' />
@@ -44,7 +38,10 @@ export default function SignIn({ providers }: { providers: Providers }) {
 				<meta name='apple-mobile-web-app-title' content='Instafam' />
 				<meta name='apple-mobile-web-app-capable' content='yes' />
 				<meta name='apple-mobile-web-app-status-bar-style' content='default' />
-				<meta name='apple-mobile-web-app-status-bar-style' content='black-translucent' />
+				<meta
+					name='apple-mobile-web-app-status-bar-style'
+					content='black-translucent'
+				/>
 				<meta name='apple-mobile-web-app-status-bar-style' content='black' />
 				<meta name='mobile-web-app-capable' content='yes' />
 				<meta name='HandheldFriendly' content='True' />
@@ -52,17 +49,8 @@ export default function SignIn({ providers }: { providers: Providers }) {
 				<meta name='viewport' content='width=device-width, initial-scale=1.0' />
 				<meta name='twitter:card' content='summary_large_image' />
 				<meta name='twitter:site' content='@instafam' />
-
 			</Head>
-			<div
-				className='w-full h-screen grid place-items-center p-5'
-				style={{
-					backgroundImage: `url(${loginBg.src})`,
-					backgroundSize: 'cover',
-					backgroundPosition: 'center',
-					backgroundRepeat: 'no-repeat',
-				}}
-			>
+			<div className='w-full h-screen grid place-items-center p-5'>
 				<div className='text-center flex items-center justify-center h-full mx-auto bg-white bg-opacity-10 backdrop-filter backdrop-blur-lg rounded-lg p-8 shadow-xl'>
 					<div className='max-w-lg max-h-[512px] aspect-square flex flex-col items-center justify-center'>
 						<div className='text-9xl text-white '>
@@ -82,10 +70,12 @@ export default function SignIn({ providers }: { providers: Providers }) {
 								title='Sign in with Google'
 								key={provider.id}
 								className='bg-black text-white hover:bg-opacity-80 transition-all ease duration-300 rounded-md px-5 py-3 text-center inline-flex items-center gap-x-5'
-								onClick={async () => {
-									const { signIn } = await import('next-auth/react');
-									signIn(provider.id, { callbackUrl: '/' });
-								}}
+								onClick={() =>
+									signIn(provider.id, {
+										callbackUrl: process.env.NEXTAUTH_URL,
+										redirect: false,
+									})
+								}
 							>
 								Sign in with {provider.name}
 								<span>

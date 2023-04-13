@@ -8,6 +8,8 @@ import { useRouter } from 'next/router';
 import { FieldValues, useForm } from 'react-hook-form';
 import { BsThreeDots } from 'react-icons/bs';
 import { PostSchema } from '@/schema/PostSchema';
+import toast from 'react-hot-toast';
+
 export default function EditPosts({ posts }: { posts: IUserPostProps }) {
 	const { register, handleSubmit } = useForm();
 	const router = useRouter();
@@ -26,7 +28,7 @@ export default function EditPosts({ posts }: { posts: IUserPostProps }) {
 						?.join(' ')
 						.split(' ') || [],
 			}).then(() => {
-				alert('post updated');
+				toast.success('post updated');
 				router.push(`/`);
 			});
 		} catch (error: any) {
@@ -127,7 +129,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 	const { getSession } = await import('next-auth/react');
 
 	const session = await getSession({ req });
-	if (!session) {
+	if (!session || !session.user) {
 		return {
 			redirect: {
 				destination: '/auth/signin',

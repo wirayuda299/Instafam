@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { Suspense } from 'react';
 import { Session } from 'next-auth';
 import { CommentSchemaProps } from '@/schema/comment';
+import {sanitizeUrl} from '@braintree/sanitize-url';
 export type IComment = Pick<IUserPostProps, 'comments'>;
 
 type Props = {
@@ -13,7 +14,6 @@ type Props = {
 	commentOpen: boolean;
 	comments: IComment['comments'];
 };
-
 
 export default function Comments({
 	post,
@@ -30,10 +30,10 @@ export default function Comments({
 		router.replace(router.asPath);
 	};
 
-	const handleSubmits = async (e:FieldValues) => {
+	const handleSubmits = async (e: FieldValues) => {
 		if (e.comments === '') return;
-		const {db} = await import('@/config/firebase')
-		const {doc, updateDoc, arrayUnion } = await import('firebase/firestore')
+		const { db } = await import('@/config/firebase');
+		const { doc, updateDoc, arrayUnion } = await import('firebase/firestore');
 		try {
 			const postRef = doc(db, 'posts', `post-${post.postId}`);
 			await updateDoc(postRef, {
@@ -57,12 +57,17 @@ export default function Comments({
 		post,
 		commentOpen,
 		comments,
-		session
-	})
+		session,
+	});
 
-	if(!isValidProps) throw new Error('Invalid Props for Comments Component')	
+	if (!isValidProps) throw new Error('Invalid Props for Comments Component');
+
 	return (
-		<div className={router.pathname === '/post/[id]' ? 'flex flex-col-reverse ' : 'block'}>
+		<div
+			className={
+				router.pathname === '/post/[id]' ? 'flex flex-col-reverse ' : 'block'
+			}
+		>
 			<form className='py-1 px-1' onSubmit={handleSubmit(handleSubmits)}>
 				<input
 					type='text'
@@ -75,37 +80,44 @@ export default function Comments({
 				/>
 			</form>
 			<Suspense fallback={'loading....'}>
-			<div className={`py-2 ${commentOpen ? 'block' : 'hidden'} ${router.pathname === '/post/[id]' ? 'pt-5 ' : ''}}`}>
-				{post?.comments?.length < 1 ? (
-					<p className='text-xs text-center'>There&apos;s no comment yet</p>
-				) : (
-					comments && comments?.map((comment) => (
-						<div
-							className='flex space-x-2 items-center flex-wrap pb-2'
-							key={comment.comment}
-						>
-							<div className='flex items-center space-x-3'>
-							<Image
-								src={comment.commentByPhoto}
-								alt={comment.comment}
-								width={40}
-								loading='lazy'
-								placeholder='blur'
-								blurDataURL={
-									'data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAP//////////////////////////////////////////////////////////////////////////////////////2wBDAf//////////////////////////////////////////////////////////////////////////////////////wAARCAACAAMDASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwBaKKKAP//Z'
-								}
-								height={40}
-								className='rounded-full w-8 h-8'
-							/>
-								<h3 className='font-bold text-xs '>{comment.commentByName}</h3>
-								<p className='text-xs font-extralight text-gray-400'>
-									{comment.comment}
-								</p>
+				<div
+					className={`py-2 ${commentOpen ? 'block' : 'hidden'} ${
+						router.pathname === '/post/[id]' ? 'pt-5 ' : ''
+					}}`}
+				>
+					{post?.comments?.length < 1 ? (
+						<p className='text-xs text-center'>There&apos;s no comment yet</p>
+					) : (
+						comments &&
+						comments?.map((comment) => (
+							<div
+								className='flex space-x-2 items-center flex-wrap pb-2'
+								key={comment.comment}
+							>
+								<div className='flex items-center space-x-3'>
+									<Image
+										src={sanitizeUrl(comment.commentByPhoto)}
+										alt={comment.comment}
+										width={40}
+										loading='lazy'
+										placeholder='blur'
+										blurDataURL={
+											'data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAP//////////////////////////////////////////////////////////////////////////////////////2wBDAf//////////////////////////////////////////////////////////////////////////////////////wAARCAACAAMDASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwBaKKKAP//Z'
+										}
+										height={40}
+										className='rounded-full w-8 h-8'
+									/>
+									<h3 className='font-bold text-xs '>
+										{comment.commentByName}
+									</h3>
+									<p className='text-xs font-extralight text-gray-400'>
+										{comment.comment}
+									</p>
+								</div>
 							</div>
-						</div>
-					))
-				)}
-			</div>
+						))
+					)}
+				</div>
 			</Suspense>
 		</div>
 	);
