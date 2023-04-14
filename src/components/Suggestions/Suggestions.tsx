@@ -4,25 +4,14 @@ import Link from 'next/link';
 import { memo } from 'react';
 import { IUser } from '@/types/user';
 import { Session } from 'next-auth';
-import {z} from 'zod';
-import { SessionSchema } from '@/schema/comment';
 const Footer = dynamic(() => import('@/components/Footer'));
 type Props = {
 	session: Session | null;
 	reccomend: IUser[];
 };
-const suggestionSchema = z.object({
-	session: SessionSchema,
-	reccomend: z.array(z.object({
-		uid: z.string(),
-		username: z.string(),
-		name: z.string(),
-		image: z.string(),
-	}))
-})
+
 function Suggestions({ session, reccomend }: Props) {
-	const isValid = suggestionSchema.parse({session, reccomend})
-	if (!isValid) return null
+
 
 	return (
 		<section className='min-w-[384px] hidden lg:block h-full'>
