@@ -12,7 +12,6 @@ interface Providers {
 }
 
 export default function SignIn({ providers }: { providers: Providers }) {
-  if (!providers) return <h1>Something went wrong</h1>;
 
   return (
     <>
@@ -31,24 +30,7 @@ export default function SignIn({ providers }: { providers: Providers }) {
         <meta name="robots" content="index, follow" />
         <meta name="googlebot" content="index, follow" />
         <meta name="google" content="notranslate" />
-        <meta name="format-detection" content="telephone=no" />
-        <meta name="theme-color" content="#ffffff" />
-        <meta name="msapplication-TileColor" content="#ffffff" />
-        <meta name="application-name" content="Instafam" />
-        <meta name="apple-mobile-web-app-title" content="Instafam" />
-        <meta name="apple-mobile-web-app-capable" content="yes" />
-        <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-        <meta
-          name="apple-mobile-web-app-status-bar-style"
-          content="black-translucent"
-        />
-        <meta name="apple-mobile-web-app-status-bar-style" content="black" />
-        <meta name="mobile-web-app-capable" content="yes" />
-        <meta name="HandheldFriendly" content="True" />
-        <meta name="MobileOptimized" content="320" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:site" content="@instafam" />
+       
       </Head>
       <div className="grid h-screen w-full place-items-center p-5">
         <div className="mx-auto flex h-full items-center justify-center rounded-lg bg-white bg-opacity-10 p-8 text-center shadow-xl backdrop-blur-lg backdrop-filter">
@@ -70,11 +52,10 @@ export default function SignIn({ providers }: { providers: Providers }) {
                 title="Sign in with Google"
                 key={provider.id}
                 className="ease inline-flex items-center gap-x-5 rounded-md bg-black px-5 py-3 text-center text-white transition-all duration-300 hover:bg-opacity-80"
-                onClick={() =>
-                  signIn(provider.id, {
-                    callbackUrl: process.env.NEXTAUTH_URL,
-                    redirect: false,
-                  })
+                onClick={() => signIn(provider.id, {
+                  callbackUrl:  `${process.env.NEXTAUTH_URL}`,
+                  redirect: true
+                })
                 }
               >
                 Sign in with {provider.name}
