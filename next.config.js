@@ -69,7 +69,8 @@ const nextConfig = {
     X_RapidAPI_KEY: process.env.X_RapidAPI_KEY,
     X_RapidAPI_HOST: process.env.X_RapidAPI_HOST,
     GOOGLE_URL: process.env.GOOGLE_URL,
-    GOOGLE_WELL_KNOWN: process.env.GOOGLE_WELL_KNOWN_URL
+    GOOGLE_WELL_KNOWN: process.env.GOOGLE_WELL_KNOWN_URL,
+    MY_SECRET_TOKEN: process.env.MY_SECRET_TOKEN,
   },
   optimizeFonts: true,
   poweredByHeader: false,

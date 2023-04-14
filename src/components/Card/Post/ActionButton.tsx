@@ -15,6 +15,7 @@ type Props = {
 	savedPosts: string[];
 	refreshData: () => void;
 	ssr: boolean;
+	isr: boolean;
 };
 
 export default function ActionButton({
@@ -26,8 +27,8 @@ export default function ActionButton({
 	savedPosts,
 	refreshData,
 	ssr,
+	isr,
 }: Props) {
-
 	return (
 		<div className='flex items-center justify-between mt-3 mb-2 p-1 relative'>
 			<div className='flex gap-x-5'>
@@ -39,7 +40,8 @@ export default function ActionButton({
 							uid,
 							refreshData,
 							ssr,
-						}
+							isr,
+						};
 						handleLikes(Likes);
 					}}
 					name='like'

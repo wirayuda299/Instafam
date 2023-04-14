@@ -56,7 +56,7 @@ export default function PostIdComments({
 							onClick={async () => {
 								const { handleFollow } = await import('@/helper/follow');
 								const followArgs = {
-									id: post?.postedById as string ?? '',
+									id: (post?.postedById as string) ?? '',
 									uid: session?.user.uid as string,
 									followedByName: session?.user.username as string,
 									refreshData,
@@ -68,7 +68,8 @@ export default function PostIdComments({
 						>
 							{user &&
 							user?.following?.find(
-								(user: { userId: string }) => user?.userId === post?.postedById ?? ''
+								(user: { userId: string }) =>
+									user?.userId === post?.postedById ?? ''
 							)
 								? 'Following'
 								: 'Follow'}
@@ -142,7 +143,8 @@ export default function PostIdComments({
 				{/* comments end */}
 				<div className='hidden lg:block absolute bottom-0 border-t border-gray-500 border-opacity-50 w-full px-2'>
 					<ActionButton
-						ssr={true}
+						isr={true}
+						ssr={false}
 						refreshData={refreshData}
 						commentOpen={true}
 						likes={post?.likedBy}
