@@ -1,11 +1,10 @@
 import { extraListToggler } from "@/store/extraListToggler";
-import { useSession } from "next-auth/react";
+import { signOut } from "next-auth/react";
 import { AiOutlineWarning } from "react-icons/ai";
 import { BsFillGearFill, BsFillMoonStarsFill } from "react-icons/bs";
 import { RxCountdownTimer } from "react-icons/rx";
 import { useRecoilState } from "recoil";
 import { useEffect } from "react";
-import { handleSignOut } from "@/helper/signout";
 interface INavProps {
   id: number;
   title: string;
@@ -15,7 +14,6 @@ interface INavProps {
 
 export default function ExtraMenus() {
   const [extraListOpen, setExtraListOpen] = useRecoilState(extraListToggler);
-  const { data: session } = useSession();
   const extraList: INavProps[] = [
     {
       id: 1,
@@ -93,7 +91,10 @@ export default function ExtraMenus() {
             >
               <button
                 onClick={() =>
-                  list.id === 6 ? handleSignOut(session) : undefined
+                  list.id === 6 ? signOut({
+                    callbackUrl: `${process.env.NEXTAUTH_URL}/auth/signin`,
+                    redirect: true
+                  }) : undefined
                 }
                 className="flex w-full items-center justify-between gap-2 space-x-2"
                 type="button"
