@@ -4,10 +4,8 @@ import { getCreatedDate } from '@/util/postDate';
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
 import useAuth from '@/hooks/useAuth';
-import { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import { Dispatch, SetStateAction } from 'react';
 import { imageLoader } from '@/util/imageLoader';
-import { db } from '@/config/firebase';
-import { onSnapshot, doc } from 'firebase/firestore';
 const Comments = dynamic(() => import('@/components/Card/Post/Comments'));
 const ActionButton = dynamic(
 	() => import('@/components/Card/Post/ActionButton')
