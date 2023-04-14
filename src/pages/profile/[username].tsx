@@ -108,8 +108,8 @@ export default function UserProfile({ posts, user, query }: Props) {
 export async function getServerSideProps({ req, res, params, query }:GetServerSidePropsContext) {
 	const { getPostByCurrentUser } = await import('@/helper/getPosts');
 	const { getCurrentUserData } = await import('@/helper/getUser');
-	const user = await getCurrentUserData(query?.username as string);
-	const posts = await getPostByCurrentUser(user ? user[0].uid : '');
+	const user = await getCurrentUserData(query?.username as string) as IUser[]
+	const posts = await getPostByCurrentUser(user ? user[0]?.uid : '');
 	if (!user || !posts) {
 		return {
 			notFound: true,

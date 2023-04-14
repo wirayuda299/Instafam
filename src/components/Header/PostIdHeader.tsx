@@ -30,7 +30,7 @@ export default function PostIdHeader({
 		<figure className='shadow-sm'>
 			<div className='py-2 lg:hidden'>
 				<Link
-					href={`/profile/${post?.postedById}`}
+					href={`/profile/${post?.author}`}
 					className='flex cursor-pointer items-center space-x-2'
 				>
 					<Image

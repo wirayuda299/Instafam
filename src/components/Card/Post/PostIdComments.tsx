@@ -80,7 +80,7 @@ export default function PostIdComments({
 					</button>
 				</div>
 				<Link
-					href={`/profile/${post?.postedById}`}
+					href={`/profile/${post?.author}`}
 					className='flex-1 mb-5 flex bg-white dark:bg-black space-x-2 px-2 py-3 '
 				>
 					<Image
