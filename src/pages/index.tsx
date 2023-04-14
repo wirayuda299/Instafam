@@ -17,6 +17,7 @@ export default function Home({ posts, users, sessions, last }: any) {
 				<div className='flex flex-col p-5 w-full '>
 					{posts?.map((post: any) => (
 						<PostCard
+							isr={false}
 							post={post}
 							key={post.postId}
 							ssr={true}
@@ -27,6 +28,7 @@ export default function Home({ posts, users, sessions, last }: any) {
 					{loading && <CardLoader />}
 					{postsState?.map((post) => (
 						<PostCard
+							isr={false}
 							post={post}
 							key={post.postId}
 							ssr={false}

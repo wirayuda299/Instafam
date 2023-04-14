@@ -22,13 +22,15 @@ export interface IPostCardProps {
 	post: IUserPostProps;
 	ssr: boolean;
 	session: Session | null;
+	isr: boolean;
 }
 export const PostCardSchema = z.object({
 	post: PostSchema,
 	ssr: z.boolean(),
 	session: SessionSchema,
+	isr: z.boolean(),
 });
-function PostCard({ post, ssr, session }: IPostCardProps) {
+function PostCard({ post, ssr, session, isr }: IPostCardProps) {
 	const [comment, setComment] = useState<IComment['comments']>([]);
 	const [likesCount, setLikesCount] = useState<string[]>([]);
 	const [commentOpen, setCommentOpen] = useState<boolean>(false);
@@ -94,6 +96,7 @@ function PostCard({ post, ssr, session }: IPostCardProps) {
 					alt={post?.author ?? 'user post image'}
 				/>
 				<ActionButton
+				isr
 					ssr={ssr}
 					refreshData={refreshData}
 					savedPosts={savedPosts}
