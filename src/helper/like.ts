@@ -28,8 +28,24 @@ export const handleLikes = async<T extends LikesProps>(params: T) => {
 		if (isr) {
 			const revalidate = await fetch(`/api/revalidate?id=${post.postId}&secret=${process.env.MY_SECRET_TOKEN}`);
 			const data = await revalidate.json();
-			console.log(data);
+			if (data.revalidated) {
+				const postRef = doc(db, 'posts', `post-${post.postId}`);
+				const getPostDetails = await getDoc(postRef);
+				const likedBy = getPostDetails.data()?.likedBy;
+				const haslikedByUsers = likedBy.find((like: string) => like === uid);
 
+				if (haslikedByUsers) {
+					await updateDoc(postRef, { likedBy: arrayRemove(uid) })
+						.then(() => {
+							ssr || isr ? refreshData() : null;
+						});
+				} else {
+					await updateDoc(postRef, { likedBy: arrayUnion(uid) })
+						.then(() => {
+							ssr || isr ? refreshData() : null;
+						});
+				}
+			};
 		}
 		const postRef = doc(db, 'posts', `post-${post.postId}`);
 		const getPostDetails = await getDoc(postRef);
