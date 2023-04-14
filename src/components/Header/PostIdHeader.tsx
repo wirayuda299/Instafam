@@ -24,7 +24,7 @@ export default function PostIdHeader({
 	refreshData,
 	setCommentOpen,
 }: Props) {
-	const {session} = useAuth()
+	const { session } = useAuth();
 
 	return (
 		<figure className='shadow-sm'>
@@ -67,7 +67,8 @@ export default function PostIdHeader({
 			{/* action button mobile */}
 			<div className='block lg:hidden'>
 				<ActionButton
-					ssr={true}
+					isr={true}
+					ssr={false}
 					refreshData={refreshData}
 					commentOpen={commentOpen}
 					likes={post?.likedBy}
