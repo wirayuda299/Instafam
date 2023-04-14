@@ -11,7 +11,7 @@ export const authOptions: NextAuthOptions = {
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID as string,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
-      profile(profile) {
+      profile(profile: any) {
         return {
           id: profile.sub,
           name: profile.name,
@@ -25,7 +25,7 @@ export const authOptions: NextAuthOptions = {
     async session({ session, token }: { session: any; token: JWT }) {
       if (session && session.user) {
         session.user.username = `@${getUsernameFromEmail(session.user.email)}`;
-        session.user.uid = token.sub;
+        session.user.uid = token.sub as string;
       }
       return session;
     },
@@ -89,4 +89,4 @@ export const authOptions: NextAuthOptions = {
   },
 };
 
-export default NextAuth({...authOptions});
+export default NextAuth(authOptions);

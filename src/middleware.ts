@@ -13,6 +13,6 @@ export const config = {
     "/api/auth/signin/callback/:path*",
     "/api/auth/signin/callback",
     "/api/auth/signin/:path*",
-    "/post/:path*, /((?!_next|fonts|api|svg|[\\w-]+\\.\\w+).*), /_next/:path*, /_next/data, /_next/data/:path*",
+    "/post/:path*"
   ],
 };
