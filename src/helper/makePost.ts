@@ -6,7 +6,7 @@ import { Session } from "next-auth";
 import { Dispatch, SetStateAction } from "react";
 import toast from "react-hot-toast";
 import { SetterOrUpdater } from "recoil";
-import { z } from 'zod';
+import { z } from "zod";
 
 type TMakePost = {
   captions: string;
@@ -16,7 +16,7 @@ type TMakePost = {
   setImg: SetterOrUpdater<string>;
   setLoading: Dispatch<SetStateAction<boolean>>;
   img: string;
-}
+};
 const makePostSchema = z.object({
   captions: z.string().optional(),
   croppedImg: z.string(),
@@ -24,31 +24,47 @@ const makePostSchema = z.object({
   setCaptions: z.function().args(z.string()).returns(z.void()),
   setImg: z.function().args(z.string()).returns(z.void()),
   setLoading: z.function().args(z.boolean()).returns(z.void()),
-  img: z.string()
-})
+  img: z.string(),
+});
 
-
-export const makePost = async<T extends TMakePost>(params: T) => {
-  const { captions, croppedImg, session, setCaptions, setImg, setLoading, img } = params;
-  if (!session || !session.user) return toast.error('You must be logged in to make a post.');
+export const makePost = async <T extends TMakePost>(params: T) => {
+  const {
+    captions,
+    croppedImg,
+    session,
+    setCaptions,
+    setImg,
+    setLoading,
+    img,
+  } = params;
+  if (!session || !session.user)
+    return toast.error("You must be logged in to make a post.");
   if (!img) return;
   setLoading(true);
   const hashtags =
     captions
       .match(/#(?!\n)(.+)/g)
-      ?.join(' ')
-      .split(' ') || [];
+      ?.join(" ")
+      .split(" ") || [];
   const uuid = crypto.randomUUID();
   try {
-    const isValid = makePostSchema.parse({ captions, croppedImg, session, setCaptions, setImg, setLoading, img })
-    if (!isValid) throw new Error('Invalid data passed to makePost function.');
-    const storageRef = `post/${uuid}/image`
+    const isValid = makePostSchema.parse({
+      captions,
+      croppedImg,
+      session,
+      setCaptions,
+      setImg,
+      setLoading,
+      img,
+    });
+    if (!isValid) throw new Error("Invalid data passed to makePost function.");
+    const storageRef = `post/${uuid}/image`;
 
     const imageRef = ref(storage, storageRef);
-    await uploadString(imageRef, croppedImg ?? '', 'data_url').then(
+    await uploadString(imageRef, croppedImg ?? "", "data_url").then(
       async () => {
         const downloadUrl = await getDownloadURL(imageRef);
-        await setDoc(doc(db, 'posts', `post-${uuid}`), {
+        await setDoc(doc(db, "posts", `post-${uuid}`), {
           captions: captions.match(/^[^#]*/),
           postedById: session?.user?.uid,
           author: session?.user && session?.user.username,
@@ -62,10 +78,10 @@ export const makePost = async<T extends TMakePost>(params: T) => {
           tags: [],
           postId: uuid,
         }).then(() => {
-          setCaptions('');
-          setImg('');
+          setCaptions("");
+          setImg("");
           setLoading(false);
-          toast.success('Post created successfully');
+          toast.success("Post created successfully");
         });
       }
     );
@@ -73,4 +89,4 @@ export const makePost = async<T extends TMakePost>(params: T) => {
     setLoading(false);
     toast.error(error.message);
   }
-}
+};

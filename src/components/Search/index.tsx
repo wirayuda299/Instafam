@@ -1,39 +1,41 @@
-import { searchDrawer } from '@/store/searchDrawer';
-import { useRecoilState } from 'recoil';
-import {  AiOutlineSearch } from 'react-icons/ai';
-import { memo, useEffect } from 'react';
-import Form from './Form';
+import { searchDrawer } from "@/store/searchDrawer";
+import { useRecoilState } from "recoil";
+import { AiOutlineSearch } from "react-icons/ai";
+import { memo, useEffect } from "react";
+import Form from "./Form";
 
- function SearchDrawer() {
-	const [drawerOpen, setDrawerOpen] = useRecoilState(searchDrawer);
-	useEffect(() => {
-		window.addEventListener('resize', () => {
-			setDrawerOpen(false);
-		});
-		return () => {
-			window.removeEventListener('resize', () => {
-				setDrawerOpen(false);
-			});
-		};
-	}, []);
+function SearchDrawer() {
+  const [drawerOpen, setDrawerOpen] = useRecoilState(searchDrawer);
+  useEffect(() => {
+    window.addEventListener("resize", () => {
+      setDrawerOpen(false);
+    });
+    return () => {
+      window.removeEventListener("resize", () => {
+        setDrawerOpen(false);
+      });
+    };
+  }, []);
 
-	return (
-		<section
-			className={`fixed z-50 bg-white transition-all ease-out duration-300 dark:bg-black ${
-				drawerOpen ? 'animate-slideIn lg:animate-slideIn' : 'animate-slideOut lg:animate-slideOutWidth -left-full hidden'
-			}`}
-		>
-			<div className=' w-full h-full text-black dark:text-white'>
-				<aside className='w-64 p-5 border-b'>
-					<h1 className='font-semibold text-2xl py-5'>Search</h1>
-					<Form height='h-screen'>
-						<button type='submit' name='search' title='search'>
-							<AiOutlineSearch size={20} />
-						</button>
-					</Form>
-				</aside>
-			</div>
-		</section>
-	);
+  return (
+    <section
+      className={`fixed z-50 bg-white transition-all duration-300 ease-out dark:bg-black ${
+        drawerOpen
+          ? "animate-slideIn lg:animate-slideIn"
+          : "-left-full hidden animate-slideOut lg:animate-slideOutWidth"
+      }`}
+    >
+      <div className=" h-full w-full text-black dark:text-white">
+        <aside className="w-64 border-b p-5">
+          <h1 className="py-5 text-2xl font-semibold">Search</h1>
+          <Form height="h-screen">
+            <button type="submit" name="search" title="search">
+              <AiOutlineSearch size={20} />
+            </button>
+          </Form>
+        </aside>
+      </div>
+    </section>
+  );
 }
 export default memo(SearchDrawer);

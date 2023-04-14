@@ -1,58 +1,58 @@
 /** @type {import('next').NextConfig} */
 const securityHeaders = [
   {
-    key: 'X-DNS-Prefetch-Control',
-    value: 'on'
+    key: "X-DNS-Prefetch-Control",
+    value: "on",
   },
   {
-    key: 'X-XSS-Protection',
-    value: '1; mode=block'
+    key: "X-XSS-Protection",
+    value: "1; mode=block",
   },
   {
-    key: 'X-Frame-Options',
-    value: 'SAMEORIGIN'
+    key: "X-Frame-Options",
+    value: "SAMEORIGIN",
   },
   {
-    key: 'Permissions-Policy',
-    value: 'camera=()'
+    key: "Permissions-Policy",
+    value: "camera=()",
   },
   {
-    key: 'X-Content-Type-Options',
-    value: 'nosniff'
-  }
-]
+    key: "X-Content-Type-Options",
+    value: "nosniff",
+  },
+];
 const nextConfig = {
   async headers() {
     return [
       {
-        source: '/:path*',
+        source: "/:path*",
         headers: securityHeaders,
       },
-    ]
+    ];
   },
   compress: true,
   reactStrictMode: true,
   images: {
-    minimumCacheTTL : 60 * 60 * 60 * 24 * 365,
+    minimumCacheTTL: 60 * 60 * 60 * 24 * 365,
     deviceSizes: [320, 420, 768, 1024, 1200, 1300],
     imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
-    formats: ['image/avif', 'image/webp'],
+    formats: ["image/avif", "image/webp"],
     remotePatterns: [
       {
-        protocol: 'https',
-        hostname: 'lh3.googleusercontent.com',
-        port: '',
-        pathname: '/a/**',
+        protocol: "https",
+        hostname: "lh3.googleusercontent.com",
+        port: "",
+        pathname: "/a/**",
       },
       {
-        protocol: 'https',
-        hostname: 'firebasestorage.googleapis.com',
-        port: '',
-        pathname: '/v0/b/**',
+        protocol: "https",
+        hostname: "firebasestorage.googleapis.com",
+        port: "",
+        pathname: "/v0/b/**",
       },
     ],
   },
-  
+
   swcMinify: true,
   env: {
     FIREBASE_API_KEY: process.env.FIREBASE_API_KEY,
@@ -73,6 +73,6 @@ const nextConfig = {
   },
   optimizeFonts: true,
   poweredByHeader: false,
-}
+};
 
-module.exports = nextConfig
+module.exports = nextConfig;

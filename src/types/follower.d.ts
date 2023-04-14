@@ -1,5 +1,4 @@
-
 export interface IFollowerProps {
-  followedBy: string
-  followedByName: string
+  followedBy: string;
+  followedByName: string;
 }

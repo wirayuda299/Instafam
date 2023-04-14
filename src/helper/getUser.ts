@@ -1,37 +1,39 @@
-import { db } from "@/config/firebase"
-import { IUser } from "@/types/user"
-import { getDocs, query, collection, where, limit } from "firebase/firestore"
-import { z } from 'zod'
+import { db } from "@/config/firebase";
+import { IUser } from "@/types/user";
+import { getDocs, query, collection, where, limit } from "firebase/firestore";
+import { z } from "zod";
 const getUserRecommendationSchema = z.object({
-  uid: z.string().nonempty()
-})
+  uid: z.string().nonempty(),
+});
 const getCurrentUserDataSchema = z.object({
-  username: z.string().nonempty()
-})
-export async function getUserRecommendation(uid: string = '') {
+  username: z.string().nonempty(),
+});
+export async function getUserRecommendation(uid: string = "") {
   try {
-    const isValid = getUserRecommendationSchema.parse({ uid })
-    if (!isValid) throw new Error('Invalid data passed to function. uid must be a string passed to the function and cannot be empty.')
+    const isValid = getUserRecommendationSchema.parse({ uid });
+    if (!isValid)
+      throw new Error(
+        "Invalid data passed to function. uid must be a string passed to the function and cannot be empty."
+      );
     const getUsers = await getDocs(
-      query(
-        collection(db, 'users'),
-        where('uid', '!=', uid),
-        limit(5)
-      ))
-    const users = getUsers.docs.map(doc => doc.data()) as IUser[]
-    return users
+      query(collection(db, "users"), where("uid", "!=", uid), limit(5))
+    );
+    const users = getUsers.docs.map((doc) => doc.data()) as IUser[];
+    return users;
   } catch (error: any) {
     console.log(error.message);
   }
 }
-export async function getCurrentUserData(username: string = '') {
+export async function getCurrentUserData(username: string = "") {
   try {
-    const isValid = getCurrentUserDataSchema.parse({ username })
-    if (!isValid) throw new Error('Invalid data passed to function. username must be a string passed to the function and cannot be empty.')
-    const q = query(collection(db, 'users'), where('username', '==', username))
-    const res = await getDocs(q)
-    return res.docs.map(doc => doc.data()) as IUser[]
-
+    const isValid = getCurrentUserDataSchema.parse({ username });
+    if (!isValid)
+      throw new Error(
+        "Invalid data passed to function. username must be a string passed to the function and cannot be empty."
+      );
+    const q = query(collection(db, "users"), where("username", "==", username));
+    const res = await getDocs(q);
+    return res.docs.map((doc) => doc.data()) as IUser[];
   } catch (error: any) {
     console.log(error.message);
   }

@@ -1,130 +1,129 @@
-import Head from 'next/head';
-import { useState } from 'react';
-import { BsSend } from 'react-icons/bs';
+import Head from "next/head";
+import { useState } from "react";
+import { BsSend } from "react-icons/bs";
 
 export default function Messages() {
-	const [messagesOpen, setMessagesOpen] = useState(true);
-	return (
-		<>
-			<Head>
-				<title>Messages &#8226; Instafam</title>
-			</Head>
-			<div className='w-full h-full relative'>
-				<div className='flex h-screen antialiased text-gray-800 w-full overflow-hidden'>
-					<div
-						className={` bg-gray-100 dark:bg-black dark:text-slate-50 p-4 w-full h-screen md:w-80 md:h-full md:overflow-y-auto md:overflow-x-hidden md:shadow-lg transition-all duration-300 ease-in-out`}
-					>
-						<div
-							className={`flex-col  w-full h-screen md:flex  pl-4 pr-4 py-4 -mr-4 `}
-						>
-							<div className='flex flex-row items-center'>
-								<div className='flex flex-row items-center'>
-									<div className='text-xl font-semibold'>Messages</div>
-									<div className='flex items-center justify-center ml-2 text-xs h-5 w-5 text-white bg-red-500 rounded-full font-medium'>
-										5
-									</div>
-								</div>
-								<div className='ml-auto'>
-									<button className='flex items-center justify-center h-7 w-7 bg-gray-200 text-gray-500 rounded-full'>
-										<svg
-											className='w-4 h-4 stroke-current'
-											fill='none'
-											stroke='currentColor'
-											viewBox='0 0 24 24'
-											xmlns='http://www.w3.org/2000/svg'
-										>
-											<path
-												stroke-linecap='round'
-												stroke-linejoin='round'
-												stroke-width='2'
-												d='M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z'
-											></path>
-										</svg>
-									</button>
-								</div>
-							</div>
-							<div className='mt-5'>
-								<ul className='flex flex-row items-center justify-between'>
-									<li>
-										<a
-											href='#'
-											className='flex items-center pb-3 truncate text-xs font-semibold relative text-indigo-800'
-										>
-											<span>All Conversations</span>
-											<span className='absolute left-0 bottom-0 h-1 w-6 bg-indigo-800 rounded-full'></span>
-										</a>
-									</li>
-									<li>
-										<a
-											href='#'
-											className='flex items-center pb-3 text-xs text-gray-700 font-semibold'
-										>
-											<span>Archived</span>
-										</a>
-									</li>
-									<li>
-										<a
-											href='#'
-											className='flex items-center pb-3 text-xs text-gray-700 font-semibold'
-										>
-											<span>Starred</span>
-										</a>
-									</li>
-								</ul>
-							</div>
-							<div className='mt-5'>
-								<div className='text-xs text-gray-400 font-semibold uppercase'>
-									Personal
-								</div>
-							</div>
-							<div className='mt-2'>
-								<div className='flex flex-col -mx-4'>
-									<div className='relative flex flex-row items-center p-4'>
-										<div className='absolute text-xs text-gray-500 right-0 top-0 mr-4 mt-3'>
-											5 min
-										</div>
-										<div className='flex items-center justify-center h-10 w-10 rounded-full bg-pink-500 text-pink-300 font-bold flex-shrink-0'>
-											T
-										</div>
-										<div
-											className='flex flex-col flex-grow ml-3'
-											onClick={() => setMessagesOpen(false)}
-										>
-											<div className='text-sm font-medium'>Cuberto</div>
-											<div className='text-xs truncate w-40'>
-												Lorem ipsum dolor sit amet, consectetur adipisicing
-												elit. Debitis, doloribus?
-											</div>
-										</div>
-										<div className='flex-shrink-0 ml-2 self-end mb-1'>
-											<span className='flex items-center justify-center h-5 w-5 bg-red-500 text-white text-xs rounded-full'>
-												5
-											</span>
-										</div>
-									</div>
-									<div className='flex w-full flex-row items-center p-4 bg-gradient-to-r from-red-100 to-transparent border-l-2 border-red-500'>
-										<div className='flex items-center justify-center h-10 w-10 rounded-full bg-pink-500 text-pink-300 font-bold flex-shrink-0'>
-											T
-										</div>
-										<div className='flex flex-col flex-grow ml-3'>
-											<div className='flex items-center'>
-												<div className='text-sm font-medium'>UI Art Design</div>
-												<div className='h-2 w-2 rounded-full bg-green-500 ml-2'></div>
-											</div>
-											<div className='text-xs truncate w-40'>
-												Lorem ipsum dolor sit amet, consectetur adipisicing
-												elit. Debitis, doloribus?
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-					{/* messages */}
-				
-				</div>
-			</div>
-		</>
-	);
+  const [messagesOpen, setMessagesOpen] = useState(true);
+  return (
+    <>
+      <Head>
+        <title>Messages &#8226; Instafam</title>
+      </Head>
+      <div className="relative h-full w-full">
+        <div className="flex h-screen w-full overflow-hidden text-gray-800 antialiased">
+          <div
+            className={` h-screen w-full bg-gray-100 p-4 transition-all duration-300 ease-in-out dark:bg-black dark:text-slate-50 md:h-full md:w-80 md:overflow-y-auto md:overflow-x-hidden md:shadow-lg`}
+          >
+            <div
+              className={`-mr-4  h-screen w-full flex-col  py-4 pl-4 pr-4 md:flex `}
+            >
+              <div className="flex flex-row items-center">
+                <div className="flex flex-row items-center">
+                  <div className="text-xl font-semibold">Messages</div>
+                  <div className="ml-2 flex h-5 w-5 items-center justify-center rounded-full bg-red-500 text-xs font-medium text-white">
+                    5
+                  </div>
+                </div>
+                <div className="ml-auto">
+                  <button className="flex h-7 w-7 items-center justify-center rounded-full bg-gray-200 text-gray-500">
+                    <svg
+                      className="h-4 w-4 stroke-current"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                      ></path>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+              <div className="mt-5">
+                <ul className="flex flex-row items-center justify-between">
+                  <li>
+                    <a
+                      href="#"
+                      className="relative flex items-center truncate pb-3 text-xs font-semibold text-indigo-800"
+                    >
+                      <span>All Conversations</span>
+                      <span className="absolute bottom-0 left-0 h-1 w-6 rounded-full bg-indigo-800"></span>
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      href="#"
+                      className="flex items-center pb-3 text-xs font-semibold text-gray-700"
+                    >
+                      <span>Archived</span>
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      href="#"
+                      className="flex items-center pb-3 text-xs font-semibold text-gray-700"
+                    >
+                      <span>Starred</span>
+                    </a>
+                  </li>
+                </ul>
+              </div>
+              <div className="mt-5">
+                <div className="text-xs font-semibold uppercase text-gray-400">
+                  Personal
+                </div>
+              </div>
+              <div className="mt-2">
+                <div className="-mx-4 flex flex-col">
+                  <div className="relative flex flex-row items-center p-4">
+                    <div className="absolute right-0 top-0 mr-4 mt-3 text-xs text-gray-500">
+                      5 min
+                    </div>
+                    <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-pink-500 font-bold text-pink-300">
+                      T
+                    </div>
+                    <div
+                      className="ml-3 flex flex-grow flex-col"
+                      onClick={() => setMessagesOpen(false)}
+                    >
+                      <div className="text-sm font-medium">Cuberto</div>
+                      <div className="w-40 truncate text-xs">
+                        Lorem ipsum dolor sit amet, consectetur adipisicing
+                        elit. Debitis, doloribus?
+                      </div>
+                    </div>
+                    <div className="mb-1 ml-2 flex-shrink-0 self-end">
+                      <span className="flex h-5 w-5 items-center justify-center rounded-full bg-red-500 text-xs text-white">
+                        5
+                      </span>
+                    </div>
+                  </div>
+                  <div className="flex w-full flex-row items-center border-l-2 border-red-500 bg-gradient-to-r from-red-100 to-transparent p-4">
+                    <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-pink-500 font-bold text-pink-300">
+                      T
+                    </div>
+                    <div className="ml-3 flex flex-grow flex-col">
+                      <div className="flex items-center">
+                        <div className="text-sm font-medium">UI Art Design</div>
+                        <div className="ml-2 h-2 w-2 rounded-full bg-green-500"></div>
+                      </div>
+                      <div className="w-40 truncate text-xs">
+                        Lorem ipsum dolor sit amet, consectetur adipisicing
+                        elit. Debitis, doloribus?
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          {/* messages */}
+        </div>
+      </div>
+    </>
+  );
 }

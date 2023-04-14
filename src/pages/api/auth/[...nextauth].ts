@@ -6,20 +6,11 @@ import NextAuth, { NextAuthOptions } from "next-auth";
 import { JWT } from "next-auth/jwt";
 import GoogleProvider from "next-auth/providers/google";
 
-export const authOptions:NextAuthOptions = {
+export const authOptions: NextAuthOptions = {
   providers: [
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID as string,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
-      authorization: {
-        params: {
-          prompt: "consent",
-          access_type: "offline",
-          response_type: "code"
-        },
-        url: process.env.GOOGLE_URL as string
-      },
-      wellKnown: process.env.GOOGLE_WELL_KNOWN_URL as string,
       profile(profile) {
         return {
           id: profile.sub,
@@ -28,20 +19,19 @@ export const authOptions:NextAuthOptions = {
           image: profile.picture,
         };
       },
-
     }),
   ],
   callbacks: {
-    async session({ session, token }: { session: any, token: JWT }) {
+    async session({ session, token }: { session: any; token: JWT }) {
       if (session && session.user) {
-        session.user.username = `@${getUsernameFromEmail(session.user.email)}`
+        session.user.username = `@${getUsernameFromEmail(session.user.email)}`;
         session.user.uid = token.sub;
       }
       return session;
     },
     async signIn(params: any) {
       await setDoc(
-        doc(db, 'users', `${params.user?.id}`),
+        doc(db, "users", `${params.user?.id}`),
         {
           name: params?.user.name,
           email: params?.user.email,
@@ -57,40 +47,46 @@ export const authOptions:NextAuthOptions = {
           merge: true,
         }
       );
-      return true  
+      return true;
     },
-    async redirect({ url, baseUrl }: { url: string, baseUrl: string }) {
-      const reg = / @"[^-A-Za-z0-9+&@#/%?=~_|!:,.;\(\)]"/g
-      if (url === '/api/auth/signin') {
-        const sanitized = baseUrl.replace(reg, '')
-        const urls = urlNormalize(sanitized)
-        let newUrl = urls.replace(/(http:\/\/localhost:3000\/auth\/signin).*/, '$1');
+    async redirect({ url, baseUrl }: { url: string; baseUrl: string }) {
+      const reg = / @"[^-A-Za-z0-9+&@#/%?=~_|!:,.;\(\)]"/g;
+      if (url === "/api/auth/signin") {
+        const sanitized = baseUrl.replace(reg, "");
+        const urls = urlNormalize(sanitized);
+        let newUrl = urls.replace(
+          /(http:\/\/localhost:3000\/auth\/signin).*/,
+          "$1"
+        );
 
-        return Promise.resolve(`${newUrl}/auth/signin`)
+        return Promise.resolve(`${newUrl}/auth/signin`);
       } else {
-        const sanitized = url.replace(reg, '')
-        let newUrl = sanitized.replace(/(http:\/\/localhost:3000\/auth\/signin).*/, '$1');
-        return Promise.resolve(newUrl)
+        const sanitized = url.replace(reg, "");
+        let newUrl = sanitized.replace(
+          /(http:\/\/localhost:3000\/auth\/signin).*/,
+          "$1"
+        );
+        return Promise.resolve(newUrl);
       }
     },
   },
   pages: {
-    signIn: '/auth/signin'
+    signIn: "/auth/signin",
   },
   secret: process.env.NEXTAUTH_SECRET,
-  useSecureCookies: process.env.NODE_ENV === 'production',
+  useSecureCookies: process.env.NODE_ENV === "production",
   cookies: {
     sessionToken: {
-      name: 'next-auth.session-token',
+      name: "next-auth.session-token",
       options: {
         httpOnly: true,
-        secure: process.env.NODE_ENV === 'production',
-        sameSite: 'lax',
-        path: '/',
-        maxAge: 30 * 24 * 60 * 7  
-      }
-    }
-  }
-}
+        secure: process.env.NODE_ENV === "production",
+        sameSite: "lax",
+        path: "/",
+        maxAge: 30 * 24 * 60 * 7,
+      },
+    },
+  },
+};
 
-export default NextAuth(authOptions)
+export default NextAuth({...authOptions});

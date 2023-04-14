@@ -4,10 +4,6 @@
     "no-console": "off",
     "dependency-cruiser/no-orphans": "off",
     "dependency-cruiser/no-deprecated-core": "off",
-    "react-hooks/exhaustive-deps": "off",
-    "react/react-in-jsx-scope": "off",
-    "rule-hooks/rules-of-hooks": "off",
-    "react/prop-types": "off",
-    "react/display-name": "off"
+    "react-hooks/exhaustive-deps": "off"
   }
 }
