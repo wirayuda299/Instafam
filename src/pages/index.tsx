@@ -66,7 +66,6 @@ export async function getServerSideProps({
 
   const { getUserRecommendation } = await import("@/helper/getUser");
   const users = await getUserRecommendation(session?.user?.uid);
-  res.setHeader("Cache-Control", "s-maxage=60, stale-while-revalidate=59");
 
   return {
     props: {
