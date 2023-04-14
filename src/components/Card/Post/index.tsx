@@ -1,10 +1,6 @@
-import { memo, useEffect, useState } from 'react';
+import { memo, useState } from 'react';
 import { IUserPostProps } from '@/types/post';
 import Image from 'next/image';
-import { IComment } from './Comments';
-import { db } from '@/config/firebase';
-import { doc, onSnapshot } from 'firebase/firestore';
-import { IUser } from '@/types/user';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 import { Session } from 'next-auth';
@@ -12,6 +8,10 @@ import { z } from 'zod';
 import { PostSchema } from '@/schema/PostSchema';
 import { SessionSchema } from '@/schema/comment';
 import { imageLoader } from '@/util/imageLoader';
+import useLikes from '@/hooks/useLikes';
+import useComments from '@/hooks/useComments';
+import useSavedPosts from '@/hooks/useSavedPosts';
+import useUser from '@/hooks/useUser';
 const ActionButton = dynamic(() => import('./ActionButton'));
 const PostHeader = dynamic(() => import('./Header'));
 const Author = dynamic(() => import('./Author'));
@@ -22,52 +22,23 @@ export interface IPostCardProps {
 	post: IUserPostProps;
 	ssr: boolean;
 	session: Session | null;
-	isr: boolean;
 }
 export const PostCardSchema = z.object({
 	post: PostSchema,
 	ssr: z.boolean(),
 	session: SessionSchema,
-	isr: z.boolean(),
 });
-function PostCard({ post, ssr, session, isr }: IPostCardProps) {
-	const [comment, setComment] = useState<IComment['comments']>([]);
-	const [likesCount, setLikesCount] = useState<string[]>([]);
+function PostCard({ post, ssr, session }: IPostCardProps) {
 	const [commentOpen, setCommentOpen] = useState<boolean>(false);
-	const [savedPosts, setSavedPosts] = useState<string[]>([]);
-	const [users, setUsers] = useState<IUser>();
 	const { replace, asPath } = useRouter();
 	const refreshData = () => replace(asPath);
 	const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
+	const { likesCount } = useLikes(post);
+	const { comment } = useComments(post);
+	const { savedPosts } = useSavedPosts(session, post);
+	const { user } = useUser(session?.user.uid as string);
 
-	useEffect(() => {
-		const unsub = onSnapshot(doc(db, 'posts', `post-${post.postId}`), (doc) => {
-			if (doc.exists()) {
-				setLikesCount(doc.data().likedBy);
-				setComment(doc.data()?.comments);
-			}
-		});
-		return () => unsub();
-	}, [db]);
-
-	useEffect(() => {
-		const unsub = onSnapshot(
-			doc(db, 'users', `${session?.user.uid}`),
-			(docs) => {
-				if (docs.exists()) {
-					setUsers(docs.data() as IUser);
-					setSavedPosts(
-						docs
-							.data()
-							.savedPosts.map((post: { postId: string }) => post.postId)
-					);
-				}
-			}
-		);
-		return () => unsub();
-	}, [db, post]);
-
-	const isValid = PostCardSchema.parse({ post, ssr, session, isr });
+	const isValid = PostCardSchema.parse({ post, ssr, session });
 	if (!isValid) throw new Error('Invalid Props for PostCard Component');
 
 	return (
@@ -97,8 +68,7 @@ function PostCard({ post, ssr, session, isr }: IPostCardProps) {
 					alt={post?.author ?? 'user post image'}
 				/>
 				<ActionButton
-					isr={isr}
-					ssr={ssr}
+					ssr={false}
 					refreshData={refreshData}
 					savedPosts={savedPosts}
 					likes={likesCount}
@@ -114,6 +84,7 @@ function PostCard({ post, ssr, session, isr }: IPostCardProps) {
 				) : null}
 				<Author post={post} />
 				<Comments
+					ssr={false}
 					comments={comment}
 					post={post}
 					session={session}
@@ -125,8 +96,8 @@ function PostCard({ post, ssr, session, isr }: IPostCardProps) {
 					refreshData={refreshData}
 					session={session}
 					setIsMenuOpen={setIsMenuOpen}
-					ssr={ssr}
-					users={users}
+					ssr={false}
+					users={user}
 				/>
 				<ReportModal session={session} />
 			</div>

@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import { Dispatch, SetStateAction } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { getCreatedDate } from '@/util/postDate';
@@ -8,7 +8,6 @@ import { Session } from 'next-auth';
 import { Headerprops } from '@/schema/headerProps';
 import { useRecoilState } from 'recoil';
 import { selectedPostState } from '@/store/selectedPost';
-import { imageLoader } from '@/util/imageLoader';
 
 export type HeaderProps = {
 	session: Session | null;
@@ -21,29 +20,23 @@ export default function Postheader({
 	session,
 	post,
 	setIsMenuOpen,
-	isMenuOpen
+	isMenuOpen,
 }: HeaderProps) {
-	const [createdDate, setCreatedDate] = useState<string | undefined>('');
-
-	useEffect(() => {
-		setCreatedDate(getCreatedDate(post));
-	}, [post, session]);
-
-	const isValidHeaderProps  = Headerprops.parse({
+	const isValidHeaderProps = Headerprops.parse({
 		session,
 		post,
 		setIsMenuOpen,
 		isMenuOpen,
-	})
+	});
 	const [selectedPost, setSelectedPost] = useRecoilState(selectedPostState);
 
 	const handleClick = () => {
 		setIsMenuOpen(!isMenuOpen);
 		setSelectedPost(post);
-	}
+	};
 
-if(!isValidHeaderProps) throw new Error('Invalid Props')
-	
+	if (!isValidHeaderProps) throw new Error('Invalid Props');
+
 	return (
 		<div className='flex items-center px-4 py-3 h-fit relative'>
 			<Image
@@ -69,19 +62,14 @@ if(!isValidHeaderProps) throw new Error('Invalid Props')
 						<span
 							className={`xs:text-[10px] sm:text-xs font-thin text-gray-500 antialiased block leading-tight `}
 						>
-							{createdDate}
+							{getCreatedDate(post)}
 						</span>
 					</Link>
 				</div>
 			</div>
 
 			<div>
-				<button
-					type='button'
-					name='menu'
-					title='menu'
-					onClick={handleClick}
-				>
+				<button type='button' name='menu' title='menu' onClick={handleClick}>
 					<BsThreeDots className='text-gray-500' size={20} />
 				</button>
 			</div>

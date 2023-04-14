@@ -3,9 +3,12 @@ import { IUserPostProps } from '@/types/post';
 import { getCreatedDate } from '@/util/postDate';
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
-import useAuth from '@/hooks/useAuth';
 import { Dispatch, SetStateAction } from 'react';
 import { imageLoader } from '@/util/imageLoader';
+import { Session } from 'next-auth';
+import { useSession } from 'next-auth/react';
+import useLikes from '@/hooks/useLikes';
+import useSavedPosts from '@/hooks/useSavedPosts';
 const Comments = dynamic(() => import('@/components/Card/Post/Comments'));
 const ActionButton = dynamic(
 	() => import('@/components/Card/Post/ActionButton')
@@ -16,19 +19,18 @@ type Props = {
 	commentOpen: boolean;
 	setCommentOpen: Dispatch<SetStateAction<boolean>>;
 	refreshData: () => void;
-	likesCount: string[];
+	session: Session | null;
 };
 
 export default function PostIdHeader({
 	post,
 	commentOpen,
 	refreshData,
-	likesCount,
 	setCommentOpen,
 }: Props) {
-	const { session } = useAuth();
-	
-
+	const { data: session } = useSession();
+	const { likesCount } = useLikes(post);
+	const { savedPosts } = useSavedPosts(session, post);
 	return (
 		<figure className='shadow-sm'>
 			<div className='py-2 lg:hidden'>
@@ -65,26 +67,31 @@ export default function PostIdHeader({
 				}
 				alt={post?.captions ?? 'post'}
 				priority
-				className='rounded-md lg:rounded-none h-full w-full'
+				className='rounded-md lg:rounded-none h-auto md:h-full w-full'
 			/>
 			{/* action button mobile */}
 			<div className='block lg:hidden'>
 				<ActionButton
-					isr={true}
 					ssr={false}
 					refreshData={refreshData}
 					commentOpen={commentOpen}
 					likes={likesCount}
 					post={post}
-					savedPosts={[]}
+					savedPosts={savedPosts}
 					setCommentOpen={setCommentOpen}
 					uid={session?.user.uid as string}
 				/>
+				<span
+						className={`text-xs pl-1 ${likesCount?.length < 1 ? 'hidden' : 'block'}`}
+					>
+						{likesCount?.length} likes
+					</span>
 				<figcaption className='text-2xl font-bold p-2 flex space-x-2 items-center'>
 					<h2 className='text-sm'>{post?.author}</h2>
 					<p className='text-xs break-words'>{post?.captions}</p>
 				</figcaption>
 				<Comments
+					ssr={false}
 					commentOpen={commentOpen}
 					comments={post?.comments}
 					post={post}

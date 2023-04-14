@@ -10,10 +10,10 @@ export default function ErrorPage() {
 				<h1 className='text-9xl font-bold text-gray-800'>500</h1>
 				<h2 className='text-3xl font-bold text-gray-800'>
           Internal Server Error 
+        </h2>
           <button onClick={() => window.location.reload()}>
            reload 
           </button>
-        </h2>
 			</div>
 		</>
 	);

@@ -1,8 +1,8 @@
 import { db } from '@/config/firebase';
 import { IUserPostProps } from '@/types/post';
 import { getCreatedDate } from '@/util/postDate';
-import { collection, doc, getDocs, query, updateDoc } from 'firebase/firestore';
-import { GetStaticPropsContext } from 'next';
+import { doc, updateDoc } from 'firebase/firestore';
+import { GetServerSidePropsContext } from 'next';
 import { useRouter } from 'next/router';
 import { FieldValues, useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
@@ -12,6 +12,9 @@ const PostEditImage = dynamic(
 	() => import('@/components/Card/Post/Edit/image')
 );
 const PostForm = dynamic(() => import('@/components/Card/Post/Edit/Form'));
+interface Values extends FieldValues {
+	updated: string;
+}
 
 export default function EditPosts({ posts }: { posts: IUserPostProps }) {
 	const { register, handleSubmit } = useForm();
@@ -20,10 +23,11 @@ export default function EditPosts({ posts }: { posts: IUserPostProps }) {
 		captions: `${posts?.captions} ${posts?.hashtags}`,
 	};
 
-	async function updatePost(e: FieldValues) {
+	async function updatePost(e: Values) {
 		try {
 			const q = doc(db, 'posts', `post-${posts.postId}`);
 			await updateDoc(q, {
+				
 				captions: e.updated.match(/^[^#]*/),
 				hashtags:
 					e.updated
@@ -32,7 +36,7 @@ export default function EditPosts({ posts }: { posts: IUserPostProps }) {
 						.split(' ') || [],
 			}).then(() => {
 				toast.success('post updated');
-				router.push(`/`);
+				router.push(`${process.env.NEXTAUTH_URL}`);
 			});
 		} catch (error: any) {
 			console.log(error.message);
@@ -60,23 +64,13 @@ export default function EditPosts({ posts }: { posts: IUserPostProps }) {
 		</div>
 	);
 }
-
-export async function getStaticPaths() {
-	const res = await getDocs(query(collection(db, 'posts')));
-	const data = res.docs.map((doc) => doc.data());
-	return {
-		paths: [...data.map((post) => ({ params: { id: post.postId } }))],
-		fallback: false,
-	};
-}
-
-export async function getStaticProps({ params }: GetStaticPropsContext) {
+export async function getServerSideProps({ query }:GetServerSidePropsContext) {
 	const { getPostById } = await import('@/helper/getPosts');
-	const posts = await getPostById(params?.id as string);
+	const posts = await getPostById(query?.id as string);
 	return {
 		props: {
 			posts: posts ? posts[0] : null,
 		},
-		revalidate: 10,
 	};
 }
+

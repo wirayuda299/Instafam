@@ -2,7 +2,6 @@ import { IUserPostProps } from '@/types/post';
 import { useRouter } from 'next/router';
 import { FieldValues, useForm } from 'react-hook-form';
 import Image from 'next/image';
-import { Suspense } from 'react';
 import { Session } from 'next-auth';
 export type IComment = Pick<IUserPostProps, 'comments'>;
 
@@ -11,6 +10,7 @@ type Props = {
 	session: Session | null;
 	commentOpen: boolean;
 	comments: IComment['comments'];
+	ssr: boolean;
 };
 
 export default function Comments({
@@ -18,6 +18,7 @@ export default function Comments({
 	commentOpen,
 	comments,
 	session,
+	ssr
 }: Props) {
 	const { register, handleSubmit, resetField } = useForm();
 	const defaultValues = {
@@ -45,7 +46,7 @@ export default function Comments({
 			}).then(() => {
 				resetField('comments');
 			});
-			refreshData();
+			ssr && refreshData();
 		} catch (error: any) {
 			console.log(error.message);
 		}
@@ -70,20 +71,19 @@ export default function Comments({
 					className='focus:outline-none w-full bg-transparent text-xs'
 				/>
 			</form>
-			<Suspense fallback={'loading....'}>
 				<div
 					className={`py-2 ${commentOpen ? 'block' : 'hidden'} ${
 						router.pathname === '/post/[id]' ? 'pt-5 ' : ''
 					}}`}
 				>
-					{post?.comments?.length < 1 ? (
+					{comments?.length < 1 ? (
 						<p className='text-xs text-center'>There&apos;s no comment yet</p>
 					) : (
 						comments &&
 						comments?.map((comment) => (
 							<div
 								className='flex space-x-2 items-center flex-wrap pb-2'
-								key={comment.comment}
+								key={comment.createdAt}
 							>
 								<div className='flex items-center space-x-3'>
 									<Image
@@ -109,7 +109,6 @@ export default function Comments({
 						))
 					)}
 				</div>
-			</Suspense>
 		</div>
 	);
 }

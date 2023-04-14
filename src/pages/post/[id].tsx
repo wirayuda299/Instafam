@@ -1,21 +1,30 @@
 import { IUserPostProps } from '@/types/post';
-import {  useState } from 'react';
+import { useState } from 'react';
 import { useRouter } from 'next/router';
 import dynamic from 'next/dynamic';
 import Head from 'next/head';
-import {
-	collection,
-	getDocs,
-	query,
-} from 'firebase/firestore';
-import { db } from '@/config/firebase';
-import { GetStaticPropsContext } from 'next';
+import { GetServerSidePropsContext } from 'next';
+import { getSession } from 'next-auth/react';
+import { getCurrentUserData } from '@/helper/getUser';
+import { IUser } from '@/types/user';
+import { Session } from 'next-auth';
 const PostHeader = dynamic(() => import('@/components/Header/PostIdHeader'));
 const PostIdComments = dynamic(
-	() => import('@/components/Card/Post/PostIdComments')
+	() => import('@/components/Card/Post/PostIdComments'),
+	{
+		ssr: true,
+	}
 );
 
-export default function PostDetail({ post }: { post: IUserPostProps }) {
+export default function PostDetail({
+	post,
+	user,
+	session,
+}: {
+	post: IUserPostProps;
+	user: IUser;
+	session: Session | null;
+}) {
 	const [commentOpen, setCommentOpen] = useState<boolean>(false);
 	const { asPath, replace } = useRouter();
 	const refreshData = () => replace(asPath);
@@ -32,19 +41,26 @@ export default function PostDetail({ post }: { post: IUserPostProps }) {
 					<div className='w-full h-screen max-w-5xl rounded-lg grid place-items-center mx-auto '>
 						<div className='w-full h-full justify-between lg:max-h-[530px] overflow-y-auto grid grid-cols-1 lg:grid-cols-2 p-5 lg:p-0 relative border border-gray-500 border-opacity-50'>
 							<PostHeader
-								likesCount={post.likedBy}
+							session={session}
 								commentOpen={commentOpen}
 								post={post}
 								refreshData={refreshData}
 								setCommentOpen={setCommentOpen}
 							/>
 							<PostIdComments
+								user={user}
+								session={session}
 								commentOpen={commentOpen}
 								post={post}
 								refreshData={refreshData}
 								setCommentOpen={setCommentOpen}
 							/>
 						</div>
+						<br className='md:hidden' />
+						<br className='md:hidden' />
+						<br className='md:hidden' />
+						<br className='md:hidden' />
+						<br className='md:hidden' />
 					</div>
 				</div>
 			</div>
@@ -52,22 +68,20 @@ export default function PostDetail({ post }: { post: IUserPostProps }) {
 	);
 }
 
-export async function getStaticPaths() {
-	const res = await getDocs(query(collection(db, 'posts')));
-	const data = res.docs.map((doc) => doc.data());
-	return {
-		paths: [...data.map((post) => ({ params: { id: post?.postId } }))],
-		fallback: false,
-	};
-}
-
-export async function getStaticProps({ params }: GetStaticPropsContext) {
+export async function getServerSideProps({
+	query,
+	req,
+}: GetServerSidePropsContext) {
 	const { getPostById } = await import('@/helper/getPosts');
-	const res = await getPostById(params?.id as string);
+	const posts = await getPostById(query?.id as string);
+	const session = await getSession({ req });
+	const user = await getCurrentUserData(session?.user?.uid as string);
+
 	return {
 		props: {
-			post: res && res[0],
+			post: posts ? posts[0] : null,
+			user: user ? user : null,
+			session: session ? session : null,
 		},
-		revalidate: 10,
 	};
 }

@@ -15,7 +15,6 @@ type Props = {
 	savedPosts: string[];
 	refreshData: () => void;
 	ssr: boolean;
-	isr: boolean;
 };
 
 export default function ActionButton({
@@ -27,54 +26,45 @@ export default function ActionButton({
 	savedPosts,
 	refreshData,
 	ssr,
-	isr,
 }: Props) {
+	const ACTION_BUTTON_LIST = [
+		{
+			id: 1, 
+			icon: likes.includes(uid) ? <AiFillHeart className='text-2xl sm:text-3xl text-red-600 animate-popUp ' /> : <AiOutlineHeart className='text-2xl sm:text-3xl hover:text-gray-500' />,
+			onClick: async () => {
+				const { handleLikes } = await import('@/helper/like');
+				const Likes = {
+					post,
+					uid,
+					refreshData,
+					ssr,
+				};
+				handleLikes(Likes);
+			}
+		},
+		{
+			id: 2,
+			icon: <FaRegComment className='text-2xl sm:text-3xl hover:text-gray-500' />,
+			onClick: () => setCommentOpen(!commentOpen)
+
+		},
+		{
+			id: 3,
+			icon: <IoPaperPlaneOutline className='text-2xl sm:text-3xl hover:text-gray-500' />,
+			onClick: async () => {
+				const { share } = await import('@/util/share');
+				share(post, `${process.env.NEXTAUTH_URL}/post/${post.postId}`);
+			}
+		}
+	]
 	return (
 		<div className='flex items-center justify-between mt-3 mb-2 p-1 relative'>
 			<div className='flex gap-x-5'>
-				<button
-					onClick={async () => {
-						const { handleLikes } = await import('@/helper/like');
-						const Likes = {
-							post,
-							uid,
-							refreshData,
-							ssr,
-							isr,
-						};
-						handleLikes(Likes);
-					}}
-					name='like'
-					title='Like'
-					type='button'
-					className='transition-all ease duration-500'
-				>
-					{likes?.includes(uid) ? (
-						<AiFillHeart className='text-2xl sm:text-3xl text-red-600 animate-popUp ' />
-					) : (
-						<AiOutlineHeart className='text-2xl sm:text-3xl hover:text-gray-500' />
-					)}
+			{ACTION_BUTTON_LIST.map((action) => (
+				<button key={action.id} onClick={action.onClick} name='action button' type='button' title='action button'>
+					{action.icon}
 				</button>
-
-				<button
-					onClick={() => setCommentOpen(!commentOpen)}
-					name='comment'
-					title='comment'
-					type='button'
-				>
-					<FaRegComment className='text-2xl sm:text-3xl hover:text-gray-500' />
-				</button>
-				<button
-					type='button'
-					name='share'
-					title='share'
-					onClick={async () => {
-						const { share } = await import('@/util/share');
-						share(post, `${process.env.NEXTAUTH_URL}/post/${post.postId}`);
-					}}
-				>
-					<IoPaperPlaneOutline className='text-2xl sm:text-3xl hover:text-gray-500' />
-				</button>
+			))}
 			</div>
 			<button
 				onClick={async () => {

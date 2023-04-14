@@ -6,8 +6,13 @@ import { BsThreeDots } from 'react-icons/bs';
 import { AiOutlineHeart } from 'react-icons/ai';
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
+import { IUser } from '@/types/user';
+import { Session } from 'next-auth';
+import { useSession } from 'next-auth/react';
+import useComments from '@/hooks/useComments';
+import useSavedPosts from '@/hooks/useSavedPosts';
 import useUser from '@/hooks/useUser';
-import useAuth from '@/hooks/useAuth';
+import useLikes from '@/hooks/useLikes';
 const Comments = dynamic(() => import('@/components/Card/Post/Comments'));
 const ActionButton = dynamic(
 	() => import('@/components/Card/Post/ActionButton')
@@ -17,6 +22,8 @@ type Props = {
 	commentOpen: boolean;
 	setCommentOpen: Dispatch<SetStateAction<boolean>>;
 	refreshData: () => void;
+	user: IUser | null;
+	session: Session | null;
 };
 
 export default function PostIdComments({
@@ -25,9 +32,11 @@ export default function PostIdComments({
 	commentOpen,
 	setCommentOpen,
 }: Props) {
-	const { session } = useAuth();
-	const { user } = useUser(session?.user.uid as string);
-
+	const { data:session } = useSession();
+	const {comment} = useComments(post)
+	const {savedPosts} = useSavedPosts(session, post)
+	const {user} = useUser(session?.user.uid as string)
+	const {likesCount} = useLikes(post)
 	return (
 		<div className=' relative '>
 			<div className='py-3 hidden lg:block h-full max-h-[400px] overflow-y-auto overflow-x-hidden '>
@@ -48,32 +57,38 @@ export default function PostIdComments({
 							</div>
 						</div>
 						&#8226;
-						<button
-							className='text-xs font-semibold pt-1'
-							type='button'
-							name='follow and unfollow'
-							title='folow and unfollow'
-							onClick={async () => {
-								const { handleFollow } = await import('@/helper/follow');
-								const followArgs = {
-									id: (post?.postedById as string) ?? '',
-									uid: session?.user.uid as string,
-									followedByName: session?.user.username as string,
-									refreshData,
-									ssr: true,
-								};
+						{post.postedById === session?.user?.uid ? (
+							<Link href={`/post/${post.postId}/edit`} as={`/post/${post.postId}/edit`}>
+								<span className='text-xs font-semibold pt-1'>Edit</span>
+							</Link>
+						) : (
+							<button
+								className='text-xs font-semibold pt-1'
+								type='button'
+								name='follow and unfollow'
+								title='folow and unfollow'
+								onClick={async () => {
+									const { handleFollow } = await import('@/helper/follow');
+									const followArgs = {
+										id: (post?.postedById as string) ?? '',
+										uid: session?.user.uid as string,
+										followedByName: session?.user.username as string,
+										refreshData,
+										ssr: false,
+									};
 
-								handleFollow(followArgs);
-							}}
-						>
-							{user &&
-							user?.following?.find(
-								(user: { userId: string }) =>
-									user?.userId === post?.postedById ?? ''
-							)
-								? 'Following'
-								: 'Follow'}
-						</button>
+									handleFollow(followArgs);
+								}}
+							>
+								{user &&
+								user?.following?.find(
+									(user: { userId: string }) =>
+										user?.userId === post?.postedById ?? ''
+								)
+									? 'Following'
+									: 'Follow'}
+							</button>
+						)}
 					</div>
 					<button type='button' name='options' title='options'>
 						<BsThreeDots />
@@ -100,12 +115,12 @@ export default function PostIdComments({
 					<p>{post?.captions ?? ''}</p>
 				</Link>
 				{/* comments */}
-				{post && post?.comments?.length === 0 && (
+				{comment?.length === 0 && (
 					<div className='flex-1 flex items-center bg-white dark:bg-black space-x-2 px-2 py-3 w-full'>
 						<p className='text-center'>There is no comments yet</p>
 					</div>
 				)}
-				{post?.comments?.map((comment) => (
+				{comment?.map((comment) => (
 					<div
 						className='w-full flex gap-x-14 mb-5 pr-2'
 						key={comment?.comment}
@@ -143,28 +158,26 @@ export default function PostIdComments({
 				{/* comments end */}
 				<div className='hidden lg:block absolute bottom-0 border-t border-gray-500 border-opacity-50 w-full px-2'>
 					<ActionButton
-						isr={true}
 						ssr={false}
 						refreshData={refreshData}
 						commentOpen={true}
-						likes={post?.likedBy}
+						likes={likesCount}
 						post={post ?? []}
-						savedPosts={[]}
+						savedPosts={savedPosts}
 						setCommentOpen={setCommentOpen}
 						uid={session?.user.uid as string}
 					/>
 					<span
-						className={`text-xs pl-1 ${
-							post?.likedBy?.length < 1 ? 'hidden' : 'block'
-						}`}
+						className={`text-xs pl-1 ${likesCount?.length < 1 ? 'hidden' : 'block'}`}
 					>
-						{post?.likedBy?.length} likes
+						{likesCount?.length} likes
 					</span>
 					<div className='py-2'>
 						<Comments
+							ssr={false}
 							post={post ?? []}
 							commentOpen={commentOpen}
-							comments={post?.comments}
+							comments={comment ?? []}
 							session={session}
 						/>
 					</div>

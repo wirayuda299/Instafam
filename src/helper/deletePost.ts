@@ -5,6 +5,7 @@ import { deleteDoc, doc } from "firebase/firestore";
 import { ref, deleteObject } from "firebase/storage";
 import { z } from 'zod';
 import { Session } from "next-auth";
+import toast from "react-hot-toast";
 
 const DeletePostSchema = z.object({
   post: PostSchema,
@@ -33,10 +34,10 @@ export const deletePost = async <T extends DeletePostProps>(props: T) => {
       doc(db, 'posts', `post-${post.postId}`)
     );
     const deleteFromStorage = await deleteObject(postRef);
-    await Promise.all([deleteFromFirestore, deleteFromStorage])
-      .then(() => {
-        ssr ? refreshData() : null;
-      });
+    await Promise.all([deleteFromFirestore, deleteFromStorage]).then(() => {
+      ssr ? refreshData() : null;
+      toast.success('Post deleted successfully.');
+    })
   } catch (error: any) {
     console.log(error.message);
   }

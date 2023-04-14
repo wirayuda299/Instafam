@@ -1,3 +1,4 @@
+import useUser from '@/hooks/useUser';
 import { PostSchema } from '@/schema/PostSchema';
 import { userSchema } from '@/schema/User';
 import { SessionSchema } from '@/schema/comment';
@@ -13,7 +14,7 @@ import { z } from 'zod';
 type Props = {
 	post: IUserPostProps;
 	session: Session | null;
-	users: IUser | undefined;
+	users: IUser | null;
 	refreshData: () => void;
 	ssr: boolean;
 	isMenuOpen: boolean;
@@ -31,7 +32,6 @@ const modalSchema = z.object({
 export default function Modal({
 	post,
 	session,
-	users,
 	refreshData,
 	ssr,
 	isMenuOpen,
@@ -40,7 +40,6 @@ export default function Modal({
 	const isValid = modalSchema.parse({
 		post,
 		session,
-		users,
 		refreshData,
 		ssr,
 		isMenuOpen,
@@ -50,6 +49,7 @@ export default function Modal({
 	if (!isValid) throw new Error('Invalid Props for Modal Component');
 	const { push } = useRouter();
 	const [isReportModalOpen, setIsReportModalOpen] = useRecoilState(reportModal);
+	const {user} = useUser(session?.user.uid as string)
 
 	const handleCLose = () => {
 		setIsMenuOpen(false);
@@ -61,7 +61,7 @@ export default function Modal({
 			id: 1,
 			name: post.postedById === session?.user.uid ? 'Edit' : 'Report',
 			event: () => {
-				post.postedById === session?.user.uid
+				post.postedById === user?.uid
 					? push(`/post/${post.postId}/edit`)
 					: setIsReportModalOpen(true);
 			},
@@ -71,7 +71,7 @@ export default function Modal({
 			name:
 				post.postedById === session?.user.uid
 					? 'Delete'
-					: users?.following.find(
+					: user?.following.find(
 							(user: { userId: string }) => user.userId === post.postedById
 					  )
 					? 'Unfollow'

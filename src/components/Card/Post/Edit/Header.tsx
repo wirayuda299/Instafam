@@ -23,15 +23,6 @@ export default function Header({ posts, getCreatedDate }: Props) {
 						<p className='text-xs text-gray-500'>{getCreatedDate(posts)}</p>
 					</div>
 				</div>
-				&#8226;
-				<button
-					className='text-xs font-semibold pt-1'
-					type='button'
-					name='follow and unfollow'
-					title='folow and unfollow'
-				>
-					follow
-				</button>
 			</div>
 			<button type='button' name='options' title='options'>
 				<BsThreeDots />
