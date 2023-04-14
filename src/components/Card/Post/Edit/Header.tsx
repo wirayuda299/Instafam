@@ -11,15 +11,15 @@ export default function Header({ posts, getCreatedDate }: Props) {
 			<div className='flex-1 flex items-start space-x-2 border-b border-gray-500 border-opacity-50 pb-3'>
 				<div className='flex space-x-2 cursor-pointer'>
 					<Image
-						src={posts.postedByPhotoUrl}
+						src={posts?.postedByPhotoUrl ?? ''}
 						width={40}
 						height={40}
 						priority
-						alt={posts.author}
+						alt={posts?.author}
 						className='rounded-full bg-gradient-to-bl from-pink-600 to-orange-600 p-0.5'
 					/>
 					<div className='cursor-pointer'>
-						<h4 className='font-semibold pr-1'> {posts.author} </h4>
+						<h4 className='font-semibold pr-1'> {posts?.author} </h4>
 						<p className='text-xs text-gray-500'>{getCreatedDate(posts)}</p>
 					</div>
 				</div>

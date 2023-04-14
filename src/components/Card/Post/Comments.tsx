@@ -4,7 +4,6 @@ import { FieldValues, useForm } from 'react-hook-form';
 import Image from 'next/image';
 import { Suspense } from 'react';
 import { Session } from 'next-auth';
-import { CommentSchemaProps } from '@/schema/comment';
 export type IComment = Pick<IUserPostProps, 'comments'>;
 
 type Props = {
@@ -52,14 +51,7 @@ export default function Comments({
 		}
 	};
 
-	const isValidProps = CommentSchemaProps.parse({
-		post,
-		commentOpen,
-		comments,
-		session,
-	});
 
-	if (!isValidProps) throw new Error('Invalid Props for Comments Component');
 
 	return (
 		<div
@@ -95,8 +87,8 @@ export default function Comments({
 							>
 								<div className='flex items-center space-x-3'>
 									<Image
-										src={comment.commentByPhoto}
-										alt={comment.comment}
+										src={comment?.commentByPhoto}
+										alt={comment?.comment}
 										width={40}
 										loading='lazy'
 										placeholder='blur'
@@ -107,10 +99,10 @@ export default function Comments({
 										className='rounded-full w-8 h-8'
 									/>
 									<h3 className='font-bold text-xs '>
-										{comment.commentByName}
+										{comment?.commentByName}
 									</h3>
 									<p className='text-xs font-extralight text-gray-400'>
-										{comment.comment}
+										{comment?.comment}
 									</p>
 								</div>
 							</div>

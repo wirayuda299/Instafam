@@ -1,11 +1,10 @@
 import { db } from '@/config/firebase';
 import { IUserPostProps } from '@/types/post';
 import { getCreatedDate } from '@/util/postDate';
-import { doc, updateDoc } from 'firebase/firestore';
-import { GetServerSidePropsContext } from 'next';
+import { collection, doc, getDocs, query, updateDoc } from 'firebase/firestore';
+import { GetStaticPropsContext } from 'next';
 import { useRouter } from 'next/router';
 import { FieldValues, useForm } from 'react-hook-form';
-import { PostSchema } from '@/schema/PostSchema';
 import toast from 'react-hot-toast';
 import dynamic from 'next/dynamic';
 const Headers = dynamic(() => import('@/components/Card/Post/Edit/Header'));
@@ -41,55 +40,43 @@ export default function EditPosts({ posts }: { posts: IUserPostProps }) {
 	}
 
 	return (
-		PostSchema.parse(posts) && (
-			<div className='w-full h-full text-black dark:text-white'>
-				<div className='w-full h-full overflow-y-auto py-6'>
-					<div className='w-full h-screen max-w-5xl rounded-lg grid place-items-center mx-auto'>
-						<div className='w-full h-full lg:max-h-[550px] grid grid-cols-1 lg:grid-cols-2 p-5 lg:p-0 relative border border-gray-500 border-opacity-50 rounded-lg'>
-							<PostEditImage posts={posts} />
-							<div>
-								<Headers getCreatedDate={getCreatedDate} posts={posts} />
-								<PostForm
-									defaultValues={defaultValues}
-									handleSubmit={handleSubmit}
-									register={register}
-									updatePost={updatePost}
-								/>
-							</div>
+		<div className='w-full h-full text-black dark:text-white'>
+			<div className='w-full h-full overflow-y-auto py-6'>
+				<div className='w-full h-screen max-w-5xl rounded-lg grid place-items-center mx-auto'>
+					<div className='w-full h-full lg:max-h-[550px] grid grid-cols-1 lg:grid-cols-2 p-5 lg:p-0 relative border border-gray-500 border-opacity-50 rounded-lg'>
+						<PostEditImage posts={posts} />
+						<div>
+							<Headers getCreatedDate={getCreatedDate} posts={posts} />
+							<PostForm
+								defaultValues={defaultValues}
+								handleSubmit={handleSubmit}
+								register={register}
+								updatePost={updatePost}
+							/>
 						</div>
 					</div>
 				</div>
 			</div>
-		)
+		</div>
 	);
 }
 
-export async function getServerSideProps(context: GetServerSidePropsContext) {
-	const { id } = context.query;
-	const { req } = context;
-	const { getSession } = await import('next-auth/react');
+export async function getStaticPaths() {
+	const res = await getDocs(query(collection(db, 'posts')));
+	const data = res.docs.map((doc) => doc.data());
+	return {
+		paths: [...data.map((post) => ({ params: { id: post.postId } }))],
+		fallback: false,
+	};
+}
 
-	const session = await getSession({ req });
-	if (!session || !session.user) {
-		return {
-			redirect: {
-				destination: '/auth/signin',
-				permanent: false,
-			},
-		};
-	}
+export async function getStaticProps({ params }: GetStaticPropsContext) {
 	const { getPostById } = await import('@/helper/getPosts');
-
-	const posts = await getPostById(id as string);
-	if (!posts) {
-		return {
-			notFound: true,
-		};
-	}
-
+	const posts = await getPostById(params?.id as string);
 	return {
 		props: {
 			posts: posts ? posts[0] : null,
 		},
+		revalidate: 10,
 	};
 }

@@ -7,8 +7,8 @@ import { IUserPostProps } from '@/types/post';
 import { Session } from 'next-auth';
 import { IUser } from '@/types/user';
 import { useRouter } from 'next/router';
-import { GetServerSidePropsContext } from 'next';
 import useAuth from '@/hooks/useAuth';
+import { GetServerSidePropsContext } from 'next';
 
 const SavedPosts = dynamic(
 	() => import('@/components/User/savedPosts/savedPosts'),
@@ -102,23 +102,14 @@ export default function UserProfile({ posts, user, query }: Props) {
 		</>
 	);
 }
-export async function getServerSideProps({
-	req,
-	query,
-}: GetServerSidePropsContext) {
+
+
+
+export async function getServerSideProps({ req, res, params, query }:GetServerSidePropsContext) {
 	const { getPostByCurrentUser } = await import('@/helper/getPosts');
 	const { getCurrentUserData } = await import('@/helper/getUser');
-	const user = await getCurrentUserData(query.username as string);
+	const user = await getCurrentUserData(query?.username as string);
 	const posts = await getPostByCurrentUser(user ? user[0].uid : '');
-	if (query.username === 'undefined') {
-		return {
-			redirect: {
-				destination: '/auth/signin',
-				permanent: false,
-			},
-		};
-	}
-
 	if (!user || !posts) {
 		return {
 			notFound: true,
@@ -133,3 +124,4 @@ export async function getServerSideProps({
 		},
 	};
 }
+

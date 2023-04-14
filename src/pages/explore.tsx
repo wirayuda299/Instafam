@@ -42,18 +42,16 @@ export default function Explore({
 		</>
 	);
 }
-export async function getServerSideProps({ res }: any) {
+export async function getStaticProps() {
 	const { getPosts } = await import('@/helper/getPosts');
 	const posts = await getPosts(10);
 	const last = posts ? posts[posts.length - 1] : null;
-	res.setHeader(
-		'Cache-Control',
-		'public, s-maxage=120, stale-while-revalidate'
-	);
+
 	return {
 		props: {
 			posts,
 			last,
 		},
+		revalidate: 60 
 	};
 }
