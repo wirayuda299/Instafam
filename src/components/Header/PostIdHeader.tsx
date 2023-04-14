@@ -18,24 +18,18 @@ type Props = {
 	commentOpen: boolean;
 	setCommentOpen: Dispatch<SetStateAction<boolean>>;
 	refreshData: () => void;
+	likesCount: string[];
 };
 
 export default function PostIdHeader({
 	post,
 	commentOpen,
 	refreshData,
+	likesCount,
 	setCommentOpen,
 }: Props) {
 	const { session } = useAuth();
-	const [likesCount, setLikesCount] = useState<string[]>([]);
-	useEffect(() => {
-		const unsub = onSnapshot(doc(db, 'posts', `post-${post.postId}`), (doc) => {
-			if (doc.exists()) {
-				setLikesCount(doc.data().likedBy);
-			}
-		});
-		return () => unsub();
-	}, [db]);
+	
 
 	return (
 		<figure className='shadow-sm'>
