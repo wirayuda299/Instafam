@@ -1,8 +1,11 @@
 import dynamic from "next/dynamic";
 import useInfiniteScroll from "@/hooks/useInfiniteScroll";
 import { GetServerSidePropsContext } from "next";
+import Recommendation from "@/components/Loader/Recommendation";
 const Suggestions = dynamic(
-  () => import("@/components/Suggestions/Suggestions")
+  () => import("@/components/Suggestions/Suggestions"), {
+    loading : () => <Recommendation/>
+  }
 );
 const PostCard = dynamic(() => import("@/components/Card/Post"), {
   loading: () => <CardLoader />,
@@ -13,8 +16,6 @@ export default function Home({ posts, users, sessions, last }: any) {
   const { ref, postsState, loading } = useInfiniteScroll(last);
   
   return (
-    <>
-      {sessions ? (
         <section className="h-full w-full ">
           <div className="flex h-screen w-full items-start justify-between">
             <div className="flex w-full flex-col p-5 ">
@@ -42,8 +43,7 @@ export default function Home({ posts, users, sessions, last }: any) {
             </div>
           </div>
         </section>
-      ) : null}
-    </>
+
   );
 }
 

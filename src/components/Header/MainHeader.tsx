@@ -1,4 +1,4 @@
-import { useSession } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 import dynamic from "next/dynamic";
 import { Oleo_Script } from "next/font/google";
 import Link from "next/link";
@@ -37,10 +37,13 @@ export default function Header() {
               name="sign out"
               type="button"
               title="sign out"
-              onClick={async () => {
-                const { handleSignOut } = await import("@/helper/signout");
-                handleSignOut(session);
-              }}
+              onClick={ () => signOut({
+                callbackUrl: `${process.env.NEXTAUTH_URL}/auth/signin`, 
+                redirect: true
+              },
+                
+
+              )}
             >
               <GiExitDoor size={28} />
             </button>
