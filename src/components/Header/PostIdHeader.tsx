@@ -4,8 +4,10 @@ import { getCreatedDate } from '@/util/postDate';
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
 import useAuth from '@/hooks/useAuth';
-import { Dispatch, SetStateAction } from 'react';
+import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import { imageLoader } from '@/util/imageLoader';
+import { db } from '@/config/firebase';
+import { onSnapshot, doc } from 'firebase/firestore';
 const Comments = dynamic(() => import('@/components/Card/Post/Comments'));
 const ActionButton = dynamic(
 	() => import('@/components/Card/Post/ActionButton')
@@ -25,6 +27,15 @@ export default function PostIdHeader({
 	setCommentOpen,
 }: Props) {
 	const { session } = useAuth();
+	const [likesCount, setLikesCount] = useState<string[]>([]);
+	useEffect(() => {
+		const unsub = onSnapshot(doc(db, 'posts', `post-${post.postId}`), (doc) => {
+			if (doc.exists()) {
+				setLikesCount(doc.data().likedBy);
+			}
+		});
+		return () => unsub();
+	}, [db]);
 
 	return (
 		<figure className='shadow-sm'>
@@ -71,7 +82,7 @@ export default function PostIdHeader({
 					ssr={false}
 					refreshData={refreshData}
 					commentOpen={commentOpen}
-					likes={post?.likedBy}
+					likes={likesCount}
 					post={post}
 					savedPosts={[]}
 					setCommentOpen={setCommentOpen}
