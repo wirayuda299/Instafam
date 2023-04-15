@@ -7,16 +7,15 @@ import dynamic from "next/dynamic";
 import ExtraMenuBtn from "./ExtraMenuBtn";
 import { useSession } from "next-auth/react";
 const ExtraMenus = dynamic(() => import("./ExtraMenus"));
-import { Dancing_Script } from "next/font/google";
+import {Playfair_Display} from 'next/font/google'
 
-const DancingScript = Dancing_Script({
-  subsets: ["latin"],
-  weight: "700",
-  display: 'swap',
+const playfair = Playfair_Display({
+  fallback: ['sans-serif'],
+  subsets: ['latin'],
   preload: true,
-  fallback: ["sans-serif"],
-});
-
+  weight: '700',
+  
+})
 export default function Sidebar() {
   const drawerOpen = useRecoilValue(searchDrawer);
   const { data: session } = useSession();
@@ -29,10 +28,10 @@ export default function Sidebar() {
           }`}
         >
           <nav className="rel flex w-full flex-col justify-center bg-white p-1 dark:bg-black dark:text-white md:h-full md:p-3 lg:justify-between">
-            <header className="hidden w-full flex-col pl-6 md:flex md:pl-2.5">
+            <header className={`hidden w-full flex-col pl-6 md:flex md:pl-2.5 ${playfair.className}`}>
               <Link
                 href="/"
-                className={`text-3xl font-semibold lg:pt-5 ${DancingScript.className}`}
+                className={`text-3xl font-semibold lg:pt-5`}
               >
                 {drawerOpen ? (
                   <AiOutlineInstagram size={35} />

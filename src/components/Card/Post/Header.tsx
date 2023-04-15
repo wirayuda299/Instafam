@@ -5,7 +5,6 @@ import { getCreatedDate } from "@/util/postDate";
 import { IUserPostProps } from "@/types/post";
 import { BsThreeDots } from "react-icons/bs";
 import { Session } from "next-auth";
-import { Headerprops } from "@/schema/headerProps";
 import { useRecoilState } from "recoil";
 import { selectedPostState } from "@/store/selectedPost";
 
@@ -22,12 +21,7 @@ export default function Postheader({
   setIsMenuOpen,
   isMenuOpen,
 }: HeaderProps) {
-  const isValidHeaderProps = Headerprops.parse({
-    session,
-    post,
-    setIsMenuOpen,
-    isMenuOpen,
-  });
+
   const [selectedPost, setSelectedPost] = useRecoilState(selectedPostState);
 
   const handleClick = () => {
@@ -35,7 +29,6 @@ export default function Postheader({
     setSelectedPost(post);
   };
 
-  if (!isValidHeaderProps) throw new Error("Invalid Props");
 
   return (
     <div className="relative flex h-fit items-center px-4 py-3">

@@ -3,17 +3,15 @@ import Head from "next/head";
 const MainHeader = dynamic(() => import("@/components/Header/MainHeader"));
 const Sidebar = dynamic(() => import("@/components/Navigation/Sidebar"));
 const SearchForm = dynamic(() => import("@/components/Search"));
-import { Fira_Sans} from 'next/font/google'
+import {Lato} from 'next/font/google'
 
-const Fira =  Fira_Sans({
+const lato = Lato({
+  fallback: ['sans-serif'],
   subsets: ['latin'],
   preload: true,
-  fallback: ['sans-serif'],
-  adjustFontFallback: true,
-  weight: '400',
-  display: 'swap',
-})
+  weight: '300',
 
+})
 export default function Layout({ children }: { children: any }) {
   return (
     <>
@@ -26,16 +24,17 @@ export default function Layout({ children }: { children: any }) {
         <meta name="robots" content="/public/robots.txt" />
         <meta
           name="keywords"
-          content="social media, instafam, nextjs, tailwindcss, reactjs, firebase"
+          content="social media, instafam, nextjs, tailwindcss, reactjs, firebase, typescript, next-auth,  
+         "
         />
         <meta
           name="viewport"
-          content="width=device-width, minimum-scale=1.0, maximum-scale = 1.0, user-scalable = no"
+          content="width=device-width, minimum-scale=1.0, maximum-scale = 1.0, user-scalable = no, initial-scale=1.0, "
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <div className="mx-auto h-screen max-w-[1600px] !select-none  bg-white dark:bg-black ">
-        <div className={`flex ${Fira.className}`}>
+      <div className={`mx-auto h-screen max-w-[1600px] !select-none  bg-white dark:bg-black ${lato.className}`}>
+        <div className='flex'>
           <Sidebar />
           <SearchForm />
           <main className="h-full w-full overflow-y-auto transition-width">

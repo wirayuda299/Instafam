@@ -7,7 +7,6 @@ import { AiOutlineHeart } from "react-icons/ai";
 import dynamic from "next/dynamic";
 import Link from "next/link";
 import { IUser } from "@/types/user";
-import { Session } from "next-auth";
 import { useSession } from "next-auth/react";
 import useComments from "@/hooks/useComments";
 import useSavedPosts from "@/hooks/useSavedPosts";

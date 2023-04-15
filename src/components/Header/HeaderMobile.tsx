@@ -5,7 +5,6 @@ import dynamic from "next/dynamic";
 import Link from "next/link";
 import { Dispatch, SetStateAction } from "react";
 import { imageLoader } from "@/util/imageLoader";
-import { Session } from "next-auth";
 import { useSession } from "next-auth/react";
 import useLikes from "@/hooks/useLikes";
 import useSavedPosts from "@/hooks/useSavedPosts";

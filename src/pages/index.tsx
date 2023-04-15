@@ -28,7 +28,6 @@ export default function Home({ posts, users, sessions, last }: any) {
                 <PostCard
                   post={post}
                   key={post.postId}
-                  ssr={true}
                   session={sessions}
                 />
               ))}
@@ -38,7 +37,6 @@ export default function Home({ posts, users, sessions, last }: any) {
                 <PostCard
                   post={post}
                   key={post.postId}
-                  ssr={false}
                   session={sessions}
                 />
               ))}

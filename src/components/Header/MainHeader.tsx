@@ -4,15 +4,15 @@ import Link from "next/link";
 import { AiOutlineSearch } from "react-icons/ai";
 const Form = dynamic(() => import("../Search/Form"));
 import { GiExitDoor } from "react-icons/gi";
-import { Dancing_Script } from "next/font/google";
+import {Playfair_Display} from 'next/font/google'
 
-const DancingScript = Dancing_Script({
-  subsets: ["latin"],
-  weight: "700",
+const playfair = Playfair_Display({
+  fallback: ['sans-serif'],
+  subsets: ['latin'],
   preload: true,
-  fallback: ["sans-serif"],
-}); 
-
+  weight: '700',
+  
+})
 export default function Header() {
   const { data: session } = useSession();
   return (
@@ -23,7 +23,7 @@ export default function Header() {
             <div className="w-full">
               <Link
                 href="/"
-                className={`text-xl md:text-2xl ${DancingScript.className}`}
+                className={`text-xl md:text-2xl ${playfair.className}`}
               >
                 <h1>Instafams</h1>
               </Link>

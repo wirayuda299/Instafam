@@ -20,15 +20,13 @@ const PostModal = dynamic(() => import("./Modal/Menu"));
 const ReportModal = dynamic(() => import("./Modal/Report"));
 export interface IPostCardProps {
   post: IUserPostProps;
-  ssr: boolean;
   session: Session | null;
 }
 export const PostCardSchema = z.object({
   post: PostSchema,
-  ssr: z.boolean(),
   session: SessionSchema,
 });
-function PostCard({ post, ssr, session }: IPostCardProps) {
+function PostCard({ post, session }: IPostCardProps) {
   const [commentOpen, setCommentOpen] = useState<boolean>(false);
   const { replace, asPath } = useRouter();
   const refreshData = () => replace(asPath);
@@ -37,9 +35,6 @@ function PostCard({ post, ssr, session }: IPostCardProps) {
   const { comment } = useComments(post);
   const { savedPosts } = useSavedPosts(session, post);
   const { user } = useUser(session?.user.uid as string);
-
-  const isValid = PostCardSchema.parse({ post, ssr, session });
-  if (!isValid) throw new Error("Invalid Props for PostCard Component");
 
   return (
     <div className="relative mb-5 w-full">
@@ -63,7 +58,7 @@ function PostCard({ post, ssr, session }: IPostCardProps) {
           loader={() =>
             imageLoader({ src: post?.image, width: 1300, quality: 10 })
           }
-          priority
+          priority       
           className="h-auto w-full rounded-lg object-cover"
           alt={post?.author ?? "user post image"}
         />
