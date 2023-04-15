@@ -4,31 +4,26 @@ import Link from "next/link";
 import { getCreatedDate } from "@/util/postDate";
 import { IUserPostProps } from "@/types/post";
 import { BsThreeDots } from "react-icons/bs";
-import { Session } from "next-auth";
 import { useRecoilState } from "recoil";
 import { selectedPostState } from "@/store/selectedPost";
 
-export type HeaderProps = {
-  session: Session | null;
+ type HeaderProps = {
   post: IUserPostProps;
   setIsMenuOpen: Dispatch<SetStateAction<boolean>>;
   isMenuOpen: boolean;
 };
 
 export default function Postheader({
-  session,
   post,
   setIsMenuOpen,
   isMenuOpen,
 }: HeaderProps) {
-
   const [selectedPost, setSelectedPost] = useRecoilState(selectedPostState);
 
   const handleClick = () => {
     setIsMenuOpen(!isMenuOpen);
     setSelectedPost(post);
   };
-
 
   return (
     <div className="relative flex h-fit items-center px-4 py-3">

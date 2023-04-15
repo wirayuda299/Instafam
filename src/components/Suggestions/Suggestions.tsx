@@ -4,6 +4,7 @@ import Link from "next/link";
 import { memo } from "react";
 import { IUser } from "@/types/user";
 import { Session } from "next-auth";
+
 const Footer = dynamic(() => import("@/components/Footer"));
 type Props = {
   session: Session | null;
@@ -58,13 +59,6 @@ function Suggestions({ session, reccomend }: Props) {
             See all
           </button>
         </div>
-        {!reccomend?.length && (
-          <div className="mt-5 flex items-center justify-center">
-            <p className="text-sm font-semibold text-gray-500">
-              No users to follow
-            </p>
-          </div>
-        )}
         <>
           {reccomend?.map((user: any) => (
             <div

@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { IUserPostProps } from "@/types/post";
 import { imageLoader } from "@/util/imageLoader";
+
 type Props = {
   posts: IUserPostProps;
 };

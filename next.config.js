@@ -52,7 +52,6 @@ const nextConfig = {
       },
     ],
   },
-
   swcMinify: true,
   env: {
     FIREBASE_API_KEY: process.env.FIREBASE_API_KEY,

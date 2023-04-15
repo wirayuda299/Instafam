@@ -10,7 +10,6 @@ type Props = {
 export default function IDComments({comment}:Props) {
   return (
     <>
-      {/* comments */}
       {comment?.length === 0 && (
           <div className="flex w-full flex-1 items-center space-x-2 bg-white px-2 py-3 dark:bg-black">
             <p className="text-center">There is no comments yet</p>

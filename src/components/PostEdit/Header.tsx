@@ -1,10 +1,12 @@
 import { IUserPostProps } from "@/types/post";
 import Image from "next/image";
 import { BsThreeDots } from "react-icons/bs";
+
 type Props = {
   posts: IUserPostProps;
   getCreatedDate: (post: any | undefined) => string | undefined;
 };
+
 export default function PostEditHeader({ posts, getCreatedDate }: Props) {
   return (
     <header className="ease flex w-full items-start border-gray-500 border-opacity-50 bg-white px-3 py-3 transition-all duration-300 dark:bg-black">

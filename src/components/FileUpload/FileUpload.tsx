@@ -74,7 +74,7 @@ export default function FileUpload({img, setPreviewUrl}:Props) {
                 Click to upload
               </span>
               <p className="text-xs text-gray-500 dark:text-gray-400">
-                PNG, JPG or any image extensions{" "}
+                PNG, JPG or any image extensions.
               </p>
             </div>
           </div>

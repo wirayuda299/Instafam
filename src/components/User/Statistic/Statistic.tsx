@@ -2,6 +2,10 @@ import { IUserPostProps } from "@/types/post";
 import { IUser } from "@/types/user";
 import { Session } from "next-auth";
 import Image from "next/image";
+import dynamic from "next/dynamic";
+const UserInfo = dynamic(() => import('../Info/Info'))
+const DesktopStatistic = dynamic(() => import('./Desktop'))
+const StatisticMobile = dynamic(() => import('./Mobile'))
 interface IProps {
   users: IUser | undefined;
   posts: IUserPostProps[] | [];
@@ -50,56 +54,12 @@ export default function Statistic({
                     className="h-24 w-24 rounded-full border p-1 xs1:h-28 xs1:w-28"
                   />
                   <div className="w-full">
-                    <div className="flex flex-col justify-between gap-2 sm:flex-row sm:items-center sm:gap-5">
-                      <h1 className="flex-1 text-left text-2xl font-semibold xs1:pb-3 xs1:text-4xl sm:mb-5 sm:pb-0">
-                        {users ? users?.username : ""}
-                      </h1>
-                      {session?.user.uid !== users?.uid ? (
-                        <button
-                          name="Follow unfollow"
-                          title="follow unfollow"
-                          className="w-full truncate rounded bg-blue-600 px-5 py-1 text-xs text-white md:py-2"
-                          onClick={async () => {
-                            const { handleFollow } = await import(
-                              "@/helper/follow"
-                            );
-                            const followArgs = {
-                              id: users?.uid as string,
-                              uid: session?.user.uid as string,
-                              followedByName: session?.user.username as string,
-                              refreshData,
-                              ssr: true,
-                            };
-                            handleFollow(followArgs);
-                          }}
-                        >
-                          {users?.followers.find(
-                            (foll: { followedBy: string | undefined }) =>
-                              foll.followedBy === session?.user.uid
-                          )
-                            ? "Unfollow"
-                            : "Follow"}
-                        </button>
-                      ) : null}
-                    </div>
-
-                    <ul
-                      title="Statistic"
-                      className={`mt-2 hidden items-center justify-start space-x-3 sm:flex`}
-                    >
-                      {data.map((item) => (
-                        <li
-                          title={item.title}
-                          className="mt-1 text-center text-sm font-medium"
-                          key={item.id}
-                        >
-                          <div className="flex items-center space-x-2 text-lg font-semibold">
-                            <span className="font-semibold">{item.value}</span>
-                            <span>{item.title}</span>
-                          </div>
-                        </li>
-                      ))}
-                    </ul>
+                    <UserInfo
+                      refreshData={refreshData}
+                      session={session}
+                      users={users}
+                    />
+                    <DesktopStatistic data={data} />
                   </div>
                 </div>
               </div>
@@ -107,23 +67,7 @@ export default function Statistic({
           </div>
         </div>
         {/* Mobile statistic start */}
-        <ul
-          title="Statistic"
-          className={`mt-5 flex w-full items-center justify-evenly space-x-3 border-t border-gray-400 py-5 sm:hidden sm:px-5`}
-        >
-          {data.map((item) => (
-            <li
-              title={item.title}
-              className="mt-2 text-center text-sm font-semibold"
-              key={item.id}
-            >
-              <div className="flex items-center space-x-2">
-                <span className="font-semibold">{item.value}</span>
-                <span>{item.title}</span>
-              </div>
-            </li>
-          ))}
-        </ul>
+        <StatisticMobile data={data} />
         {/* Mobile statistic end */}
       </div>
     </div>

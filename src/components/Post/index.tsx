@@ -4,15 +4,12 @@ import Image from "next/image";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
 import { Session } from "next-auth";
-import { z } from "zod";
-import { PostSchema } from "@/schema/PostSchema";
-import { SessionSchema } from "@/schema/comment";
 import { imageLoader } from "@/util/imageLoader";
 import useLikes from "@/hooks/useLikes";
 import useComments from "@/hooks/useComments";
 import useSavedPosts from "@/hooks/useSavedPosts";
 import useUser from "@/hooks/useUser";
-import Likes from "./Likes";
+const Likes = dynamic(() => import('./Likes'))
 const ActionButton = dynamic(() => import("./ActionButton"));
 const PostHeader = dynamic(() => import("./Header"));
 const Author = dynamic(() => import("./Author"));
@@ -23,10 +20,7 @@ export interface IPostCardProps {
   post: IUserPostProps;
   session: Session | null;
 }
-export const PostCardSchema = z.object({
-  post: PostSchema,
-  session: SessionSchema,
-});
+
 function PostCard({ post, session }: IPostCardProps) {
   const [commentOpen, setCommentOpen] = useState<boolean>(false);
   const { replace, asPath } = useRouter();
@@ -43,7 +37,6 @@ function PostCard({ post, session }: IPostCardProps) {
         <PostHeader
           isMenuOpen={isMenuOpen}
           setIsMenuOpen={setIsMenuOpen}
-          session={session}
           post={post}
         />
         <Image

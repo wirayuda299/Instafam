@@ -9,7 +9,7 @@ import useComments from "@/hooks/useComments";
 import useSavedPosts from "@/hooks/useSavedPosts";
 import useUser from "@/hooks/useUser";
 import useLikes from "@/hooks/useLikes";
-import Likes from "./Likes";
+const Likes = dynamic(() => import("./Likes"));
 const Comments = dynamic(() => import("@/components/Post/Comments"));
 const ActionButton = dynamic(() => import("@/components/Post/ActionButton"));
 const IDHeader = dynamic(() => import("./IDHeader"))

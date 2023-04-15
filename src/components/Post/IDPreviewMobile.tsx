@@ -3,16 +3,16 @@ import { IUserPostProps } from "@/types/post";
 import { getCreatedDate } from "@/util/postDate";
 import dynamic from "next/dynamic";
 import Link from "next/link";
-import { Dispatch, ReactNode, SetStateAction } from "react";
+import { Dispatch, SetStateAction } from "react";
 import { imageLoader } from "@/util/imageLoader";
 import { useSession } from "next-auth/react";
 import useLikes from "@/hooks/useLikes";
 import useSavedPosts from "@/hooks/useSavedPosts";
-import Likes from "./Likes";
 import { AiOutlineClose } from "react-icons/ai";
 import { useRouter } from "next/router";
 const Comments = dynamic(() => import("@/components/Post/Comments"));
 const ActionButton = dynamic(() => import("@/components/Post/ActionButton"));
+const Likes = dynamic(() => import("./Likes"));
 
 type Props = {
   post: IUserPostProps;

@@ -8,23 +8,25 @@ import { FieldValues, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import dynamic from "next/dynamic";
 import Head from "next/head";
+import useAuth from "@/hooks/useAuth";
+
 const Headers = dynamic(() => import("@/components/PostEdit/Header"));
 const PostEditImage = dynamic(
   () => import("@/components/PostEdit/PreviewImage")
 );
 const PostForm = dynamic(() => import("@/components/PostEdit/Form"));
+
 interface Values extends FieldValues {
   updated: string;
 }
-import useAuth from "@/hooks/useAuth";
 
 export default function EditPosts({ posts }: { posts: IUserPostProps }) {
   const { register, handleSubmit } = useForm();
+  const { session } = useAuth();
   const router = useRouter();
   const defaultValues = {
     captions: `${posts?.captions} ${posts?.hashtags}`,
   };
-  const { session } = useAuth();
 
   async function updatePost(e: Values) {
     try {
