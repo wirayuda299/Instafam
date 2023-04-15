@@ -6,6 +6,7 @@ import dynamic from "next/dynamic";
 const UserInfo = dynamic(() => import('../Info/Info'))
 const DesktopStatistic = dynamic(() => import('./Desktop'))
 const StatisticMobile = dynamic(() => import('./Mobile'))
+
 interface IProps {
   users: IUser | undefined;
   posts: IUserPostProps[] | [];
@@ -59,16 +60,15 @@ export default function Statistic({
                       session={session}
                       users={users}
                     />
-                    <DesktopStatistic data={data} />
+                      <DesktopStatistic data={data} />
                   </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-        {/* Mobile statistic start */}
-        <StatisticMobile data={data} />
-        {/* Mobile statistic end */}
+          <StatisticMobile data={data} />
+
       </div>
     </div>
   );

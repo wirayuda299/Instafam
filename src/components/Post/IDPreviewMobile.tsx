@@ -6,10 +6,10 @@ import Link from "next/link";
 import { Dispatch, SetStateAction } from "react";
 import { imageLoader } from "@/util/imageLoader";
 import { useSession } from "next-auth/react";
-import useLikes from "@/hooks/useLikes";
-import useSavedPosts from "@/hooks/useSavedPosts";
 import { AiOutlineClose } from "react-icons/ai";
 import { useRouter } from "next/router";
+import usePost from "@/hooks/usePost";
+import useUser from "@/hooks/useUser";
 const Comments = dynamic(() => import("@/components/Post/Comments"));
 const ActionButton = dynamic(() => import("@/components/Post/ActionButton"));
 const Likes = dynamic(() => import("./Likes"));
@@ -30,8 +30,8 @@ export default function IDPostPreview({
   setIsModalOpen
 }: Props) {
   const { data: session } = useSession();
-  const { likesCount } = useLikes(post);
-  const { savedPosts } = useSavedPosts(session, post);
+  const { likesCount } = usePost(post);
+  const { savedPosts } = useUser(session?.user.uid as string);
   const {pathname} = useRouter()
   return (
     <figure className="shadow-sm">
@@ -78,7 +78,6 @@ export default function IDPostPreview({
         priority
         className="h-auto w-full rounded-md md:h-full lg:rounded-none"
       />
-      {/* action button mobile */}
       <div className="block lg:hidden">
         <ActionButton
           ssr={false}

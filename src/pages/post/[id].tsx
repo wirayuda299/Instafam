@@ -6,7 +6,6 @@ import Head from "next/head";
 import { GetServerSidePropsContext } from "next";
 import { getSession } from "next-auth/react";
 import { getCurrentUserData } from "@/helper/getUser";
-import { IUser } from "@/types/user";
 import { BsThreeDots } from "react-icons/bs";
 const IDPreviewMobile = dynamic(
   () => import("@/components/Post/IDPreviewMobile")
@@ -20,10 +19,8 @@ const PostCommentDesktop = dynamic(
 
 export default function PostDetail({
   post,
-  user,
 }: {
   post: IUserPostProps;
-  user: IUser;
 }) {
   const [commentOpen, setCommentOpen] = useState<boolean>(false);
   const { asPath, replace } = useRouter();

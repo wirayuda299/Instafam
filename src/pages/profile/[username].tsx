@@ -61,7 +61,7 @@ export default function UserProfile({ posts, user, query }: Props) {
       </Head>
       {session ? (
         <div className="mx-auto h-screen w-full overflow-y-auto p-5 py-5">
-          <div className="flex w-full items-center space-x-3 border-b border-gray-400 md:justify-center md:space-x-10">
+          <div className="flex w-full items-center space-x-3 border-b border-gray-500 border-opacity-50 md:justify-center md:space-x-10">
             <Statistic
               session={session}
               refreshData={refreshData}

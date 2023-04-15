@@ -5,10 +5,8 @@ import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
 import { Session } from "next-auth";
 import { imageLoader } from "@/util/imageLoader";
-import useLikes from "@/hooks/useLikes";
-import useComments from "@/hooks/useComments";
-import useSavedPosts from "@/hooks/useSavedPosts";
 import useUser from "@/hooks/useUser";
+import usePost from "@/hooks/usePost";
 const Likes = dynamic(() => import('./Likes'))
 const ActionButton = dynamic(() => import("./ActionButton"));
 const PostHeader = dynamic(() => import("./Header"));
@@ -26,10 +24,8 @@ function PostCard({ post, session }: IPostCardProps) {
   const { replace, asPath } = useRouter();
   const refreshData = () => replace(asPath);
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
-  const { likesCount } = useLikes(post);
-  const { comment } = useComments(post);
-  const { savedPosts } = useSavedPosts(session, post);
-  const { user } = useUser(session?.user.uid as string);
+  const { likesCount, comment } = usePost(post);
+  const { user, savedPosts } = useUser(session?.user.uid as string);
 
   return (
     <div className="relative mb-5 w-full">

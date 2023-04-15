@@ -28,7 +28,7 @@ export default function FeedModal({
           <div className="mx-auto grid h-screen w-full max-w-5xl place-items-center rounded-lg ">
             <div className="relative grid h-full w-full grid-cols-1 justify-between overflow-y-auto rounded-xl border border-gray-500 border-opacity-10 bg-white p-5 shadow-2xl dark:bg-black lg:max-h-[530px] lg:grid-cols-2 lg:p-0">
               <PostHeaderMobile
-              setIsModalOpen={setIsModalOpen}
+                setIsModalOpen={setIsModalOpen}
                 commentOpen={commentOpen}
                 post={post}
                 refreshData={refreshData}

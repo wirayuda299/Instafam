@@ -4,6 +4,7 @@ import Image from "next/image";
 import { Dispatch, SetStateAction } from "react";
 import { z } from "zod";
 import { DocumentData } from "firebase/firestore";
+
 interface Props {
   results: DocumentData[];
   handleDrawerToggler: () => void;

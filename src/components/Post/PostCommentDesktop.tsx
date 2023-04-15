@@ -5,10 +5,8 @@ import { Dispatch, ReactNode, SetStateAction } from "react";
 import dynamic from "next/dynamic";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
-import useComments from "@/hooks/useComments";
-import useSavedPosts from "@/hooks/useSavedPosts";
 import useUser from "@/hooks/useUser";
-import useLikes from "@/hooks/useLikes";
+import usePost from "@/hooks/usePost";
 const Likes = dynamic(() => import("./Likes"));
 const Comments = dynamic(() => import("@/components/Post/Comments"));
 const ActionButton = dynamic(() => import("@/components/Post/ActionButton"));
@@ -30,10 +28,8 @@ export default function PostCommentsDesktop({
   children,
 }: Props) {
   const { data: session } = useSession();
-  const { comment } = useComments(post);
-  const { savedPosts } = useSavedPosts(session, post);
-  const { user } = useUser(session?.user.uid as string);
-  const { likesCount } = useLikes(post);
+  const { user, savedPosts } = useUser(session?.user.uid as string);
+  const { likesCount, comment } = usePost(post);
   return (
     <div className=" relative ">
       <div className="hidden h-full max-h-[400px] overflow-y-auto overflow-x-hidden py-3 lg:block ">
