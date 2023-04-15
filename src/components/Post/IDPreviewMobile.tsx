@@ -3,52 +3,63 @@ import { IUserPostProps } from "@/types/post";
 import { getCreatedDate } from "@/util/postDate";
 import dynamic from "next/dynamic";
 import Link from "next/link";
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, ReactNode, SetStateAction } from "react";
 import { imageLoader } from "@/util/imageLoader";
 import { useSession } from "next-auth/react";
 import useLikes from "@/hooks/useLikes";
 import useSavedPosts from "@/hooks/useSavedPosts";
-const Comments = dynamic(() => import("@/components/Card/Post/Comments"));
-const ActionButton = dynamic(
-  () => import("@/components/Card/Post/ActionButton")
-);
+import Likes from "./Likes";
+import { AiOutlineClose } from "react-icons/ai";
+import { useRouter } from "next/router";
+const Comments = dynamic(() => import("@/components/Post/Comments"));
+const ActionButton = dynamic(() => import("@/components/Post/ActionButton"));
 
 type Props = {
   post: IUserPostProps;
   commentOpen: boolean;
   setCommentOpen: Dispatch<SetStateAction<boolean>>;
   refreshData: () => void;
+  setIsModalOpen: Dispatch<SetStateAction<boolean>> 
 };
 
-export default function PostHeaderMobile({
+export default function IDPostPreview({
   post,
   commentOpen,
   refreshData,
   setCommentOpen,
+  setIsModalOpen
 }: Props) {
   const { data: session } = useSession();
   const { likesCount } = useLikes(post);
   const { savedPosts } = useSavedPosts(session, post);
+  const {pathname} = useRouter()
   return (
     <figure className="shadow-sm">
       <div className="py-2 lg:hidden">
-        <Link
-          href={`/profile/${post?.author}`}
-          className="flex cursor-pointer items-center space-x-2"
-        >
-          <Image
-            src={post?.postedByPhotoUrl ?? ""}
-            width={40}
-            priority
-            height={40}
-            className="rounded-full bg-gradient-to-bl from-pink-600 to-orange-600 p-0.5"
-            alt={post?.captions ?? "post"}
-          />
-          <div>
-            <h1 className="text-sm font-bold">{post?.author}</h1>
-            <p className="text-xs">{getCreatedDate(post)}</p>
+        <div className="flex items-center justify-between">
+          <div className="flex cursor-pointer items-center space-x-2 ">
+            <Image
+              src={post?.postedByPhotoUrl ?? ""}
+              width={40}
+              priority
+              height={40}
+              className="rounded-full bg-gradient-to-bl from-pink-600 to-orange-600 p-0.5"
+              alt={post?.captions ?? "post"}
+            />
+            <Link href={`/profile/${post?.author}`} >
+              <h1 className="text-sm font-bold">{post?.author}</h1>
+              <p className="text-xs">{getCreatedDate(post)}</p>
+            </Link>
           </div>
-        </Link>
+         {pathname !== '/post[id]' ? (
+           <button onClick={(e) => {
+            e.stopPropagation()
+            setIsModalOpen(false)
+           }}>
+           <AiOutlineClose size={20}/>
+         </button>
+         ): null}
+        </div>
       </div>
       <Image
         src={post?.image}
@@ -79,13 +90,7 @@ export default function PostHeaderMobile({
           setCommentOpen={setCommentOpen}
           uid={session?.user.uid as string}
         />
-        <span
-          className={`pl-1 text-xs ${
-            likesCount?.length < 1 ? "hidden" : "block"
-          }`}
-        >
-          {likesCount?.length} likes
-        </span>
+        <Likes likesCount={likesCount} session={session} />
         <figcaption className="flex items-center space-x-2 p-2 text-2xl font-bold">
           <h2 className="text-sm">{post?.author}</h2>
           <p className="break-words text-xs">{post?.captions}</p>

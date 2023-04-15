@@ -8,12 +8,12 @@ export default function Recommendation() {
             <div className="h-5   w-24 rounded-full bg-gray-200 dark:bg-gray-700"></div>
           </div>
           <div>
-            <button className="h-4 w-9 rounded-md bg-gray-200  text-xs font-semibold text-blue-600 dark:bg-gray-700"></button>
+            <div className="h-4 w-9 rounded-md bg-gray-200  text-xs font-semibold text-blue-600 dark:bg-gray-700"></div>
           </div>
         </div>
         <div className="flex justify-between">
           <div className="h-5 w-16 rounded-lg bg-gray-200  text-sm font-semibold text-gray-500 dark:bg-gray-700"></div>
-          <button className="h-4 w-9 rounded-md  bg-gray-200 text-xs dark:bg-gray-700 dark:text-blue-600"></button>
+          <div className="h-4 w-9 rounded-md  bg-gray-200 text-xs dark:bg-gray-700 dark:text-blue-600"></div>
         </div>
         <div>
           <div className="mb-2 mt-5 flex w-full items-center justify-between space-x-2">

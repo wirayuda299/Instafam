@@ -17,7 +17,7 @@ const SavedPosts = dynamic(
     ssr: true,
   }
 );
-const ExplorePostCard = dynamic(() => import("@/components/Card/Feeds"), {
+const ExplorePostCard = dynamic(() => import("@/components/Feeds"), {
   loading: () => <Loader />,
   ssr: true,
 });
@@ -57,10 +57,6 @@ export default function UserProfile({ posts, user, query }: Props) {
         <meta
           name="description"
           content={`This is profile page of ${user && user[0]?.username}`}
-        />
-        <link
-          rel="canonical"
-          href={`https://instafam.vercel.app/profile/${session?.user?.username}`}
         />
       </Head>
       {session ? (
@@ -105,12 +101,7 @@ export default function UserProfile({ posts, user, query }: Props) {
   );
 }
 
-export async function getServerSideProps({
-  req,
-  res,
-  params,
-  query,
-}: GetServerSidePropsContext) {
+export async function getServerSideProps({ query }: GetServerSidePropsContext) {
   const { getPostByCurrentUser } = await import("@/helper/getPosts");
   const { getCurrentUserData } = await import("@/helper/getUser");
   const user = (await getCurrentUserData(query?.username as string)) as IUser[];

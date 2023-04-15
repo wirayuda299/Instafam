@@ -1,18 +1,10 @@
 import dynamic from "next/dynamic";
 import useInfiniteScroll from "@/hooks/useInfiniteScroll";
 import { GetServerSidePropsContext } from "next";
-import Recommendation from "@/components/Loader/Recommendation";
 const Suggestions = dynamic(
-  () => import("@/components/Suggestions/Suggestions"),
-  {
-    loading: () => <Recommendation />,
-    ssr: true,
-  }
+  () => import("@/components/Suggestions/Suggestions")
 );
-const PostCard = dynamic(() => import("@/components/Card/Post"), {
-  loading: () => <CardLoader />,
-  ssr: true,
-});
+const PostCard = dynamic(() => import("@/components/Post"))
 const CardLoader = dynamic(() => import("@/components/Loader/Loader"));
 
 export default function Home({ posts, users, sessions, last }: any) {

@@ -3,7 +3,7 @@ import { IUserPostProps } from "@/types/post";
 import dynamic from "next/dynamic";
 import useInfiniteScroll from "@/hooks/useInfiniteScroll";
 import { GetServerSidePropsContext } from "next";
-const ExplorePostCard = dynamic(() => import("@/components/Card/Feeds"), {
+const ExplorePostCard = dynamic(() => import("@/components/Feeds"), {
   ssr: true,
 });
 const CardLoader = dynamic(() => import("@/components/Loader/Loader"), {
@@ -26,9 +26,9 @@ export default function Explore({ posts, last }: Props) {
         />
       </Head>
       <div className="h-screen w-full overflow-y-auto p-5 text-black dark:text-white">
-        <h1 className="py-5 text-center text-5xl font-semibold">Explore</h1>
+        <h1 className="py-8 text-center text-5xl font-semibold">Explore</h1>
         <div className="mb-7 w-full columns-1 gap-10 sm:columns-2 lg:columns-3">
-          {posts?.map((post: IUserPostProps) => (
+          {posts?.map((post) => (
             <ExplorePostCard post={post} key={post.postId} />
           ))}
           <span ref={ref}></span>

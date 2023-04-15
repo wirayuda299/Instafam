@@ -5,12 +5,8 @@ import { captionsState } from "@/store/captions";
 import dynamic from "next/dynamic";
 import Head from "next/head";
 import useAuth from "@/hooks/useAuth";
-const Captions = dynamic(() => import("@/components/Captions/Captions"), {
-  ssr: false,
-});
-const ImageCropper = dynamic(() => import("@/components/Images/Cropper"), {
-  ssr: false,
-});
+const Captions = dynamic(() => import("@/components/Captions/Captions"));
+const ImageCropper = dynamic(() => import("@/components/Cropper/Cropper"));
 
 export default function CreatePost() {
   const [captions, setCaptions] = useRecoilState(captionsState);
@@ -33,6 +29,7 @@ export default function CreatePost() {
           >
             <ImageCropper />
             <Captions
+              session={session}
               handlePost={async () => {
                 const { makePost } = await import("@/helper/makePost");
                 const makePostArgs = {

@@ -6,7 +6,7 @@ type Props = {
   register: any;
   handleSubmit: any;
 };
-export default function Form({
+export default function PostForm({
   defaultValues,
   updatePost,
   register,

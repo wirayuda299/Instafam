@@ -8,11 +8,11 @@ import { FieldValues, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import dynamic from "next/dynamic";
 import Head from "next/head";
-const Headers = dynamic(() => import("@/components/Card/Post/Edit/Header"));
+const Headers = dynamic(() => import("@/components/PostEdit/Header"));
 const PostEditImage = dynamic(
-  () => import("@/components/Card/Post/Edit/image")
+  () => import("@/components/PostEdit/PreviewImage")
 );
-const PostForm = dynamic(() => import("@/components/Card/Post/Edit/Form"));
+const PostForm = dynamic(() => import("@/components/PostEdit/Form"));
 interface Values extends FieldValues {
   updated: string;
 }

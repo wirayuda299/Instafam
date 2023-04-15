@@ -6,7 +6,7 @@ import Loader from "@/components/Loader/Loader";
 import { z } from "zod";
 import dynamic from "next/dynamic";
 import { PostSchema } from "@/schema/PostSchema";
-const FeedsCards = dynamic(() => import("@/components/Card/Feeds"), {
+const FeedsCards = dynamic(() => import("@/components/Feeds"), {
   loading: () => <Loader />,
 });
 
