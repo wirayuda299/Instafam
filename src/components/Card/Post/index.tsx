@@ -16,8 +16,8 @@ const ActionButton = dynamic(() => import("./ActionButton"));
 const PostHeader = dynamic(() => import("./Header"));
 const Author = dynamic(() => import("./Author"));
 const Comments = dynamic(() => import("./Comments"));
-const PostModal = dynamic(() => import("./Modal/Menu"));
-const ReportModal = dynamic(() => import("./Modal/Report"));
+const MenuModal = dynamic(() => import("../../Modal/Menu"));
+const ReportModal = dynamic(() => import("../../Modal/Report"));
 export interface IPostCardProps {
   post: IUserPostProps;
   session: Session | null;
@@ -100,7 +100,7 @@ function PostCard({ post, session }: IPostCardProps) {
           session={session}
           commentOpen={commentOpen}
         />
-        <PostModal
+        <MenuModal
           isMenuOpen={isMenuOpen}
           post={post}
           refreshData={refreshData}

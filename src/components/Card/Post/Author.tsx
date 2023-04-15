@@ -18,7 +18,7 @@ export default function Author({ post }: { post: IUserPostProps }) {
         </h3>
         <p
           className={`text-sm flex text-black dark:text-white font-thin ${
-            captions.length > 25 && !show
+            captions.length >= 25 && !show
               ? "!truncate "
               : ""
           }`}
@@ -26,11 +26,11 @@ export default function Author({ post }: { post: IUserPostProps }) {
           {post.captions}
         </p>
         <p className="text-sm flex">
-          {captions.length > 25 && !show ? (
+          {captions.length >= 25 && !show ? (
             <span className="text-blue-500">...more</span>
           ): (
-            <span className={`text-blue-500 ${captions.length < 1 ? 'hidden' : 'block'}`}>hide</span>
-          )}
+            <span className={`text-blue-500 ${captions.length < 25 ? 'hidden' : 'block'}`}>hide</span>
+            )}
         </p>
       </div>
       <div className="flex flex-wrap">

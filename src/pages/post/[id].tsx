@@ -7,6 +7,7 @@ import { GetServerSidePropsContext } from "next";
 import { getSession } from "next-auth/react";
 import { getCurrentUserData } from "@/helper/getUser";
 import { IUser } from "@/types/user";
+import { BsThreeDots } from "react-icons/bs";
 const PostHeaderMobile = dynamic(
   () => import("@/components/Header/HeaderMobile")
 );
@@ -45,12 +46,15 @@ export default function PostDetail({
                 setCommentOpen={setCommentOpen}
               />
               <PostCommentDesktop
-                user={user}
                 commentOpen={commentOpen}
                 post={post}
                 refreshData={refreshData}
                 setCommentOpen={setCommentOpen}
-              />
+              >
+                <button>
+                  <BsThreeDots size={20} />
+                </button>
+              </PostCommentDesktop>
             </div>
             <br className="md:hidden" />
             <br className="md:hidden" />

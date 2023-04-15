@@ -54,7 +54,7 @@ module.exports = {
         slideOutWidth: "slideOutWidth 0.4s ease forwards",
         fadeIn: "fadeIn 1s ease-in-out forwards",
         fadeOut: "fadeOut 1s ease-in-out forwards",
-        popUp: "popUp 0.3s",
+        popUp: "popUp 0.4s",
       },
       screens: {
         xs: "320px",

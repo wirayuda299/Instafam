@@ -1,15 +1,26 @@
+import PostHeaderMobile from "@/components/Header/HeaderMobile";
+import Modal from "@/components/Modal";
 import { IUserPostProps } from "@/types/post";
 import { imageLoader } from "@/util/imageLoader";
 import dynamic from "next/dynamic";
 import Image from "next/image";
-import Link from "next/link";
-import { memo } from "react";
+import { memo, useState } from "react";
+import PostCommentDesktop from "../Post/PostCommentDesktop";
+import { useRouter } from "next/router";
+import { AiOutlineClose } from "react-icons/ai";
 const PostInfo = dynamic(() => import("./PostInfo"), { ssr: false });
 
 function ExplorePostCard({ post }: { post: IUserPostProps }) {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [commentOpen, setCommentOpen] = useState<boolean>(false);
+  const { asPath, replace } = useRouter();
+  const refreshData = () => replace(asPath);
   return (
-    <Link href={`/post/${post.postId}`} as={`/post/${post.postId}`}>
-      <div className="group relative shadow-lg">
+    <div
+      className="group relative cursor-pointer shadow-lg"
+      onClick={() => setIsModalOpen(true)}
+    >
+      <div className="rounded-sm bg-white shadow-lg dark:border-black dark:bg-black dark:text-white ">
         <Image
           src={post?.image}
           width={1300}
@@ -28,8 +39,38 @@ function ExplorePostCard({ post }: { post: IUserPostProps }) {
           alt={post?.author ?? "user post image"}
         />
         <PostInfo post={post} />
+        <Modal isModalOpen={isModalOpen}>
+          <div
+            className="h-full w-full text-black dark:text-white"
+          >
+            <div className="h-full w-full overflow-y-auto">
+              <div className="mx-auto grid h-screen w-full max-w-5xl place-items-center rounded-lg ">
+                <div className="relative rounded-xl grid h-full w-full grid-cols-1 justify-between overflow-y-auto border border-gray-500 border-opacity-10 shadow-2xl bg-white p-5 dark:bg-black lg:max-h-[530px] lg:grid-cols-2 lg:p-0">
+                  <PostHeaderMobile
+                    commentOpen={commentOpen}
+                    post={post}
+                    refreshData={refreshData}
+                    setCommentOpen={setCommentOpen}
+                  />
+                  <PostCommentDesktop
+                    commentOpen={commentOpen}
+                    post={post}
+                    refreshData={refreshData}
+                    setCommentOpen={setCommentOpen}
+                  >
+                    <button onClick={(e) => {
+                      e.stopPropagation()
+                      setIsModalOpen(false)
+                    }}><AiOutlineClose size={25}/></button>
+
+                  </PostCommentDesktop>
+                </div>
+              </div>
+            </div>
+          </div>
+        </Modal>
       </div>
-    </Link>
+    </div>
   );
 }
 export default memo(ExplorePostCard);

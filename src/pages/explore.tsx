@@ -50,7 +50,7 @@ export async function getServerSideProps({ res }: GetServerSidePropsContext) {
   return {
     props: {
       posts,
-      last,
+      last
     },
   };
 }

@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { IUserPostProps } from "@/types/post";
 import { getCommentcreatedAt, getCreatedDate } from "@/util/postDate";
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, ReactNode, SetStateAction } from "react";
 import { BsThreeDots } from "react-icons/bs";
 import { AiOutlineHeart } from "react-icons/ai";
 import dynamic from "next/dynamic";
@@ -21,7 +21,7 @@ type Props = {
   commentOpen: boolean;
   setCommentOpen: Dispatch<SetStateAction<boolean>>;
   refreshData: () => void;
-  user: IUser | null;
+  children: ReactNode
 };
 
 export default function PostCommentsDesktop({
@@ -29,6 +29,7 @@ export default function PostCommentsDesktop({
   refreshData,
   commentOpen,
   setCommentOpen,
+  children
 }: Props) {
   const { data: session } = useSession();
   const { comment } = useComments(post);
@@ -91,9 +92,7 @@ export default function PostCommentsDesktop({
               </button>
             )}
           </div>
-          <button type="button" name="options" title="options">
-            <BsThreeDots />
-          </button>
+          {children}
         </div>
         <Link
           href={`/profile/${post?.author}`}
@@ -149,10 +148,7 @@ export default function PostCommentsDesktop({
                 {comment?.comment}
               </p>
             </div>
-            <button type="button" name="like comment" title="like comment">
-              <AiOutlineHeart size={15} />
-              <small className="text-gray-500">1</small>
-            </button>
+         
           </div>
         ))}
 
@@ -168,13 +164,26 @@ export default function PostCommentsDesktop({
             setCommentOpen={setCommentOpen}
             uid={session?.user.uid as string}
           />
-          <span
-            className={`pl-1 text-xs ${
-              likesCount?.length < 1 ? "hidden" : "block"
-            }`}
-          >
-            {likesCount?.length} likes
-          </span>
+          {likesCount && likesCount.length > 0 ? (
+          <div className="mb-4 mt-1 px-1 text-xs font-light tracking-wider flex ">
+            {likesCount.includes(session?.user?.uid as string) ? (
+              <p className="flex space-x-1 gap-1 items-center">
+                {likesCount.length > 1 ? "You  " : "liked by You "}
+                <span
+                  className={`${
+                    likesCount.length - 1 < 1 ? "hidden" : "block"
+                  }`}
+                > 
+                   and {likesCount.length - 1} others
+                </span>
+              </p>
+            ) : (
+              <span>
+                {likesCount.length} {likesCount.length > 1 ? "likes" : "like"}
+              </span>
+            )}
+          </div>
+        ) : null}
           <div className="py-2">
             <Comments
               ssr={false}

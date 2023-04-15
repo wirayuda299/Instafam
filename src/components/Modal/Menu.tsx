@@ -1,3 +1,4 @@
+import Modal from "@/components/Modal";
 import useUser from "@/hooks/useUser";
 import { reportModal } from "@/store/modal";
 import { selectedPostState } from "@/store/selectedPost";
@@ -17,7 +18,7 @@ type Props = {
   setIsMenuOpen: Dispatch<SetStateAction<boolean>>;
 };
 
-export default function Modal({
+export default function Menu({
   post,
   session,
   refreshData,
@@ -25,7 +26,6 @@ export default function Modal({
   isMenuOpen,
   setIsMenuOpen,
 }: Props) {
-
   const [selectedPost, setSelectedPost] = useRecoilState(selectedPostState);
   const { push } = useRouter();
   const [isReportModalOpen, setIsReportModalOpen] = useRecoilState(reportModal);
@@ -109,33 +109,25 @@ export default function Modal({
   ];
 
   return (
-    <div
-      className={` fixed left-0 top-0 z-[99999999] h-screen w-full  select-none !overflow-x-hidden !overflow-y-hidden bg-black  bg-opacity-60 text-black shadow-sm shadow-white outline-none dark:text-white ${
-        isMenuOpen ? "animate-popUp" : "hidden animate-fadeOut"
-      }`}
-      aria-modal="true"
-      role="dialog"
-    >
-      <div className="mx-auto h-full max-w-lg">
-        <div className="flex h-full flex-col items-center justify-center">
-          <div className="flex min-w-[400px] flex-col rounded-lg bg-white p-5 text-black dark:bg-black dark:text-white">
-            {buttonLists.map((button) => (
-              <button
-                type="button"
-                name={button.name}
-                title={button.name}
-                key={button.id}
-                onClick={button.event}
-                className={`rounded-lg py-3 text-sm font-semibold transition-all duration-300 ease-out hover:bg-[#a8a8a817] md:py-4 md:text-base ${
-                  button.id === 1 || button.id === 2 ? "text-red-600" : ""
-                }`}
-              >
-                {button.name}
-              </button>
-            ))}
-          </div>
+    <Modal isModalOpen={isMenuOpen}>
+      <div className="flex h-full flex-col items-center justify-center">
+        <div className="flex min-w-[400px] flex-col rounded-lg bg-white p-5 text-black dark:bg-black dark:text-white">
+          {buttonLists.map((button) => (
+            <button
+              type="button"
+              name={button.name}
+              title={button.name}
+              key={button.id}
+              onClick={button.event}
+              className={`rounded-lg py-3 text-sm font-semibold transition-all duration-300 ease-out hover:bg-[#a8a8a817] md:py-4 md:text-base ${
+                button.id === 1 || button.id === 2 ? "text-red-600" : ""
+              }`}
+            >
+              {button.name}
+            </button>
+          ))}
         </div>
       </div>
-    </div>
+    </Modal>
   );
 }
