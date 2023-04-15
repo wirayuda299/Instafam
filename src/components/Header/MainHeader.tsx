@@ -1,17 +1,17 @@
 import { signOut, useSession } from "next-auth/react";
 import dynamic from "next/dynamic";
-import { Oleo_Script } from "next/font/google";
 import Link from "next/link";
 import { AiOutlineSearch } from "react-icons/ai";
 const Form = dynamic(() => import("../Search/Form"));
 import { GiExitDoor } from "react-icons/gi";
+import { Dancing_Script } from "next/font/google";
 
-const oleo = Oleo_Script({
+const DancingScript = Dancing_Script({
   subsets: ["latin"],
-  weight: "400",
+  weight: "700",
   preload: true,
   fallback: ["sans-serif"],
-});
+}); 
 
 export default function Header() {
   const { data: session } = useSession();
@@ -23,7 +23,7 @@ export default function Header() {
             <div className="w-full">
               <Link
                 href="/"
-                className={`text-xl md:text-2xl ${oleo.className}`}
+                className={`text-xl md:text-2xl ${DancingScript.className}`}
               >
                 <h1>Instafams</h1>
               </Link>

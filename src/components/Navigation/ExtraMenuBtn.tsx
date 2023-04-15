@@ -17,7 +17,7 @@ export default function ExtraMenuBtn() {
     <button
       type="button"
       className="hidden md:block"
-      name="extra menu button"
+      name="extra menu"
       title="extra menus"
       onClick={handleClick}
     >

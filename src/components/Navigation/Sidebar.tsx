@@ -1,6 +1,5 @@
 import { AiOutlineInstagram } from "react-icons/ai";
 import Link from "next/link";
-import { Oleo_Script } from "next/font/google";
 import NavbarList from "./Lists";
 import { useRecoilValue } from "recoil";
 import { searchDrawer } from "@/store/searchDrawer";
@@ -8,10 +7,12 @@ import dynamic from "next/dynamic";
 import ExtraMenuBtn from "./ExtraMenuBtn";
 import { useSession } from "next-auth/react";
 const ExtraMenus = dynamic(() => import("./ExtraMenus"));
+import { Dancing_Script } from "next/font/google";
 
-const oleo = Oleo_Script({
-  subsets: ["latin", "latin-ext"],
-  weight: "400",
+const DancingScript = Dancing_Script({
+  subsets: ["latin"],
+  weight: "700",
+  display: 'swap',
   preload: true,
   fallback: ["sans-serif"],
 });
@@ -31,7 +32,7 @@ export default function Sidebar() {
             <header className="hidden w-full flex-col pl-6 md:flex md:pl-2.5">
               <Link
                 href="/"
-                className={`text-3xl font-semibold lg:pt-5 ${oleo.className}`}
+                className={`text-3xl font-semibold lg:pt-5 ${DancingScript.className}`}
               >
                 {drawerOpen ? (
                   <AiOutlineInstagram size={35} />

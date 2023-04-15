@@ -19,7 +19,6 @@ type Props = {
   commentOpen: boolean;
   setCommentOpen: Dispatch<SetStateAction<boolean>>;
   refreshData: () => void;
-  session: Session | null;
 };
 
 export default function PostHeaderMobile({

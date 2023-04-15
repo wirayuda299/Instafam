@@ -23,7 +23,6 @@ type Props = {
   setCommentOpen: Dispatch<SetStateAction<boolean>>;
   refreshData: () => void;
   user: IUser | null;
-  session: Session | null;
 };
 
 export default function PostCommentsDesktop({
