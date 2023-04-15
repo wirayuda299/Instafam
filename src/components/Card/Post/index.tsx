@@ -58,7 +58,7 @@ function PostCard({ post, session }: IPostCardProps) {
           loader={() =>
             imageLoader({ src: post?.image, width: 1300, quality: 10 })
           }
-          priority       
+          priority
           className="h-auto w-full rounded-lg object-cover"
           alt={post?.author ?? "user post image"}
         />
@@ -73,9 +73,24 @@ function PostCard({ post, session }: IPostCardProps) {
           setCommentOpen={setCommentOpen}
         />
         {likesCount && likesCount.length > 0 ? (
-          <p className="mb-4 mt-1 px-1 text-xs font-light tracking-wider ">
-            <span>{likesCount.length} likes</span>
-          </p>
+          <div className="mb-4 mt-1 px-1 text-xs font-light tracking-wider flex ">
+            {likesCount.includes(session?.user?.uid as string) ? (
+              <p className="flex space-x-1 gap-1 items-center">
+                {likesCount.length > 1 ? "You  " : "liked by You "}
+                <span
+                  className={`${
+                    likesCount.length - 1 < 1 ? "hidden" : "block"
+                  }`}
+                > 
+                   and {likesCount.length - 1} others
+                </span>
+              </p>
+            ) : (
+              <span>
+                {likesCount.length} {likesCount.length > 1 ? "likes" : "like"}
+              </span>
+            )}
+          </div>
         ) : null}
         <Author post={post} />
         <Comments
