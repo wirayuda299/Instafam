@@ -91,10 +91,12 @@ export default function ExtraMenus() {
             >
               <button
                 onClick={() =>
-                  list.id === 6 ? signOut({
-                    callbackUrl: `${process.env.NEXTAUTH_URL}/auth/signin`,
-                    redirect: true
-                  }) : undefined
+                  list.id === 6
+                    ? signOut({
+                        callbackUrl: `${process.env.NEXTAUTH_URL}/auth/signin`,
+                        redirect: true,
+                      })
+                    : undefined
                 }
                 className="flex w-full items-center justify-between gap-2 space-x-2"
                 type="button"

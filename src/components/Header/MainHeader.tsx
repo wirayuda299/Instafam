@@ -37,13 +37,12 @@ export default function Header() {
               name="sign out"
               type="button"
               title="sign out"
-              onClick={ () => signOut({
-                callbackUrl: `${process.env.NEXTAUTH_URL}/auth/signin`, 
-                redirect: true
-              },
-                
-
-              )}
+              onClick={() =>
+                signOut({
+                  callbackUrl: `${process.env.NEXTAUTH_URL}/auth/signin`,
+                  redirect: true,
+                })
+              }
             >
               <GiExitDoor size={28} />
             </button>

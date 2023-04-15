@@ -2,20 +2,19 @@ import Head from "next/head";
 import { IUserPostProps } from "@/types/post";
 import dynamic from "next/dynamic";
 import useInfiniteScroll from "@/hooks/useInfiniteScroll";
+import { GetServerSidePropsContext } from "next";
 const ExplorePostCard = dynamic(() => import("@/components/Card/Feeds"), {
   ssr: true,
 });
 const CardLoader = dynamic(() => import("@/components/Loader/Loader"), {
   ssr: true,
 });
-
-export default function Explore({
-  posts,
-  last,
-}: {
+type Props = {
   posts: IUserPostProps[];
   last: IUserPostProps;
-}) {
+};
+
+export default function Explore({ posts, last }: Props) {
   const { ref, postsState, loading } = useInfiniteScroll(last);
   return (
     <>
@@ -42,16 +41,16 @@ export default function Explore({
     </>
   );
 }
-export async function getStaticProps() {
+export async function getServerSideProps({ res }: GetServerSidePropsContext) {
   const { getPosts } = await import("@/helper/getPosts");
   const posts = await getPosts(10);
   const last = posts ? posts[posts.length - 1] : null;
+  res.setHeader("Cache-Control", "maxage=60, stale-while-revalidate=59");
 
   return {
     props: {
       posts,
       last,
     },
-    revalidate: 60,
   };
 }

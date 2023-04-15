@@ -24,31 +24,33 @@ export default function CreatePost() {
       <Head>
         <title>Create New Post &#8226; Instafam</title>
       </Head>
-      <section className="h-screen w-full overflow-y-auto bg-white p-10 dark:bg-[#121212] sm:grid sm:place-content-center md:p-5">
-        <div
-          className={`container mx-auto grid grid-cols-1 place-items-center gap-2 md:gap-7 ${
-            !img ? "" : "md:grid-cols-2"
-          }`}
-        >
-          <ImageCropper />
-          <Captions
-            handlePost={async () => {
-              const { makePost } = await import("@/helper/makePost");
-              const makePostArgs = {
-                captions,
-                croppedImg,
-                session,
-                setCaptions,
-                setImg,
-                setLoading,
-                img,
-              };
-              await makePost(makePostArgs);
-            }}
-            loading={loading}
-          />
-        </div>
-      </section>
+      {session ? (
+        <section className="h-screen w-full overflow-y-auto bg-white p-10 dark:bg-[#121212] sm:grid sm:place-content-center md:p-5">
+          <div
+            className={`container mx-auto grid grid-cols-1 place-items-center gap-2 md:gap-7 ${
+              !img ? "" : "md:grid-cols-2"
+            }`}
+          >
+            <ImageCropper />
+            <Captions
+              handlePost={async () => {
+                const { makePost } = await import("@/helper/makePost");
+                const makePostArgs = {
+                  captions,
+                  croppedImg,
+                  session,
+                  setCaptions,
+                  setImg,
+                  setLoading,
+                  img,
+                };
+                await makePost(makePostArgs);
+              }}
+              loading={loading}
+            />
+          </div>
+        </section>
+      ) : null}
     </>
   );
 }

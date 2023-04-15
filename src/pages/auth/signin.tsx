@@ -12,7 +12,6 @@ interface Providers {
 }
 
 export default function SignIn({ providers }: { providers: Providers }) {
-
   return (
     <>
       <Head>
@@ -30,7 +29,6 @@ export default function SignIn({ providers }: { providers: Providers }) {
         <meta name="robots" content="index, follow" />
         <meta name="googlebot" content="index, follow" />
         <meta name="google" content="notranslate" />
-       
       </Head>
       <div className="grid h-screen w-full place-items-center p-5">
         <div className="mx-auto flex h-full items-center justify-center rounded-lg bg-white bg-opacity-10 p-8 text-center shadow-xl backdrop-blur-lg backdrop-filter">
@@ -52,10 +50,11 @@ export default function SignIn({ providers }: { providers: Providers }) {
                 title="Sign in with Google"
                 key={provider.id}
                 className="ease inline-flex items-center gap-x-5 rounded-md bg-black px-5 py-3 text-center text-white transition-all duration-300 hover:bg-opacity-80"
-                onClick={() => signIn(provider.id, {
-                  callbackUrl:  `${process.env.NEXTAUTH_URL}`,
-                  redirect: true
-                })
+                onClick={() =>
+                  signIn(provider.id, {
+                    callbackUrl: `${process.env.NEXTAUTH_URL}`,
+                    redirect: true,
+                  })
                 }
               >
                 Sign in with {provider.name}

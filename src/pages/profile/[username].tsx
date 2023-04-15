@@ -63,42 +63,44 @@ export default function UserProfile({ posts, user, query }: Props) {
           href={`https://instafam.vercel.app/profile/${session?.user?.username}`}
         />
       </Head>
-      <div className="mx-auto h-screen w-full overflow-y-auto p-5 py-5">
-        <div className="flex w-full items-center space-x-3 border-b border-gray-400 md:justify-center md:space-x-10">
-          <Statistic
-            session={session}
-            refreshData={refreshData}
-            users={user && user[0]}
-            posts={posts ?? []}
-          />
-        </div>
+      {session ? (
+        <div className="mx-auto h-screen w-full overflow-y-auto p-5 py-5">
+          <div className="flex w-full items-center space-x-3 border-b border-gray-400 md:justify-center md:space-x-10">
+            <Statistic
+              session={session}
+              refreshData={refreshData}
+              users={user && user[0]}
+              posts={posts ?? []}
+            />
+          </div>
 
-        {session?.user?.username === query.username ? <Tab /> : null}
-        <div className="grid w-full grid-cols-1 items-center justify-center gap-5 p-5 sm:grid-cols-2 md:grid-cols-3 ">
-          {postTab && (
+          {session?.user?.username === query.username ? <Tab /> : null}
+          <div className="grid w-full grid-cols-1 items-center justify-center gap-5 p-5 sm:grid-cols-2 md:grid-cols-3 ">
+            {postTab && (
+              <>
+                {posts.length < 1 ? (
+                  <div className="col-span-3 mx-auto h-full w-full">
+                    <h1 className="w-full text-center text-2xl font-semibold text-gray-500 dark:text-gray-400">
+                      No Posts
+                    </h1>
+                  </div>
+                ) : (
+                  <>
+                    {posts?.map((post) => (
+                      <ExplorePostCard post={post} key={post.postId} />
+                    ))}
+                  </>
+                )}
+              </>
+            )}
             <>
-              {posts.length < 1 ? (
-                <div className="col-span-3 mx-auto h-full w-full">
-                  <h1 className="w-full text-center text-2xl font-semibold text-gray-500 dark:text-gray-400">
-                    No Posts
-                  </h1>
-                </div>
-              ) : (
-                <>
-                  {posts?.map((post) => (
-                    <ExplorePostCard post={post} key={post.postId} />
-                  ))}
-                </>
+              {savedPostTab && (
+                <SavedPosts savedPosts={user && user[0].savedPosts} />
               )}
             </>
-          )}
-          <>
-            {savedPostTab && (
-              <SavedPosts savedPosts={user && user[0].savedPosts} />
-            )}
-          </>
+          </div>
         </div>
-      </div>
+      ) : null}
     </>
   );
 }

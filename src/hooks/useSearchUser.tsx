@@ -17,11 +17,9 @@ export default function useSearchUser() {
         referrerPolicy: "no-referrer",
         signal: new AbortController().signal,
         cache: "no-cache",
-      })
-      const result = await response.json()
+      });
+      const result = await response.json();
       if (result) {
-        console.log(result);
-        
         startTransition(() => {
           setResults(result);
         });

@@ -8,7 +8,9 @@ import { getSession } from "next-auth/react";
 import { getCurrentUserData } from "@/helper/getUser";
 import { IUser } from "@/types/user";
 import { Session } from "next-auth";
-const PostHeaderMobile = dynamic(() => import("@/components/Header/HeaderMobile"));
+const PostHeaderMobile = dynamic(
+  () => import("@/components/Header/HeaderMobile")
+);
 const PostCommentDesktop = dynamic(
   () => import("@/components/Card/Post/PostCommentDesktop"),
   {
@@ -36,34 +38,36 @@ export default function PostDetail({
           {post?.author}({post?.captions ?? "post"}) &#8226; Instafam
         </title>
       </Head>
-      <div className="h-full w-full text-black dark:text-white">
-        <div className="h-full w-full overflow-y-auto">
-          <div className="mx-auto grid h-screen w-full max-w-5xl place-items-center rounded-lg ">
-            <div className="relative grid h-full w-full grid-cols-1 justify-between overflow-y-auto border border-gray-500 border-opacity-50 p-5 lg:max-h-[530px] lg:grid-cols-2 lg:p-0">
-              <PostHeaderMobile
-                session={session}
-                commentOpen={commentOpen}
-                post={post}
-                refreshData={refreshData}
-                setCommentOpen={setCommentOpen}
-              />
-              <PostCommentDesktop
-                user={user}
-                session={session}
-                commentOpen={commentOpen}
-                post={post}
-                refreshData={refreshData}
-                setCommentOpen={setCommentOpen}
-              />
+      {session && user && (
+        <div className="h-full w-full text-black dark:text-white">
+          <div className="h-full w-full overflow-y-auto">
+            <div className="mx-auto grid h-screen w-full max-w-5xl place-items-center rounded-lg ">
+              <div className="relative grid h-full w-full grid-cols-1 justify-between overflow-y-auto border border-gray-500 border-opacity-50 p-5 lg:max-h-[530px] lg:grid-cols-2 lg:p-0">
+                <PostHeaderMobile
+                  session={session}
+                  commentOpen={commentOpen}
+                  post={post}
+                  refreshData={refreshData}
+                  setCommentOpen={setCommentOpen}
+                />
+                <PostCommentDesktop
+                  user={user}
+                  session={session}
+                  commentOpen={commentOpen}
+                  post={post}
+                  refreshData={refreshData}
+                  setCommentOpen={setCommentOpen}
+                />
+              </div>
+              <br className="md:hidden" />
+              <br className="md:hidden" />
+              <br className="md:hidden" />
+              <br className="md:hidden" />
+              <br className="md:hidden" />
             </div>
-            <br className="md:hidden" />
-            <br className="md:hidden" />
-            <br className="md:hidden" />
-            <br className="md:hidden" />
-            <br className="md:hidden" />
           </div>
         </div>
-      </div>
+      )}
     </>
   );
 }

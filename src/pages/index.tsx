@@ -6,10 +6,12 @@ const Suggestions = dynamic(
   () => import("@/components/Suggestions/Suggestions"),
   {
     loading: () => <Recommendation />,
+    ssr: true,
   }
 );
 const PostCard = dynamic(() => import("@/components/Card/Post"), {
   loading: () => <CardLoader />,
+  ssr: true,
 });
 const CardLoader = dynamic(() => import("@/components/Loader/Loader"));
 
@@ -17,33 +19,37 @@ export default function Home({ posts, users, sessions, last }: any) {
   const { ref, postsState, loading } = useInfiniteScroll(last);
 
   return (
-    <section className="h-full w-full ">
-      <div className="flex h-screen w-full items-start justify-between">
-        <div className="flex w-full flex-col p-5 ">
-          {posts?.map((post: any) => (
-            <PostCard
-              post={post}
-              key={post.postId}
-              ssr={true}
-              session={sessions}
-            />
-          ))}
-          <span ref={ref}></span>
-          {loading && <CardLoader />}
-          {postsState?.map((post) => (
-            <PostCard
-              post={post}
-              key={post.postId}
-              ssr={false}
-              session={sessions}
-            />
-          ))}
+    <>
+      {sessions ? (
+        <div className="h-full w-full ">
+          <div className="flex h-screen w-full items-start justify-between">
+            <div className="flex w-full flex-col p-5 ">
+              {posts?.map((post: any) => (
+                <PostCard
+                  post={post}
+                  key={post.postId}
+                  ssr={true}
+                  session={sessions}
+                />
+              ))}
+              <span ref={ref}></span>
+              {loading && <CardLoader />}
+              {postsState?.map((post) => (
+                <PostCard
+                  post={post}
+                  key={post.postId}
+                  ssr={false}
+                  session={sessions}
+                />
+              ))}
+            </div>
+            <div className="relative">
+              <Suggestions reccomend={users} session={sessions} />
+            </div>
+          </div>
         </div>
-        <div className="relative">
-          <Suggestions reccomend={users} session={sessions} />
-        </div>
-      </div>
-    </section>
+      ) : null}
+    </>
   );
 }
 
