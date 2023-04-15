@@ -11,6 +11,7 @@ Welcome to Instafam! This is a social media app that allows you to connect with 
 - Follow and unFollow other users
 - Search for users by username or name
 - View your profile
+- Crop photo before upload
 - View other users' profiles
 - View your feed
 - Save posts to your profile
