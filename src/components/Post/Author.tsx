@@ -1,18 +1,17 @@
 import { IUserPostProps } from "@/types/post";
 import { memo, useMemo, useState } from "react";
 
- function Author({ post }: { post: IUserPostProps }) {
+function Author({ post }: { post: IUserPostProps }) {
   const [show, setShow] = useState(false);
-  const posthastag = useMemo<string[]>(() => post.hashtags, [post])
-  const captions = useMemo<string>(() => post.captions[0], [post])
-  
+  const posthastag = useMemo<string[]>(() => post.hashtags, [post]);
+  const captions = useMemo<string>(() => post.captions[0], [post]);
+
   return (
     <div className="overflow-hidden">
       <div
         className={`flex max-w-[250px] items-start  space-x-2 ${
           show ? "!max-w-fit flex-wrap" : ""
         }`}
-       
       >
         <h3 className="pb-2 text-sm font-medium sm:font-semibold">
           {post?.author}
@@ -24,12 +23,15 @@ import { memo, useMemo, useState } from "react";
         >
           {post.captions}
         </p>
-        <button className="text-sm text-gray-400 !ml-0"  onClick={() => setShow(!show)}>
+        <button
+          className="!ml-0 text-sm text-gray-400"
+          onClick={() => setShow(!show)}
+        >
           {captions.length >= 20 && !show ? (
             <span className="font-semibold ">more</span>
           ) : (
             <span
-              className={`font-semibold ml-1 ${
+              className={`ml-1 font-semibold ${
                 captions.length < 20 ? "hidden" : "block"
               }`}
             >
@@ -51,4 +53,4 @@ import { memo, useMemo, useState } from "react";
     </div>
   );
 }
-export default memo(Author)
+export default memo(Author);

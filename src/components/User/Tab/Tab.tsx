@@ -43,16 +43,15 @@ export default function Tab({ activeTab, handleTabChange }: Props) {
         break;
       default:
         setPosition(btn1.current?.offsetLeft!);
-
     }
-  }, [activeTab])
-
-
+  }, [activeTab]);
 
   return (
     <div className="mx-auto max-w-2xl">
-      <div className="flex w-full items-center justify-around gap-x-5 py-3 pb-5 relative" role=" tablist
-      ">
+      <div
+        className="relative flex w-full items-center justify-around gap-x-5 py-3 pb-5"
+        role="tablist"
+      >
         {tabValue.map((tab, index) => (
           <button
             key={tab.id}
@@ -61,19 +60,16 @@ export default function Tab({ activeTab, handleTabChange }: Props) {
             ref={tab.ref}
             role="tab"
             title={tab.id.toString()}
-            onClick={() => {
-              handleTabChange(tab.id)
-            }}
+            onClick={() => handleTabChange(tab.id)}
             className={`tab-${tab.id}`}
-
           >
             <span>{tab.icon}</span>
           </button>
         ))}
         <span
-          className={`absolute top-0 w-10 h-0.5 left-0 rounded-full bg-gray-500 transition-all ease duration-300`}
+          className={`ease absolute left-0 top-0 h-0.5 w-10 rounded-full bg-gray-500 transition-all duration-300`}
           style={{
-            left: position - 8
+            left: position - 8,
           }}
         ></span>
       </div>

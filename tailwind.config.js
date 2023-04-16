@@ -12,7 +12,7 @@ module.exports = {
           "0%": { left: "-100%", display: "none" },
           "100%": { left: "79px", display: "block" },
         },
-      
+
         slideOut: {
           "0%": { left: "79px", display: "block" },
           "100%": { left: "-100%", display: "none" },

@@ -3,6 +3,7 @@ import { IUser } from "@/types/user";
 import { Session } from "next-auth";
 import Image from "next/image";
 import dynamic from "next/dynamic";
+import { memo } from "react";
 const UserInfo = dynamic(() => import("../Info/Info"));
 const DesktopStatistic = dynamic(() => import("./Desktop"));
 const StatisticMobile = dynamic(() => import("./Mobile"));
@@ -12,9 +13,9 @@ type Props = {
   posts: IUserPostProps[] | [];
   session: Session | null;
   refreshData: () => void;
-}
+};
 
-export default function Statistic({
+ function Statistic({
   session,
   users,
   posts,
@@ -72,3 +73,4 @@ export default function Statistic({
     </div>
   );
 }
+export default memo(Statistic)

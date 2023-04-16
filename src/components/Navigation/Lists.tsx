@@ -1,5 +1,10 @@
 import Link from "next/link";
-import { AiOutlineHome, AiOutlineSearch, AiOutlineHeart, AiOutlinePlusSquare } from "react-icons/ai";
+import {
+  AiOutlineHome,
+  AiOutlineSearch,
+  AiOutlineHeart,
+  AiOutlinePlusSquare,
+} from "react-icons/ai";
 import { MdOutlineExplore } from "react-icons/md";
 import { RiMessengerLine } from "react-icons/ri";
 import Image from "next/image";
@@ -60,8 +65,9 @@ export default function NavbarLists({ session }: { session: Session | null }) {
       path: `/profile/${session?.user.username}`,
       icon: (
         <Image
-          className={`h-7 w-7 border object-cover sm:h-8 sm:w-8 md:border-0 ${drawerOpen ? "!w-full" : ""
-            } rounded-full`}
+          className={`h-7 w-7 border object-cover sm:h-8 sm:w-8 md:border-0 ${
+            drawerOpen ? "!w-full" : ""
+          } rounded-full`}
           src={session?.user?.image || ""}
           width={50}
           height={50}
@@ -88,9 +94,11 @@ export default function NavbarLists({ session }: { session: Session | null }) {
         <li
           role="listitem"
           key={list.id}
-          className={` w-fit rounded-full p-2 text-base font-light  hover:bg-[#a8a8a817] hover:bg-gray-200 dark:hover:bg-[#b9b9b917] md:w-full md:p-3 ${list.id === 2 || list.id === 5 ? "hidden md:block" : ""
-            } ${list.id === 8 ? "hidden md:block" : ""} ${pathname === list.path ? "font-semibold" : ""
-            }`}
+          className={` w-fit rounded-full p-2 text-base font-light  hover:bg-[#a8a8a817] hover:bg-gray-200 dark:hover:bg-[#b9b9b917] md:w-full md:p-3 ${
+            list.id === 2 || list.id === 5 ? "hidden md:block" : ""
+          } ${list.id === 8 ? "hidden md:block" : ""} ${
+            pathname === list.path ? "font-semibold" : ""
+          }`}
         >
           {list.id === 2 ? (
             <button

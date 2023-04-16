@@ -60,7 +60,7 @@ function Suggestions({ session, reccomend }: Props) {
             See all
           </button>
         </div>
-        <UserRecommendations reccomend={reccomend}/>
+        <UserRecommendations reccomend={reccomend} />
       </div>
       <Footer />
     </section>

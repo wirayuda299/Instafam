@@ -5,8 +5,6 @@ type Props = {
   session: Session | null;
 };
 export default function Likes({ likesCount, session }: Props) {
-
-  
   return (
     <>
       {likesCount && likesCount.length > 0 ? (

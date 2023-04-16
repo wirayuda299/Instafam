@@ -1,4 +1,4 @@
-import { memo, useState } from "react";
+import { memo, useMemo, useState } from "react";
 import { IUserPostProps } from "@/types/post";
 import Image from "next/image";
 import dynamic from "next/dynamic";
@@ -29,14 +29,94 @@ function PostCard({ post, session }: Props) {
   const { likesCount, comment } = usePost(post);
   const { user, savedPosts } = useUser(session?.user.uid as string);
 
-  return (
-    <div className="relative mb-5 w-full">
-      <div className="rounded-sm bg-white shadow-lg dark:border-black dark:bg-black dark:text-white ">
+  const ActionsButtons = useMemo(() => {
+    return (
+      <>
+        <ActionButton
+          ssr={false}
+          refreshData={refreshData}
+          savedPosts={savedPosts}
+          likes={likesCount}
+          post={post}
+          uid={session?.user?.uid as string}
+          commentOpen={commentOpen}
+          setCommentOpen={setCommentOpen}
+        />
+      </>
+    )
+  }, [likesCount, commentOpen, savedPosts])
+
+  const PostComments = useMemo(() => {
+    return (
+      <>
+        <Comments
+          ssr={false}
+          comments={comment}
+          post={post}
+          session={session}
+          commentOpen={commentOpen}
+        />
+      </>
+    )
+  }, [comment, commentOpen])
+
+  const PostHeaders = useMemo(() => {
+    return (
+      <>
         <PostHeader
           isMenuOpen={isMenuOpen}
           setIsMenuOpen={setIsMenuOpen}
           post={post}
         />
+      </>
+    )
+  }, [post])
+
+  const AuthorInfo = useMemo(() => {
+    return (
+      <>
+        <Author post={post} />
+      </>
+    )
+  }, [post])
+
+  const PostLikes = useMemo(() => {
+    return (
+      <>
+        <Likes likesCount={likesCount} session={session} />
+      </>
+    )
+  }, [likesCount])
+
+  const MenuModalComponent = useMemo(() => {
+    return (
+      <>
+        <MenuModal
+          isMenuOpen={isMenuOpen}
+          post={post}
+          refreshData={refreshData}
+          session={session}
+          setIsMenuOpen={setIsMenuOpen}
+          ssr={false}
+          users={user}
+        />
+      </>
+    )
+  }, [isMenuOpen])
+
+  const ReportModalComponent = useMemo(() => {
+    return (
+      <>
+        <ReportModal session={session} />
+      </>
+    )
+  }, [session])
+
+
+  return (
+    <div className="relative mb-5 w-full">
+      <div className="rounded-sm bg-white shadow-lg dark:border-black dark:bg-black dark:text-white ">
+        {PostHeaders}
         <Image
           src={post?.image}
           width={1300}
@@ -54,35 +134,12 @@ function PostCard({ post, session }: Props) {
           className="h-auto w-full rounded-lg object-cover"
           alt={post?.author ?? "user post image"}
         />
-        <ActionButton
-          ssr={false}
-          refreshData={refreshData}
-          savedPosts={savedPosts}
-          likes={likesCount}
-          post={post}
-          uid={session?.user?.uid as string}
-          commentOpen={commentOpen}
-          setCommentOpen={setCommentOpen}
-        />
-        <Likes likesCount={likesCount} session={session} />
-        <Author post={post} />
-        <Comments
-          ssr={false}
-          comments={comment}
-          post={post}
-          session={session}
-          commentOpen={commentOpen}
-        />
-        <MenuModal
-          isMenuOpen={isMenuOpen}
-          post={post}
-          refreshData={refreshData}
-          session={session}
-          setIsMenuOpen={setIsMenuOpen}
-          ssr={false}
-          users={user}
-        />
-        <ReportModal session={session} />
+        {ActionsButtons}
+        {PostLikes}
+        {AuthorInfo}
+        {PostComments}
+        {MenuModalComponent}
+        {ReportModalComponent}
       </div>
     </div>
   );

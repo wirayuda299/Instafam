@@ -7,7 +7,7 @@ import { IUser } from "@/types/user";
 import { useRouter } from "next/router";
 import useAuth from "@/hooks/useAuth";
 import { GetServerSidePropsContext } from "next";
-import { Suspense, useState, useTransition } from "react";
+import { Suspense, memo, useMemo, useState, useTransition } from "react";
 
 const SavedPosts = dynamic(
   () => import("@/components/User/savedPosts/savedPosts"),
@@ -37,7 +37,9 @@ type Props = {
   };
 };
 
-export default function UserProfile({ posts, user, query }: Props) {
+function UserProfile({ posts, user, query }: Props) {
+  console.log('profile');
+
   const [postTab, setPostTab] = useState(true);
   const [savedPostTab, setSavedPosts] = useState(false);
   const { session } = useAuth();
@@ -70,6 +72,61 @@ export default function UserProfile({ posts, user, query }: Props) {
         break;
     }
   };
+
+  const Tabs = useMemo(() => {
+    return (
+      <>
+        <Tab activeTab={activeTab} handleTabChange={handleTabClick} />;
+      </>
+    )
+
+  }, [activeTab])
+
+  const Feeds = useMemo(() => {
+    return (
+      <>
+        {postTab && (
+          <>
+            {posts && posts.length < 1 ? (
+              <div className="col-span-3 mx-auto h-full w-full">
+                <h1 className="w-full text-center text-2xl font-semibold text-gray-500 dark:text-gray-400">
+                  No posts
+                </h1>
+              </div>
+            ) : (
+              posts?.map((post) => (
+                <Suspense key={post.postId} fallback={<Loader />}>
+                  <ExplorePostCard post={post} />
+                </Suspense>
+              ))
+            )}
+          </>
+        )}
+
+      </>
+    )
+  }, [])
+
+  const SavedPost = useMemo(() => {
+    return (
+      <>
+        {savedPostTab && (
+          <SavedPosts
+            savedPosts={user?.savedPosts}
+            savedPostsTab={savedPostTab}
+          />
+        )}
+      </>
+    )
+  }, [])
+
+  const Statistics = useMemo(() => {
+    return (
+      <>
+        <Statistic session={session} refreshData={refreshData} users={user} posts={posts ?? []} />
+      </>
+    )
+  }, [session, user, posts])
   return (
     <>
       <Head>
@@ -85,56 +142,29 @@ export default function UserProfile({ posts, user, query }: Props) {
       {session ? (
         <div className="mx-auto h-screen w-full overflow-y-auto p-5 py-5">
           <div className="flex w-full items-center space-x-3 border-b border-gray-500 border-opacity-50 md:justify-center md:space-x-10">
-            <Statistic
-              session={session}
-              refreshData={refreshData}
-              users={user}
-              posts={posts ?? []}
-            />
+           {Statistics}
           </div>
 
           {session?.user?.username === query.username ? (
-            <Tab activeTab={activeTab} handleTabChange={handleTabClick} />
+            <>
+              {Tabs}
+            </>
           ) : null}
           <div className="grid w-full grid-cols-1 items-center justify-center gap-5 p-5 sm:grid-cols-2 md:grid-cols-3 ">
-            {postTab && (
-              <>
-                {posts.length < 1 ? (
-                  <div className="col-span-3 mx-auto h-full w-full">
-                    <h1 className="w-full text-center text-2xl font-semibold text-gray-500 dark:text-gray-400">
-                      No Posts
-                    </h1>
-                  </div>
-                ) : (
-                  <>
-                    {posts?.map((post) => (
-                      <Suspense fallback={<Loader/>} key={post.postId}  >
-                        <ExplorePostCard post={post}  />
-                      </Suspense>
-                    ))}
-                  </>
-                )}
-              </>
-            )}
-            <>
-              {savedPostTab && (
-                <SavedPosts
-                  savedPosts={user?.savedPosts}
-                  savedPostsTab={savedPostTab}
-                />
-              )}
-            </>
+            {Feeds}
+            {SavedPost}
           </div>
-          <br className="md:hidden"/>
-          <br className="md:hidden"/>
-          <br className="md:hidden"/>
-          <br className="md:hidden"/>
-          <br className="md:hidden"/>
+          <br className="md:hidden" />
+          <br className="md:hidden" />
+          <br className="md:hidden" />
+          <br className="md:hidden" />
+          <br className="md:hidden" />
         </div>
       ) : null}
     </>
   );
 }
+export default memo(UserProfile);
 
 export async function getServerSideProps({ query }: GetServerSidePropsContext) {
   const { getPostByCurrentUser } = await import("@/helper/getPosts");

@@ -29,6 +29,7 @@ export default function Comments({
   const refreshData = () => {
     router.replace(router.asPath);
   };
+  
 
   const handleSubmits = async (e: FieldValues) => {
     if (e.comments === "") return;
@@ -49,7 +50,7 @@ export default function Comments({
       });
       ssr && refreshData();
     } catch (error: any) {
-      toast.error(error.message)
+      toast.error(error.message);
     }
   };
 

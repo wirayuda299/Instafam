@@ -1,3 +1,5 @@
+import { memo } from "react";
+
 type Props = {
   data: {
     id: number;
@@ -5,7 +7,7 @@ type Props = {
     value: number | undefined;
   }[];
 };
-export default function StatisticMobile({ data }: Props) {
+ function StatisticMobile({ data }: Props) {
   return (
     <ul
       title="Statistic"
@@ -26,3 +28,4 @@ export default function StatisticMobile({ data }: Props) {
     </ul>
   );
 }
+export default memo(StatisticMobile)

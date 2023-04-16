@@ -49,24 +49,24 @@ export default function EditPosts({ posts }: { posts: IUserPostProps }) {
       <Head>
         <title>Edit Post &#8226; Instafam </title>
       </Head>
-        <div className="h-full w-full text-black dark:text-white">
-          <div className="h-full w-full overflow-y-auto py-6">
-            <div className="mx-auto grid h-screen w-full max-w-5xl place-items-center rounded-lg">
-              <div className="relative grid h-full w-full grid-cols-1 rounded-lg border border-gray-500 border-opacity-50 p-5 lg:max-h-[550px] lg:grid-cols-2 lg:p-0">
-                <PostEditImage posts={posts} />
-                <div>
-                  <Headers getCreatedDate={getCreatedDate} posts={posts} />
-                  <PostForm
-                    defaultValues={defaultValues}
-                    handleSubmit={handleSubmit}
-                    register={register}
-                    updatePost={updatePost}
-                  />
-                </div>
+      <div className="h-full w-full text-black dark:text-white">
+        <div className="h-full w-full overflow-y-auto py-6">
+          <div className="mx-auto grid h-screen w-full max-w-5xl place-items-center rounded-lg">
+            <div className="relative grid h-full w-full grid-cols-1 rounded-lg border border-gray-500 border-opacity-50 p-5 lg:max-h-[550px] lg:grid-cols-2 lg:p-0">
+              <PostEditImage posts={posts} />
+              <div>
+                <Headers getCreatedDate={getCreatedDate} posts={posts} />
+                <PostForm
+                  defaultValues={defaultValues}
+                  handleSubmit={handleSubmit}
+                  register={register}
+                  updatePost={updatePost}
+                />
               </div>
             </div>
           </div>
         </div>
+      </div>
     </>
   );
 }

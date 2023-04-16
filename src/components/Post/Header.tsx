@@ -24,7 +24,6 @@ export default function Postheader({
     setIsMenuOpen(!isMenuOpen);
     setSelectedPost(post);
   };
-
   return (
     <div className="relative flex h-fit items-center px-4 py-3">
       <Image

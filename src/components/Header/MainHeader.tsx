@@ -33,11 +33,11 @@ export default function Header() {
           type="button"
           title="sign out"
           onClick={async () => {
-            const { signOut } = await import('next-auth/react')
+            const { signOut } = await import("next-auth/react");
             signOut({
               callbackUrl: `${process.env.NEXTAUTH_URL}/auth/signin`,
               redirect: true,
-            })
+            });
           }}
         >
           <GiExitDoor size={28} />

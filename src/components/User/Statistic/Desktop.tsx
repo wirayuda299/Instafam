@@ -1,3 +1,5 @@
+import { memo } from "react";
+
 type Props = {
   data: {
     id: number;
@@ -5,7 +7,9 @@ type Props = {
     value: number | undefined;
   }[];
 };
-export default function DesktopStatistic({ data }: Props) {
+function DesktopStatistic({ data }: Props) {
+  console.log('DesktopStatistic');
+  
   return (
     <ul
       title="Statistic"
@@ -26,3 +30,4 @@ export default function DesktopStatistic({ data }: Props) {
     </ul>
   );
 }
+export default memo(DesktopStatistic)

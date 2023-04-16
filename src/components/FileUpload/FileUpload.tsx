@@ -8,7 +8,9 @@ type Props = {
 export default function FileUpload({ img, setPreviewUrl }: Props) {
   return (
     <div
-      className={` w-full items-center justify-center sm:min-w-[500px] ${img === "" ? "flex" : "hidden"}`}
+      className={` w-full items-center justify-center sm:min-w-[500px] ${
+        img === "" ? "flex" : "hidden"
+      }`}
     >
       <div className="mx-auto flex w-full max-w-xl justify-center">
         <label
@@ -33,11 +35,13 @@ export default function FileUpload({ img, setPreviewUrl }: Props) {
             required
             className="hidden "
             onChange={async (e) => {
-              const { handleInputImage } = await import('@/helper/fileUpload')
+              const { handleInputImage } = await import("@/helper/fileUpload");
               const args = {
-                e,setPreviewUrl, img
-              }
-              await handleInputImage(args)
+                e,
+                setPreviewUrl,
+                img,
+              };
+              await handleInputImage(args);
             }}
           />
         </label>

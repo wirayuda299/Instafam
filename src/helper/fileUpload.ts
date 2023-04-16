@@ -8,14 +8,14 @@ const imageInputSchema = z.object({
 });
 
 type Params = {
-  e: ChangeEvent<HTMLInputElement>
-  setPreviewUrl: React.Dispatch<React.SetStateAction<string>>
-  img: string | undefined
-}
-type UploadFile = ({e,img, setPreviewUrl}:Params) => Promise<void>
+  e: ChangeEvent<HTMLInputElement>;
+  setPreviewUrl: React.Dispatch<React.SetStateAction<string>>;
+  img: string | undefined;
+};
+type UploadFile = ({ e, img, setPreviewUrl }: Params) => Promise<void>;
 
-export const handleInputImage:UploadFile = async (args) => {
-  const {e, img, setPreviewUrl} = args
+export const handleInputImage: UploadFile = async (args) => {
+  const { e, img, setPreviewUrl } = args;
   try {
     const isValid = imageInputSchema.parse({ setPreviewUrl, img });
     if (!isValid)

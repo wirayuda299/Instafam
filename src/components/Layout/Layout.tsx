@@ -27,7 +27,7 @@ export default function Layout({ children }: { children: ReactNode }) {
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <div className='mx-auto h-screen max-w-[1600px] !select-none  bg-white dark:bg-black'>
+      <div className="mx-auto h-screen max-w-[1600px] !select-none  bg-white dark:bg-black">
         <div className="flex">
           <Sidebar />
           <SearchForm />

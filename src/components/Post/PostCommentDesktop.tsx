@@ -21,13 +21,7 @@ type Props = {
 };
 
 export default function PostCommentsDesktop(props: Props) {
-  const {
-    post,
-    refreshData,
-    commentOpen,
-    setCommentOpen,
-    children,
-  } = props
+  const { post, refreshData, commentOpen, setCommentOpen, children } = props;
   const { data: session } = useSession();
   const { user, savedPosts } = useUser(session?.user.uid as string);
   const { likesCount, comment } = usePost(post);

@@ -4,7 +4,7 @@ import Image from "next/image";
 import { Dispatch, SetStateAction } from "react";
 import { z } from "zod";
 import { DocumentData } from "firebase/firestore";
-import { FiLoader } from 'react-icons/fi'
+import { FiLoader } from "react-icons/fi";
 interface Props {
   results: DocumentData[];
   handleDrawerToggler: () => void;
@@ -46,8 +46,9 @@ export default function Results({
 
   return (
     <div
-      className={`result flex h-full w-full justify-center bg-white px-5 text-black transition-all dark:bg-black dark:text-white md:px-0 ${results.length < 1 ? "hidden" : "block"
-        } ${customs ? customs : ""}`}
+      className={`result flex h-full w-full justify-center bg-white px-5 text-black transition-all dark:bg-black dark:text-white md:px-0 ${
+        results.length < 1 ? "hidden" : "block"
+      } ${customs ? customs : ""}`}
     >
       <div className="w-full">
         {isPending && (

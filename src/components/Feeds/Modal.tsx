@@ -21,7 +21,7 @@ export default function FeedModal(props: Props) {
     refreshData,
     setCommentOpen,
     setIsModalOpen,
-  } = props
+  } = props;
 
   return (
     <Modal isModalOpen={isModalOpen}>
