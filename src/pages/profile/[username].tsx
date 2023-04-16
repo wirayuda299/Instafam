@@ -74,7 +74,7 @@ function UserProfile({ posts, user, query }: Props) {
   const Tabs = useMemo(() => {
     return (
       <>
-        <Tab activeTab={activeTab} handleTabChange={handleTabClick} />;
+        <Tab activeTab={activeTab} handleTabChange={handleTabClick} />
       </>
     )
 
