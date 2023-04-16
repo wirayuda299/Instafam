@@ -38,8 +38,6 @@ type Props = {
 };
 
 function UserProfile({ posts, user, query }: Props) {
-  console.log('profile');
-
   const [postTab, setPostTab] = useState(true);
   const [savedPostTab, setSavedPosts] = useState(false);
   const { session } = useAuth();
@@ -105,7 +103,7 @@ function UserProfile({ posts, user, query }: Props) {
 
       </>
     )
-  }, [])
+  }, [postTab, posts])
 
   const SavedPost = useMemo(() => {
     return (
@@ -118,7 +116,7 @@ function UserProfile({ posts, user, query }: Props) {
         )}
       </>
     )
-  }, [])
+  }, [savedPostTab])
 
   const Statistics = useMemo(() => {
     return (
