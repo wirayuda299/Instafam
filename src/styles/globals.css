@@ -26,6 +26,6 @@ body {
 }
 
 #nprogress .bar {
-  background: linear-gradient(90deg, #f6d365 0%, #fda085 100%) !important;
-  height: 5px !important;
+  background: linear-gradient(90deg, #db2777 0%, #ea580c 100%) !important;
+  height: 4px !important;
 }

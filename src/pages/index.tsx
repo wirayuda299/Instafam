@@ -1,52 +1,26 @@
 import dynamic from "next/dynamic";
 import useInfiniteScroll from "@/hooks/useInfiniteScroll";
 import { GetServerSidePropsContext } from "next";
-import { useMemo } from "react";
-import Loader from "@/components/Loader/Loader";
 
-const Suggestions = dynamic(
-  () => import("@/components/Suggestions/Suggestions"),
-  { ssr: true }
-);
-const PostCard = dynamic(() => import("@/components/Post"), { 
-  ssr: true, 
-  loading: () => <Loader/>
- });
-const CardLoader = dynamic(() => import("@/components/Loader/Loader"), {
-  ssr: true,
-});
+const Suggestions = dynamic(() => import("@/components/Suggestions/Suggestions"));
+const PostCard = dynamic(() => import("@/components/Post"));
+const CardLoader = dynamic(() => import("@/components/Loader/Loader"));
 
 export default function Home({ posts, users, sessions, last }: any) {
   const { ref, postsState, loading } = useInfiniteScroll(last);
-  const PostCardComponents = useMemo(() => {
-    return (
-      <>
-        {posts?.map((post: any) => (
-          <PostCard post={post} key={post.postId} session={sessions} />
-        ))}
-      </>
-    );
-  }, [posts])
-
-  const ClientPostCard = useMemo(() => {
-    return (
-      <>
-        {postsState?.map((post: any) => (
-          <PostCard post={post} key={post.postId} session={sessions} />
-        ))}
-      </>
-    );
-
-  }, [postsState]);
 
   return (
     <div className="h-full w-full ">
       <div className="flex h-screen w-full items-start justify-between">
         <div className="flex w-full flex-col p-5 ">
-          {PostCardComponents}
+        {posts?.map((post: any) => (
+          <PostCard post={post} key={post.postId} session={sessions} />
+        ))}
           <span ref={ref}></span>
           {loading && <CardLoader />}
-          {ClientPostCard}
+          {postsState?.map((post: any) => (
+          <PostCard post={post} key={post.postId} session={sessions} />
+        ))}
         </div>
         <div className="relative">
           <Suggestions reccomend={users} session={sessions} />
