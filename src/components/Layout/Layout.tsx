@@ -1,9 +1,11 @@
+import { ReactNode } from "react";
 import dynamic from "next/dynamic";
 import Head from "next/head";
+
 const MainHeader = dynamic(() => import("@/components/Header/MainHeader"));
 const Sidebar = dynamic(() => import("@/components/Navigation/Sidebar"));
 const SearchForm = dynamic(() => import("@/components/Search"));
-import { ReactNode } from "react";
+
 export default function Layout({ children }: { children: ReactNode }) {
   return (
     <>
@@ -21,13 +23,11 @@ export default function Layout({ children }: { children: ReactNode }) {
         />
         <meta
           name="viewport"
-          content="width=device-width, minimum-scale=1.0, maximum-scale =1.0, user-scalable=no, initial-scale=1.0, "
+          content="width=device-width, minimum-scale=1.0, maximum-scale =1.0, user-scalable=no, initial-scale=1.0"
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <div
-        className={`!z mx-auto h-screen max-w-[1600px] !select-none  bg-white dark:bg-black `}
-      >
+      <div className='mx-auto h-screen max-w-[1600px] !select-none  bg-white dark:bg-black'>
         <div className="flex">
           <Sidebar />
           <SearchForm />

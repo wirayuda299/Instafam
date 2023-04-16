@@ -3,36 +3,33 @@ import useInfiniteScroll from "@/hooks/useInfiniteScroll";
 import { GetServerSidePropsContext } from "next";
 
 const Suggestions = dynamic(
-  () => import("@/components/Suggestions/Suggestions")
+  () => import("@/components/Suggestions/Suggestions"), {ssr: true}
 );
-const PostCard = dynamic(() => import("@/components/Post"));
-const CardLoader = dynamic(() => import("@/components/Loader/Loader"));
+const PostCard = dynamic(() => import("@/components/Post"), {ssr: true});
+const CardLoader = dynamic(() => import("@/components/Loader/Loader"), {ssr: true});
 
 export default function Home({ posts, users, sessions, last }: any) {
   const { ref, postsState, loading } = useInfiniteScroll(last);
 
   return (
-    <>
-      {sessions ? (
-        <div className="h-full w-full ">
-          <div className="flex h-screen w-full items-start justify-between">
-            <div className="flex w-full flex-col p-5 ">
-              {posts?.map((post: any) => (
-                <PostCard post={post} key={post.postId} session={sessions} />
-              ))}
-              <span ref={ref}></span>
-              {loading && <CardLoader />}
-              {postsState?.map((post) => (
-                <PostCard post={post} key={post.postId} session={sessions} />
-              ))}
-            </div>
-            <div className="relative">
-              <Suggestions reccomend={users} session={sessions} />
-            </div>
-          </div>
+    <div className="h-full w-full ">
+      <div className="flex h-screen w-full items-start justify-between">
+        <div className="flex w-full flex-col p-5 ">
+          {posts?.map((post: any) => (
+            <PostCard post={post} key={post.postId} session={sessions} />
+          ))}
+          <span ref={ref}></span>
+          {loading && <CardLoader />}
+          {postsState?.map((post) => (
+            <PostCard post={post} key={post.postId} session={sessions} />
+          ))}
         </div>
-      ) : null}
-    </>
+        <div className="relative">
+          <Suggestions reccomend={users} session={sessions} />
+        </div>
+      </div>
+    </div>
+
   );
 }
 

@@ -1,14 +1,15 @@
 import { IUserPostProps } from "@/types/post";
-import { useState } from "react";
+import { memo, useMemo, useState } from "react";
 
-export default function Author({ post }: { post: IUserPostProps }) {
+ function Author({ post }: { post: IUserPostProps }) {
   const [show, setShow] = useState(false);
-  const [captions, setCaptions] = useState(post.captions[0]);
-
+  const posthastag = useMemo<string[]>(() => post.hashtags, [post])
+  const captions = useMemo<string>(() => post.captions[0], [post])
+  
   return (
     <div className="overflow-hidden">
       <div
-        className={`flex max-w-xs cursor-pointer items-start space-x-2 ${
+        className={`flex max-w-[250px] text-ellipsis overflow-hidden cursor-pointer items-start space-x-2 ${
           show ? "!max-w-fit flex-wrap" : ""
         }`}
         onClick={() => setShow(!show)}
@@ -18,18 +19,18 @@ export default function Author({ post }: { post: IUserPostProps }) {
         </h3>
         <p
           className={`flex text-sm font-thin text-black dark:text-white ${
-            captions.length >= 25 && !show ? "!truncate " : ""
+            captions.length >= 20 && !show ? "!truncate !text-transparent !bg-gradient-to-r !from-white from-80% !bg-clip-text" : ""
           }`}
         >
           {post.captions}
         </p>
         <p className="flex text-sm">
-          {captions.length >= 25 && !show ? (
-            <span className="text-blue-500">...more</span>
+          {captions.length >= 20 && !show ? (
+            <span className="font-semibold ">.....more</span>
           ) : (
             <span
-              className={`text-blue-500 ${
-                captions.length < 25 ? "hidden" : "block"
+              className={`font-semibold ${
+                captions.length < 20 ? "hidden" : "block"
               }`}
             >
               hide
@@ -38,7 +39,7 @@ export default function Author({ post }: { post: IUserPostProps }) {
         </p>
       </div>
       <div className="flex flex-wrap">
-        {post.hashtags.map((hashtag) => (
+        {posthastag.map((hashtag) => (
           <span
             key={hashtag}
             className="pr-1 text-xs font-normal text-blue-500"
@@ -50,3 +51,4 @@ export default function Author({ post }: { post: IUserPostProps }) {
     </div>
   );
 }
+export default memo(Author)

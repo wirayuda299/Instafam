@@ -13,14 +13,16 @@ type Props = {
   setCommentOpen: Dispatch<SetStateAction<boolean>>;
   setIsModalOpen: Dispatch<SetStateAction<boolean>>;
 };
-export default function FeedModal({
-  commentOpen,
-  isModalOpen,
-  post,
-  refreshData,
-  setCommentOpen,
-  setIsModalOpen,
-}: Props) {
+export default function FeedModal(props: Props) {
+  const {
+    commentOpen,
+    isModalOpen,
+    post,
+    refreshData,
+    setCommentOpen,
+    setIsModalOpen,
+  } = props
+
   return (
     <Modal isModalOpen={isModalOpen}>
       <div className="h-full w-full text-black dark:text-white">

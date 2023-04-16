@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 import { FieldValues, useForm } from "react-hook-form";
 import Image from "next/image";
 import { Session } from "next-auth";
+import toast from "react-hot-toast";
 export type IComment = Pick<IUserPostProps, "comments">;
 
 type Props = {
@@ -48,7 +49,7 @@ export default function Comments({
       });
       ssr && refreshData();
     } catch (error: any) {
-      console.log(error.message);
+      toast.error(error.message)
     }
   };
 

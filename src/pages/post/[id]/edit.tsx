@@ -8,7 +8,6 @@ import { FieldValues, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import dynamic from "next/dynamic";
 import Head from "next/head";
-import useAuth from "@/hooks/useAuth";
 
 const Headers = dynamic(() => import("@/components/PostEdit/Header"));
 const PostEditImage = dynamic(
@@ -22,7 +21,6 @@ interface Values extends FieldValues {
 
 export default function EditPosts({ posts }: { posts: IUserPostProps }) {
   const { register, handleSubmit } = useForm();
-  const { session } = useAuth();
   const router = useRouter();
   const defaultValues = {
     captions: `${posts?.captions} ${posts?.hashtags}`,
@@ -51,7 +49,6 @@ export default function EditPosts({ posts }: { posts: IUserPostProps }) {
       <Head>
         <title>Edit Post &#8226; Instafam </title>
       </Head>
-      {session ? (
         <div className="h-full w-full text-black dark:text-white">
           <div className="h-full w-full overflow-y-auto py-6">
             <div className="mx-auto grid h-screen w-full max-w-5xl place-items-center rounded-lg">
@@ -70,7 +67,6 @@ export default function EditPosts({ posts }: { posts: IUserPostProps }) {
             </div>
           </div>
         </div>
-      ) : null}
     </>
   );
 }

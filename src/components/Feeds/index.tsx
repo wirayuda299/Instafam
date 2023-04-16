@@ -8,7 +8,7 @@ const PostInfo = dynamic(() => import("./PostInfo"));
 const FeedModal = dynamic(() => import("./Modal"));
 
 function ExplorePostCard({ post }: { post: IUserPostProps }) {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [commentOpen, setCommentOpen] = useState<boolean>(false);
   const { asPath, replace } = useRouter();
   const refreshData = () => replace(asPath);

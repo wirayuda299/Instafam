@@ -5,16 +5,10 @@ import { BsFillGearFill, BsFillMoonStarsFill } from "react-icons/bs";
 import { RxCountdownTimer } from "react-icons/rx";
 import { useRecoilState } from "recoil";
 import { useEffect } from "react";
-interface INavProps {
-  id: number;
-  title: string;
-  path: string;
-  icon: JSX.Element | string;
-}
 
 export default function ExtraMenus() {
   const [extraListOpen, setExtraListOpen] = useRecoilState(extraListToggler);
-  const extraList: INavProps[] = [
+  const extraList = [
     {
       id: 1,
       icon: <BsFillGearFill className="text-2xl text-black dark:text-white" />,

@@ -1,6 +1,5 @@
 import { IUserPostProps } from "@/types/post";
 import Image from "next/image";
-import { BsThreeDots } from "react-icons/bs";
 
 type Props = {
   posts: IUserPostProps;
@@ -26,9 +25,6 @@ export default function PostEditHeader({ posts, getCreatedDate }: Props) {
           </div>
         </div>
       </div>
-      <button type="button" name="options" title="options">
-        <BsThreeDots />
-      </button>
     </header>
   );
 }

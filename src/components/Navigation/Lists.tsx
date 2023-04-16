@@ -1,10 +1,5 @@
 import Link from "next/link";
-import {
-  AiOutlineHome,
-  AiOutlineSearch,
-  AiOutlineHeart,
-  AiOutlinePlusSquare,
-} from "react-icons/ai";
+import { AiOutlineHome, AiOutlineSearch, AiOutlineHeart, AiOutlinePlusSquare } from "react-icons/ai";
 import { MdOutlineExplore } from "react-icons/md";
 import { RiMessengerLine } from "react-icons/ri";
 import Image from "next/image";
@@ -14,18 +9,11 @@ import { resultsState } from "@/store/results";
 import { useRouter } from "next/router";
 import { Session } from "next-auth";
 
-type NavProps = {
-  id: number;
-  title: string;
-  path: string;
-  icon: JSX.Element | string;
-};
-
 export default function NavbarLists({ session }: { session: Session | null }) {
   const { pathname } = useRouter();
   const [drawerOpen, setDrawerOpen] = useRecoilState(searchDrawer);
   const [results, setResults] = useRecoilState(resultsState);
-  const navList: NavProps[] = [
+  const navList = [
     {
       id: 1,
       title: "Home",
@@ -72,9 +60,8 @@ export default function NavbarLists({ session }: { session: Session | null }) {
       path: `/profile/${session?.user.username}`,
       icon: (
         <Image
-          className={`h-7 w-7 border object-cover sm:h-8 sm:w-8 md:border-0 ${
-            drawerOpen ? "!w-full" : ""
-          } rounded-full`}
+          className={`h-7 w-7 border object-cover sm:h-8 sm:w-8 md:border-0 ${drawerOpen ? "!w-full" : ""
+            } rounded-full`}
           src={session?.user?.image || ""}
           width={50}
           height={50}
@@ -82,7 +69,7 @@ export default function NavbarLists({ session }: { session: Session | null }) {
           blurDataURL={
             "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAP//////////////////////////////////////////////////////////////////////////////////////2wBDAf//////////////////////////////////////////////////////////////////////////////////////wAARCAACAAMDASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwBaKKKAP//Z"
           }
-          loading="lazy"
+          priority
           quality={50}
           alt={session?.user?.name || "user profile"}
         />
@@ -101,11 +88,9 @@ export default function NavbarLists({ session }: { session: Session | null }) {
         <li
           role="listitem"
           key={list.id}
-          className={` w-fit rounded-full p-2 text-base font-light  hover:bg-[#a8a8a817] hover:bg-gray-200 dark:hover:bg-[#b9b9b917] md:w-full md:p-3 ${
-            list.id === 2 || list.id === 5 ? "hidden md:block" : ""
-          } ${list.id === 8 ? "hidden md:block" : ""} ${
-            pathname === list.path ? "font-semibold" : ""
-          }`}
+          className={` w-fit rounded-full p-2 text-base font-light  hover:bg-[#a8a8a817] hover:bg-gray-200 dark:hover:bg-[#b9b9b917] md:w-full md:p-3 ${list.id === 2 || list.id === 5 ? "hidden md:block" : ""
+            } ${list.id === 8 ? "hidden md:block" : ""} ${pathname === list.path ? "font-semibold" : ""
+            }`}
         >
           {list.id === 2 ? (
             <button

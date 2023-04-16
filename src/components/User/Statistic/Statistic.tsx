@@ -7,7 +7,7 @@ const UserInfo = dynamic(() => import("../Info/Info"));
 const DesktopStatistic = dynamic(() => import("./Desktop"));
 const StatisticMobile = dynamic(() => import("./Mobile"));
 
-interface IProps {
+type Props = {
   users: IUser | null;
   posts: IUserPostProps[] | [];
   session: Session | null;
@@ -19,7 +19,7 @@ export default function Statistic({
   users,
   posts,
   refreshData,
-}: IProps) {
+}: Props) {
   const data = [
     {
       id: 1,

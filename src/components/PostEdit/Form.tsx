@@ -19,7 +19,7 @@ export default function PostForm({
         className="w-full rounded-lg bg-[#a8a8a817] px-3 py-2"
         placeholder="Edit post"
         spellCheck="false"
-        role="textbox"
+        role="search"
         defaultValue={defaultValues.captions}
         {...register("updated", { required: true })}
       />
