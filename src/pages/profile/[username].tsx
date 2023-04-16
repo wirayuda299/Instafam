@@ -7,7 +7,7 @@ import { IUser } from "@/types/user";
 import { useRouter } from "next/router";
 import useAuth from "@/hooks/useAuth";
 import { GetServerSidePropsContext } from "next";
-import { useState, useTransition } from "react";
+import { Suspense, useState, useTransition } from "react";
 
 const SavedPosts = dynamic(
   () => import("@/components/User/savedPosts/savedPosts"),
@@ -79,7 +79,7 @@ export default function UserProfile({ posts, user, query }: Props) {
         <link rel="icon" href={user?.image} />
         <meta
           name="description"
-          content={`This is profile page of ${user && user?.username}`}
+          content={`This is profile page of ${user?.username}`}
         />
       </Head>
       {session ? (
@@ -108,7 +108,9 @@ export default function UserProfile({ posts, user, query }: Props) {
                 ) : (
                   <>
                     {posts?.map((post) => (
-                      <ExplorePostCard post={post} key={post.postId} />
+                      <Suspense fallback={<Loader/>} key={post.postId}  >
+                        <ExplorePostCard post={post}  />
+                      </Suspense>
                     ))}
                   </>
                 )}
@@ -123,6 +125,11 @@ export default function UserProfile({ posts, user, query }: Props) {
               )}
             </>
           </div>
+          <br className="md:hidden"/>
+          <br className="md:hidden"/>
+          <br className="md:hidden"/>
+          <br className="md:hidden"/>
+          <br className="md:hidden"/>
         </div>
       ) : null}
     </>

@@ -9,34 +9,34 @@ import { memo, useMemo, useState } from "react";
   return (
     <div className="overflow-hidden">
       <div
-        className={`flex max-w-[250px] text-ellipsis overflow-hidden cursor-pointer items-start space-x-2 ${
+        className={`flex max-w-[250px] items-start  space-x-2 ${
           show ? "!max-w-fit flex-wrap" : ""
         }`}
-        onClick={() => setShow(!show)}
+       
       >
         <h3 className="pb-2 text-sm font-medium sm:font-semibold">
           {post?.author}
         </h3>
         <p
-          className={`flex text-sm font-thin text-black dark:text-white ${
-            captions.length >= 20 && !show ? "!truncate !text-transparent !bg-gradient-to-r !from-white from-80% !bg-clip-text" : ""
+          className={` text-sm font-thin text-black dark:text-white ${
+            captions.length >= 20 && !show ? "truncate" : ""
           }`}
         >
           {post.captions}
         </p>
-        <p className="flex text-sm">
+        <button className="text-sm text-gray-400 !ml-0"  onClick={() => setShow(!show)}>
           {captions.length >= 20 && !show ? (
-            <span className="font-semibold ">.....more</span>
+            <span className="font-semibold ">more</span>
           ) : (
             <span
-              className={`font-semibold ${
+              className={`font-semibold ml-1 ${
                 captions.length < 20 ? "hidden" : "block"
               }`}
             >
               hide
             </span>
           )}
-        </p>
+        </button>
       </div>
       <div className="flex flex-wrap">
         {posthastag.map((hashtag) => (

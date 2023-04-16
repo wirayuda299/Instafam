@@ -12,6 +12,7 @@ module.exports = {
           "0%": { left: "-100%", display: "none" },
           "100%": { left: "79px", display: "block" },
         },
+      
         slideOut: {
           "0%": { left: "79px", display: "block" },
           "100%": { left: "-100%", display: "none" },
@@ -54,7 +55,8 @@ module.exports = {
         slideOutWidth: "slideOutWidth 0.4s ease forwards",
         fadeIn: "fadeIn 1s ease-in-out forwards",
         fadeOut: "fadeOut 1s ease-in-out forwards",
-        popUp: "popUp 0.4s",
+        popUp: "popUp 0.3s",
+        slide: "slide 0.5s ease forwards",
       },
       screens: {
         xs: "320px",
