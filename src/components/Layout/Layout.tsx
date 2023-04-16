@@ -2,6 +2,7 @@ import { ReactNode } from "react";
 import dynamic from "next/dynamic";
 import Head from "next/head";
 
+
 const MainHeader = dynamic(() => import("@/components/Header/MainHeader"));
 const Sidebar = dynamic(() => import("@/components/Navigation/Sidebar"));
 const SearchForm = dynamic(() => import("@/components/Search"));

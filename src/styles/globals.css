@@ -24,3 +24,8 @@ body {
   height: 100%;
   object-fit: cover;
 }
+
+#nprogress .bar {
+  background: linear-gradient(90deg, #f6d365 0%, #fda085 100%) !important;
+  height: 5px !important;
+}
