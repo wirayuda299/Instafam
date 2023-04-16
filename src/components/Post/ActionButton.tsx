@@ -27,7 +27,7 @@ export default function ActionButton({
   refreshData,
   ssr,
 }: Props) {
-  const ACTION_BUTTON_LIST = [
+  const Buttons = [
     {
       id: 1,
       icon: likes.includes(uid) ? (
@@ -68,15 +68,15 @@ export default function ActionButton({
   return (
     <div className="relative mb-2 mt-3 flex items-center justify-between p-1">
       <div className="flex gap-x-5">
-        {ACTION_BUTTON_LIST.map((action) => (
+        {Buttons.map((btn) => (
           <button
-            key={action.id}
-            onClick={action.onClick}
+            key={btn.id}
+            onClick={btn.onClick}
             name="action button"
             type="button"
             title="action button"
           >
-            {action.icon}
+            {btn.icon}
           </button>
         ))}
       </div>
