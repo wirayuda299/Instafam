@@ -3,9 +3,7 @@ import { IUserPostProps } from "@/types/post";
 import Loader from "@/components/Loader/Loader";
 import dynamic from "next/dynamic";
 
-const FeedsCards = dynamic(() => import("@/components/Feeds"), {
-  loading: () => <Loader />,
-});
+const FeedsCards = dynamic(() => import("@/components/Feeds"));
 
 type ISavedPostsProps = {
   savedPosts: IUserPostProps[] | undefined;

@@ -1,18 +1,18 @@
-import { searchDrawer } from "@/store/searchDrawer";
-import { useRecoilState } from "recoil";
 import { AiOutlineSearch } from "react-icons/ai";
 import { memo, useEffect } from "react";
 import Form from "./Form";
+import { useDrawerStore } from "@/stores/stores";
+import { useStore } from "zustand";
 
 function SearchDrawer() {
-  const [drawerOpen, setDrawerOpen] = useRecoilState(searchDrawer);
+  const { drawer, setDrawer } = useStore(useDrawerStore)
   useEffect(() => {
     window.addEventListener("resize", () => {
-      setDrawerOpen(false);
+      setDrawer(false);
     });
     return () => {
       window.removeEventListener("resize", () => {
-        setDrawerOpen(false);
+        setDrawer(false);
       });
     };
   }, []);
@@ -20,7 +20,7 @@ function SearchDrawer() {
   return (
     <section
       className={`fixed z-50 bg-white transition-all duration-300 ease-out dark:bg-black ${
-        drawerOpen
+        drawer
           ? "animate-slideIn lg:animate-slideIn"
           : "-left-full hidden animate-slideOut lg:animate-slideOutWidth"
       }`}

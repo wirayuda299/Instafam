@@ -19,7 +19,6 @@ export default function IDHeader({
   user,
   children,
 }: Props) {
-  
   return (
     <div className="ease sticky -top-3 flex w-full border-b border-gray-500 border-opacity-50 bg-white px-2 py-3 transition-all duration-300 dark:bg-black">
       <div className="flex flex-1 items-start space-x-2">

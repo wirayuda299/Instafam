@@ -1,9 +1,8 @@
 import useSearchUser from "@/hooks/useSearchUser";
-import { resultsState } from "@/store/results";
 import { ReactNode } from "react";
-import { useRecoilState } from "recoil";
-import { searchDrawer } from "@/store/searchDrawer";
 import dynamic from "next/dynamic";
+import { useDrawerStore, useResultStore } from "@/stores/stores";
+import { useStore } from "zustand";
 const FormResult = dynamic(() => import("./Results"), { ssr: false });
 
 const defaultValues = {
@@ -17,11 +16,11 @@ type Props = {
 
 export default function Form({ height, children }: Props) {
   const { handleSubmit, onSubmit, register, isPending } = useSearchUser();
-  const [results, setResults] = useRecoilState(resultsState);
-  const [drawerOpen, setDrawerOpen] = useRecoilState(searchDrawer);
+  const {result, setResult}= useStore(useResultStore)
+  const {  setDrawer } = useStore(useDrawerStore)
   const handleDrawerToggler = () => {
-    setResults([]);
-    setDrawerOpen(false);
+    setResult([]);
+    setDrawer(false);
   };
   return (
     <>
@@ -47,9 +46,9 @@ export default function Form({ height, children }: Props) {
             </div>
             <FormResult
               handleDrawerToggler={handleDrawerToggler}
-              results={results}
+              results={result}
               isPending={isPending}
-              setResults={setResults}
+              setResults={setResult}
               customs="h-screen mt-5 -left-1 fixed z-50 top-16 md: h-full  md:top-0 md:left-0 md:w-full md:z-0  md:transition-all md:duration-300 md:ease-in-out md:static "
             />
           </div>

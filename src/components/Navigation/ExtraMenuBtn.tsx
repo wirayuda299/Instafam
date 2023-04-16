@@ -1,16 +1,15 @@
-import { extraListToggler } from "@/store/extraListToggler";
-import { searchDrawer } from "@/store/searchDrawer";
+import { useDrawerStore, useExtraListStore } from "@/stores/stores";
 import { AiOutlineClose } from "react-icons/ai";
 import { RxHamburgerMenu } from "react-icons/rx";
-import { useRecoilState } from "recoil";
+import { useStore } from "zustand";
 
 export default function ExtraMenuBtn() {
-  const [extraListOpen, setExtraListOpen] = useRecoilState(extraListToggler);
-  const [drawerOpen, setDrawerOpen] = useRecoilState(searchDrawer);
+  const {setExtraList, extraList}= useStore(useExtraListStore);  
+  const {drawer, setDrawer} = useStore(useDrawerStore);
 
   const handleClick = () => {
-    setExtraListOpen(!extraListOpen);
-    setDrawerOpen(false);
+    setExtraList(!extraList);
+    setDrawer(false);
   };
 
   return (
@@ -22,12 +21,12 @@ export default function ExtraMenuBtn() {
       onClick={handleClick}
     >
       <div className="ease flex items-center space-x-2 px-3 text-base transition-all duration-300 sm:text-lg">
-        {extraListOpen ? (
+        {extraList ? (
           <AiOutlineClose className="text-xl md:text-2xl" size={30} />
         ) : (
           <RxHamburgerMenu className="text-xl md:text-2xl" size={30} />
         )}
-        <span className={`${drawerOpen ? "hidden" : "hidden lg:block"}`}>
+        <span className={`${drawer ? "hidden" : "hidden lg:block"}`}>
           More
         </span>
       </div>

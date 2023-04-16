@@ -1,34 +1,17 @@
 import Link from "next/link";
 import { AiOutlineClose } from "react-icons/ai";
 import Image from "next/image";
-import { Dispatch, SetStateAction } from "react";
-import { z } from "zod";
 import { DocumentData } from "firebase/firestore";
 import { FiLoader } from "react-icons/fi";
+import { IUser } from "@/types/user";
 interface Props {
-  results: DocumentData[];
+  results: IUser[];
   handleDrawerToggler: () => void;
-  setResults: Dispatch<SetStateAction<any[]>>;
+  setResults:(result: IUser[]) => void
   isPending: boolean;
   customs?: string;
 }
 
-const ResultsSchema = z.object({
-  results: z
-    .array(
-      z.object({
-        uid: z.string(),
-        username: z.string(),
-        name: z.string(),
-        image: z.string(),
-      })
-    )
-    .optional()
-    .nullish(),
-  handleDrawerToggler: z.function().args(z.any()).returns(z.any()),
-  setResults: z.function().args(z.any()).returns(z.any()),
-  customs: z.string().optional().nullish(),
-});
 export default function Results({
   results,
   handleDrawerToggler,
@@ -36,13 +19,7 @@ export default function Results({
   customs,
   isPending,
 }: Props) {
-  const isValid = ResultsSchema.parse({
-    results,
-    handleDrawerToggler,
-    setResults,
-    customs,
-  });
-  if (!isValid) return null;
+
 
   return (
     <div

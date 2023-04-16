@@ -8,7 +8,6 @@ type Props = {
   }[];
 };
 function DesktopStatistic({ data }: Props) {
-  
   return (
     <ul
       title="Statistic"
@@ -29,4 +28,4 @@ function DesktopStatistic({ data }: Props) {
     </ul>
   );
 }
-export default memo(DesktopStatistic)
+export default memo(DesktopStatistic);

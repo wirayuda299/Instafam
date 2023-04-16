@@ -15,12 +15,7 @@ type Props = {
   refreshData: () => void;
 };
 
- function Statistic({
-  session,
-  users,
-  posts,
-  refreshData,
-}: Props) {
+function Statistic({ session, users, posts, refreshData }: Props) {
   const data = [
     {
       id: 1,
@@ -73,4 +68,4 @@ type Props = {
     </div>
   );
 }
-export default memo(Statistic)
+export default memo(Statistic);

@@ -1,7 +1,7 @@
 import { db } from "@/config/firebase";
 import { IUserPostProps } from "@/types/post";
 import { onSnapshot, doc } from "firebase/firestore";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 type IComment = Pick<IUserPostProps, "comments">;
 
 export default function usePost(post: IUserPostProps) {
@@ -16,5 +16,13 @@ export default function usePost(post: IUserPostProps) {
     });
     return () => unsub();
   }, [db]);
-  return { likesCount, comment };
+
+  const likes = useMemo(() => {
+    return likesCount;
+  }, [likesCount]);
+
+  const comments = useMemo(() => {
+    return comment;
+  }, [comment]);
+  return { likes, comments };
 }

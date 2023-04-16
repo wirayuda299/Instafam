@@ -3,13 +3,28 @@ import { IUserPostProps } from "@/types/post";
 import dynamic from "next/dynamic";
 import useInfiniteScroll from "@/hooks/useInfiniteScroll";
 import { GetServerSidePropsContext } from "next";
+import { getPosts } from "@/helper/getPosts";
 
 const ExplorePostCard = dynamic(() => import("@/components/Feeds"), {
   ssr: true,
+  loading({ error, isLoading, pastDelay }) {
+    if (isLoading || pastDelay) {
+      return <div>Loading...</div>;
+    } else if (error) {
+      return <div>Failed to load</div>;
+    } else {
+      return null;
+    }
+  },
+  webpack() {
+    return [require.resolve("@/components/Feeds")];
+  },
 });
-const CardLoader = dynamic(() => import("@/components/Loader/Loader"), {
-  ssr: true,
+const Loader = dynamic(() => import("@/components/Loader/Loader"), {
+  ssr: true
+
 });
+
 type Props = {
   posts: IUserPostProps[];
   last: IUserPostProps;
@@ -33,7 +48,7 @@ export default function Explore({ posts, last }: Props) {
             <ExplorePostCard post={post} key={post.postId} />
           ))}
           <span ref={ref}></span>
-          {loading && <CardLoader />}
+          {loading && <Loader />}
           {postsState?.map((post) => (
             <ExplorePostCard post={post} key={post.postId} />
           ))}
@@ -43,10 +58,9 @@ export default function Explore({ posts, last }: Props) {
   );
 }
 export async function getServerSideProps({ res }: GetServerSidePropsContext) {
-  const { getPosts } = await import("@/helper/getPosts");
   const posts = await getPosts(10);
   const last = posts ? posts[posts.length - 1] : null;
-  res.setHeader("Cache-Control", "maxage=60, stale-while-revalidate=59");
+  res.setHeader("Cache-Control", "maxage=500, stale-while-revalidate");
 
   return {
     props: {

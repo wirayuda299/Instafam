@@ -14,23 +14,11 @@ type Props = {
   ssr: boolean;
 };
 
-export default function Comments({
-  post,
-  commentOpen,
-  comments,
-  session,
-  ssr,
-}: Props) {
+const CommentForm = ({ session, post, ssr, refreshData }: any) => {
   const { register, handleSubmit, resetField } = useForm();
   const defaultValues = {
     comments: "",
   };
-  const router = useRouter();
-  const refreshData = () => {
-    router.replace(router.asPath);
-  };
-  
-
   const handleSubmits = async (e: FieldValues) => {
     if (e.comments === "") return;
     const { db } = await import("@/config/firebase");
@@ -53,28 +41,47 @@ export default function Comments({
       toast.error(error.message);
     }
   };
+  return (
+    <form className="px-1 py-1" onSubmit={handleSubmit(handleSubmits)}>
+      <input
+        type="text"
+        placeholder="Add a comment..."
+        autoComplete="off"
+        autoFocus={false}
+        defaultValue={defaultValues.comments}
+        {...register("comments")}
+        className="w-full bg-transparent text-xs focus:outline-none"
+      />
+    </form>
+  );
+};
+
+export default function Comments({
+  post,
+  commentOpen,
+  comments,
+  session,
+  ssr,
+}: Props) {
+  const router = useRouter();
+  const refreshData = () => {
+    router.replace(router.asPath);
+  };
 
   return (
-    <div
-      className={
-        router.pathname === "/post/[id]" ? "flex flex-col-reverse " : "block"
-      }
+    <div className={
+      router.pathname === "/post/[id]" ? "flex flex-col-reverse " : "block"
+    }
     >
-      <form className="px-1 py-1" onSubmit={handleSubmit(handleSubmits)}>
-        <input
-          type="text"
-          placeholder="Add a comment..."
-          autoComplete="off"
-          autoFocus={false}
-          defaultValue={defaultValues.comments}
-          {...register("comments")}
-          className="w-full bg-transparent text-xs focus:outline-none"
-        />
-      </form>
+      <CommentForm
+        session={session}
+        post={post}
+        ssr={ssr}
+        refreshData={refreshData}
+      />
       <div
-        className={`py-2 ${commentOpen ? "block" : "hidden"} ${
-          router.pathname === "/post/[id]" ? "pt-5 " : ""
-        }}`}
+        className={`py-2 ${commentOpen ? "block" : "hidden"} ${router.pathname === "/post/[id]" ? "pt-5 " : ""
+          }}`}
       >
         {comments?.length < 1 ? (
           <p className="text-center text-xs">There&apos;s no comment yet</p>

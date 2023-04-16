@@ -3,7 +3,7 @@ import { IUserPostProps } from "@/types/post";
 import { getCreatedDate } from "@/util/postDate";
 import dynamic from "next/dynamic";
 import Link from "next/link";
-import { Dispatch, SetStateAction, useMemo, } from "react";
+import { Dispatch, SetStateAction, useMemo } from "react";
 import { imageLoader } from "@/util/imageLoader";
 import { useSession } from "next-auth/react";
 import { AiOutlineClose } from "react-icons/ai";
@@ -23,80 +23,31 @@ type Props = {
 };
 
 export default function IDPostPreview(props: Props) {
-  const {
-    post,
-    commentOpen,
-    refreshData,
-    setCommentOpen,
-    setIsModalOpen,
-  } = props;
+  const { post, commentOpen, refreshData, setCommentOpen, setIsModalOpen } =
+    props;
   const { data: session } = useSession();
-  const { likesCount, comment } = usePost(post);
+  const { likes, comments } = usePost(post);
   const { savedPosts, user } = useUser(session?.user.uid as string);
   const { pathname } = useRouter();
-
-  const ActionButtons = useMemo(() => {
-    
-    return (
-      <>
-        <ActionButton
-          ssr={false}
-          refreshData={refreshData}
-          commentOpen={commentOpen}
-          likes={likesCount}
-          post={post}
-          savedPosts={savedPosts}
-          setCommentOpen={setCommentOpen}
-          uid={user?.uid as string}
-        />
-      </>
-    )
-  }, [likesCount, savedPosts, post]);
-
-  const Comment = useMemo(() => {
-    return (
-      <>
-        <Comments
-          ssr={false}
-          commentOpen={commentOpen}
-          comments={comment}
-          post={post}
-          session={session}
-        />
-      </>
-    )
-  }, [post]);
-
-  const Like = useMemo(() => {
-    return (
-      <>
-        <Likes
-          likesCount={likesCount}
-          session={session}
-        />
-      </>
-    )
-  }, [likesCount]);
-
 
   return (
     <figure className="shadow-sm">
       <div className="py-2 lg:hidden">
         <div className="flex items-center justify-between">
-        <div className="flex cursor-pointer items-center space-x-2 ">
-          <Image
-            src={post?.postedByPhotoUrl ?? ""}
-            width={40}
-            priority
-            height={40}
-            className="rounded-full bg-gradient-to-bl from-pink-600 to-orange-600 p-0.5"
-            alt={post?.captions ?? "post"}
-          />
-          <Link href={`/profile/${post?.author}`}>
-            <h1 className="text-sm font-bold">{post?.author}</h1>
-            <p className="text-xs">{getCreatedDate(post)}</p>
-          </Link>
-        </div>
+          <div className="flex cursor-pointer items-center space-x-2 ">
+            <Image
+              src={post?.postedByPhotoUrl ?? ""}
+              width={40}
+              priority
+              height={40}
+              className="rounded-full bg-gradient-to-bl from-pink-600 to-orange-600 p-0.5"
+              alt={post?.captions ?? "post"}
+            />
+            <Link href={`/profile/${post?.author}`}>
+              <h1 className="text-sm font-bold">{post?.author}</h1>
+              <p className="text-xs">{getCreatedDate(post)}</p>
+            </Link>
+          </div>
           {pathname !== "/post[id]" ? (
             <button
               onClick={(e) => {
@@ -127,13 +78,28 @@ export default function IDPostPreview(props: Props) {
         className="h-auto w-full rounded-md md:h-full lg:rounded-none"
       />
       <div className="block lg:hidden">
-        {ActionButtons}
-        {Like}
+        <ActionButton
+          ssr={false}
+          refreshData={refreshData}
+          commentOpen={commentOpen}
+          likes={likes}
+          post={post}
+          savedPosts={savedPosts}
+          setCommentOpen={setCommentOpen}
+          uid={user?.uid as string}
+        />
+        <Likes likesCount={likes} session={session} />
         <figcaption className="flex items-center space-x-2 p-2 text-2xl font-bold">
           <h2 className="text-sm">{post?.author}</h2>
           <p className="break-words text-xs">{post?.captions}</p>
         </figcaption>
-        {Comment}
+        <Comments
+          ssr={false}
+          commentOpen={commentOpen}
+          comments={comments}
+          post={post}
+          session={session}
+        />
       </div>
     </figure>
   );

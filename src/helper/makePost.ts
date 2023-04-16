@@ -5,15 +5,14 @@ import { ref, uploadString, getDownloadURL } from "firebase/storage";
 import { Session } from "next-auth";
 import { Dispatch, SetStateAction } from "react";
 import toast from "react-hot-toast";
-import { SetterOrUpdater } from "recoil";
 import { z } from "zod";
 
 type TMakePost = {
   captions: string;
   croppedImg: string;
   session: Session | null;
-  setCaptions: SetterOrUpdater<string>;
-  setImg: SetterOrUpdater<string>;
+  setCaptions: Dispatch<SetStateAction<string>>
+  setImg: Dispatch<SetStateAction<string>>
   setLoading: Dispatch<SetStateAction<boolean>>;
   img: string;
 };

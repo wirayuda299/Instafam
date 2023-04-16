@@ -4,8 +4,8 @@ import Link from "next/link";
 import { getCreatedDate } from "@/util/postDate";
 import { IUserPostProps } from "@/types/post";
 import { BsThreeDots } from "react-icons/bs";
-import { useRecoilState } from "recoil";
-import { selectedPostState } from "@/store/selectedPost";
+import { useStore } from "zustand";
+import { useSelectedPostStore } from "@/stores/stores";
 
 type HeaderProps = {
   post: IUserPostProps;
@@ -18,7 +18,7 @@ export default function Postheader({
   setIsMenuOpen,
   isMenuOpen,
 }: HeaderProps) {
-  const [selectedPost, setSelectedPost] = useRecoilState(selectedPostState);
+  const {setSelectedPost} = useStore(useSelectedPostStore);
 
   const handleClick = () => {
     setIsMenuOpen(!isMenuOpen);

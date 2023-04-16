@@ -21,7 +21,7 @@ export default function PostDetail({ post }: { post: IUserPostProps }) {
   const [commentOpen, setCommentOpen] = useState<boolean>(false);
   const { asPath, replace } = useRouter();
   const refreshData = () => replace(asPath);
-  
+
   const PreviewMobile = useMemo(() => {
     return (
       <>
@@ -34,8 +34,7 @@ export default function PostDetail({ post }: { post: IUserPostProps }) {
         />
       </>
     );
-
-  }, [commentOpen, post])
+  }, [commentOpen, post]);
 
   const PreviewDesktop = useMemo(() => {
     return (
@@ -52,7 +51,7 @@ export default function PostDetail({ post }: { post: IUserPostProps }) {
         </PostCommentDesktop>
       </>
     );
-  }, [commentOpen, post])
+  }, [commentOpen, post]);
   return (
     <>
       <Head>
@@ -64,7 +63,7 @@ export default function PostDetail({ post }: { post: IUserPostProps }) {
         <div className="h-full w-full overflow-y-auto">
           <div className="mx-auto grid h-screen w-full max-w-5xl place-items-center rounded-lg ">
             <div className="relative grid h-full w-full grid-cols-1 justify-between overflow-y-auto border border-gray-500 border-opacity-50 p-5 lg:max-h-[530px] lg:grid-cols-2 lg:p-0">
-             {PreviewMobile}
+              {PreviewMobile}
               {PreviewDesktop}
             </div>
             <br className="md:hidden" />

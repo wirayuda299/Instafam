@@ -7,7 +7,7 @@ type Props = {
     value: number | undefined;
   }[];
 };
- function StatisticMobile({ data }: Props) {
+function StatisticMobile({ data }: Props) {
   return (
     <ul
       title="Statistic"
@@ -28,4 +28,4 @@ type Props = {
     </ul>
   );
 }
-export default memo(StatisticMobile)
+export default memo(StatisticMobile);

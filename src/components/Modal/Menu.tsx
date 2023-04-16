@@ -1,13 +1,13 @@
 import Modal from "@/components/Modal";
 import useUser from "@/hooks/useUser";
-import { reportModal } from "@/store/modal";
-import { selectedPostState } from "@/store/selectedPost";
+import { useReportModalStore, useSelectedPostStore } from "@/stores/stores";
 import { IUserPostProps } from "@/types/post";
 import { IUser } from "@/types/user";
 import { Session } from "next-auth";
 import { useRouter } from "next/router";
 import { Dispatch, SetStateAction } from "react";
-import { useRecoilState } from "recoil";
+import { useStore } from "zustand";
+
 type Props = {
   post: IUserPostProps;
   session: Session | null;
@@ -26,10 +26,10 @@ export default function Menu({
   isMenuOpen,
   setIsMenuOpen,
 }: Props) {
-  const [selectedPost, setSelectedPost] = useRecoilState(selectedPostState);
   const { push } = useRouter();
-  const [isReportModalOpen, setIsReportModalOpen] = useRecoilState(reportModal);
+  const { setReportModal} = useStore(useReportModalStore);
   const { user } = useUser(session?.user.uid as string);
+  const {setSelectedPost} = useStore(useSelectedPostStore);
 
   const handleCLose = () => {
     setIsMenuOpen(false);
@@ -43,7 +43,7 @@ export default function Menu({
       event: () => {
         post.postedById === user?.uid
           ? push(`/post/${post.postId}/edit`)
-          : setIsReportModalOpen(true);
+          : setReportModal(true);
       },
     },
     {

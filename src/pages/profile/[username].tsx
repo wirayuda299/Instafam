@@ -76,9 +76,8 @@ function UserProfile({ posts, user, query }: Props) {
       <>
         <Tab activeTab={activeTab} handleTabChange={handleTabClick} />
       </>
-    )
-
-  }, [activeTab])
+    );
+  }, [activeTab]);
 
   const Feeds = useMemo(() => {
     return (
@@ -100,10 +99,9 @@ function UserProfile({ posts, user, query }: Props) {
             )}
           </>
         )}
-
       </>
-    )
-  }, [postTab, posts])
+    );
+  }, [postTab, posts]);
 
   const SavedPost = useMemo(() => {
     return (
@@ -115,16 +113,21 @@ function UserProfile({ posts, user, query }: Props) {
           />
         )}
       </>
-    )
-  }, [savedPostTab])
+    );
+  }, [savedPostTab]);
 
   const Statistics = useMemo(() => {
     return (
       <>
-        <Statistic session={session} refreshData={refreshData} users={user} posts={posts ?? []} />
+        <Statistic
+          session={session}
+          refreshData={refreshData}
+          users={user}
+          posts={posts ?? []}
+        />
       </>
-    )
-  }, [session, user, posts])
+    );
+  }, [session, user, posts]);
   return (
     <>
       <Head>
@@ -140,14 +143,10 @@ function UserProfile({ posts, user, query }: Props) {
       {session ? (
         <div className="mx-auto h-screen w-full overflow-y-auto p-5 py-5">
           <div className="flex w-full items-center space-x-3 border-b border-gray-500 border-opacity-50 md:justify-center md:space-x-10">
-           {Statistics}
+            {Statistics}
           </div>
 
-          {session?.user?.username === query.username ? (
-            <>
-              {Tabs}
-            </>
-          ) : null}
+          {session?.user?.username === query.username ? <>{Tabs}</> : null}
           <div className="grid w-full grid-cols-1 items-center justify-center gap-5 p-5 sm:grid-cols-2 md:grid-cols-3 ">
             {Feeds}
             {SavedPost}

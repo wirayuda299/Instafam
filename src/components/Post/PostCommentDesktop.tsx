@@ -26,7 +26,7 @@ export default function PostCommentsDesktop(props: Props) {
   const { post, refreshData, commentOpen, setCommentOpen, children } = props;
   const { data: session } = useSession();
   const { user, savedPosts } = useUser(session?.user.uid as string);
-  const { likesCount, comment } = usePost(post);
+  const { likes, comments } = usePost(post);
 
   const IDHeaders = useMemo(() => {
     return (
@@ -44,11 +44,10 @@ export default function PostCommentsDesktop(props: Props) {
   const IDComment = useMemo(() => {
     return (
       <>
-        <IDComments comment={comment} />
+        <IDComments comment={comments} />
       </>
-    )
-
-  }, [comment]);
+    );
+  }, [comments]);
 
   const ActionBtn = useMemo(() => {
     return (
@@ -57,23 +56,23 @@ export default function PostCommentsDesktop(props: Props) {
           ssr={false}
           refreshData={refreshData}
           commentOpen={true}
-          likes={likesCount}
+          likes={likes}
           post={post ?? []}
           savedPosts={savedPosts}
           setCommentOpen={setCommentOpen}
           uid={session?.user.uid as string}
         />
       </>
-    )
-  }, [likesCount, commentOpen, savedPosts]);
+    );
+  }, [likes, commentOpen, savedPosts]);
 
   const LikesText = useMemo(() => {
     return (
       <>
-        <Likes likesCount={likesCount} session={session} />
+        <Likes likesCount={likes} session={session} />
       </>
-    )
-  }, [likesCount, session]);
+    );
+  }, [likes, session]);
 
   const Comment = useMemo(() => {
     return (
@@ -82,12 +81,12 @@ export default function PostCommentsDesktop(props: Props) {
           ssr={false}
           post={post ?? []}
           commentOpen={commentOpen}
-          comments={comment ?? []}
+          comments={comments ?? []}
           session={session}
         />
       </>
-    )
-  }, [comment, commentOpen, session]);
+    );
+  }, [comments, commentOpen, session]);
 
   const Images = useMemo(() => {
     return (
@@ -108,10 +107,8 @@ export default function PostCommentsDesktop(props: Props) {
         </h4>
         <p>{post?.captions ?? ""}</p>
       </>
-    )
+    );
   }, []);
-
-
 
   return (
     <div className=" relative ">
@@ -128,9 +125,7 @@ export default function PostCommentsDesktop(props: Props) {
         <div className="absolute bottom-0 hidden w-full border-t border-gray-500 border-opacity-50 px-2 lg:block">
           {ActionBtn}
           {LikesText}
-          <div className="py-2">
-            {Comment}
-          </div>
+          <div className="py-2">{Comment}</div>
         </div>
       </div>
     </div>

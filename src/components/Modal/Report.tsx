@@ -1,17 +1,17 @@
 import Modal from "@/components/Modal";
 import { db } from "@/config/firebase";
-import { reportModal } from "@/store/modal";
-import { selectedPostState } from "@/store/selectedPost";
+import { useReportModalStore, useSelectedPostStore } from "@/stores/stores";
 import { doc, setDoc } from "firebase/firestore";
 import Image from "next/image";
 import { FieldValues, useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
-import { useRecoilState, useRecoilValue } from "recoil";
+import {useStore} from "zustand";
 
 export default function Report({ session }: { session: any }) {
-  const [isReportModalOpen, setIsReportModalOpen] = useRecoilState(reportModal);
   const { register, resetField, handleSubmit } = useForm();
-  const selectedPost = useRecoilValue(selectedPostState);
+  const {selectedPost} = useStore(useSelectedPostStore);
+  
+  const {reportModal, setReportModal} = useStore(useReportModalStore);
   const defaultValues = {
     reason: "",
   };
@@ -30,7 +30,7 @@ export default function Report({ session }: { session: any }) {
         reason: e.reason,
       };
       await setDoc(reportRef, reportData).then(() => {
-        setIsReportModalOpen(false);
+        setReportModal(false);
         resetField("reason");
         toast.success("Reported Successfully");
       });
@@ -40,7 +40,7 @@ export default function Report({ session }: { session: any }) {
   };
 
   return (
-    <Modal isModalOpen={isReportModalOpen}>
+    <Modal isModalOpen={reportModal}>
       <div className="flex h-full flex-col items-center justify-center ">
         <div className="flex min-w-[400px] flex-col rounded-lg border bg-white p-5 py-10 text-black dark:bg-black dark:text-white">
           <div>
@@ -95,7 +95,7 @@ export default function Report({ session }: { session: any }) {
                     title="cancel"
                     type="button"
                     className="ml-5 rounded border px-2"
-                    onClick={() => setIsReportModalOpen(false)}
+                    onClick={() => setReportModal(false)}
                   >
                     Cancel
                   </button>

@@ -1,8 +1,8 @@
-import { SetterOrUpdater } from "recoil";
+import { Dispatch, SetStateAction } from "react";
 
 type Props = {
   captions: string;
-  setCaptions: SetterOrUpdater<string>;
+  setCaptions: Dispatch<SetStateAction<string>>
   loading: boolean;
   handlePost: () => Promise<void>;
 };

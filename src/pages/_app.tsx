@@ -1,8 +1,6 @@
 import "@/styles/globals.css";
 import { SessionProvider } from "next-auth/react";
-import { RecoilRoot } from "recoil";
 import Layout from "@/components/Layout/Layout";
-import React from "react";
 import { Toaster } from "react-hot-toast";
 import "nprogress/nprogress.css";
 import nProgress from "nprogress";
@@ -18,12 +16,10 @@ export default function App({
 }: any) {
   return (
     <SessionProvider session={session}>
-      <RecoilRoot>
         <Layout>
           <Toaster />
           <Component {...pageProps} />
         </Layout>
-      </RecoilRoot>
     </SessionProvider>
   );
 }

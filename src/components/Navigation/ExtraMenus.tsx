@@ -1,14 +1,14 @@
-import { extraListToggler } from "@/store/extraListToggler";
 import { signOut } from "next-auth/react";
 import { AiOutlineWarning } from "react-icons/ai";
 import { BsFillGearFill, BsFillMoonStarsFill } from "react-icons/bs";
 import { RxCountdownTimer } from "react-icons/rx";
-import { useRecoilState } from "recoil";
 import { useEffect } from "react";
+import { useStore } from "zustand";
+import { useExtraListStore } from "@/stores/stores";
 
 export default function ExtraMenus() {
-  const [extraListOpen, setExtraListOpen] = useRecoilState(extraListToggler);
-  const extraList = [
+  const {setExtraList, extraList}= useStore(useExtraListStore);  
+  const extraLists = [
     {
       id: 1,
       icon: <BsFillGearFill className="text-2xl text-black dark:text-white" />,
@@ -56,11 +56,11 @@ export default function ExtraMenus() {
 
   useEffect(() => {
     window.addEventListener("resize", () => {
-      setExtraListOpen(false);
+      setExtraList(false)
     });
     return () => {
       window.removeEventListener("resize", () => {
-        setExtraListOpen(false);
+        setExtraList(false)
       });
     };
   }, []);
@@ -68,16 +68,16 @@ export default function ExtraMenus() {
   return (
     <div
       className={` relative w-full flex-col justify-center space-y-1 lg:space-y-3  ${
-        extraListOpen ? "flex animate-fadeIn" : "hidden animate-fadeOut"
+        extraList ? "flex animate-fadeIn" : "hidden animate-fadeOut"
       }`}
     >
       <div
         className={`md:bg-opacity-85  -left-0 w-full rounded-md bg-white py-4 dark:bg-black dark:bg-opacity-95 dark:text-white sm:w-44 md:-top-[330px] md:w-60 lg:-top-[300px]  ${
-          extraListOpen ? " absolute  z-[999] block " : "hidden"
+          extraList ? " absolute  z-[999] block " : "hidden"
         }`}
       >
         <ul className="w-full px-2">
-          {extraList.map((list) => (
+          {extraLists.map((list) => (
             <li
               key={list.id}
               className="ease w-fit truncate rounded-full border-b  px-5  py-2 transition-all duration-300 hover:bg-[#a8a8a817] hover:bg-gray-200 dark:border-b-0 dark:hover:bg-[#b9b9b917] md:w-full md:py-3"
