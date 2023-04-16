@@ -71,7 +71,7 @@ export default function Tab({ activeTab, handleTabChange }: Props) {
           </button>
         ))}
         <span
-          className={`absolute top-0 w-10 h-0.5 left-0 rounded-full bg-white transition-all ease duration-300`}
+          className={`absolute top-0 w-10 h-0.5 left-0 rounded-full bg-gray-500 transition-all ease duration-300`}
           style={{
             left: position - 8
           }}
