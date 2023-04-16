@@ -34,7 +34,7 @@ export default function Sidebar() {
               <AiOutlineInstagram size={35} />
             ) : (
               <>
-                <h1 className="hidden lg:block">Instafams</h1>
+                <h1 className="hidden lg:block ">Instafams</h1>
                 <span className="block lg:hidden">
                   <AiOutlineInstagram className="text-4xl" />
                 </span>

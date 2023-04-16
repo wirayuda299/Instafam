@@ -70,7 +70,7 @@ function PostCard({ post, session }: Props) {
         />
       </>
     )
-  }, [post])
+  }, [])
 
   const AuthorInfo = useMemo(() => {
     return (
@@ -78,7 +78,7 @@ function PostCard({ post, session }: Props) {
         <Author post={post} />
       </>
     )
-  }, [post])
+  }, [])
 
   const PostLikes = useMemo(() => {
     return (
@@ -110,7 +110,7 @@ function PostCard({ post, session }: Props) {
         <ReportModal session={session} />
       </>
     )
-  }, [session])
+  }, [])
 
 
   return (

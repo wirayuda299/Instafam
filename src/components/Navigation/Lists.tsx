@@ -121,7 +121,7 @@ export default function NavbarLists({ session }: { session: Session | null }) {
               onClick={toggler}
               title={list.title}
               role="link"
-              shallow
+              as={list.path}
             >
               <button
                 disabled={session ? false : true}

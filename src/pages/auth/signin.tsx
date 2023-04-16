@@ -30,41 +30,47 @@ export default function SignIn({ providers }: { providers: Providers }) {
         <meta name="googlebot" content="index, follow" />
         <meta name="google" content="notranslate" />
       </Head>
-      <div className="grid h-screen w-full place-items-center p-5">
-        <div className="mx-auto flex h-full items-center justify-center rounded-lg bg-white bg-opacity-10 p-8 text-center shadow-xl backdrop-blur-lg backdrop-filter">
-          <div className="flex aspect-square max-h-[512px] max-w-lg flex-col items-center justify-center">
-            <div className="text-9xl text-white ">
-              <AiOutlineInstagram />
-            </div>
-            <h1 className=" prose bg-gradient-to-r from-pink-600 to-slate-50 bg-clip-text text-3xl font-bold text-transparent text-white sm:text-4xl md:text-5xl ">
-              Welcome Back to Instafam
-            </h1>
-            <p className="prose-sm prose-invert pb-7 font-semibold text-white md:text-lg">
-              Share your experiences, connect with your friends and family, and
-              discover new things on Instafam.
-            </p>
-            {Object.values(providers).map((provider) => (
-              <button
-                type="button"
-                name="sign in with google"
-                title="Sign in with Google"
-                key={provider.id}
-                className="ease inline-flex items-center gap-x-5 rounded-md bg-black px-5 py-3 text-center text-white transition-all duration-300 hover:bg-opacity-80"
-                onClick={() =>
-                  signIn(provider.id, {
-                    callbackUrl: `${process.env.NEXTAUTH_URL}`,
-                    redirect: true,
-                  })
-                }
-              >
-                Sign in with {provider.name}
-                <span>
-                  <FcGoogle />
-                </span>
-              </button>
-            ))}
+      <div className="grid h-screen w-full place-items-center p-5 text-black dark:text-white">
+        <div className="flex text-center aspect-square max-h-[512px] max-w-lg flex-col items-center justify-center">
+          <div className="text-9xl  ">
+            <svg width="1em" height="1em">
+              <linearGradient id="blue-gradient" x1="100%" y1="100%" x2="0%" y2="0%">
+                <stop stopColor="#db2777" offset="0%" />
+                <stop stopColor="#fb923c" offset="100%" />
+              </linearGradient>
+              <AiOutlineInstagram style={{ fill: "url(#blue-gradient)" }} />
+            </svg>
           </div>
+          <h1 className=" bg-gradient-to-r from-pink-600 from-50% to-orange-400 bg-clip-text text-3xl font-bold text-transparent  sm:text-4xl md:text-5xl ">
+            Welcome Back to Instafam
+          </h1>
+          <p className=" pb-7 font-semibold  pt-4 md:text-lg text-black dark:text-white ">
+            Share your experiences, connect with your friends and family, and
+            discover new things on Instafam.
+          </p>
+          {Object.values(providers).map((provider) => (
+            <button
+              type="button"
+              name="sign in with google"
+              title="Sign in with Google"
+              key={provider.id}
+              className="ease inline-flex items-center gap-x-5 rounded-md bg-black dark:bg-white  px-5 py-3 text-center bg-gradient-to-r from-pink-600 from-30% to-orange-400 text-white font-semibold transition-all duration-300 hover:bg-opacity-80"
+              onClick={() =>
+                signIn(provider.id, {
+                  callbackUrl: `${process.env.NEXTAUTH_URL}`,
+                  redirect: true,
+                })
+              }
+            >
+              Sign in with {provider.name}
+              <span>
+                <FcGoogle size={25} />
+              </span>
+            </button>
+          ))}
+
         </div>
+
       </div>
     </>
   );

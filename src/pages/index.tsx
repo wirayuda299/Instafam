@@ -2,12 +2,16 @@ import dynamic from "next/dynamic";
 import useInfiniteScroll from "@/hooks/useInfiniteScroll";
 import { GetServerSidePropsContext } from "next";
 import { useMemo } from "react";
+import Loader from "@/components/Loader/Loader";
 
 const Suggestions = dynamic(
   () => import("@/components/Suggestions/Suggestions"),
   { ssr: true }
 );
-const PostCard = dynamic(() => import("@/components/Post"), { ssr: true });
+const PostCard = dynamic(() => import("@/components/Post"), { 
+  ssr: true, 
+  loading: () => <Loader/>
+ });
 const CardLoader = dynamic(() => import("@/components/Loader/Loader"), {
   ssr: true,
 });

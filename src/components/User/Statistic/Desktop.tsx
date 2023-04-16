@@ -8,7 +8,6 @@ type Props = {
   }[];
 };
 function DesktopStatistic({ data }: Props) {
-  console.log('DesktopStatistic');
   
   return (
     <ul

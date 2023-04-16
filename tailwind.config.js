@@ -79,5 +79,5 @@ module.exports = {
       all: "all",
     },
   },
-  plugins: [require("@tailwindcss/typography")],
+  plugins: [],
 };
