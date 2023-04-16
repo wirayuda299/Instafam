@@ -1,15 +1,12 @@
-import { tabPosts, tabSavedPosts, tabTaggedPosts } from "@/store/TabToggler";
-import { useState, useTransition } from "react";
 import { BsGrid3X3Gap, BsBookmark, BsPersonSquare } from "react-icons/bs";
-import { useRecoilState } from "recoil";
 
-export default function Tab() {
-  const [posts, setPosts] = useRecoilState(tabPosts);
-  const [savedPosts, setSavedPosts] = useRecoilState(tabSavedPosts);
-  const [taggedPosts, setTaggedPosts] = useRecoilState(tabTaggedPosts);
-  const [activeTab, setActiveTab] = useState(1);
-  const [isPending, startTransition] = useTransition();
+type ChangeTab = (tabId: number) => void;
 
+type Props = {
+  activeTab: number;
+  handleTabChange: ChangeTab;
+};
+export default function Tab({ activeTab, handleTabChange }: Props) {
   const tabValue = [
     {
       id: 1,
@@ -24,30 +21,6 @@ export default function Tab() {
       icon: <BsPersonSquare size={25} className="text-black dark:text-white" />,
     },
   ];
-  const handleTabClick = (tabId: number) => {
-    startTransition(() => {
-      setActiveTab(tabId);
-    });
-    switch (tabId) {
-      case 1:
-        setPosts(true);
-        setSavedPosts(false);
-        setTaggedPosts(false);
-        break;
-      case 2:
-        setPosts(false);
-        setSavedPosts(true);
-        setTaggedPosts(false);
-        break;
-      case 3:
-        setPosts(false);
-        setSavedPosts(false);
-        setTaggedPosts(true);
-        break;
-      default:
-        break;
-    }
-  };
 
   return (
     <div className="mx-auto max-w-2xl">
@@ -60,10 +33,10 @@ export default function Tab() {
             title={tab.id.toString()}
             className={`${
               activeTab === tab.id
-                ? "border-b-2 border-black pb-1 dark:border-white"
+                ? "border-b-2 border-gray-500 border-opacity-50"
                 : ""
             }`}
-            onClick={() => handleTabClick(tab.id)}
+            onClick={() => handleTabChange(tab.id)}
           >
             <span>{tab.icon}</span>
           </button>

@@ -2,16 +2,16 @@ import { ChangeEvent, FC } from "react";
 import { toast } from "react-hot-toast";
 import { AiOutlineCloudUpload } from "react-icons/ai";
 import { z } from "zod";
-type Props= {
+type Props = {
   setPreviewUrl: React.Dispatch<React.SetStateAction<string>>;
   img: string | undefined;
-}
+};
 const imageInputSchema = z.object({
   setPreviewUrl: z.function().args(z.any()).returns(z.any()),
   img: z.string(),
 });
 
-export default function FileUpload({img, setPreviewUrl}:Props) {
+export default function FileUpload({ img, setPreviewUrl }: Props) {
   const handleInputImage = async (e: ChangeEvent<HTMLInputElement>) => {
     try {
       const isValid = imageInputSchema.parse({ setPreviewUrl, img });
@@ -91,4 +91,3 @@ export default function FileUpload({img, setPreviewUrl}:Props) {
     </div>
   );
 }
-

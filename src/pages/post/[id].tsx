@@ -17,11 +17,7 @@ const PostCommentDesktop = dynamic(
   }
 );
 
-export default function PostDetail({
-  post,
-}: {
-  post: IUserPostProps;
-}) {
+export default function PostDetail({ post }: { post: IUserPostProps }) {
   const [commentOpen, setCommentOpen] = useState<boolean>(false);
   const { asPath, replace } = useRouter();
   const refreshData = () => replace(asPath);

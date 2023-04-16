@@ -1,8 +1,6 @@
 import { Cropper, getCroppedImg } from "react-cropper-custom";
 import "react-cropper-custom/dist/index.css";
-import { croppedImageState, imagesState } from "@/store/images";
-import { useState } from "react";
-import { useRecoilState } from "recoil";
+import { Dispatch, SetStateAction, useState } from "react";
 import { AiOutlineClose } from "react-icons/ai";
 import FileUpload from "../FileUpload/FileUpload";
 
@@ -13,10 +11,14 @@ export type Area = {
   y: number;
 };
 
-export default function ImageCropper() {
-  const [img, setImg] = useRecoilState(imagesState);
+type Props = {
+  setCroppedImg: Dispatch<SetStateAction<string>>;
+  setImg: Dispatch<SetStateAction<string>>;
+  img: string;
+};
+
+export default function ImageCropper({ setCroppedImg, img, setImg }: Props) {
   const [zoom, setZoom] = useState(1);
-  const [croppedImg, setCroppedImg] = useRecoilState(croppedImageState);
 
   async function onCropComplete(croppedArea: Area) {
     if (!img) return;

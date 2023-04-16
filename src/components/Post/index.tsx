@@ -7,19 +7,21 @@ import { Session } from "next-auth";
 import { imageLoader } from "@/util/imageLoader";
 import useUser from "@/hooks/useUser";
 import usePost from "@/hooks/usePost";
-const Likes = dynamic(() => import('./Likes'))
+
+const Likes = dynamic(() => import("./Likes"));
 const ActionButton = dynamic(() => import("./ActionButton"));
 const PostHeader = dynamic(() => import("./Header"));
 const Author = dynamic(() => import("./Author"));
 const Comments = dynamic(() => import("./Comments"));
 const MenuModal = dynamic(() => import("../Modal/Menu"));
 const ReportModal = dynamic(() => import("../Modal/Report"));
-export interface IPostCardProps {
+
+type Props = {
   post: IUserPostProps;
   session: Session | null;
-}
+};
 
-function PostCard({ post, session }: IPostCardProps) {
+function PostCard({ post, session }: Props) {
   const [commentOpen, setCommentOpen] = useState<boolean>(false);
   const { replace, asPath } = useRouter();
   const refreshData = () => replace(asPath);

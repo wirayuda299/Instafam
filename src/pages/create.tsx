@@ -1,7 +1,4 @@
 import { useState } from "react";
-import { useRecoilState, useRecoilValue } from "recoil";
-import { croppedImageState, imagesState } from "@/store/images";
-import { captionsState } from "@/store/captions";
 import dynamic from "next/dynamic";
 import Head from "next/head";
 import useAuth from "@/hooks/useAuth";
@@ -9,11 +6,11 @@ const Captions = dynamic(() => import("@/components/Captions/Captions"));
 const ImageCropper = dynamic(() => import("@/components/Cropper/Cropper"));
 
 export default function CreatePost() {
-  const [captions, setCaptions] = useRecoilState(captionsState);
-  const [img, setImg] = useRecoilState(imagesState);
+  const [captions, setCaptions] = useState("");
+  const [img, setImg] = useState("");
   const [loading, setLoading] = useState<boolean>(false);
+  const [croppedImg, setCroppedImg] = useState("");
   const { session } = useAuth();
-  const croppedImg = useRecoilValue(croppedImageState);
 
   return (
     <>
@@ -27,8 +24,15 @@ export default function CreatePost() {
               !img ? "" : "md:grid-cols-2"
             }`}
           >
-            <ImageCropper />
+            <ImageCropper
+              img={img}
+              setCroppedImg={setCroppedImg}
+              setImg={setImg}
+            />
             <Captions
+              captions={captions}
+              setCaptions={setCaptions}
+              img={img}
               session={session}
               handlePost={async () => {
                 const { makePost } = await import("@/helper/makePost");

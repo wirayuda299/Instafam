@@ -1,14 +1,13 @@
 import dynamic from "next/dynamic";
 import Loader from "@/components/Loader/Loader";
 import Head from "next/head";
-import { useRecoilValue } from "recoil";
-import { tabPosts, tabSavedPosts } from "@/store/TabToggler";
 import { IUserPostProps } from "@/types/post";
 import { Session } from "next-auth";
 import { IUser } from "@/types/user";
 import { useRouter } from "next/router";
 import useAuth from "@/hooks/useAuth";
 import { GetServerSidePropsContext } from "next";
+import { useState, useTransition } from "react";
 
 const SavedPosts = dynamic(
   () => import("@/components/User/savedPosts/savedPosts"),
@@ -32,31 +31,55 @@ const Tab = dynamic(() => import("@/components/User/Tab/Tab"));
 type Props = {
   posts: IUserPostProps[] | [];
   session: Session | null;
-  user: IUser[] | [];
+  user: IUser | null;
   query: {
     readonly username: string;
   };
 };
 
 export default function UserProfile({ posts, user, query }: Props) {
-  const postTab = useRecoilValue(tabPosts);
-  const savedPostTab = useRecoilValue(tabSavedPosts);
+  const [postTab, setPostTab] = useState(true);
+  const [savedPostTab, setSavedPosts] = useState(false);
   const { session } = useAuth();
   const { replace, asPath } = useRouter();
+  const [activeTab, setActiveTab] = useState<number>(1);
+  const [isPending, startTransition] = useTransition();
+
   const refreshData = () => {
     replace(asPath);
+  };
+
+  const handleTabClick = (tabId: number) => {
+    startTransition(() => {
+      setActiveTab(tabId);
+    });
+    switch (tabId) {
+      case 1:
+        setPostTab(true);
+        setSavedPosts(false);
+        break;
+      case 2:
+        setPostTab(false);
+        setSavedPosts(true);
+        break;
+      case 3:
+        setPostTab(false);
+        setSavedPosts(false);
+        break;
+      default:
+        break;
+    }
   };
   return (
     <>
       <Head>
         <title>
-          {user ? user[0].name : ""}({user ? user[0].username : ""}) &#8226;
-          Instafam
+          {user ? user.name : ""}({user ? user.username : ""}) &#8226; Instafam
         </title>
-        <link rel="icon" href={user && user[0]?.image} />
+        <link rel="icon" href={user?.image} />
         <meta
           name="description"
-          content={`This is profile page of ${user && user[0]?.username}`}
+          content={`This is profile page of ${user && user?.username}`}
         />
       </Head>
       {session ? (
@@ -65,12 +88,14 @@ export default function UserProfile({ posts, user, query }: Props) {
             <Statistic
               session={session}
               refreshData={refreshData}
-              users={user && user[0]}
+              users={user}
               posts={posts ?? []}
             />
           </div>
 
-          {session?.user?.username === query.username ? <Tab /> : null}
+          {session?.user?.username === query.username ? (
+            <Tab activeTab={activeTab} handleTabChange={handleTabClick} />
+          ) : null}
           <div className="grid w-full grid-cols-1 items-center justify-center gap-5 p-5 sm:grid-cols-2 md:grid-cols-3 ">
             {postTab && (
               <>
@@ -91,7 +116,10 @@ export default function UserProfile({ posts, user, query }: Props) {
             )}
             <>
               {savedPostTab && (
-                <SavedPosts savedPosts={user && user[0].savedPosts} />
+                <SavedPosts
+                  savedPosts={user?.savedPosts}
+                  savedPostsTab={savedPostTab}
+                />
               )}
             </>
           </div>
@@ -115,7 +143,7 @@ export async function getServerSideProps({ query }: GetServerSidePropsContext) {
   return {
     props: {
       posts,
-      user,
+      user: user ? user[0] : null,
       query,
     },
   };

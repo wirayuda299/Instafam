@@ -7,7 +7,7 @@ import { BsThreeDots } from "react-icons/bs";
 import { useRecoilState } from "recoil";
 import { selectedPostState } from "@/store/selectedPost";
 
- type HeaderProps = {
+type HeaderProps = {
   post: IUserPostProps;
   setIsMenuOpen: Dispatch<SetStateAction<boolean>>;
   isMenuOpen: boolean;

@@ -3,16 +3,8 @@ import Head from "next/head";
 const MainHeader = dynamic(() => import("@/components/Header/MainHeader"));
 const Sidebar = dynamic(() => import("@/components/Navigation/Sidebar"));
 const SearchForm = dynamic(() => import("@/components/Search"));
-import {Lato} from 'next/font/google'
-
-const lato = Lato({
-  fallback: ['sans-serif'],
-  subsets: ['latin'],
-  preload: true,
-  weight: '300',
-
-})
-export default function Layout({ children }: { children: any }) {
+import { ReactNode } from "react";
+export default function Layout({ children }: { children: ReactNode }) {
   return (
     <>
       <Head>
@@ -33,8 +25,10 @@ export default function Layout({ children }: { children: any }) {
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <div className={`mx-auto h-screen max-w-[1600px] !select-none  bg-white dark:bg-black ${lato.className}`}>
-        <div className='flex'>
+      <div
+        className={`!z mx-auto h-screen max-w-[1600px] !select-none  bg-white dark:bg-black `}
+      >
+        <div className="flex">
           <Sidebar />
           <SearchForm />
           <main className="h-full w-full overflow-y-auto transition-width">

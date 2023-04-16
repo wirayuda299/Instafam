@@ -1,6 +1,6 @@
 import { db } from "@/config/firebase";
 import { IUser } from "@/types/user";
-import {  doc, onSnapshot } from "firebase/firestore";
+import { doc, onSnapshot } from "firebase/firestore";
 import { useEffect, useState } from "react";
 
 export default function useUser(uid: string) {
@@ -12,10 +12,10 @@ export default function useUser(uid: string) {
         setSavedPosts(
           docs.data().savedPosts.map((post: { postId: string }) => post.postId)
         );
-        setUser(docs.data() as IUser)
+        setUser(docs.data() as IUser);
       }
     });
-  }, [db, ]);
+  }, [db]);
 
   return { user, savedPosts };
 }

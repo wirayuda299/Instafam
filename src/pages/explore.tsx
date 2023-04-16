@@ -3,6 +3,7 @@ import { IUserPostProps } from "@/types/post";
 import dynamic from "next/dynamic";
 import useInfiniteScroll from "@/hooks/useInfiniteScroll";
 import { GetServerSidePropsContext } from "next";
+
 const ExplorePostCard = dynamic(() => import("@/components/Feeds"), {
   ssr: true,
 });
@@ -50,7 +51,7 @@ export async function getServerSideProps({ res }: GetServerSidePropsContext) {
   return {
     props: {
       posts,
-      last
+      last,
     },
   };
 }

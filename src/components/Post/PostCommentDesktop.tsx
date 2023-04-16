@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { IUserPostProps } from "@/types/post";
-import {  getCreatedDate } from "@/util/postDate";
+import { getCreatedDate } from "@/util/postDate";
 import { Dispatch, ReactNode, SetStateAction } from "react";
 import dynamic from "next/dynamic";
 import Link from "next/link";
@@ -10,8 +10,8 @@ import usePost from "@/hooks/usePost";
 const Likes = dynamic(() => import("./Likes"));
 const Comments = dynamic(() => import("@/components/Post/Comments"));
 const ActionButton = dynamic(() => import("@/components/Post/ActionButton"));
-const IDHeader = dynamic(() => import("./IDHeader"))
-const IDComments = dynamic(() => import("./IDComments"))
+const IDHeader = dynamic(() => import("./IDHeader"));
+const IDComments = dynamic(() => import("./IDComments"));
 type Props = {
   post: IUserPostProps;
   commentOpen: boolean;

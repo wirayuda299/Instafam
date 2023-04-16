@@ -9,7 +9,7 @@ export default function StatisticMobile({ data }: Props) {
   return (
     <ul
       title="Statistic"
-      className={`mt-2 flex w-full items-center justify-center border-t space-x-3 sm:hidden py-3 border-gray-500 border-opacity-50`}
+      className={`mt-2 flex w-full items-center justify-center space-x-3 border-t border-gray-500 border-opacity-50 py-3 sm:hidden`}
     >
       {data.map((item) => (
         <li

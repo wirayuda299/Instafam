@@ -19,7 +19,7 @@ type Props = {
   commentOpen: boolean;
   setCommentOpen: Dispatch<SetStateAction<boolean>>;
   refreshData: () => void;
-  setIsModalOpen: Dispatch<SetStateAction<boolean>> 
+  setIsModalOpen: Dispatch<SetStateAction<boolean>>;
 };
 
 export default function IDPostPreview({
@@ -27,12 +27,12 @@ export default function IDPostPreview({
   commentOpen,
   refreshData,
   setCommentOpen,
-  setIsModalOpen
+  setIsModalOpen,
 }: Props) {
   const { data: session } = useSession();
   const { likesCount } = usePost(post);
   const { savedPosts } = useUser(session?.user.uid as string);
-  const {pathname} = useRouter()
+  const { pathname } = useRouter();
   return (
     <figure className="shadow-sm">
       <div className="py-2 lg:hidden">
@@ -46,19 +46,21 @@ export default function IDPostPreview({
               className="rounded-full bg-gradient-to-bl from-pink-600 to-orange-600 p-0.5"
               alt={post?.captions ?? "post"}
             />
-            <Link href={`/profile/${post?.author}`} >
+            <Link href={`/profile/${post?.author}`}>
               <h1 className="text-sm font-bold">{post?.author}</h1>
               <p className="text-xs">{getCreatedDate(post)}</p>
             </Link>
           </div>
-         {pathname !== '/post[id]' ? (
-           <button onClick={(e) => {
-            e.stopPropagation()
-            setIsModalOpen(false)
-           }}>
-           <AiOutlineClose size={20}/>
-         </button>
-         ): null}
+          {pathname !== "/post[id]" ? (
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                setIsModalOpen(false);
+              }}
+            >
+              <AiOutlineClose size={20} />
+            </button>
+          ) : null}
         </div>
       </div>
       <Image

@@ -5,7 +5,7 @@ type Props = {
     value: number | undefined;
   }[];
 };
-export default function DesktopStatistic({ data }:Props) {
+export default function DesktopStatistic({ data }: Props) {
   return (
     <ul
       title="Statistic"

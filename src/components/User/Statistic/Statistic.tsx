@@ -3,12 +3,12 @@ import { IUser } from "@/types/user";
 import { Session } from "next-auth";
 import Image from "next/image";
 import dynamic from "next/dynamic";
-const UserInfo = dynamic(() => import('../Info/Info'))
-const DesktopStatistic = dynamic(() => import('./Desktop'))
-const StatisticMobile = dynamic(() => import('./Mobile'))
+const UserInfo = dynamic(() => import("../Info/Info"));
+const DesktopStatistic = dynamic(() => import("./Desktop"));
+const StatisticMobile = dynamic(() => import("./Mobile"));
 
 interface IProps {
-  users: IUser | undefined;
+  users: IUser | null;
   posts: IUserPostProps[] | [];
   session: Session | null;
   refreshData: () => void;
@@ -29,12 +29,12 @@ export default function Statistic({
     {
       id: 2,
       title: "Followers",
-      value: users && users?.followers.length,
+      value: users?.followers.length,
     },
     {
       id: 3,
       title: "Following",
-      value: users && users?.following.length,
+      value: users?.following.length,
     },
   ];
   return (
@@ -60,15 +60,14 @@ export default function Statistic({
                       session={session}
                       users={users}
                     />
-                      <DesktopStatistic data={data} />
+                    <DesktopStatistic data={data} />
                   </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-          <StatisticMobile data={data} />
-
+        <StatisticMobile data={data} />
       </div>
     </div>
   );

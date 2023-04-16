@@ -4,15 +4,14 @@ import Link from "next/link";
 import { AiOutlineSearch } from "react-icons/ai";
 const Form = dynamic(() => import("../Search/Form"));
 import { GiExitDoor } from "react-icons/gi";
-import {Playfair_Display} from 'next/font/google'
+import { Playfair_Display } from "next/font/google";
 
 const playfair = Playfair_Display({
-  fallback: ['sans-serif'],
-  subsets: ['latin'],
+  fallback: ["sans-serif"],
+  subsets: ["latin"],
   preload: true,
-  weight: '700',
-  
-})
+  weight: "700",
+});
 export default function Header() {
   const { data: session } = useSession();
   return (

@@ -58,7 +58,6 @@ export const authOptions: NextAuthOptions = {
           /(http:\/\/localhost:3000\/auth\/signin).*/,
           "$1"
         );
-
         return Promise.resolve(`${newUrl}/auth/signin`);
       } else {
         const sanitized = url.replace(reg, "");

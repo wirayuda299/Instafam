@@ -1,10 +1,11 @@
 import dynamic from "next/dynamic";
 import useInfiniteScroll from "@/hooks/useInfiniteScroll";
 import { GetServerSidePropsContext } from "next";
+
 const Suggestions = dynamic(
   () => import("@/components/Suggestions/Suggestions")
 );
-const PostCard = dynamic(() => import("@/components/Post"))
+const PostCard = dynamic(() => import("@/components/Post"));
 const CardLoader = dynamic(() => import("@/components/Loader/Loader"));
 
 export default function Home({ posts, users, sessions, last }: any) {
@@ -17,20 +18,12 @@ export default function Home({ posts, users, sessions, last }: any) {
           <div className="flex h-screen w-full items-start justify-between">
             <div className="flex w-full flex-col p-5 ">
               {posts?.map((post: any) => (
-                <PostCard
-                  post={post}
-                  key={post.postId}
-                  session={sessions}
-                />
+                <PostCard post={post} key={post.postId} session={sessions} />
               ))}
               <span ref={ref}></span>
               {loading && <CardLoader />}
               {postsState?.map((post) => (
-                <PostCard
-                  post={post}
-                  key={post.postId}
-                  session={sessions}
-                />
+                <PostCard post={post} key={post.postId} session={sessions} />
               ))}
             </div>
             <div className="relative">

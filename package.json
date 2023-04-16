@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "format:fix": "prettier --write --ignore-path .gitignore ."
+    "format": "prettier --write --ignore-path .gitignore ."
   },
   "dependencies": {
     "@types/node": "18.15.3",

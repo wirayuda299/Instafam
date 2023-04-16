@@ -1,5 +1,5 @@
 import { IUserPostProps } from "@/types/post";
-import {  useState } from "react";
+import { useState } from "react";
 
 export default function Author({ post }: { post: IUserPostProps }) {
   const [show, setShow] = useState(false);
@@ -8,7 +8,7 @@ export default function Author({ post }: { post: IUserPostProps }) {
   return (
     <div className="overflow-hidden">
       <div
-        className={`flex items-start max-w-xs cursor-pointer space-x-2 ${
+        className={`flex max-w-xs cursor-pointer items-start space-x-2 ${
           show ? "!max-w-fit flex-wrap" : ""
         }`}
         onClick={() => setShow(!show)}
@@ -17,20 +17,24 @@ export default function Author({ post }: { post: IUserPostProps }) {
           {post?.author}
         </h3>
         <p
-          className={`text-sm flex text-black dark:text-white font-thin ${
-            captions.length >= 25 && !show
-              ? "!truncate "
-              : ""
+          className={`flex text-sm font-thin text-black dark:text-white ${
+            captions.length >= 25 && !show ? "!truncate " : ""
           }`}
         >
           {post.captions}
         </p>
-        <p className="text-sm flex">
+        <p className="flex text-sm">
           {captions.length >= 25 && !show ? (
             <span className="text-blue-500">...more</span>
-          ): (
-            <span className={`text-blue-500 ${captions.length < 25 ? 'hidden' : 'block'}`}>hide</span>
-            )}
+          ) : (
+            <span
+              className={`text-blue-500 ${
+                captions.length < 25 ? "hidden" : "block"
+              }`}
+            >
+              hide
+            </span>
+          )}
         </p>
       </div>
       <div className="flex flex-wrap">
