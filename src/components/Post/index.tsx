@@ -1,4 +1,4 @@
-import {  useState } from "react";
+import { useState } from "react";
 import { IUserPostProps } from "@/types/post";
 import Image from "next/image";
 import dynamic from "next/dynamic";
@@ -6,40 +6,47 @@ import { useRouter } from "next/router";
 import { imageLoader } from "@/util/imageLoader";
 import useUser from "@/hooks/useUser";
 import usePost from "@/hooks/usePost";
+import { useSession } from "next-auth/react";
 
-const Likes = dynamic(() => import("./Likes"));
-const ActionButton = dynamic(() => import("./ActionButton"));
-const PostHeader = dynamic(() => import("./Header"));
-const Author = dynamic(() => import("./Author"));
-const Comments = dynamic(() => import("./Comments"));
+const Likes = dynamic(() => import("./Likes"), {
+  ssr: false,
+});
+const ActionButton = dynamic(() => import("./ActionButton"), {
+  ssr: false,
+});
+const PostHeader = dynamic(() => import("./Header"), {
+  ssr: false,
+});
+const Author = dynamic(() => import("./Author"), {
+  ssr: false,
+});
+const Comments = dynamic(() => import("./Comments"), {
+  ssr: false,
+});
 
 type Props = {
   post: IUserPostProps;
-  session: any
 };
 
-export default function PostCard({ post, session }: Props) {
+export default function PostCard({ post }: Props) {
   const [commentOpen, setCommentOpen] = useState<boolean>(false);
   const { replace, asPath } = useRouter();
   const refreshData = () => replace(asPath);
   const { likes, comments } = usePost(post);
-  const {  savedPosts } = useUser(session?.user.uid as string);
+  const { data: session } = useSession();
+  const { savedPosts } = useUser(session?.user.uid as string);
 
   return (
-    <div className={`relative mb-5 w-full`} >
+    <div className={`relative mb-5 w-full`}>
       <div className="rounded-sm bg-white shadow-lg dark:border-black dark:bg-black dark:text-white ">
-        <PostHeader
-          post={post}
-        />
+        <PostHeader post={post} />
         <Image
           src={post?.image}
           width={1300}
           height={1300}
-          sizes="100vw"
+          sizes="(max-width: 1300px) 100vw, 500px"
           placeholder="blur"
-          blurDataURL={
-            "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAP//////////////////////////////////////////////////////////////////////////////////////2wBDAf//////////////////////////////////////////////////////////////////////////////////////wAARCAACAAMDASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwBaKKKAP//Z"
-          }
+          blurDataURL={Buffer.from(post?.image as string).toString("base64")}
           quality={60}
           loader={() =>
             imageLoader({ src: post?.image, width: 1300, quality: 10 })

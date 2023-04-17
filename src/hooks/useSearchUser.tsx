@@ -6,7 +6,7 @@ import { useStore } from "zustand";
 
 export default function useSearchUser() {
   const { register, handleSubmit, resetField } = useForm();
-  const {result, setResult}= useStore(useResultStore)
+  const { result, setResult } = useStore(useResultStore);
   const [isPending, startTransition] = useTransition();
 
   const onSubmit = async (data: FieldValues) => {

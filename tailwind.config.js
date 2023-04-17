@@ -69,7 +69,6 @@ module.exports = {
         xl: "1280px",
         "2xl": "1536px",
         "3xl": "1920px",
-
       },
     },
     transitionProperty: {
@@ -82,7 +81,6 @@ module.exports = {
       transform: "transform",
       all: "all",
     },
-    
   },
   plugins: [],
 };

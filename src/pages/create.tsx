@@ -32,7 +32,7 @@ export default function CreatePost() {
   const [img, setImg] = useState("");
   const [loading, setLoading] = useState<boolean>(false);
   const [croppedImg, setCroppedImg] = useState("");
-  const { data: session } = useSession()
+  const { data: session } = useSession();
   return (
     <>
       <Head>
@@ -40,8 +40,9 @@ export default function CreatePost() {
       </Head>
       <section className="h-screen w-full overflow-y-auto bg-white p-10 dark:bg-[#121212] sm:grid sm:place-content-center md:p-5">
         <div
-          className={`container mx-auto grid grid-cols-1 place-items-center gap-2 md:gap-7 ${!img ? "" : "md:grid-cols-2"
-            }`}
+          className={`container mx-auto grid grid-cols-1 place-items-center gap-2 md:gap-7 ${
+            !img ? "" : "md:grid-cols-2"
+          }`}
         >
           <ImageCropper
             img={img}
@@ -70,7 +71,6 @@ export default function CreatePost() {
           />
         </div>
       </section>
-
     </>
   );
 }

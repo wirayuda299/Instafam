@@ -2,17 +2,17 @@ import dynamic from "next/dynamic";
 import Image from "next/image";
 import { memo } from "react";
 import { IUser } from "@/types/user";
-import { Session } from "next-auth";
+import { useSession } from "next-auth/react";
 
 const Footer = dynamic(() => import("@/components/Footer"));
 const UserRecommendations = dynamic(() => import("./User"));
 
 type Props = {
-  session: Session | null;
   reccomend: IUser[];
 };
 
-function Suggestions({ session, reccomend }: Props) {
+function Suggestions({ reccomend }: Props) {
+  const { data: session } = useSession();
   return (
     <section className="hidden h-full min-w-[384px] lg:block">
       <div className="h-full w-full max-w-sm p-5">

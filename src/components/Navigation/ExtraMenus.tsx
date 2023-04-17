@@ -7,7 +7,7 @@ import { useStore } from "zustand";
 import { useExtraListStore } from "@/stores/stores";
 
 export default function ExtraMenus() {
-  const {setExtraList, extraList}= useStore(useExtraListStore);  
+  const { setExtraList, extraList } = useStore(useExtraListStore);
   const extraLists = [
     {
       id: 1,
@@ -56,11 +56,11 @@ export default function ExtraMenus() {
 
   useEffect(() => {
     window.addEventListener("resize", () => {
-      setExtraList(false)
+      setExtraList(false);
     });
     return () => {
       window.removeEventListener("resize", () => {
-        setExtraList(false)
+        setExtraList(false);
       });
     };
   }, []);

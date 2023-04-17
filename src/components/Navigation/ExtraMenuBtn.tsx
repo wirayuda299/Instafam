@@ -4,8 +4,8 @@ import { RxHamburgerMenu } from "react-icons/rx";
 import { useStore } from "zustand";
 
 export default function ExtraMenuBtn() {
-  const {setExtraList, extraList}= useStore(useExtraListStore);  
-  const {drawer, setDrawer} = useStore(useDrawerStore);
+  const { setExtraList, extraList } = useStore(useExtraListStore);
+  const { drawer, setDrawer } = useStore(useDrawerStore);
 
   const handleClick = () => {
     setExtraList(!extraList);
@@ -26,9 +26,7 @@ export default function ExtraMenuBtn() {
         ) : (
           <RxHamburgerMenu className="text-xl md:text-2xl" size={30} />
         )}
-        <span className={`${drawer ? "hidden" : "hidden lg:block"}`}>
-          More
-        </span>
+        <span className={`${drawer ? "hidden" : "hidden lg:block"}`}>More</span>
       </div>
     </button>
   );

@@ -27,7 +27,7 @@ export default function IDHeader({
             src={post?.postedByPhotoUrl}
             width={40}
             height={40}
-            priority
+            loading="lazy"
             alt={post?.author ?? "post"}
             className="rounded-full bg-gradient-to-bl from-pink-600 to-orange-600 p-0.5"
           />

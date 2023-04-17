@@ -11,13 +11,13 @@ const playfair = Playfair_Display({
   weight: "700",
 });
 export default function NavHeader() {
-  const {  drawer } = useStore(useDrawerStore)
+  const { drawer } = useStore(useDrawerStore);
   return (
     <header
       className={`hidden w-full flex-col pl-6 md:flex md:pl-2.5 ${playfair.className}`}
     >
       <Link href="/" className={`text-3xl font-semibold lg:pt-5`}>
-        {drawer? (
+        {drawer ? (
           <AiOutlineInstagram size={35} />
         ) : (
           <>

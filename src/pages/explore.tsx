@@ -21,8 +21,7 @@ const ExplorePostCard = dynamic(() => import("@/components/Feeds"), {
   },
 });
 const Loader = dynamic(() => import("@/components/Loader/Loader"), {
-  ssr: true
-
+  ssr: true,
 });
 
 type Props = {

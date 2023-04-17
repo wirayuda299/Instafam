@@ -69,9 +69,10 @@ export default function Comments({
   };
 
   return (
-    <div className={
-      router.pathname === "/post/[id]" ? "flex flex-col-reverse " : "block"
-    }
+    <div
+      className={
+        router.pathname === "/post/[id]" ? "flex flex-col-reverse " : "block"
+      }
     >
       <CommentForm
         session={session}
@@ -80,8 +81,9 @@ export default function Comments({
         refreshData={refreshData}
       />
       <div
-        className={`py-2 ${commentOpen ? "block" : "hidden"} ${router.pathname === "/post/[id]" ? "pt-5 " : ""
-          }}`}
+        className={`py-2 ${commentOpen ? "block" : "hidden"} ${
+          router.pathname === "/post/[id]" ? "pt-5 " : ""
+        }}`}
       >
         {comments?.length < 1 ? (
           <p className="text-center text-xs">There&apos;s no comment yet</p>

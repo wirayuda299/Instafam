@@ -1,6 +1,6 @@
-import { fetchNextPosts } from "@/helper/getPosts";
 import { IUserPostProps } from "@/types/post";
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect } from "react";
+import { toast } from "react-hot-toast";
 import { useInView } from "react-intersection-observer";
 
 const options = {
@@ -14,14 +14,22 @@ export default function useInfiniteScroll(last: any) {
   const [postsState, setPostsState] = useState<IUserPostProps[]>([]);
   const [loading, setLoading] = useState(true);
   useEffect(() => {
-    if (inView) {
-      fetchNextPosts(last).then((posts) => {
-        setPostsState(posts as IUserPostProps[]);
-        setLoading(false);
-      });
+    try {
+      const getPosts = async () => {
+        const { fetchNextPosts } = await import("@/helper/getPosts");
+        const posts = await fetchNextPosts(last);
+        if (posts) {
+          setPostsState(posts);
+          setLoading(false);
+        }
+      };
+      if (inView) {
+        getPosts();
+      }
+    } catch (error: any) {
+      toast.error(error.message);
     }
   }, [inView]);
- 
 
   return { ref, loading, inView, postsState };
 }

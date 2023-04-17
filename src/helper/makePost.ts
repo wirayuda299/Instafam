@@ -11,8 +11,8 @@ type TMakePost = {
   captions: string;
   croppedImg: string;
   session: Session | null;
-  setCaptions: Dispatch<SetStateAction<string>>
-  setImg: Dispatch<SetStateAction<string>>
+  setCaptions: Dispatch<SetStateAction<string>>;
+  setImg: Dispatch<SetStateAction<string>>;
   setLoading: Dispatch<SetStateAction<boolean>>;
   img: string;
 };

@@ -20,8 +20,8 @@ export default function ListItem({
   pathname,
   session,
 }: ListItemProps) {
-  const { drawer, setDrawer } = useStore(useDrawerStore)
-  const {  setResult } = useStore(useResultStore);
+  const { drawer, setDrawer } = useStore(useDrawerStore);
+  const { setResult } = useStore(useResultStore);
 
   const toggler = () => {
     setResult([]);
@@ -31,9 +31,11 @@ export default function ListItem({
     <li
       role="listitem"
       key={list.id}
-      className={` w-fit rounded-full p-2 text-base font-light  hover:bg-[#a8a8a817] hover:bg-gray-200 dark:hover:bg-[#b9b9b917] md:w-full md:p-3 ${list.id === 2 || list.id === 5 ? "hidden md:block" : ""
-        } ${list.id === 8 ? "hidden md:block" : ""} ${pathname === list.path ? "font-semibold" : ""
-        }`}
+      className={` w-fit rounded-full p-2 text-base font-light  hover:bg-[#a8a8a817] hover:bg-gray-200 dark:hover:bg-[#b9b9b917] md:w-full md:p-3 ${
+        list.id === 2 || list.id === 5 ? "hidden md:block" : ""
+      } ${list.id === 8 ? "hidden md:block" : ""} ${
+        pathname === list.path ? "font-semibold" : ""
+      }`}
     >
       {list.id === 2 ? (
         <button
@@ -60,6 +62,7 @@ export default function ListItem({
           role="link"
           shallow
           href={path}
+          prefetch={false}
         >
           <button
             disabled={session ? false : true}

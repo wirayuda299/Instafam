@@ -7,7 +7,7 @@ import { IUser } from "@/types/user";
 interface Props {
   results: IUser[];
   handleDrawerToggler: () => void;
-  setResults:(result: IUser[]) => void
+  setResults: (result: IUser[]) => void;
   isPending: boolean;
   customs?: string;
 }
@@ -19,8 +19,6 @@ export default function Results({
   customs,
   isPending,
 }: Props) {
-
-
   return (
     <div
       className={`result flex h-full w-full justify-center bg-white px-5 text-black transition-all dark:bg-black dark:text-white md:px-0 ${

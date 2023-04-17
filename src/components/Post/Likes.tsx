@@ -1,4 +1,3 @@
-
 type Props = {
   likesCount: string[];
   session: any;

@@ -15,7 +15,7 @@ const ListItem = dynamic(() => import("./ListItem"));
 
 export default function NavbarLists({ session }: any) {
   const { pathname } = useRouter();
-  const { drawer } = useStore(useDrawerStore)
+  const { drawer } = useStore(useDrawerStore);
 
   const navList = [
     {
@@ -78,7 +78,7 @@ export default function NavbarLists({ session }: any) {
     },
   ];
   return (
-    <ul className="flex w-full flex-row items-center justify-around dark:bg-black sm:items-start md:flex-col md:justify-center md:space-y-2 lg:space-y-4">
+    <ul className="flex w-full flex-row items-center justify-around dark:bg-black sm:items-start md:flex-col  md:space-y-2 lg:space-y-4">
       {navList.map((list) => (
         <ListItem
           key={list.id}

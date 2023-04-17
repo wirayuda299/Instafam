@@ -1,7 +1,9 @@
 import dynamic from "next/dynamic";
 import Link from "next/link";
 import { AiOutlineSearch } from "react-icons/ai";
-const Form = dynamic(() => import("../Search/Form"));
+const Form = dynamic(() => import("../Search/Form"), {
+  ssr: false,
+});
 import { GiExitDoor } from "react-icons/gi";
 import { Playfair_Display } from "next/font/google";
 
@@ -10,6 +12,8 @@ const playfair = Playfair_Display({
   subsets: ["latin"],
   preload: true,
   weight: "700",
+  display: "swap",
+  adjustFontFallback: true,
 });
 export default function Header() {
   return (

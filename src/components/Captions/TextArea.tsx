@@ -2,7 +2,7 @@ import { Dispatch, SetStateAction } from "react";
 
 type Props = {
   captions: string;
-  setCaptions: Dispatch<SetStateAction<string>>
+  setCaptions: Dispatch<SetStateAction<string>>;
   loading: boolean;
   handlePost: () => Promise<void>;
 };

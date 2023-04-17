@@ -16,8 +16,8 @@ type Props = {
 
 export default function Form({ height, children }: Props) {
   const { handleSubmit, onSubmit, register, isPending } = useSearchUser();
-  const {result, setResult}= useStore(useResultStore)
-  const {  setDrawer } = useStore(useDrawerStore)
+  const { result, setResult } = useStore(useResultStore);
+  const { setDrawer } = useStore(useDrawerStore);
   const handleDrawerToggler = () => {
     setResult([]);
     setDrawer(false);
