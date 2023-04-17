@@ -10,21 +10,11 @@ import { useSession } from "next-auth/react";
 import { useDarkModeStore } from "@/stores/stores";
 import { useStore } from "zustand";
 
-const Likes = dynamic(() => import("./Likes"), {
-  ssr: false,
-});
-const ActionButton = dynamic(() => import("./ActionButton"), {
-  ssr: false,
-});
-const PostHeader = dynamic(() => import("./Header"), {
-  ssr: false,
-});
-const Author = dynamic(() => import("./Author"), {
-  ssr: false,
-});
-const Comments = dynamic(() => import("./Comments"), {
-  ssr: false,
-});
+const Likes = dynamic(() => import("./Likes"));
+const ActionButton = dynamic(() => import("./ActionButton"));
+const PostHeader = dynamic(() => import("./Header"));
+const Author = dynamic(() => import("./Author"));
+const Comments = dynamic(() => import("./Comments"));
 
 type Props = {
   post: IUserPostProps;

@@ -33,7 +33,9 @@ export default function PreviewHeader({
             src={post?.postedByPhotoUrl}
             width={40}
             height={40}
-            loading="lazy"
+            priority
+            placeholder="blur"
+            blurDataURL={Buffer.from(post?.postedByPhotoUrl as string).toString()}
             alt={post?.author ?? "post"}
             className="rounded-full bg-gradient-to-bl from-pink-600 to-orange-600 p-0.5"
           />

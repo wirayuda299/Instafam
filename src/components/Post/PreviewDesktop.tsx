@@ -58,7 +58,10 @@ export default function PostCommentsDesktop({
             height={40}
             alt={post?.author ?? "author"}
             priority
-            className="rounded-full bg-gradient-to-bl from-pink-600 to-orange-600 p-0.5"
+            placeholder="blur"
+            blurDataURL={Buffer.from(post?.postedByPhotoUrl as string).toString()}
+            className="rounded-full"
+
           />
           <h4 className="pr-3 font-semibold">
             {post?.author}

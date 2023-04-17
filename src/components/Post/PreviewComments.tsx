@@ -27,7 +27,11 @@ export default function PreviewComments({ comment }: Props) {
               width={40}
               height={40}
               alt={comment?.commentByName ?? "comment"}
+              sizes="40px"
+              placeholder="blur"
+              blurDataURL={Buffer.from(comment?.commentByPhoto as string).toString()}
               className="rounded-full"
+              
             />
             <Link
               href={`/profile/${comment?.commentByUid}`}
