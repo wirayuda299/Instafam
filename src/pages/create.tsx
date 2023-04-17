@@ -2,29 +2,13 @@ import { useState } from "react";
 import dynamic from "next/dynamic";
 import Head from "next/head";
 import { useSession } from "next-auth/react";
+import { useStore } from "zustand";
+import { useDarkModeStore } from "@/stores/stores";
 const Captions = dynamic(() => import("@/components/Captions/Captions"), {
-  ssr: false,
-  loading({ error, isLoading, pastDelay }) {
-    if (isLoading || pastDelay) {
-      return <div>Loading...</div>;
-    } else if (error) {
-      return <div>Failed to load</div>;
-    } else {
-      return null;
-    }
-  },
+  ssr: false
 });
 const ImageCropper = dynamic(() => import("@/components/Cropper/Cropper"), {
-  ssr: false,
-  loading({ error, isLoading, pastDelay }) {
-    if (isLoading || pastDelay) {
-      return <div>Loading...</div>;
-    } else if (error) {
-      return <div>Failed to load</div>;
-    } else {
-      return null;
-    }
-  },
+  ssr: false
 });
 
 export default function CreatePost() {
@@ -33,16 +17,16 @@ export default function CreatePost() {
   const [loading, setLoading] = useState<boolean>(false);
   const [croppedImg, setCroppedImg] = useState("");
   const { data: session } = useSession();
+  const { darkMode } = useStore(useDarkModeStore)
   return (
     <>
       <Head>
         <title>Create New Post &#8226; Instafam</title>
       </Head>
-      <section className="h-screen w-full overflow-y-auto bg-white p-10 dark:bg-[#121212] sm:grid sm:place-content-center md:p-5">
+      <section className={`h-screen w-full overflow-y-auto p-10  sm:grid sm:place-content-center md:p-5 ${darkMode ? 'bg-[#121212]' : 'bg-white'}`}>
         <div
-          className={`container mx-auto grid grid-cols-1 place-items-center gap-2 md:gap-7 ${
-            !img ? "" : "md:grid-cols-2"
-          }`}
+          className={`container mx-auto grid grid-cols-1 place-items-center gap-2 md:gap-7 ${!img ? "" : "md:grid-cols-2"
+            }`}
         >
           <ImageCropper
             img={img}

@@ -4,14 +4,16 @@ import { useRouter } from "next/router";
 import dynamic from "next/dynamic";
 import Head from "next/head";
 import { GetServerSidePropsContext } from "next";
-import { getSession } from "next-auth/react";
+import { getSession, useSession } from "next-auth/react";
 import { getCurrentUserData } from "@/helper/getUser";
 import { BsThreeDots } from "react-icons/bs";
+import usePost from "@/hooks/usePost";
+import useUser from "@/hooks/useUser";
 const IDPreviewMobile = dynamic(
-  () => import("@/components/Post/IDPreviewMobile")
+  () => import("@/components/Post/PreviewMobile")
 );
 const PostCommentDesktop = dynamic(
-  () => import("@/components/Post/PostCommentDesktop"),
+  () => import("@/components/Post/PreviewDesktop"),
   {
     ssr: true,
   }
@@ -21,13 +23,20 @@ export default function PostDetail({ post }: { post: IUserPostProps }) {
   const [commentOpen, setCommentOpen] = useState<boolean>(false);
   const { asPath, replace } = useRouter();
   const refreshData = () => replace(asPath);
+  const { likes, comments } = usePost(post)
+  const { data: session } = useSession()
+  const { savedPosts, user } = useUser(session?.user?.uid as string)
 
   const PreviewMobile = useMemo(() => {
     return (
       <>
         <IDPreviewMobile
-          setIsModalOpen={setCommentOpen}
           commentOpen={commentOpen}
+          comments={comments}
+          likes={likes}
+          savedPosts={savedPosts}
+          session={session}
+          user={user}
           post={post}
           refreshData={refreshData}
           setCommentOpen={setCommentOpen}
@@ -40,6 +49,10 @@ export default function PostDetail({ post }: { post: IUserPostProps }) {
     return (
       <>
         <PostCommentDesktop
+          comments={comments}
+          likes={likes}
+          savedPosts={savedPosts}
+          user={user}
           commentOpen={commentOpen}
           post={post}
           refreshData={refreshData}

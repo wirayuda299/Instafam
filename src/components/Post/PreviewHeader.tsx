@@ -1,26 +1,28 @@
+import { useDarkModeStore } from "@/stores/stores";
 import { IUserPostProps } from "@/types/post";
 import { IUser } from "@/types/user";
 import { getCreatedDate } from "@/util/postDate";
-import { Session } from "next-auth";
 import Image from "next/image";
 import Link from "next/link";
-import { ReactNode } from "react";
+import { useStore } from "zustand";
+
 type Props = {
   post: IUserPostProps;
-  session: Session | null;
+  session: any
   refreshData: () => void;
   user: IUser | null;
-  children: ReactNode;
+  children: any;
 };
-export default function IDHeader({
+export default function PreviewHeader({
   post,
   session,
   refreshData,
   user,
   children,
 }: Props) {
+  const {darkMode} = useStore(useDarkModeStore)
   return (
-    <div className="ease sticky -top-3 flex w-full border-b border-gray-500 border-opacity-50 bg-white px-2 py-3 transition-all duration-300 dark:bg-black">
+    <div className={`ease sticky -top-3 flex w-full border-b border-gray-500 border-opacity-50 px-2 py-3 transition-all duration-300  ${darkMode ? 'bg-black' : 'bg-white'}`}>
       <div className="flex flex-1 items-start space-x-2">
         <div className="flex space-x-2">
           <Image
@@ -33,7 +35,7 @@ export default function IDHeader({
           />
           <div className="cursor-pointer">
             <h4 className="pr-1 font-semibold">{post?.author}</h4>
-            <p className="text-xs text-gray-500">{getCreatedDate(post)}</p>
+            <p className="text-xs text-left text-gray-500">{getCreatedDate(post)}</p>
           </div>
         </div>
         &#8226;
@@ -59,7 +61,6 @@ export default function IDHeader({
                 refreshData,
                 ssr: false,
               };
-
               handleFollow(followArgs);
             }}
           >

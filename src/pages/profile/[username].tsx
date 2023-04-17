@@ -1,5 +1,4 @@
 import dynamic from "next/dynamic";
-import Loader from "@/components/Loader/Loader";
 import Head from "next/head";
 import { IUserPostProps } from "@/types/post";
 import { Session } from "next-auth";
@@ -7,17 +6,15 @@ import { IUser } from "@/types/user";
 import { useRouter } from "next/router";
 import useAuth from "@/hooks/useAuth";
 import { GetServerSidePropsContext } from "next";
-import { Suspense, memo, useMemo, useState, useTransition } from "react";
+import {  memo, useMemo, useState, useTransition } from "react";
 
 const SavedPosts = dynamic(
   () => import("@/components/User/savedPosts/savedPosts"),
   {
-    loading: () => <Loader />,
     ssr: true,
   }
 );
 const ExplorePostCard = dynamic(() => import("@/components/Feeds"), {
-  loading: () => <Loader />,
   ssr: true,
 });
 const Statistic = dynamic(
@@ -92,9 +89,7 @@ function UserProfile({ posts, user, query }: Props) {
               </div>
             ) : (
               posts?.map((post) => (
-                <Suspense key={post.postId} fallback={<Loader />}>
-                  <ExplorePostCard post={post} />
-                </Suspense>
+                  <ExplorePostCard post={post} key={post.postId} />
               ))
             )}
           </>

@@ -1,9 +1,8 @@
 import { IUser } from "@/types/user";
-import { Session } from "next-auth";
 
 type Props = {
   users: IUser | null;
-  session: Session | null;
+  session: any
   refreshData: () => void;
 };
 export default function Info({ users, session, refreshData }: Props) {

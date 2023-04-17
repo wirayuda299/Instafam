@@ -3,32 +3,36 @@ import { IUserPostProps } from "@/types/post";
 import { getCreatedDate } from "@/util/postDate";
 import dynamic from "next/dynamic";
 import Link from "next/link";
-import { Dispatch, SetStateAction } from "react";
 import { imageLoader } from "@/util/imageLoader";
-import { useSession } from "next-auth/react";
 import { AiOutlineClose } from "react-icons/ai";
-import { useRouter } from "next/router";
-import usePost from "@/hooks/usePost";
-import useUser from "@/hooks/useUser";
+import { useSelectedPostStore, usePostPreviewModalStore } from "@/stores/stores";
+import { useStore } from "zustand";
 const Comments = dynamic(() => import("@/components/Post/Comments"));
 const ActionButton = dynamic(() => import("@/components/Post/ActionButton"));
 const Likes = dynamic(() => import("./Likes"));
+type PostComments = Pick<IUserPostProps, 'comments'>
+
 
 type Props = {
-  post: IUserPostProps;
-  commentOpen: boolean;
-  setCommentOpen: Dispatch<SetStateAction<boolean>>;
-  refreshData: () => void;
-  setIsModalOpen: Dispatch<SetStateAction<boolean>>;
+  post: IUserPostProps | null;
+  likes: string[],
+  comments: PostComments['comments'],
+  savedPosts: string[],
+  user: any,
+  refreshData: () => void,
+  session : any,
+  commentOpen: boolean,
+  setCommentOpen: any
+
 };
 
-export default function IDPostPreview(props: Props) {
-  const { post, commentOpen, refreshData, setCommentOpen, setIsModalOpen } =
-    props;
-  const { data: session } = useSession();
-  const { likes, comments } = usePost(post);
-  const { savedPosts, user } = useUser(session?.user.uid as string);
-  const { pathname } = useRouter();
+export default function PreviewMobile({ post, comments, likes, refreshData, savedPosts,session,user, commentOpen,setCommentOpen }: Props) {
+  const { setSelectedPost} = useStore(useSelectedPostStore)
+  const {setPostPreviewModal} = useStore(usePostPreviewModalStore)
+  const handleClick = () => {
+    setSelectedPost(null)
+    setPostPreviewModal(false)
+  }
 
   return (
     <figure className="shadow-sm">
@@ -45,30 +49,23 @@ export default function IDPostPreview(props: Props) {
             />
             <Link href={`/profile/${post?.author}`}>
               <h1 className="text-sm font-bold">{post?.author}</h1>
-              <p className="text-xs">{getCreatedDate(post)}</p>
+              <p className="text-xs text-left">{getCreatedDate(post)}</p>
             </Link>
           </div>
-          {pathname !== "/post[id]" ? (
-            <button
-              onClick={(e) => {
-                e.stopPropagation();
-                setIsModalOpen(false);
-              }}
-            >
-              <AiOutlineClose size={20} />
-            </button>
-          ) : null}
+          <button onClick={handleClick}>
+            <AiOutlineClose className="text-2xl" />
+          </button>
         </div>
       </div>
       <Image
-        src={post?.image}
+        src={post?.image ?? ""}
         width={1300}
         height={1300}
         sizes="100vw"
         placeholder="blur"
         quality={60}
         loader={() =>
-          imageLoader({ src: post?.image, width: 1300, quality: 10 })
+          imageLoader({ src: post?.image ?? '', width: 1300, quality: 10 })
         }
         blurDataURL={
           "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAP//////////////////////////////////////////////////////////////////////////////////////2wBDAf//////////////////////////////////////////////////////////////////////////////////////wAARCAACAAMDASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwBaKKKAP//Z"
@@ -83,7 +80,7 @@ export default function IDPostPreview(props: Props) {
           refreshData={refreshData}
           commentOpen={commentOpen}
           likes={likes}
-          post={post}
+          post={post as IUserPostProps}
           savedPosts={savedPosts}
           setCommentOpen={setCommentOpen}
           uid={user?.uid as string}
@@ -97,7 +94,7 @@ export default function IDPostPreview(props: Props) {
           ssr={false}
           commentOpen={commentOpen}
           comments={comments}
-          post={post}
+          post={post as IUserPostProps}
           session={session}
         />
       </div>

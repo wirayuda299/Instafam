@@ -1,23 +1,26 @@
+import { useDarkModeStore, usePostPreviewModalStore, useSelectedPostStore } from "@/stores/stores";
 import dynamic from "next/dynamic";
 import Head from "next/head";
-const SearchForm = dynamic(() => import("@/components/Search"), {
-  ssr: false,
-});
-const Sidebar = dynamic(() => import("../Navigation/Sidebar"), {
-  ssr: false,
-});
-const MainHeader = dynamic(() => import("../Header/MainHeader"), {
-  ssr: false,
- 
-});
-const Menu = dynamic(() => import("@/components/Modal/Menu"), {
-  ssr: false,
-});
-const Report = dynamic(() => import("@/components/Modal/Report"), {
-  ssr: false,
-});
+import { useStore } from "zustand";
+import { AiOutlineClose } from "react-icons/ai";
+import { useRouter } from "next/router";
+const SearchForm = dynamic(() => import("@/components/Search"));
+const Sidebar = dynamic(() => import("../Navigation/Sidebar"));
+const MainHeader = dynamic(() => import("../Header/MainHeader"));
+const Menu = dynamic(() => import("@/components/Modal/Menu"));
+const Report = dynamic(() => import("@/components/Modal/Report"));
+const PostPreview = dynamic(() => import("@/components/Modal/PostPreview"));
 
 export default function Layout({ children }: { children: any }) {
+  const {  darkMode } = useStore(useDarkModeStore)
+  const {selectedPost, setSelectedPost} = useStore(useSelectedPostStore)
+  const {setPostPreviewModal} = useStore(usePostPreviewModalStore)
+  const handleClick = () => {
+    setSelectedPost(null)
+    setPostPreviewModal(false)
+  }
+  const { replace, asPath } = useRouter()
+  const refreshData = () => replace(asPath)
 
   return (
     <>
@@ -39,7 +42,7 @@ export default function Layout({ children }: { children: any }) {
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <div className="mx-auto h-screen max-w-screen-3xl !select-none  bg-white dark:bg-black">
+      <div className={`mx-auto h-screen max-w-screen-3xl !select-none  ${darkMode ? '!bg-black text-white' : '!bg-white text-black' } `}>
         <div className="flex">
           <Sidebar />
           <SearchForm />
@@ -50,6 +53,11 @@ export default function Layout({ children }: { children: any }) {
         </div>
         <Menu />
         <Report />
+        <PostPreview post={selectedPost} refreshData={refreshData}>
+          <button onClick={handleClick}>
+            <AiOutlineClose className="text-2xl" />
+          </button>
+        </PostPreview>
       </div>
     </>
   );

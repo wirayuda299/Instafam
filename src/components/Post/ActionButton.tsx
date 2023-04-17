@@ -5,6 +5,8 @@ import { FaRegComment } from "react-icons/fa";
 import { RiBookmarkFill } from "react-icons/ri";
 import { BiBookmark } from "react-icons/bi";
 import { IoPaperPlaneOutline } from "react-icons/io5";
+import { usePostPreviewModalStore, useSelectedPostStore } from "@/stores/stores";
+import { useStore } from "zustand";
 
 type Props = {
   post: IUserPostProps;
@@ -17,16 +19,10 @@ type Props = {
   ssr: boolean;
 };
 
-export default function ActionButton({
-  post,
-  commentOpen,
-  setCommentOpen,
-  uid,
-  likes,
-  savedPosts,
-  refreshData,
-  ssr,
-}: Props) {
+export default function ActionButton(props: Props) {
+  const { post, uid, setCommentOpen, commentOpen, likes, savedPosts, refreshData, ssr } = props;
+  const {setPostPreviewModal} = useStore(usePostPreviewModalStore)
+  const {setSelectedPost} = useStore(useSelectedPostStore)
   const Buttons = [
     {
       id: 1,
@@ -51,7 +47,10 @@ export default function ActionButton({
       icon: (
         <FaRegComment className="text-2xl hover:text-gray-500 sm:text-3xl" />
       ),
-      onClick: () => setCommentOpen(!commentOpen),
+      onClick: () => {
+        setPostPreviewModal(true)
+        setSelectedPost(post)
+      },
     },
     {
       id: 3,

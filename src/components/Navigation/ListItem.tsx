@@ -1,4 +1,4 @@
-import { useDrawerStore, useResultStore } from "@/stores/stores";
+import { useDarkModeStore, useDrawerStore, useResultStore } from "@/stores/stores";
 import Link from "next/link";
 import { useStore } from "zustand";
 
@@ -22,7 +22,7 @@ export default function ListItem({
 }: ListItemProps) {
   const { drawer, setDrawer } = useStore(useDrawerStore);
   const { setResult } = useStore(useResultStore);
-
+  const {  darkMode } = useStore(useDarkModeStore)
   const toggler = () => {
     setResult([]);
     setDrawer(false);
@@ -31,7 +31,7 @@ export default function ListItem({
     <li
       role="listitem"
       key={list.id}
-      className={` w-fit rounded-full p-2 text-base font-light  hover:bg-[#a8a8a817] hover:bg-gray-200 dark:hover:bg-[#b9b9b917] md:w-full md:p-3 ${
+      className={` w-fit rounded-full p-2 text-base font-light  md:w-full md:p-3 ${darkMode ? 'hover:bg-[#b9b9b917]' : 'hover:bg-gray-200'} ${
         list.id === 2 || list.id === 5 ? "hidden md:block" : ""
       } ${list.id === 8 ? "hidden md:block" : ""} ${
         pathname === list.path ? "font-semibold" : ""

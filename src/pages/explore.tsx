@@ -4,25 +4,13 @@ import dynamic from "next/dynamic";
 import useInfiniteScroll from "@/hooks/useInfiniteScroll";
 import { GetServerSidePropsContext } from "next";
 import { getPosts } from "@/helper/getPosts";
+import { RiLoader2Line } from "react-icons/ri";
 
 const ExplorePostCard = dynamic(() => import("@/components/Feeds"), {
   ssr: true,
-  loading({ error, isLoading, pastDelay }) {
-    if (isLoading || pastDelay) {
-      return <div>Loading...</div>;
-    } else if (error) {
-      return <div>Failed to load</div>;
-    } else {
-      return null;
-    }
-  },
-  webpack() {
-    return [require.resolve("@/components/Feeds")];
-  },
+
 });
-const Loader = dynamic(() => import("@/components/Loader/Loader"), {
-  ssr: true,
-});
+
 
 type Props = {
   posts: IUserPostProps[];
@@ -40,14 +28,21 @@ export default function Explore({ posts, last }: Props) {
           content="Explore new posts and discover new accounts on Instafam."
         />
       </Head>
-      <div className="h-screen w-full overflow-y-auto p-5 text-black dark:text-white">
+      <div className="h-screen w-full overflow-y-auto p-5 ">
         <h1 className="py-8 text-center text-5xl font-semibold">Explore</h1>
         <div className="mb-7 w-full columns-1 gap-10 sm:columns-2 lg:columns-3">
           {posts?.map((post) => (
             <ExplorePostCard post={post} key={post.postId} />
           ))}
           <span ref={ref}></span>
-          {loading && <Loader />}
+          {loading && (
+            <>
+              <RiLoader2Line
+                className="mx-auto  animate-spin text-gray-500"
+                size={50}
+              />
+            </>
+          )}
           {postsState?.map((post) => (
             <ExplorePostCard post={post} key={post.postId} />
           ))}

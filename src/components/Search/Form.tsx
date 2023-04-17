@@ -1,7 +1,7 @@
 import useSearchUser from "@/hooks/useSearchUser";
 import { ReactNode } from "react";
 import dynamic from "next/dynamic";
-import { useDrawerStore, useResultStore } from "@/stores/stores";
+import { useDarkModeStore, useDrawerStore, useResultStore } from "@/stores/stores";
 import { useStore } from "zustand";
 const FormResult = dynamic(() => import("./Results"), { ssr: false });
 
@@ -18,6 +18,7 @@ export default function Form({ height, children }: Props) {
   const { handleSubmit, onSubmit, register, isPending } = useSearchUser();
   const { result, setResult } = useStore(useResultStore);
   const { setDrawer } = useStore(useDrawerStore);
+  const {  darkMode } = useStore(useDarkModeStore)
   const handleDrawerToggler = () => {
     setResult([]);
     setDrawer(false);
@@ -25,11 +26,11 @@ export default function Form({ height, children }: Props) {
   return (
     <>
       <form
-        className={`mt-5 rounded-sm dark:bg-black ${height}`}
+        className={`mt-5 rounded-sm  ${height} ${darkMode ? 'bg-black text-white' : 'bg-white text-black'}`}
         onSubmit={handleSubmit(onSubmit)}
       >
-        <div className=" w-full pb-5">
-          <div>
+        <div className={`w-full pb-5  ${darkMode ? 'bg-black text-white' : 'bg-white text-black'} `}>
+          <div className={`${darkMode ? 'bg-black text-white' : 'bg-white text-black'}`}>
             <div className="flex w-full items-center justify-between rounded-md bg-[#b9b9b917] px-3">
               <input
                 type="search"
@@ -49,7 +50,7 @@ export default function Form({ height, children }: Props) {
               results={result}
               isPending={isPending}
               setResults={setResult}
-              customs="h-screen mt-5 -left-1 fixed z-50 top-16 md: h-full  md:top-0 md:left-0 md:w-full md:z-0  md:transition-all md:duration-300 md:ease-in-out md:static "
+              customs={`h-screen mt-5 -left-1 fixed z-50 top-16 md: h-full  md:top-0 md:left-0 md:w-full md:z-0  md:transition-all md:duration-300 md:ease-in-out md:static ${ darkMode ? 'bg-black text-white' : 'bg-white text-black' }`}
             />
           </div>
         </div>

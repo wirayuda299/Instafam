@@ -1,9 +1,10 @@
 import Link from "next/link";
 import { AiOutlineClose } from "react-icons/ai";
 import Image from "next/image";
-import { DocumentData } from "firebase/firestore";
 import { FiLoader } from "react-icons/fi";
 import { IUser } from "@/types/user";
+import { useDarkModeStore } from "@/stores/stores";
+import { useStore } from "zustand";
 interface Props {
   results: IUser[];
   handleDrawerToggler: () => void;
@@ -19,13 +20,16 @@ export default function Results({
   customs,
   isPending,
 }: Props) {
+  const {  darkMode } = useStore(useDarkModeStore)
   return (
-    <div
-      className={`result flex h-full w-full justify-center bg-white px-5 text-black transition-all dark:bg-black dark:text-white md:px-0 ${
-        results.length < 1 ? "hidden" : "block"
+    <>
+    {results ? (
+      <div
+      className={`result flex h-full w-full justify-center  px-5 ${darkMode ? 'bg-black text-white' : 'bg-white text-black'} transition-all md:px-0 ${
+        results.length < 1 ? "hidden" : "block" 
       } ${customs ? customs : ""}`}
     >
-      <div className="w-full">
+      <div className={`w-full ${darkMode ? 'bg-black text-white' : 'bg-white text-black'}`}>
         {isPending && (
           <div role="status" className="flex items-center justify-center">
             <FiLoader size={25} />
@@ -34,7 +38,7 @@ export default function Results({
         )}
         {results.map((result) => (
           <div
-            className="mb-3 flex w-full justify-between border-b pb-5"
+            className={`mb-3 flex w-full justify-between border-b border-gray-500 border-opacity-50 pb-5 ${darkMode ? 'bg-black text-white' : 'bg-white text-black'}`}
             key={result.uid}
           >
             <Link
@@ -71,5 +75,7 @@ export default function Results({
         ))}
       </div>
     </div>
+    ):null}
+    </>
   );
 }

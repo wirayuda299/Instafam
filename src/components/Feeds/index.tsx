@@ -2,23 +2,25 @@ import { IUserPostProps } from "@/types/post";
 import { imageLoader } from "@/util/imageLoader";
 import dynamic from "next/dynamic";
 import Image from "next/image";
-import { memo, useState } from "react";
-import { useRouter } from "next/router";
+import { memo } from "react";
+import { useStore } from "zustand";
+import { usePostPreviewModalStore, useSelectedPostStore } from "@/stores/stores";
 
 const PostInfo = dynamic(() => import("./PostInfo"));
-const FeedModal = dynamic(() => import("./Modal"));
 
 function ExplorePostCard({ post }: { post: IUserPostProps }) {
-  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-  const [commentOpen, setCommentOpen] = useState<boolean>(false);
-  const { asPath, replace } = useRouter();
-  const refreshData = () => replace(asPath);
+  const {setSelectedPost} = useStore(useSelectedPostStore)
+  const {setPostPreviewModal} = useStore(usePostPreviewModalStore)
+  const handleClick = () => {
+    setSelectedPost(post)
+    setPostPreviewModal(true)
+  }
   return (
     <div
       className="group relative cursor-pointer shadow-lg"
-      onClick={() => setIsModalOpen(true)}
+      onClick={handleClick}
     >
-      <div className="rounded-sm bg-white shadow-lg dark:border-black dark:bg-black dark:text-white ">
+      <div className="rounded-sm shadow-lg">
         <Image
           src={post?.image}
           width={1300}
@@ -37,14 +39,6 @@ function ExplorePostCard({ post }: { post: IUserPostProps }) {
           alt={post?.author ?? "user post image"}
         />
         <PostInfo post={post} />
-        <FeedModal
-          commentOpen={commentOpen}
-          isModalOpen={isModalOpen}
-          post={post}
-          refreshData={refreshData}
-          setCommentOpen={setCommentOpen}
-          setIsModalOpen={setIsModalOpen}
-        />
       </div>
     </div>
   );

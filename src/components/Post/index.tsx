@@ -7,6 +7,8 @@ import { imageLoader } from "@/util/imageLoader";
 import useUser from "@/hooks/useUser";
 import usePost from "@/hooks/usePost";
 import { useSession } from "next-auth/react";
+import { useDarkModeStore } from "@/stores/stores";
+import { useStore } from "zustand";
 
 const Likes = dynamic(() => import("./Likes"), {
   ssr: false,
@@ -35,10 +37,11 @@ export default function PostCard({ post }: Props) {
   const { likes, comments } = usePost(post);
   const { data: session } = useSession();
   const { savedPosts } = useUser(session?.user.uid as string);
+  const {  darkMode } = useStore(useDarkModeStore)
 
   return (
     <div className={`relative mb-5 w-full`}>
-      <div className="rounded-sm bg-white shadow-lg dark:border-black dark:bg-black dark:text-white ">
+      <div className={`rounded-sm shadow-lg  ${darkMode ? 'bg-black text-white' : 'bg-white text-black'}`}>
         <PostHeader post={post} />
         <Image
           src={post?.image}

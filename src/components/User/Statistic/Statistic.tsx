@@ -4,6 +4,8 @@ import { Session } from "next-auth";
 import Image from "next/image";
 import dynamic from "next/dynamic";
 import { memo } from "react";
+import { useStore } from "zustand";
+import { useDarkModeStore } from "@/stores/stores";
 const UserInfo = dynamic(() => import("../Info/Info"));
 const DesktopStatistic = dynamic(() => import("./Desktop"));
 const StatisticMobile = dynamic(() => import("./Mobile"));
@@ -33,9 +35,10 @@ function Statistic({ session, users, posts, refreshData }: Props) {
       value: users?.following.length,
     },
   ];
+  const {darkMode} = useStore(useDarkModeStore)
   return (
     <div className="w-full">
-      <div className="w-full text-black dark:text-white">
+      <div className={`${darkMode ? 'text-white' : 'text-black'}`}>
         <div className="flex w-full flex-col items-center justify-between sm:flex-row sm:justify-around">
           <div className="flex flex-wrap items-center justify-start sm:space-x-5">
             <div className="py-5">

@@ -32,7 +32,7 @@ function Suggestions({ reccomend }: Props) {
               priority
               quality={50}
             />
-            <span className="text-base font-semibold text-black dark:text-white">
+            <span className="text-base font-semibold ">
               {session?.user?.username}
             </span>
           </div>

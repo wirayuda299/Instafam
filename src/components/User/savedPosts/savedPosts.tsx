@@ -1,6 +1,5 @@
 import { Suspense } from "react";
 import { IUserPostProps } from "@/types/post";
-import Loader from "@/components/Loader/Loader";
 import dynamic from "next/dynamic";
 
 const FeedsCards = dynamic(() => import("@/components/Feeds"));
@@ -25,7 +24,7 @@ export default function SavedPosts({
             </div>
           ) : (
             savedPosts?.map((post) => (
-              <Suspense key={post.postId} fallback={<Loader />}>
+              <Suspense key={post.postId} fallback={ <p>Loading...</p> }>
                 <FeedsCards post={post} />
               </Suspense>
             ))

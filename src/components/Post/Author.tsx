@@ -5,6 +5,7 @@ function Author({ post }: { post: IUserPostProps }) {
   const [show, setShow] = useState(false);
   const posthastag = useMemo<string[]>(() => post.hashtags, [post]);
   const captions = useMemo<string>(() => post.captions[0], [post]);
+  
 
   return (
     <div className="overflow-hidden">
@@ -17,7 +18,7 @@ function Author({ post }: { post: IUserPostProps }) {
           {post?.author}
         </h3>
         <p
-          className={` text-sm font-thin text-black dark:text-white ${
+          className={` text-sm font-thin  ${
             captions.length >= 20 && !show ? "truncate" : ""
           }`}
         >

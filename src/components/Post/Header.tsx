@@ -4,18 +4,18 @@ import { getCreatedDate } from "@/util/postDate";
 import { IUserPostProps } from "@/types/post";
 import { BsThreeDots } from "react-icons/bs";
 import { useStore } from "zustand";
-import { useMenuModalStore, useSelectedPostStore } from "@/stores/stores";
+import { useDarkModeStore, useMenuModalStore, useSelectedPostStore } from "@/stores/stores";
 
 export default function Postheader({ post }: { post: IUserPostProps }) {
   const { setSelectedPost } = useStore(useSelectedPostStore);
   const { menuModal, setMenuModal } = useStore(useMenuModalStore);
-
+  const {  darkMode } = useStore(useDarkModeStore)
   const handleClick = () => {
     setMenuModal(!menuModal);
     setSelectedPost(post);
   };
   return (
-    <div className="relative flex h-fit items-center px-4 py-3">
+    <div className={`relative flex h-fit items-center px-4 py-3 ${darkMode ? 'bg-black text-white' : 'text-black bg-white'}`}>
       <Image
         className="h-8 w-8 rounded-full object-cover"
         alt={post?.author ?? "user profile"}
@@ -29,7 +29,7 @@ export default function Postheader({ post }: { post: IUserPostProps }) {
         }
         sizes="50px"
       />
-      <div className="ml-3 flex w-full items-center justify-between ">
+      <div className={`ml-3 flex w-full items-center justify-between`}>
         <div>
           <Link
             href={`/profile/${post.author}`}

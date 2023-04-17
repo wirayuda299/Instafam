@@ -1,5 +1,7 @@
+import { useDarkModeStore } from "@/stores/stores";
 import { useEffect, useRef, useState } from "react";
 import { BsGrid3X3Gap, BsBookmark, BsPersonSquare } from "react-icons/bs";
+import { useStore } from "zustand";
 
 type ChangeTab = (tabId: number) => void;
 
@@ -11,20 +13,22 @@ export default function Tab({ activeTab, handleTabChange }: Props) {
   const btn1 = useRef<HTMLButtonElement>(null);
   const btn2 = useRef<HTMLButtonElement>(null);
   const btn3 = useRef<HTMLButtonElement>(null);
+  const {darkMode} = useStore(useDarkModeStore)
+
   const tabValue = [
     {
       id: 1,
-      icon: <BsGrid3X3Gap size={25} className="text-black dark:text-white" />,
+      icon: <BsGrid3X3Gap size={25} className={`${darkMode ? 'text-white' : 'text-black'}`} />,
       ref: btn1,
     },
     {
       id: 2,
-      icon: <BsBookmark size={25} className="text-black dark:text-white" />,
+      icon: <BsBookmark size={25} className={`${darkMode ? 'text-white' : 'text-black'}`} />,
       ref: btn2,
     },
     {
       id: 3,
-      icon: <BsPersonSquare size={25} className="text-black dark:text-white" />,
+      icon: <BsPersonSquare size={25} className={`${darkMode ? 'text-white' : 'text-black'}`} />,
       ref: btn3,
     },
   ];
