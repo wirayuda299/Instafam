@@ -6,6 +6,8 @@ const Form = dynamic(() => import("../Search/Form"), {
 });
 import { GiExitDoor } from "react-icons/gi";
 import { Playfair_Display } from "next/font/google";
+import { useStore } from "zustand";
+import { useDarkModeStore } from "@/stores/stores";
 
 const playfair = Playfair_Display({
   fallback: ["sans-serif"],
@@ -16,8 +18,13 @@ const playfair = Playfair_Display({
   adjustFontFallback: true,
 });
 export default function Header() {
+  const { darkMode } = useStore(useDarkModeStore);
   return (
-    <header className="relative w-full border-b border-gray-500 border-opacity-50 bg-white px-5 dark:bg-black dark:text-white md:hidden">
+    <header
+      className={`relative w-full border-b border-gray-500 border-opacity-50 px-5 md:hidden ${
+        darkMode ? "bg-black text-white" : "bg-white text-black"
+      }`}
+    >
       <div className="flex w-full items-center justify-between space-x-2">
         <div className="w-full">
           <Link

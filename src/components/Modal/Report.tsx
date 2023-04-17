@@ -9,7 +9,7 @@ import { toast } from "react-hot-toast";
 import { useStore } from "zustand";
 
 export default function Report() {
-  const { data:session } = useSession();
+  const { data: session } = useSession();
   const { register, resetField, handleSubmit } = useForm();
   const { selectedPost } = useStore(useSelectedPostStore);
   const { reportModal, setReportModal } = useStore(useReportModalStore);

@@ -20,62 +20,72 @@ export default function Results({
   customs,
   isPending,
 }: Props) {
-  const {  darkMode } = useStore(useDarkModeStore)
+  const { darkMode } = useStore(useDarkModeStore);
   return (
     <>
-    {results ? (
-      <div
-      className={`result flex h-full w-full justify-center  px-5 ${darkMode ? 'bg-black text-white' : 'bg-white text-black'} transition-all md:px-0 ${
-        results.length < 1 ? "hidden" : "block" 
-      } ${customs ? customs : ""}`}
-    >
-      <div className={`w-full ${darkMode ? 'bg-black text-white' : 'bg-white text-black'}`}>
-        {isPending && (
-          <div role="status" className="flex items-center justify-center">
-            <FiLoader size={25} />
-            <span className="sr-only">Loading...</span>
-          </div>
-        )}
-        {results.map((result) => (
+      {results ? (
+        <div
+          className={`result flex h-full w-full justify-center  px-5 ${
+            darkMode ? "bg-black text-white" : "bg-white text-black"
+          } transition-all md:px-0 ${results.length < 1 ? "hidden" : "block"} ${
+            customs ? customs : ""
+          }`}
+        >
           <div
-            className={`mb-3 flex w-full justify-between border-b border-gray-500 border-opacity-50 pb-5 ${darkMode ? 'bg-black text-white' : 'bg-white text-black'}`}
-            key={result.uid}
+            className={`w-full ${
+              darkMode ? "bg-black text-white" : "bg-white text-black"
+            }`}
           >
-            <Link
-              href={`/profile/${result.username}`}
-              onClick={handleDrawerToggler}
-              className="flex items-center justify-center space-x-3"
-            >
-              <Image
-                src={result.image}
-                width={40}
-                height={40}
-                priority
-                className="h-10 w-10 rounded-full"
-                alt="profile"
-              />
-              <div className="flex flex-col">
-                <p className="text-sm font-semibold">
-                  {result.username}
-                  <span className="block text-xs">{result.name}</span>
-                </p>
+            {isPending && (
+              <div role="status" className="flex items-center justify-center">
+                <FiLoader size={25} />
+                <span className="sr-only">Loading...</span>
               </div>
-            </Link>
-            <button
-              type="button"
-              name="close"
-              title="close"
-              onClick={() =>
-                setResults(results.filter((user) => user.uid !== result.uid))
-              }
-            >
-              <AiOutlineClose size={20} />
-            </button>
+            )}
+            {results.map((result) => (
+              <div
+                className={`mb-3 flex w-full justify-between border-b border-gray-500 border-opacity-50 pb-5 ${
+                  darkMode ? "bg-black text-white" : "bg-white text-black"
+                }`}
+                key={result.uid}
+              >
+                <Link
+                  href={`/profile/${result.username}`}
+                  onClick={handleDrawerToggler}
+                  className="flex items-center justify-center space-x-3"
+                >
+                  <Image
+                    src={result.image}
+                    width={40}
+                    height={40}
+                    priority
+                    className="h-10 w-10 rounded-full"
+                    alt="profile"
+                  />
+                  <div className="flex flex-col">
+                    <p className="text-sm font-semibold">
+                      {result.username}
+                      <span className="block text-xs">{result.name}</span>
+                    </p>
+                  </div>
+                </Link>
+                <button
+                  type="button"
+                  name="close"
+                  title="close"
+                  onClick={() =>
+                    setResults(
+                      results.filter((user) => user.uid !== result.uid)
+                    )
+                  }
+                >
+                  <AiOutlineClose size={20} />
+                </button>
+              </div>
+            ))}
           </div>
-        ))}
-      </div>
-    </div>
-    ):null}
+        </div>
+      ) : null}
     </>
   );
 }

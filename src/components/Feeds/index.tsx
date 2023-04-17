@@ -4,17 +4,20 @@ import dynamic from "next/dynamic";
 import Image from "next/image";
 import { memo } from "react";
 import { useStore } from "zustand";
-import { usePostPreviewModalStore, useSelectedPostStore } from "@/stores/stores";
+import {
+  usePostPreviewModalStore,
+  useSelectedPostStore,
+} from "@/stores/stores";
 
 const PostInfo = dynamic(() => import("./PostInfo"));
 
 function ExplorePostCard({ post }: { post: IUserPostProps }) {
-  const {setSelectedPost} = useStore(useSelectedPostStore)
-  const {setPostPreviewModal} = useStore(usePostPreviewModalStore)
+  const { setSelectedPost } = useStore(useSelectedPostStore);
+  const { setPostPreviewModal } = useStore(usePostPreviewModalStore);
   const handleClick = () => {
-    setSelectedPost(post)
-    setPostPreviewModal(true)
-  }
+    setSelectedPost(post);
+    setPostPreviewModal(true);
+  };
   return (
     <div
       className="group relative cursor-pointer shadow-lg"

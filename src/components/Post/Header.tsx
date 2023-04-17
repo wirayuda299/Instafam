@@ -4,18 +4,26 @@ import { getCreatedDate } from "@/util/postDate";
 import { IUserPostProps } from "@/types/post";
 import { BsThreeDots } from "react-icons/bs";
 import { useStore } from "zustand";
-import { useDarkModeStore, useMenuModalStore, useSelectedPostStore } from "@/stores/stores";
+import {
+  useDarkModeStore,
+  useMenuModalStore,
+  useSelectedPostStore,
+} from "@/stores/stores";
 
 export default function Postheader({ post }: { post: IUserPostProps }) {
   const { setSelectedPost } = useStore(useSelectedPostStore);
   const { menuModal, setMenuModal } = useStore(useMenuModalStore);
-  const {  darkMode } = useStore(useDarkModeStore)
+  const { darkMode } = useStore(useDarkModeStore);
   const handleClick = () => {
     setMenuModal(!menuModal);
     setSelectedPost(post);
   };
   return (
-    <div className={`relative flex h-fit items-center px-4 py-3 ${darkMode ? 'bg-black text-white' : 'text-black bg-white'}`}>
+    <div
+      className={`relative flex h-fit items-center px-4 py-3 ${
+        darkMode ? "bg-black text-white" : "bg-white text-black"
+      }`}
+    >
       <Image
         className="h-8 w-8 rounded-full object-cover"
         alt={post?.author ?? "user profile"}

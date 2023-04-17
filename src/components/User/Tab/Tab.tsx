@@ -13,22 +13,37 @@ export default function Tab({ activeTab, handleTabChange }: Props) {
   const btn1 = useRef<HTMLButtonElement>(null);
   const btn2 = useRef<HTMLButtonElement>(null);
   const btn3 = useRef<HTMLButtonElement>(null);
-  const {darkMode} = useStore(useDarkModeStore)
+  const { darkMode } = useStore(useDarkModeStore);
 
   const tabValue = [
     {
       id: 1,
-      icon: <BsGrid3X3Gap size={25} className={`${darkMode ? 'text-white' : 'text-black'}`} />,
+      icon: (
+        <BsGrid3X3Gap
+          size={25}
+          className={`${darkMode ? "text-white" : "text-black"}`}
+        />
+      ),
       ref: btn1,
     },
     {
       id: 2,
-      icon: <BsBookmark size={25} className={`${darkMode ? 'text-white' : 'text-black'}`} />,
+      icon: (
+        <BsBookmark
+          size={25}
+          className={`${darkMode ? "text-white" : "text-black"}`}
+        />
+      ),
       ref: btn2,
     },
     {
       id: 3,
-      icon: <BsPersonSquare size={25} className={`${darkMode ? 'text-white' : 'text-black'}`} />,
+      icon: (
+        <BsPersonSquare
+          size={25}
+          className={`${darkMode ? "text-white" : "text-black"}`}
+        />
+      ),
       ref: btn3,
     },
   ];

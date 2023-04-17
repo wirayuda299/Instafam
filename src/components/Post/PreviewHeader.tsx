@@ -8,7 +8,7 @@ import { useStore } from "zustand";
 
 type Props = {
   post: IUserPostProps;
-  session: any
+  session: any;
   refreshData: () => void;
   user: IUser | null;
   children: any;
@@ -20,9 +20,13 @@ export default function PreviewHeader({
   user,
   children,
 }: Props) {
-  const {darkMode} = useStore(useDarkModeStore)
+  const { darkMode } = useStore(useDarkModeStore);
   return (
-    <div className={`ease sticky -top-3 flex w-full border-b border-gray-500 border-opacity-50 px-2 py-3 transition-all duration-300  ${darkMode ? 'bg-black' : 'bg-white'}`}>
+    <div
+      className={`ease sticky -top-3 flex w-full border-b border-gray-500 border-opacity-50 px-2 py-3 transition-all duration-300  ${
+        darkMode ? "bg-black" : "bg-white"
+      }`}
+    >
       <div className="flex flex-1 items-start space-x-2">
         <div className="flex space-x-2">
           <Image
@@ -35,7 +39,9 @@ export default function PreviewHeader({
           />
           <div className="cursor-pointer">
             <h4 className="pr-1 font-semibold">{post?.author}</h4>
-            <p className="text-xs text-left text-gray-500">{getCreatedDate(post)}</p>
+            <p className="text-left text-xs text-gray-500">
+              {getCreatedDate(post)}
+            </p>
           </div>
         </div>
         &#8226;

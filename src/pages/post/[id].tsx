@@ -23,9 +23,9 @@ export default function PostDetail({ post }: { post: IUserPostProps }) {
   const [commentOpen, setCommentOpen] = useState<boolean>(false);
   const { asPath, replace } = useRouter();
   const refreshData = () => replace(asPath);
-  const { likes, comments } = usePost(post)
-  const { data: session } = useSession()
-  const { savedPosts, user } = useUser(session?.user?.uid as string)
+  const { likes, comments } = usePost(post);
+  const { data: session } = useSession();
+  const { savedPosts, user } = useUser(session?.user?.uid as string);
 
   const PreviewMobile = useMemo(() => {
     return (

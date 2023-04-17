@@ -8,9 +8,7 @@ import { RiLoader2Line } from "react-icons/ri";
 
 const ExplorePostCard = dynamic(() => import("@/components/Feeds"), {
   ssr: true,
-
 });
-
 
 type Props = {
   posts: IUserPostProps[];

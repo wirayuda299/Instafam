@@ -2,7 +2,7 @@ import { IUser } from "@/types/user";
 
 type Props = {
   users: IUser | null;
-  session: any
+  session: any;
   refreshData: () => void;
 };
 export default function Info({ users, session, refreshData }: Props) {

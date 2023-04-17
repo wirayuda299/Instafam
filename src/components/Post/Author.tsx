@@ -5,7 +5,6 @@ function Author({ post }: { post: IUserPostProps }) {
   const [show, setShow] = useState(false);
   const posthastag = useMemo<string[]>(() => post.hashtags, [post]);
   const captions = useMemo<string>(() => post.captions[0], [post]);
-  
 
   return (
     <div className="overflow-hidden">

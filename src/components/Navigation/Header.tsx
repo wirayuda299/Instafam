@@ -9,7 +9,7 @@ const playfair = Playfair_Display({
   subsets: ["latin"],
   preload: true,
   weight: "700",
-  display: "swap"
+  display: "swap",
 });
 export default function NavHeader() {
   const { drawer } = useStore(useDrawerStore);

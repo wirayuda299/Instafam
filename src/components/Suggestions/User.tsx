@@ -29,9 +29,7 @@ export default function UserRecommendations({
               quality={50}
             />
             <div className="flex flex-col items-start justify-center">
-              <span className="text-sm font-semibold ">
-                {user.username}
-              </span>
+              <span className="text-sm font-semibold ">{user.username}</span>
               <p className=" text-xs text-slate-500">{user.name}</p>
             </div>
           </div>

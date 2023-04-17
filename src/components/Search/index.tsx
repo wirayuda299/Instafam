@@ -6,7 +6,7 @@ import { useStore } from "zustand";
 
 function SearchDrawer() {
   const { drawer, setDrawer } = useStore(useDrawerStore);
-  const {  darkMode } = useStore(useDarkModeStore)
+  const { darkMode } = useStore(useDarkModeStore);
   useEffect(() => {
     window.addEventListener("resize", () => {
       setDrawer(false);
@@ -22,10 +22,13 @@ function SearchDrawer() {
     <>
       {drawer ? (
         <section
-          className={`fixed z-50  transition-all duration-300 ease-out ${darkMode ? 'bg-black' : 'bg-white'}  ${drawer
-            ? "animate-slideIn lg:animate-slideIn"
-            : "animate-slideOut lg:animate-slideOutWidth"
-            }`}
+          className={`fixed z-50  transition-all duration-300 ease-out ${
+            darkMode ? "bg-black" : "bg-white"
+          }  ${
+            drawer
+              ? "animate-slideIn lg:animate-slideIn"
+              : "animate-slideOut lg:animate-slideOutWidth"
+          }`}
         >
           <div className=" h-full w-full ">
             <div className="w-64 border-b p-5">

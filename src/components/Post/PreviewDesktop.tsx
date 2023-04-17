@@ -24,7 +24,17 @@ type Props = {
   commentOpen: boolean;
 };
 
-export default function PostCommentsDesktop({post, children, refreshData, comments, likes, savedPosts, user, commentOpen, setCommentOpen}: Props) {
+export default function PostCommentsDesktop({
+  post,
+  children,
+  refreshData,
+  comments,
+  likes,
+  savedPosts,
+  user,
+  commentOpen,
+  setCommentOpen,
+}: Props) {
   const { data: session } = useSession();
 
   return (

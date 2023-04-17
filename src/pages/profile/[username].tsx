@@ -6,7 +6,7 @@ import { IUser } from "@/types/user";
 import { useRouter } from "next/router";
 import useAuth from "@/hooks/useAuth";
 import { GetServerSidePropsContext } from "next";
-import {  memo, useMemo, useState, useTransition } from "react";
+import { memo, useMemo, useState, useTransition } from "react";
 
 const SavedPosts = dynamic(
   () => import("@/components/User/savedPosts/savedPosts"),
@@ -89,7 +89,7 @@ function UserProfile({ posts, user, query }: Props) {
               </div>
             ) : (
               posts?.map((post) => (
-                  <ExplorePostCard post={post} key={post.postId} />
+                <ExplorePostCard post={post} key={post.postId} />
               ))
             )}
           </>

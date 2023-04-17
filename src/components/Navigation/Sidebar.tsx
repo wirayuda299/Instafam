@@ -9,11 +9,13 @@ const NavHeader = dynamic(() => import("./Header"));
 export default function Sidebar() {
   const { drawer } = useStore(useDrawerStore);
   const { data: session } = useSession();
-  const {  darkMode } = useStore(useDarkModeStore)
+  const { darkMode } = useStore(useDarkModeStore);
 
   return (
     <aside
-      className={`${darkMode ? 'bg-black border-r-gray-600' : 'bg-white'} ease fixed bottom-0 left-0 z-50 flex h-12 w-full items-center transition-width duration-300 md:static md:z-10 md:h-screen md:w-fit md:border-r md:border-opacity-50   ${
+      className={`${
+        darkMode ? "border-r-gray-600 bg-black" : "bg-white"
+      } ease fixed bottom-0 left-0 z-50 flex h-12 w-full items-center transition-width duration-300 md:static md:z-10 md:h-screen md:w-fit md:border-r md:border-opacity-50   ${
         drawer ? "!w-20" : " lg:w-64 "
       }`}
     >

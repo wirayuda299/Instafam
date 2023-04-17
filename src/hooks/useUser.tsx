@@ -8,16 +8,21 @@ import { useStore } from "zustand";
 export default function useUser(uid: string) {
   const [user, setUser] = useState<IUser | null>(null);
   const [savedPosts, setSavedPosts] = useState<string[]>([]);
-  const {selectedPost} = useStore(useSelectedPostStore)
+  const { selectedPost } = useStore(useSelectedPostStore);
   useEffect(() => {
-    onSnapshot(doc(db, "users", `${uid ? uid : selectedPost?.postedById}`), (docs) => {
-      if (docs.exists()) {
-        setSavedPosts(
-          docs.data().savedPosts.map((post: { postId: string }) => post.postId)
-        );
-        setUser(docs.data() as IUser);
+    onSnapshot(
+      doc(db, "users", `${uid ? uid : selectedPost?.postedById}`),
+      (docs) => {
+        if (docs.exists()) {
+          setSavedPosts(
+            docs
+              .data()
+              .savedPosts.map((post: { postId: string }) => post.postId)
+          );
+          setUser(docs.data() as IUser);
+        }
       }
-    });
+    );
   }, [db, selectedPost]);
 
   return { user, savedPosts };

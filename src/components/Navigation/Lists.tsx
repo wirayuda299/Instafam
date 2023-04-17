@@ -16,47 +16,67 @@ const ListItem = dynamic(() => import("./ListItem"));
 export default function NavbarLists({ session }: any) {
   const { pathname } = useRouter();
   const { drawer } = useStore(useDrawerStore);
-  const {  darkMode } = useStore(useDarkModeStore)
+  const { darkMode } = useStore(useDarkModeStore);
 
   const navList = [
     {
       id: 1,
       title: "Home",
       path: "/",
-      icon: <AiOutlineHome className={`${darkMode ? 'text-white' : 'text-black '} text-3xl`} />,
+      icon: (
+        <AiOutlineHome
+          className={`${darkMode ? "text-white" : "text-black "} text-3xl`}
+        />
+      ),
     },
     {
       id: 2,
       title: "Search",
       path: "",
-      icon: <AiOutlineSearch className={`${darkMode ? 'text-white' : 'text-black '} text-3xl`} />,
+      icon: (
+        <AiOutlineSearch
+          className={`${darkMode ? "text-white" : "text-black "} text-3xl`}
+        />
+      ),
     },
     {
       id: 3,
       title: "Explore",
       path: "/explore",
       icon: (
-        <MdOutlineExplore className={`${darkMode ? 'text-white' : 'text-black '} text-3xl`} />
+        <MdOutlineExplore
+          className={`${darkMode ? "text-white" : "text-black "} text-3xl`}
+        />
       ),
     },
     {
       id: 4,
       title: "Messages",
       path: "/messages",
-      icon: <RiMessengerLine className={`${darkMode ? 'text-white' : 'text-black '} text-3xl`} />,
+      icon: (
+        <RiMessengerLine
+          className={`${darkMode ? "text-white" : "text-black "} text-3xl`}
+        />
+      ),
     },
     {
       id: 5,
       title: "Notifications",
       path: "/notifications",
-      icon: <AiOutlineHeart className={`${darkMode ? 'text-white' : 'text-black '} text-3xl`} />,
+      icon: (
+        <AiOutlineHeart
+          className={`${darkMode ? "text-white" : "text-black "} text-3xl`}
+        />
+      ),
     },
     {
       id: 6,
       title: "Create",
       path: "/create",
       icon: (
-        <AiOutlinePlusSquare className={`${darkMode ? 'text-white' : 'text-black '} text-3xl`} />
+        <AiOutlinePlusSquare
+          className={`${darkMode ? "text-white" : "text-black "} text-3xl`}
+        />
       ),
     },
     {

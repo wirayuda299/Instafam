@@ -35,10 +35,10 @@ function Statistic({ session, users, posts, refreshData }: Props) {
       value: users?.following.length,
     },
   ];
-  const {darkMode} = useStore(useDarkModeStore)
+  const { darkMode } = useStore(useDarkModeStore);
   return (
     <div className="w-full">
-      <div className={`${darkMode ? 'text-white' : 'text-black'}`}>
+      <div className={`${darkMode ? "text-white" : "text-black"}`}>
         <div className="flex w-full flex-col items-center justify-between sm:flex-row sm:justify-around">
           <div className="flex flex-wrap items-center justify-start sm:space-x-5">
             <div className="py-5">

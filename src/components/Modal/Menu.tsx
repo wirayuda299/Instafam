@@ -20,10 +20,10 @@ export default function Menu() {
   const { replace, asPath } = useRouter();
   const refreshData = () => replace(asPath);
   const { menuModal } = useStore(useMenuModalStore);
-  const {  darkMode } = useStore(useDarkModeStore)
-  const {data:session} = useSession();
+  const { darkMode } = useStore(useDarkModeStore);
+  const { data: session } = useSession();
   const { user } = useUser(session?.user?.uid as string);
-  
+
   const handleCLose = () => {
     setSelectedPost(null);
     setMenuModal(false);
@@ -45,11 +45,11 @@ export default function Menu() {
         selectedPost?.postedById === session?.user.uid
           ? "Delete"
           : user?.following.find(
-            (user: { userId: string }) =>
-              user.userId === selectedPost?.postedById
-          )
-            ? "Unfollow"
-            : "Follow",
+              (user: { userId: string }) =>
+                user.userId === selectedPost?.postedById
+            )
+          ? "Unfollow"
+          : "Follow",
       event: async () => {
         if (selectedPost?.postedById === session?.user.uid) {
           const { deletePost } = await import("@/helper/deletePost");
@@ -110,15 +110,25 @@ export default function Menu() {
       {menuModal ? (
         <Modal isModalOpen={menuModal}>
           <div className="flex h-full flex-col items-center justify-center">
-            <ul className={`flex min-w-[400px] flex-col rounded-lg  p-5 ${darkMode ? '!bg-black text-white' : '!bg-white text-black' } `}>
+            <ul
+              className={`flex min-w-[400px] flex-col rounded-lg  p-5 ${
+                darkMode ? "!bg-black text-white" : "!bg-white text-black"
+              } `}
+            >
               {buttonLists.map((button) => (
                 <li
                   key={button.id}
-                  className={`!w-full rounded-none border-b border-gray-500 border-opacity-10 py-3 text-sm font-semibold transition-all  duration-300 ease-out hover:rounded-lg ${darkMode ? 'hover:bg-[#a8a8a817]' : 'hover:bg-[#a5a5a517]' } md:py-4 md:text-base ${button.id === 1 || button.id === 2 ? "text-red-600" : ""
-                    }`}
+                  className={`!w-full rounded-none border-b border-gray-500 border-opacity-10 py-3 text-sm font-semibold transition-all  duration-300 ease-out hover:rounded-lg ${
+                    darkMode ? "hover:bg-[#a8a8a817]" : "hover:bg-[#a5a5a517]"
+                  } md:py-4 md:text-base ${
+                    button.id === 1 || button.id === 2 ? "text-red-600" : ""
+                  }`}
                 >
                   {selectedPost?.postedById === user?.uid && button.id === 1 ? (
-                    <Link href={`/post/${selectedPost?.postId}`} prefetch={false}>
+                    <Link
+                      href={`/post/${selectedPost?.postId}`}
+                      prefetch={false}
+                    >
                       {button.name}
                     </Link>
                   ) : (

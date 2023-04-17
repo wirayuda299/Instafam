@@ -45,7 +45,11 @@ export default function Comments({ post, session, ssr }: Props) {
   };
 
   return (
-    <div className={router.pathname === "/post/[id]" ? "flex flex-col-reverse " : "block"}>
+    <div
+      className={
+        router.pathname === "/post/[id]" ? "flex flex-col-reverse " : "block"
+      }
+    >
       <form className="px-1 py-1" onSubmit={handleSubmit(handleSubmits)}>
         <input
           type="text"

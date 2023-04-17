@@ -24,7 +24,7 @@ export default function SavedPosts({
             </div>
           ) : (
             savedPosts?.map((post) => (
-              <Suspense key={post.postId} fallback={ <p>Loading...</p> }>
+              <Suspense key={post.postId} fallback={<p>Loading...</p>}>
                 <FeedsCards post={post} />
               </Suspense>
             ))

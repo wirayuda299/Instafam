@@ -20,7 +20,7 @@ type MenuModalStore = {
 type DarkMode = {
   darkMode: boolean;
   setDarkMode: (darkMode: boolean) => void;
-}
+};
 export const useDarkModeStore = create<DarkMode>((set) => ({
   darkMode: false,
   setDarkMode: (darkMode: boolean) => set({ darkMode }),
@@ -29,11 +29,14 @@ export const useDarkModeStore = create<DarkMode>((set) => ({
 type postPreviewModalStore = {
   postPreviewModal: boolean;
   setPostPreviewModal: (postPreviewModal: boolean) => void;
-}
-export const usePostPreviewModalStore = create<postPreviewModalStore>((set) => ({
-  postPreviewModal: false,
-  setPostPreviewModal: (postPreviewModal: boolean) => set({ postPreviewModal }),
-}));
+};
+export const usePostPreviewModalStore = create<postPreviewModalStore>(
+  (set) => ({
+    postPreviewModal: false,
+    setPostPreviewModal: (postPreviewModal: boolean) =>
+      set({ postPreviewModal }),
+  })
+);
 
 export const useMenuModalStore = create<MenuModalStore>((set) => ({
   menuModal: false,

@@ -37,11 +37,15 @@ export default function PostCard({ post }: Props) {
   const { likes, comments } = usePost(post);
   const { data: session } = useSession();
   const { savedPosts } = useUser(session?.user.uid as string);
-  const {  darkMode } = useStore(useDarkModeStore)
+  const { darkMode } = useStore(useDarkModeStore);
 
   return (
     <div className={`relative mb-5 w-full`}>
-      <div className={`rounded-sm shadow-lg  ${darkMode ? 'bg-black text-white' : 'bg-white text-black'}`}>
+      <div
+        className={`rounded-sm shadow-lg  ${
+          darkMode ? "bg-black text-white" : "bg-white text-black"
+        }`}
+      >
         <PostHeader post={post} />
         <Image
           src={post?.image}
