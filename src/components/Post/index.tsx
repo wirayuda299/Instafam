@@ -1,9 +1,8 @@
-import { useState } from "react";
+import {  useState } from "react";
 import { IUserPostProps } from "@/types/post";
 import Image from "next/image";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
-import { Session } from "next-auth";
 import { imageLoader } from "@/util/imageLoader";
 import useUser from "@/hooks/useUser";
 import usePost from "@/hooks/usePost";
@@ -13,28 +12,23 @@ const ActionButton = dynamic(() => import("./ActionButton"));
 const PostHeader = dynamic(() => import("./Header"));
 const Author = dynamic(() => import("./Author"));
 const Comments = dynamic(() => import("./Comments"));
-const MenuModal = dynamic(() => import("../Modal/Menu"));
-const ReportModal = dynamic(() => import("../Modal/Report"));
 
 type Props = {
   post: IUserPostProps;
-  session: Session | null;
+  session: any
 };
 
 export default function PostCard({ post, session }: Props) {
   const [commentOpen, setCommentOpen] = useState<boolean>(false);
   const { replace, asPath } = useRouter();
   const refreshData = () => replace(asPath);
-  const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
   const { likes, comments } = usePost(post);
-  const { user, savedPosts } = useUser(session?.user.uid as string);
+  const {  savedPosts } = useUser(session?.user.uid as string);
 
   return (
     <div className={`relative mb-5 w-full`} >
       <div className="rounded-sm bg-white shadow-lg dark:border-black dark:bg-black dark:text-white ">
         <PostHeader
-          isMenuOpen={isMenuOpen}
-          setIsMenuOpen={setIsMenuOpen}
           post={post}
         />
         <Image
@@ -73,16 +67,6 @@ export default function PostCard({ post, session }: Props) {
           session={session}
           commentOpen={commentOpen}
         />
-        <MenuModal
-          isMenuOpen={isMenuOpen}
-          post={post}
-          refreshData={refreshData}
-          session={session}
-          setIsMenuOpen={setIsMenuOpen}
-          ssr={false}
-          users={user}
-        />
-        <ReportModal session={session} />
       </div>
     </div>
   );

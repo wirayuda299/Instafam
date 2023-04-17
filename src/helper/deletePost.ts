@@ -14,7 +14,7 @@ const DeletePostSchema = z.object({
 });
 
 type DeletePostProps = {
-  post: IUserPostProps;
+  post: IUserPostProps | null;
   refreshData: () => void;
   ssr: boolean;
   session: Session | null;
@@ -29,9 +29,9 @@ export const deletePost = async <T extends DeletePostProps>(props: T) => {
     if (!isValid)
       throw new Error("Invalid data passed to deletePost function.");
 
-    const postRef = ref(storage, post.storageRef);
+    const postRef = ref(storage, post?.storageRef);
     const deleteFromFirestore = await deleteDoc(
-      doc(db, "posts", `post-${post.postId}`)
+      doc(db, "posts", `post-${post?.postId}`)
     );
     const deleteFromStorage = await deleteObject(postRef);
     await Promise.all([deleteFromFirestore, deleteFromStorage]).then(() => {

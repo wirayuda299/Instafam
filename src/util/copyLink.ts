@@ -1,3 +1,4 @@
+import { toast } from "react-hot-toast";
 import { z } from "zod";
 const urlSchema = z.string().url();
 export function copyLink(url: string) {
@@ -7,7 +8,7 @@ export function copyLink(url: string) {
     navigator.clipboard
       .writeText(url)
       .then(() => {
-        alert(`Copied url to clipboard`);
+        toast.success("Link copied to clipboard");
       })
       .catch((err) => {
         console.error(`Error copying ${url} to clipboard: ${err}`);

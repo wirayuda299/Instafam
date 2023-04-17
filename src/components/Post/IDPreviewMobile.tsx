@@ -3,7 +3,7 @@ import { IUserPostProps } from "@/types/post";
 import { getCreatedDate } from "@/util/postDate";
 import dynamic from "next/dynamic";
 import Link from "next/link";
-import { Dispatch, SetStateAction, useMemo } from "react";
+import { Dispatch, SetStateAction } from "react";
 import { imageLoader } from "@/util/imageLoader";
 import { useSession } from "next-auth/react";
 import { AiOutlineClose } from "react-icons/ai";

@@ -1,11 +1,31 @@
-import { ReactNode } from "react";
+import { ReactNode, useEffect, useRef, useState } from "react";
 import dynamic from "next/dynamic";
 import Head from "next/head";
-import MainHeader from "../Header/MainHeader";
-import Sidebar from "../Navigation/Sidebar";
+import { useMenuModalStore, useReportModalStore } from "@/stores/stores";
+import { useStore } from "zustand";
+import { createPortal } from "react-dom";
+import { useSession } from "next-auth/react";
+import useUser from "@/hooks/useUser";
+
 const SearchForm = dynamic(() => import("@/components/Search"));
+const Menu = dynamic(() => import("../Modal/Menu"));
+const ReportModal = dynamic(() => import("../Modal/Report"));
+const Sidebar = dynamic(() => import("../Navigation/Sidebar"));
+const MainHeader = dynamic(() => import("../Header/MainHeader"));
 
 export default function Layout({ children }: { children: ReactNode }) {
+  const { menuModal } = useStore(useMenuModalStore);
+  const { reportModal } = useStore(useReportModalStore);
+  const [mounted, setMounted] = useState(false);
+  const { data: session } = useSession();
+  const { user } = useUser(session?.user?.uid as string)
+  const portalRef = useRef<Element | null>(null);
+
+  useEffect(() => {
+    portalRef.current = document.getElementById("modal-root");
+    setMounted(true);
+  }, [])
+
   return (
     <>
       <Head>
@@ -26,7 +46,7 @@ export default function Layout({ children }: { children: ReactNode }) {
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <div className="mx-auto h-screen max-w-[1600px] !select-none  bg-white dark:bg-black">
+      <div className="mx-auto h-screen max-w-screen-3xl !select-none  bg-white dark:bg-black">
         <div className="flex">
           <Sidebar />
           <SearchForm />
@@ -35,6 +55,12 @@ export default function Layout({ children }: { children: ReactNode }) {
             {children}
           </main>
         </div>
+        {mounted && portalRef.current && createPortal(
+          <Menu menuModal={menuModal} session={session} user={user} />, portalRef.current
+        )}
+        {reportModal && mounted && portalRef.current ? createPortal(
+          <ReportModal session={session} />, portalRef.current
+        ) : null}
       </div>
     </>
   );

@@ -4,6 +4,7 @@ import dynamic from "next/dynamic";
 import Image from "next/image";
 import { memo, useState } from "react";
 import { useRouter } from "next/router";
+
 const PostInfo = dynamic(() => import("./PostInfo"));
 const FeedModal = dynamic(() => import("./Modal"));
 

@@ -42,7 +42,7 @@ export default function Report({ session }: { session: any }) {
   return (
     <Modal isModalOpen={reportModal}>
       <div className="flex h-full flex-col items-center justify-center ">
-        <div className="flex min-w-[400px] flex-col rounded-lg border bg-white p-5 py-10 text-black dark:bg-black dark:text-white">
+        <div className="flex min-w-[400px] flex-col rounded-lg border-gray-500  bg-white  p-5 py-10 text-black dark:bg-black  dark:text-white">
           <div>
             <h1 className="text-2xl font-bold">Report</h1>
             <p className="text-sm text-gray-500">
@@ -56,7 +56,8 @@ export default function Report({ session }: { session: any }) {
                     src={selectedPost?.image as string}
                     width={50}
                     height={50}
-                    alt=""
+                    alt={selectedPost?.author as string}
+                    priority
                     className="rounded-full"
                   />
                   <h2 className="text-xl font-semibold">
@@ -79,9 +80,9 @@ export default function Report({ session }: { session: any }) {
                     className="w-full bg-transparent py-2 text-xs focus:border-0 focus:outline-none focus:ring-0 md:text-sm"
                   />
                 </form>
-                <div className="flex py-3">
+                <div className="flex mt-3">
                   <button
-                    className="ml-5 rounded bg-red-700 px-2"
+                    className="ml-5 rounded bg-red-700 px-5 py-1 text-white"
                     type="submit"
                     name="report"
                     title="report"
@@ -94,7 +95,7 @@ export default function Report({ session }: { session: any }) {
                     name="cancel"
                     title="cancel"
                     type="button"
-                    className="ml-5 rounded border px-2"
+                    className="ml-5 rounded border bg-green-500 text-white px-5 py-1"
                     onClick={() => setReportModal(false)}
                   >
                     Cancel

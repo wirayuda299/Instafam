@@ -13,6 +13,14 @@ type ResultStore = {
   result: IUser[],
   setResult: (result: IUser[]) => void;
 }
+type MenuModalStore = {
+  menuModal: boolean;
+  setMenuModal: (menuModal: boolean) => void;
+}
+export const useMenuModalStore = create<MenuModalStore>((set) => ({
+  menuModal: false,
+  setMenuModal: (menuModal: boolean) => set({ menuModal }),
+}));
 type ReportModalStore = {
   reportModal: boolean;
   setReportModal: (reportModal: boolean) => void;

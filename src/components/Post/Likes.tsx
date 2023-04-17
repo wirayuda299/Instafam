@@ -1,8 +1,7 @@
-import { Session } from "next-auth";
 
 type Props = {
   likesCount: string[];
-  session: Session | null;
+  session: any;
 };
 export default function Likes({ likesCount, session }: Props) {
   return (

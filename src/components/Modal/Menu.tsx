@@ -1,79 +1,68 @@
 import Modal from "@/components/Modal";
-import useUser from "@/hooks/useUser";
-import { useReportModalStore, useSelectedPostStore } from "@/stores/stores";
-import { IUserPostProps } from "@/types/post";
+import { useMenuModalStore, useReportModalStore, useSelectedPostStore } from "@/stores/stores";
 import { IUser } from "@/types/user";
-import { Session } from "next-auth";
+import Link from "next/link";
 import { useRouter } from "next/router";
-import { Dispatch, SetStateAction } from "react";
 import { useStore } from "zustand";
 
 type Props = {
-  post: IUserPostProps;
-  session: Session | null;
-  users: IUser | null;
-  refreshData: () => void;
-  ssr: boolean;
-  isMenuOpen: boolean;
-  setIsMenuOpen: Dispatch<SetStateAction<boolean>>;
-};
+  menuModal: boolean;
+  user: IUser | null;
+  session: any
+}
 
-export default function Menu({
-  post,
-  session,
-  refreshData,
-  ssr,
-  isMenuOpen,
-  setIsMenuOpen,
-}: Props) {
-  const { push } = useRouter();
-  const { setReportModal} = useStore(useReportModalStore);
-  const { user } = useUser(session?.user.uid as string);
-  const {setSelectedPost} = useStore(useSelectedPostStore);
+export default function Menu({ menuModal, session, user }: Props) {
+  const { setReportModal } = useStore(useReportModalStore);
+  const { selectedPost, setSelectedPost } = useStore(useSelectedPostStore);
+  const { setMenuModal } = useStore(useMenuModalStore);
+  const { replace, asPath } = useRouter();
+  const refreshData = () => replace(asPath);
 
   const handleCLose = () => {
-    setIsMenuOpen(false);
     setSelectedPost(null);
+    setMenuModal(false);
   };
 
   const buttonLists = [
     {
       id: 1,
-      name: post.postedById === session?.user.uid ? "Edit" : "Report",
+      name: selectedPost?.postedById === session?.user.uid ? "Edit" : "Report",
       event: () => {
-        post.postedById === user?.uid
-          ? push(`/post/${post.postId}/edit`)
+        selectedPost?.postedById === session?.user?.uid
+          ? undefined
           : setReportModal(true);
+        setMenuModal(false);
       },
     },
     {
       id: 2,
       name:
-        post.postedById === session?.user.uid
+        selectedPost?.postedById === session?.user.uid
           ? "Delete"
           : user?.following.find(
-              (user: { userId: string }) => user.userId === post.postedById
-            )
-          ? "Unfollow"
-          : "Follow",
+            (user: { userId: string }) => user.userId === selectedPost?.postedById
+          )
+            ? "Unfollow"
+            : "Follow",
       event: async () => {
-        if (post.postedById === session?.user.uid) {
+        if (selectedPost?.postedById === session?.user.uid) {
           const { deletePost } = await import("@/helper/deletePost");
           const deletePostsArgs = {
-            post,
+            post: selectedPost,
             refreshData,
             ssr: true,
             session,
           };
-          deletePost(deletePostsArgs).then(() => setIsMenuOpen(false));
+          deletePost(deletePostsArgs);
+
         } else {
           const { handleFollow } = await import("@/helper/follow");
           const followArgs = {
-            id: post.postedById as string,
+            id: selectedPost?.postedById as string,
             uid: session?.user.uid as string,
             followedByName: session?.user.username as string,
             refreshData,
-            ssr,
+            ssr: false
           };
           await handleFollow(followArgs);
         }
@@ -84,13 +73,14 @@ export default function Menu({
       name: "Copy Link",
       event: async () => {
         const { copyLink } = await import("@/util/copyLink");
-        copyLink(`${process.env.NEXTAUTH_URL}/post/${post.postId}`);
+        copyLink(`${process.env.NEXTAUTH_URL}/post/${selectedPost?.postId}`)
+        setMenuModal(false);
       },
     },
     {
       id: 4,
       name: "Go to post",
-      event: () => push(`/post/${post.postId}`),
+      event: () => setMenuModal(false),
     },
 
     {
@@ -98,7 +88,7 @@ export default function Menu({
       name: "Share to",
       event: async () => {
         const { share } = await import("@/util/share");
-        share(post, `${process.env.NEXTAUTH_URL}/post/${post.postId}`);
+        share(selectedPost, `${process.env.NEXTAUTH_URL}/post/${selectedPost?.postId}`);
       },
     },
     {
@@ -109,24 +99,39 @@ export default function Menu({
   ];
 
   return (
-    <Modal isModalOpen={isMenuOpen}>
+    <Modal isModalOpen={menuModal}>
       <div className="flex h-full flex-col items-center justify-center">
-        <div className="flex min-w-[400px] flex-col rounded-lg bg-white p-5 text-black dark:bg-black dark:text-white">
+        <ul className="flex min-w-[400px]   flex-col rounded-lg bg-white p-5 text-black dark:bg-black dark:text-white">
           {buttonLists.map((button) => (
-            <button
-              type="button"
-              name={button.name}
-              title={button.name}
-              key={button.id}
-              onClick={button.event}
-              className={`rounded-lg py-3 text-sm font-semibold transition-all duration-300 ease-out hover:bg-[#a8a8a817] md:py-4 md:text-base ${
-                button.id === 1 || button.id === 2 ? "text-red-600" : ""
-              }`}
-            >
-              {button.name}
-            </button>
+            <>
+              {selectedPost?.postedById === user?.uid && button.id === 1 ? (
+                <Link href={`/post/${selectedPost?.postId}`} key={button.id} className={`rounded-none py-3 text-sm font-semibold transition-all border-b border-gray-500 border-opacity-10  hover:rounded-lg duration-300 ease-out hover:bg-[#a5a5a517] dark:hover:bg-[#a8a8a817] md:py-4 md:text-base ${button.id === 1 || button.id === 2 ? "text-red-600" : ""
+                  }`}>
+                  {button.name}
+                </Link>
+              ) : (
+                <>
+                  {button.id === 4 ? (
+                    <Link href={`/post/${selectedPost?.postId}`} onClick={button.event} className={`rounded-none py-3 border-b border-gray-500 border-opacity-10  hover:rounded-lg text-sm font-semibold transition-all duration-300 ease-out hover:bg-[#a5a5a517] dark:hover:bg-[#a8a8a817]  md:py-4 md:text-base `}>
+                      {button.name}
+                    </Link>
+                  ) : (
+                    <button
+                      type="button"
+                      name={button.name}
+                      title={button.name}
+                      key={button.id}
+                      onClick={button.event}
+                      className={`rounded-none py-3 text-sm font-semibold transition-all duration-300 ease-out hover:bg-[#a5a5a517] dark:hover:bg-[#a8a8a817] border-b border-gray-500 border-opacity-10  hover:rounded-lg md:py-4 md:text-base ${button.id === 1 || button.id === 2 ? "text-red-600" : ""}`}
+                    >
+                      {button.name}
+                    </button>
+                  )}
+                </>
+              )}
+            </>
           ))}
-        </div>
+        </ul>
       </div>
     </Modal>
   );

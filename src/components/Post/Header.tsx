@@ -1,27 +1,24 @@
-import { Dispatch, SetStateAction } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { getCreatedDate } from "@/util/postDate";
 import { IUserPostProps } from "@/types/post";
 import { BsThreeDots } from "react-icons/bs";
 import { useStore } from "zustand";
-import { useSelectedPostStore } from "@/stores/stores";
+import { useMenuModalStore, useSelectedPostStore } from "@/stores/stores";
 
 type HeaderProps = {
   post: IUserPostProps;
-  setIsMenuOpen: Dispatch<SetStateAction<boolean>>;
-  isMenuOpen: boolean;
 };
 
 export default function Postheader({
   post,
-  setIsMenuOpen,
-  isMenuOpen,
+
 }: HeaderProps) {
-  const {setSelectedPost} = useStore(useSelectedPostStore);
+  const { setSelectedPost } = useStore(useSelectedPostStore);
+  const { menuModal, setMenuModal } = useStore(useMenuModalStore);
 
   const handleClick = () => {
-    setIsMenuOpen(!isMenuOpen);
+    setMenuModal(!menuModal);
     setSelectedPost(post);
   };
   return (
