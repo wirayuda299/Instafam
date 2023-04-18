@@ -67,7 +67,6 @@ export default function PostCard({ post }: Props) {
           comments={comments}
           post={post}
           session={session}
-          commentOpen={commentOpen}
         />
       </div>
     </div>

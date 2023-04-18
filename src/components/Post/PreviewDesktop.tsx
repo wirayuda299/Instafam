@@ -20,8 +20,6 @@ type Props = {
   likes: any;
   savedPosts: any;
   user: any;
-  setCommentOpen: any;
-  commentOpen: boolean;
 };
 
 export default function PostCommentsDesktop({
@@ -32,8 +30,6 @@ export default function PostCommentsDesktop({
   likes,
   savedPosts,
   user,
-  commentOpen,
-  setCommentOpen,
 }: Props) {
   const { data: session } = useSession();
 
