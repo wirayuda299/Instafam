@@ -39,7 +39,6 @@ export default function PostDetail({ post }: { post: IUserPostProps }) {
           user={user}
           post={post}
           refreshData={refreshData}
-          setCommentOpen={setCommentOpen}
         />
       </>
     );
@@ -53,10 +52,8 @@ export default function PostDetail({ post }: { post: IUserPostProps }) {
           likes={likes}
           savedPosts={savedPosts}
           user={user}
-          commentOpen={commentOpen}
           post={post}
           refreshData={refreshData}
-          setCommentOpen={setCommentOpen}
         >
           <button>
             <BsThreeDots size={20} />
