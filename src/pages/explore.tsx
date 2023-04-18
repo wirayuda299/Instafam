@@ -49,9 +49,6 @@ export default function Explore({ posts, last }: Props) {
             <ExplorePostCard
               post={post}
               key={post.postId}
-              mobileView={mobileView}
-              setMobileView={setMobileView}
-              windowWidth={windowWidth}
             />
           ))}
           <span ref={ref}></span>
@@ -67,9 +64,6 @@ export default function Explore({ posts, last }: Props) {
             <ExplorePostCard
               post={post}
               key={post.postId}
-              mobileView={mobileView}
-              setMobileView={setMobileView}
-              windowWidth={windowWidth}
             />
           ))}
         </div>
