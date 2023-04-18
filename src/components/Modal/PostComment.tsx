@@ -60,7 +60,7 @@ export default function PostComment() {
                     </div>
                   </div>
                   {comments.map(comment => (
-                    <div className="w-full flex space-x-2 mb-5">
+                    <div className="w-full flex space-x-2 mb-5" key={comment.createdAt}>
                       <Image
                         src={comment?.commentByPhoto as string}
                         width={40}
