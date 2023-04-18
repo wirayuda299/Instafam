@@ -31,7 +31,6 @@ export default function PostDetail({ post }: { post: IUserPostProps }) {
     return (
       <>
         <IDPreviewMobile
-          commentOpen={commentOpen}
           comments={comments}
           likes={likes}
           savedPosts={savedPosts}
