@@ -4,13 +4,13 @@ import { FaRegComment } from "react-icons/fa";
 import { RiBookmarkFill } from "react-icons/ri";
 import { BiBookmark } from "react-icons/bi";
 import { IoPaperPlaneOutline } from "react-icons/io5";
+import { TbMessageCircle2 } from "react-icons/tb";
 import {
   usePostCommentModalStore,
   usePostPreviewModalStore,
   useSelectedPostStore,
 } from "@/stores/stores";
 import { useStore } from "zustand";
-import { useEffect, useState } from "react";
 
 type Props = {
   post: IUserPostProps;
@@ -32,15 +32,7 @@ export default function ActionButton(props: Props) {
   } = props;
   const { setPostPreviewModal } = useStore(usePostPreviewModalStore);
   const { setSelectedPost } = useStore(useSelectedPostStore);
-  const [windowWidth, setWindowWidth] = useState<number>(0);
   const { setPostCommentModal } = useStore(usePostCommentModalStore)
-  useEffect(() => {
-    const handleResize = () => {
-      setWindowWidth(window.innerWidth);
-    };
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, [windowWidth]);
 
   const clickLgScreen = () => {
     setPostPreviewModal(true);
@@ -77,11 +69,16 @@ export default function ActionButton(props: Props) {
     {
       id: 2,
       icon: (
-        <FaRegComment className="text-2xl hover:text-gray-500 sm:text-3xl" />
+        <>
+          <FaRegComment
+            className="hidden lg:block text-2xl hover:text-gray-500 sm:text-3xl"
+            onClick={clickLgScreen} />
+          <TbMessageCircle2
+            className="block lg:hidden text-2xl hover:text-gray-500 sm:text-3xl"
+            onClick={clickMobileScreen} />
+        </>
       ),
-      onClick: () => {
-        windowWidth <= 900 ? clickMobileScreen() : clickLgScreen();
-      },
+
     },
     {
       id: 3,

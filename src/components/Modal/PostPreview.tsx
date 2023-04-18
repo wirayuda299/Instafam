@@ -6,7 +6,6 @@ import {
   useSelectedPostStore,
 } from "@/stores/stores";
 import { useStore } from "zustand";
-import { useState } from "react";
 import usePost from "@/hooks/usePost";
 import useUser from "@/hooks/useUser";
 import { useSession } from "next-auth/react";
@@ -25,7 +24,6 @@ export default function PostPreview() {
   const { postPreviewModal, setPostPreviewModal } = useStore(usePostPreviewModalStore);
   const { selectedPost, setSelectedPost } = useStore(useSelectedPostStore);
   const { setPostCommentModal } = useStore(usePostCommentModalStore)
-  const [commentOpen, setCommentOpen] = useState<boolean>(false);
   const { likes, comments } = usePost(selectedPost ?? null);
   const { data: session } = useSession();
   const { user, savedPosts } = useUser(session?.user?.uid as string);
@@ -59,7 +57,6 @@ export default function PostPreview() {
                       user={user}
                       refreshData={refreshData}
                       session={session}
-                      commentOpen={commentOpen}
                     />
                     <PostCommentDesktop
                       post={selectedPost as IUserPostProps}

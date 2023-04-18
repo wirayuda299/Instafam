@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { IUserPostProps } from "@/types/post";
 import Image from "next/image";
 import dynamic from "next/dynamic";
@@ -21,7 +20,6 @@ type Props = {
 };
 
 export default function PostCard({ post }: Props) {
-  const [commentOpen, setCommentOpen] = useState<boolean>(false);
   const { replace, asPath } = useRouter();
   const refreshData = () => replace(asPath);
   const { likes, comments } = usePost(post);

@@ -23,7 +23,7 @@ export default function PreviewHeader({
   const { darkMode } = useStore(useDarkModeStore);
   return (
     <div
-      className={`ease sticky -top-3 flex w-full border-b border-gray-500 border-opacity-50 px-2 py-3 transition-all duration-300  ${
+      className={`sticky -top-3 flex w-full border-b border-gray-500 border-opacity-50 px-2 py-3 transition-all duration-300  ${
         darkMode ? "bg-black" : "bg-white"
       }`}
     >

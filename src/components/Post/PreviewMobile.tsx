@@ -24,7 +24,6 @@ type Props = {
   user: any;
   refreshData: () => void;
   session: any;
-  commentOpen: boolean;
 };
 
 export default function PreviewMobile({
@@ -35,7 +34,6 @@ export default function PreviewMobile({
   savedPosts,
   session,
   user,
-  commentOpen,
 }: Props) {
   const { setSelectedPost } = useStore(useSelectedPostStore);
   const { setPostPreviewModal } = useStore(usePostPreviewModalStore);
