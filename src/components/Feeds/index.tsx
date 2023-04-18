@@ -21,7 +21,7 @@ export default function ExplorePostCard({ post }: Props) {
 
   return (
     <div
-      className="group relative cursor-pointer shadow-lg"
+      className="group relative cursor-pointer shadow-lg hidden lg:block"
       onClick={handleClick}>
       <div className="rounded-sm shadow-lg">
         <Image
