@@ -55,7 +55,7 @@ export default function PostComment() {
                       </div>
                       <p className=" text-xs text-left">{selectedPost?.captions}</p>
                       {selectedPost?.hashtags.map(hashtag => (
-                        <span className="text-xs text-left text-gray-500">#{hashtag}</span>
+                        <span className="text-xs text-left text-gray-500" key={hashtag}>{hashtag}</span>
                       ))}
                     </div>
                   </div>
