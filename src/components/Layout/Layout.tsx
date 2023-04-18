@@ -4,13 +4,13 @@ import {
 import dynamic from "next/dynamic";
 import Head from "next/head";
 import { useStore } from "zustand";
-import PostComment from "../Modal/PostComment";
 const SearchForm = dynamic(() => import("@/components/Search"));
 const Sidebar = dynamic(() => import("../Navigation/Sidebar"));
 const MainHeader = dynamic(() => import("../Header/MainHeader"));
 const Menu = dynamic(() => import("@/components/Modal/Menu"));
 const Report = dynamic(() => import("@/components/Modal/Report"));
 const PostPreview = dynamic(() => import("@/components/Modal/PostPreview"));
+const PostComment = dynamic(() => import("@/components/Modal/PostComment"));
 
 export default function Layout({ children }: { children: any }) {
   const { darkMode } = useStore(useDarkModeStore);

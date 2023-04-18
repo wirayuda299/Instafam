@@ -4,7 +4,7 @@ import dynamic from "next/dynamic";
 import Image from "next/image";
 import { useStore } from "zustand";
 import { usePostPreviewModalStore, useSelectedPostStore } from "@/stores/stores";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import ActionButton from "../Post/ActionButton";
 import Comments from "../Post/Comments";
 
@@ -12,15 +12,11 @@ const PostInfo = dynamic(() => import("./PostInfo"));
 
 type Props = {
   post: IUserPostProps;
-  windowWidth: number;
-  mobileView: boolean;
-  setMobileView: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export default function ExplorePostCard({ post, windowWidth, mobileView, setMobileView }: Props) {
+export default function ExplorePostCard({ post }: Props) {
   const { setSelectedPost } = useStore(useSelectedPostStore);
   const { setPostPreviewModal } = useStore(usePostPreviewModalStore);
-  const [commentOpen, setCommentOpen] = useState<boolean>(false);
   const handleClick = () => {
     setSelectedPost(post);
     setPostPreviewModal(true);
@@ -29,7 +25,7 @@ export default function ExplorePostCard({ post, windowWidth, mobileView, setMobi
   return (
     <div
       className="group relative cursor-pointer shadow-lg"
-      onClick={() => windowWidth > 768 ? handleClick() : setMobileView(!mobileView)}
+      onClick={handleClick}
 
     >
       <div className="rounded-sm shadow-lg">
@@ -47,8 +43,7 @@ export default function ExplorePostCard({ post, windowWidth, mobileView, setMobi
           alt={post?.author ?? "user post image"}
         />
         <PostInfo post={post} />
-        {mobileView && windowWidth < 768 ? (
-          <>
+        <>
           <ActionButton
             likes={[]}
             post={post}
@@ -57,10 +52,14 @@ export default function ExplorePostCard({ post, windowWidth, mobileView, setMobi
             ssr={false}
             uid=""
           />
-          <Comments  commentOpen={commentOpen} comments={post.comments} post={post} session={null} ssr={false}/>
-          </>
+          <Comments
+            comments={post.comments}
+            post={post}
+            session={null}
+            ssr={false}
+          />
+        </>
 
-        ) : null}
       </div>
     </div>
   );

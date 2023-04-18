@@ -98,7 +98,6 @@ export default function PreviewMobile({
         </figcaption>
         <Comments
           ssr={false}
-          commentOpen={commentOpen}
           comments={comments}
           post={post as IUserPostProps}
           session={session}

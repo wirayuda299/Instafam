@@ -68,8 +68,6 @@ export default function PostPreview() {
                       likes={likes}
                       savedPosts={savedPosts}
                       user={user}
-                      setCommentOpen={setCommentOpen}
-                      commentOpen={commentOpen}
                     >
                       <button className="btn" onClick={() => {
                         setPostPreviewModal(false);

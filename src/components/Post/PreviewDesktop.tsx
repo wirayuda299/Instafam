@@ -83,7 +83,6 @@ export default function PostCommentsDesktop({
             <Comments
               ssr={false}
               post={post ?? []}
-              commentOpen={commentOpen}
               comments={comments ?? []}
               session={session}
             />

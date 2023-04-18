@@ -7,7 +7,6 @@ export type IComment = Pick<IUserPostProps, "comments">;
 type Props = {
   post: IUserPostProps;
   session: any;
-  commentOpen: boolean;
   comments: IComment["comments"];
   ssr: boolean;
 };

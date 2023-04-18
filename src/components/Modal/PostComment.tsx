@@ -95,7 +95,6 @@ export default function PostComment() {
                   />
                   <div className="border w-full rounded-full py-2 px-2">
                     <Comments
-                      commentOpen={false}
                       comments={selectedPost?.comments as Comments['comments']}
                       post={selectedPost as IUserPostProps}
                       session={session}
