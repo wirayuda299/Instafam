@@ -8,7 +8,7 @@ import { useSession } from "next-auth/react";
 import { IUserPostProps } from "@/types/post";
 import usePost from "@/hooks/usePost";
 
-type Comments = Pick<IUserPostProps, "comments">;
+type Comments = Pick<IUserPostProps, "comments">
 
 export default function PostComment() {
   const { postCommentModal, setPostCommentModal } = useStore(usePostCommentModalStore)

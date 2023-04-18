@@ -59,8 +59,6 @@ export default function PostCard({ post }: Props) {
           likes={likes}
           post={post}
           uid={session?.user?.uid as string}
-          commentOpen={commentOpen}
-          setCommentOpen={setCommentOpen}
         />
         <Likes likesCount={likes} session={session} />
         <Author post={post} />
