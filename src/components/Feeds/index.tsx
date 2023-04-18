@@ -4,9 +4,6 @@ import dynamic from "next/dynamic";
 import Image from "next/image";
 import { useStore } from "zustand";
 import { usePostPreviewModalStore, useSelectedPostStore } from "@/stores/stores";
-import { useState } from "react";
-import ActionButton from "../Post/ActionButton";
-import Comments from "../Post/Comments";
 
 const PostInfo = dynamic(() => import("./PostInfo"));
 
@@ -25,9 +22,7 @@ export default function ExplorePostCard({ post }: Props) {
   return (
     <div
       className="group relative cursor-pointer shadow-lg"
-      onClick={handleClick}
-
-    >
+      onClick={handleClick}>
       <div className="rounded-sm shadow-lg">
         <Image
           src={post?.image}
@@ -43,23 +38,6 @@ export default function ExplorePostCard({ post }: Props) {
           alt={post?.author ?? "user post image"}
         />
         <PostInfo post={post} />
-        <>
-          <ActionButton
-            likes={[]}
-            post={post}
-            refreshData={() => { }}
-            savedPosts={[]}
-            ssr={false}
-            uid=""
-          />
-          <Comments
-            comments={post.comments}
-            post={post}
-            session={null}
-            ssr={false}
-          />
-        </>
-
       </div>
     </div>
   );
