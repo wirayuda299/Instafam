@@ -1,4 +1,4 @@
-export { default } from "next-auth/middleware";
+export { default } from "next-auth/middleware"
 export const config = {
   matcher: [
     "/",
@@ -14,5 +14,6 @@ export const config = {
     "/api/auth/signin/callback",
     "/api/auth/signin/:path*",
     "/post/:path*",
+    "/post/:path*/:path*",
   ],
 };

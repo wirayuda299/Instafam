@@ -19,6 +19,12 @@ export const authOptions: NextAuthOptions = {
           image: profile.picture,
         };
       },
+     encoding: "base64",
+     client: {
+      client_id: process.env.GOOGLE_CLIENT_ID,
+      client_secret: process.env.GOOGLE_CLIENT_SECRET,
+      
+     }
     }),
   ],
   callbacks: {

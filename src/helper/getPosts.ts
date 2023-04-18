@@ -1,5 +1,4 @@
 import { db } from "@/config/firebase";
-import { PostSchema } from "@/schema/PostSchema";
 import { IUserPostProps } from "@/types/post";
 import {
   getDocs,
@@ -15,9 +14,7 @@ import { z } from "zod";
 const GetPostsSchema = z.object({
   num: z.number().positive().int(),
 });
-const nextPostsSchema = z.object({
-  last: PostSchema.nullable(),
-});
+
 const getPostByCurrentUserSchema = z.object({
   uid: z.string().nonempty(),
 });
@@ -48,9 +45,6 @@ export async function fetchNextPosts(
   last: IUserPostProps | null
 ): Promise<IUserPostProps[] | undefined> {
   try {
-    const isValid = nextPostsSchema.parse({ last });
-    if (!isValid)
-      throw new Error("Invalid data passed to fetchNextPosts function.");
     const q = query(
       collection(db, "posts"),
       orderBy("createdAt", "desc"),

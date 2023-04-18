@@ -1,13 +1,6 @@
-import { PostSchema } from "@/schema/PostSchema";
-import { z } from "zod";
-const postSchema = z.object({
-  post: PostSchema,
-  url: z.string().url(),
-});
+
 export function share(post: any, url: string) {
   try {
-    const isValid = postSchema.parse({ post, url });
-    if (!isValid) throw new Error("Invalid post or url");
     if (navigator.share) {
       navigator
         .share({

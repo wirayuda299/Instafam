@@ -27,7 +27,7 @@ Welcome to Instafam! This is a social media app that allows you to connect with 
 - Responsive design
 - Update your posts
 - Report posts
-- dark mode toggler
+- Dark mode toggler
 
 Other features is comming soon.
 

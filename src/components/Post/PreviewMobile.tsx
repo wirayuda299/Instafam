@@ -10,6 +10,7 @@ import {
   usePostPreviewModalStore,
 } from "@/stores/stores";
 import { useStore } from "zustand";
+import { MouseEvent } from "react";
 const Comments = dynamic(() => import("@/components/Post/Comments"));
 const ActionButton = dynamic(() => import("@/components/Post/ActionButton"));
 const Likes = dynamic(() => import("./Likes"));
@@ -24,7 +25,6 @@ type Props = {
   refreshData: () => void;
   session: any;
   commentOpen: boolean;
-  setCommentOpen: any;
 };
 
 export default function PreviewMobile({
@@ -36,11 +36,11 @@ export default function PreviewMobile({
   session,
   user,
   commentOpen,
-  setCommentOpen,
 }: Props) {
   const { setSelectedPost } = useStore(useSelectedPostStore);
   const { setPostPreviewModal } = useStore(usePostPreviewModalStore);
-  const handleClick = () => {
+  const handleClick = (e:MouseEvent) => {
+    e.stopPropagation();
     setSelectedPost(null);
     setPostPreviewModal(false);
   };
@@ -57,15 +57,13 @@ export default function PreviewMobile({
               height={40}
               className="rounded-full bg-gradient-to-bl from-pink-600 to-orange-600 p-0.5"
               alt={post?.captions ?? "post"}
-              placeholder="blur"
-              blurDataURL={Buffer.from(post?.postedByPhotoUrl as string).toString()}
             />
             <Link href={`/profile/${post?.author}`}>
               <h1 className="text-sm font-bold">{post?.author}</h1>
               <p className="text-left text-xs">{getCreatedDate(post)}</p>
             </Link>
           </div>
-          <button onClick={handleClick}>
+          <button onClick={(e) => handleClick(e)}>
             <AiOutlineClose className="text-2xl" />
           </button>
         </div>
@@ -75,12 +73,11 @@ export default function PreviewMobile({
         width={1300}
         height={1300}
         sizes="100vw"
-        placeholder="blur"
+        
         quality={60}
         loader={() =>
           imageLoader({ src: post?.image ?? "", width: 1300, quality: 10 })
         }
-        blurDataURL={Buffer.from(post?.image as string).toString()}
         alt={post?.captions ?? "post"}
         priority
         className="h-auto w-full rounded-md md:h-full lg:rounded-none"
@@ -89,11 +86,9 @@ export default function PreviewMobile({
         <ActionButton
           ssr={false}
           refreshData={refreshData}
-          commentOpen={commentOpen}
           likes={likes}
           post={post as IUserPostProps}
           savedPosts={savedPosts}
-          setCommentOpen={setCommentOpen}
           uid={user?.uid as string}
         />
         <Likes likesCount={likes} session={session} />

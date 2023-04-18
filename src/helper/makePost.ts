@@ -1,5 +1,4 @@
 import { storage, db } from "@/config/firebase";
-import { SessionSchema } from "@/schema/comment";
 import { setDoc, doc } from "firebase/firestore";
 import { ref, uploadString, getDownloadURL } from "firebase/storage";
 import { Session } from "next-auth";
@@ -16,15 +15,7 @@ type TMakePost = {
   setLoading: Dispatch<SetStateAction<boolean>>;
   img: string;
 };
-const makePostSchema = z.object({
-  captions: z.string().optional(),
-  croppedImg: z.string(),
-  session: SessionSchema.nullable(),
-  setCaptions: z.function().args(z.string()).returns(z.void()),
-  setImg: z.function().args(z.string()).returns(z.void()),
-  setLoading: z.function().args(z.boolean()).returns(z.void()),
-  img: z.string(),
-});
+
 
 export const makePost = async <T extends TMakePost>(params: T) => {
   const {
@@ -47,16 +38,7 @@ export const makePost = async <T extends TMakePost>(params: T) => {
       .split(" ") || [];
   const uuid = crypto.randomUUID();
   try {
-    const isValid = makePostSchema.parse({
-      captions,
-      croppedImg,
-      session,
-      setCaptions,
-      setImg,
-      setLoading,
-      img,
-    });
-    if (!isValid) throw new Error("Invalid data passed to makePost function.");
+
     const storageRef = `post/${uuid}/image`;
 
     const imageRef = ref(storage, storageRef);

@@ -12,7 +12,18 @@ module.exports = {
           "0%": { left: "-100%", display: "none" },
           "100%": { left: "79px", display: "block" },
         },
-
+        commentSlideIn: {
+          "0%": { left: "100%", display: "none" },
+          "100%": { left: "0px", display: "block" },
+        },
+        commentSlideOut: {
+          "0%": { left: "0px", display: "block" },
+          "100%": { 
+            left: "100%", 
+            display: "none",
+            pointerEvent: "none",
+           },
+        },
         slideOut: {
           "0%": { left: "79px", display: "block" },
           "100%": { left: "-100%", display: "none" },
@@ -59,6 +70,8 @@ module.exports = {
         fadeOut: "fadeOut 1s ease-in-out forwards",
         popUp: "popUp 0.3s",
         slide: "slide 0.5s ease forwards",
+        commentSlideIn: "commentSlideIn 0.3s ease forwards",
+        commentSlideOut: "commentSlideOut 0.3s ease forwards",
       },
       screens: {
         xs: "320px",

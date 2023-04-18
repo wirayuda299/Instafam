@@ -38,7 +38,7 @@ export default function PostCommentsDesktop({
   const { data: session } = useSession();
 
   return (
-    <div className=" relative ">
+    <div className=" relative hidden md:block">
       <div className="hidden h-full max-h-[400px] overflow-y-auto overflow-x-hidden py-3 lg:block ">
         <PreviewHeader
           post={post}
@@ -58,10 +58,7 @@ export default function PostCommentsDesktop({
             height={40}
             alt={post?.author ?? "author"}
             priority
-            placeholder="blur"
-            blurDataURL={Buffer.from(post?.postedByPhotoUrl as string).toString()}
             className="rounded-full"
-
           />
           <h4 className="pr-3 font-semibold">
             {post?.author}
@@ -76,11 +73,9 @@ export default function PostCommentsDesktop({
           <ActionButton
             ssr={true}
             refreshData={refreshData}
-            commentOpen={true}
             likes={likes}
             post={post ?? []}
             savedPosts={savedPosts}
-            setCommentOpen={setCommentOpen}
             uid={session?.user.uid as string}
           />
           <Likes likesCount={likes} session={session} />

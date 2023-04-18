@@ -2,26 +2,35 @@ import { IUserPostProps } from "@/types/post";
 import { imageLoader } from "@/util/imageLoader";
 import dynamic from "next/dynamic";
 import Image from "next/image";
-import { memo } from "react";
 import { useStore } from "zustand";
-import {
-  usePostPreviewModalStore,
-  useSelectedPostStore,
-} from "@/stores/stores";
+import { usePostPreviewModalStore, useSelectedPostStore } from "@/stores/stores";
+import { useEffect, useState } from "react";
+import ActionButton from "../Post/ActionButton";
+import Comments from "../Post/Comments";
 
 const PostInfo = dynamic(() => import("./PostInfo"));
 
-function ExplorePostCard({ post }: { post: IUserPostProps }) {
+type Props = {
+  post: IUserPostProps;
+  windowWidth: number;
+  mobileView: boolean;
+  setMobileView: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+export default function ExplorePostCard({ post, windowWidth, mobileView, setMobileView }: Props) {
   const { setSelectedPost } = useStore(useSelectedPostStore);
   const { setPostPreviewModal } = useStore(usePostPreviewModalStore);
+  const [commentOpen, setCommentOpen] = useState<boolean>(false);
   const handleClick = () => {
     setSelectedPost(post);
     setPostPreviewModal(true);
   };
+
   return (
     <div
       className="group relative cursor-pointer shadow-lg"
-      onClick={handleClick}
+      onClick={() => windowWidth > 768 ? handleClick() : setMobileView(!mobileView)}
+
     >
       <div className="rounded-sm shadow-lg">
         <Image
@@ -34,12 +43,26 @@ function ExplorePostCard({ post }: { post: IUserPostProps }) {
           loader={() => imageLoader({ src: post?.image, width: 40, quality: 10 })}
           priority
           quality={60}
-          className="mb-5  h-auto w-full rounded-lg object-cover"
+          className="mb-5 h-full w-full rounded-lg object-cover"
           alt={post?.author ?? "user post image"}
         />
         <PostInfo post={post} />
+        {mobileView && windowWidth < 768 ? (
+          <>
+          <ActionButton
+            likes={[]}
+            post={post}
+            refreshData={() => { }}
+            savedPosts={[]}
+            ssr={false}
+            uid=""
+          />
+          <Comments  commentOpen={commentOpen} comments={post.comments} post={post} session={null} ssr={false}/>
+          </>
+
+        ) : null}
       </div>
     </div>
   );
 }
-export default memo(ExplorePostCard);
+

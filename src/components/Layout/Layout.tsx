@@ -1,13 +1,10 @@
 import {
   useDarkModeStore,
-  usePostPreviewModalStore,
-  useSelectedPostStore,
 } from "@/stores/stores";
 import dynamic from "next/dynamic";
 import Head from "next/head";
 import { useStore } from "zustand";
-import { AiOutlineClose } from "react-icons/ai";
-import { useRouter } from "next/router";
+import PostComment from "../Modal/PostComment";
 const SearchForm = dynamic(() => import("@/components/Search"));
 const Sidebar = dynamic(() => import("../Navigation/Sidebar"));
 const MainHeader = dynamic(() => import("../Header/MainHeader"));
@@ -17,15 +14,6 @@ const PostPreview = dynamic(() => import("@/components/Modal/PostPreview"));
 
 export default function Layout({ children }: { children: any }) {
   const { darkMode } = useStore(useDarkModeStore);
-  const { selectedPost, setSelectedPost } = useStore(useSelectedPostStore);
-  const { setPostPreviewModal } = useStore(usePostPreviewModalStore);
-  const handleClick = () => {
-    setSelectedPost(null);
-    setPostPreviewModal(false);
-  };
-  const { replace, asPath } = useRouter();
-  const refreshData = () => replace(asPath);
-
   return (
     <>
       <Head>
@@ -47,9 +35,8 @@ export default function Layout({ children }: { children: any }) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <div
-        className={`mx-auto h-screen max-w-screen-3xl !select-none  ${
-          darkMode ? "!bg-black text-white" : "!bg-white text-black"
-        } `}
+        className={`mx-auto h-screen max-w-screen-3xl !select-none  ${darkMode ? "!bg-black text-white" : "!bg-white text-black"
+          } `}
       >
         <div className="flex">
           <Sidebar />
@@ -61,11 +48,8 @@ export default function Layout({ children }: { children: any }) {
         </div>
         <Menu />
         <Report />
-        <PostPreview post={selectedPost} refreshData={refreshData}>
-          <button onClick={handleClick}>
-            <AiOutlineClose className="text-2xl" />
-          </button>
-        </PostPreview>
+        <PostComment />
+        <PostPreview />
       </div>
     </>
   );

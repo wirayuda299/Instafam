@@ -3,6 +3,7 @@ import { FcGoogle } from "react-icons/fc";
 import { AiOutlineInstagram } from "react-icons/ai";
 import { GetServerSidePropsContext } from "next";
 import Head from "next/head";
+
 interface Providers {
   id: string;
   name: string;

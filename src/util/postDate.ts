@@ -1,9 +1,5 @@
-import { PostSchema } from "@/schema/PostSchema";
-const createdAtSchema = PostSchema;
 export const getCreatedDate = (post: any) => {
   try {
-    const isvalid = createdAtSchema.parse(post);
-    if (!isvalid) throw new Error("Invalid post args passed to getCreatedDate");
     const now = Date.now();
     const diff = now - Number(post.createdAt);
 

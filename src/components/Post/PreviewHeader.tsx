@@ -34,8 +34,6 @@ export default function PreviewHeader({
             width={40}
             height={40}
             priority
-            placeholder="blur"
-            blurDataURL={Buffer.from(post?.postedByPhotoUrl as string).toString()}
             alt={post?.author ?? "post"}
             className="rounded-full bg-gradient-to-bl from-pink-600 to-orange-600 p-0.5"
           />
@@ -47,10 +45,10 @@ export default function PreviewHeader({
           </div>
         </div>
         &#8226;
-        {post.postedById === session?.user?.uid ? (
+        {post?.postedById === session?.user?.uid ? (
           <Link
-            href={`/post/${post.postId}/edit`}
-            as={`/post/${post.postId}/edit`}
+            href={`/post/${post?.postId}/edit`}
+            as={`/post/${post?.postId}/edit`}
           >
             <span className="pt-1 text-xs font-semibold">Edit</span>
           </Link>
