@@ -37,7 +37,7 @@ function Suggestions({ reccomend }: Props) {
           <div>
             <button
               type="button"
-              name="switch "
+              name="switch accounts"
               title="switch accounts"
               className="text-xs font-semibold text-blue-600"
             >

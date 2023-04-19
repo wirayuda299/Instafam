@@ -1,18 +1,13 @@
-import { db } from "@/config/firebase";
 import { IUserPostProps } from "@/types/post";
 import { getCreatedDate } from "@/util/postDate";
-import { doc, updateDoc } from "firebase/firestore";
 import { GetServerSidePropsContext } from "next";
 import { useRouter } from "next/router";
 import { FieldValues, useForm } from "react-hook-form";
-import toast from "react-hot-toast";
 import dynamic from "next/dynamic";
 import Head from "next/head";
 
 const Headers = dynamic(() => import("@/components/PostEdit/Header"));
-const PostEditImage = dynamic(
-  () => import("@/components/PostEdit/PreviewImage")
-);
+const PostEditImage = dynamic(() => import("@/components/PostEdit/PreviewImage"));
 const PostForm = dynamic(() => import("@/components/PostEdit/Form"));
 
 interface Values extends FieldValues {
@@ -21,14 +16,17 @@ interface Values extends FieldValues {
 
 export default function EditPosts({ posts }: { posts: IUserPostProps }) {
   const { register, handleSubmit } = useForm();
-  const router = useRouter();
+  const { push } = useRouter();
   const defaultValues = {
     captions: `${posts?.captions} ${posts?.hashtags}`,
   };
 
   async function updatePost(e: Values) {
     try {
+      const { db } = await import("@/config/firebase");
+      const { doc, updateDoc } = await import("firebase/firestore");
       const q = doc(db, "posts", `post-${posts.postId}`);
+      const { toast } = await import("react-hot-toast");
       await updateDoc(q, {
         captions: e.updated.match(/^[^#]*/),
         hashtags:
@@ -38,7 +36,7 @@ export default function EditPosts({ posts }: { posts: IUserPostProps }) {
             .split(" ") || [],
       }).then(() => {
         toast.success("post updated");
-        router.push(`${process.env.NEXTAUTH_URL}`);
+        push(`${process.env.NEXTAUTH_URL}`);
       });
     } catch (error: any) {
       console.log(error.message);

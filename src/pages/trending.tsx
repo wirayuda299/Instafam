@@ -11,7 +11,7 @@ type Props = {
 }
 
 export default function Trending({ posts, lastPost }: Props) {
-  const { ref, loading, postsState, inView } = useInfiniteScroll(lastPost)
+  const { ref, loading, postsState } = useInfiniteScroll(lastPost)
   const merged = [...posts, ...postsState]
 
   return (
@@ -29,8 +29,7 @@ export default function Trending({ posts, lastPost }: Props) {
           ))}
           {loading && (
             <RiLoader2Line className="mx-auto animate-spin text-gray-500" size={50} />
-          )
-          }
+          )}
           <div ref={ref}></div>
         </div>
 
@@ -43,11 +42,12 @@ export default function Trending({ posts, lastPost }: Props) {
   )
 }
 
-export async function getServerSideProps() {
+export async function getServerSideProps({ res }: any) {
   const posts = await getPostByLikes(10)
   const highestLikes = posts.sort((a, b) => b.likedBy.length - a.likedBy.length)
-
-
+  res.setHeader("Cache-Control",
+    "public, s-maxage=60, stale-while-revalidate=59"
+  );
   return {
     props: {
       posts: highestLikes ?? [],

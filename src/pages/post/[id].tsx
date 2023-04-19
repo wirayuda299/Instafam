@@ -9,6 +9,7 @@ import { getCurrentUserData } from "@/helper/getUser";
 import { BsThreeDots } from "react-icons/bs";
 import usePost from "@/hooks/usePost";
 import useUser from "@/hooks/useUser";
+
 const IDPreviewMobile = dynamic(
   () => import("@/components/Post/PreviewMobile"), {
     ssr: true,
@@ -63,6 +64,7 @@ export default function PostDetail({ post }: { post: IUserPostProps }) {
       </>
     );
   }, [commentOpen, post, likes, comments, session, user, savedPosts]);
+
   return (
     <>
       <Head>

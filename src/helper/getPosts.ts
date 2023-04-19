@@ -82,7 +82,7 @@ export async function fetchNextPosts(
     const q = query(
       collection(db, "posts"),
       orderBy("createdAt", "desc"),
-      startAfter(last?.createdAt)
+      startAfter(last?.createdAt),
     );
     const res = await getDocs(q);
     const userPosts = res.docs.map((data) => data.data()) as IUserPostProps[];

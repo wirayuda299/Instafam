@@ -9,7 +9,7 @@ const options = {
   threshold: 1.0,
 };
 
-export default function useInfiniteScroll(last: any) {
+export default function useInfiniteScroll(last: IUserPostProps | null) {
   const { ref, inView } = useInView(options);
   const [postsState, setPostsState] = useState<IUserPostProps[]>([]);
   const [loading, setLoading] = useState(true);
@@ -28,6 +28,10 @@ export default function useInfiniteScroll(last: any) {
       }
     } catch (error: any) {
       toast.error(error.message);
+    }
+
+    return () => {
+      setPostsState([]);
     }
   }, [inView]);
 
