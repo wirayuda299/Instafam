@@ -4,12 +4,10 @@ import { NextResponse } from "next/server";
 export default withAuth(
   function middleware(req) {
     const {pathname} = req.nextUrl
-    const regex =new RegExp( /^\/([a-zA-Z0-9-_+]+\/)*[a-zA-Z0-9-_+]+\.[a-zA-Z0-9]+$/);
+    const regex = new RegExp(/^\/([a-zA-Z0-9-_+]+\/)*[a-zA-Z0-9-_+]+\.[a-zA-Z0-9]+$/);
     const isStatic = regex.test(pathname);
-
     const hasToken = req.nextauth.token !== null || req.nextauth.token !== undefined;
     if (hasToken && isStatic) {
-      
       return NextResponse.rewrite(new URL(pathname, req.url));
     } else {
       if(isStatic && !hasToken) {
@@ -20,8 +18,7 @@ export default withAuth(
   callbacks: {
     authorized: ({ token }) => token !== null || token !== undefined,
   },
-}
-);
+});
 export const config = {
   matcher: [
     "/",
@@ -39,5 +36,6 @@ export const config = {
     "/auth/signin/:path*/:path*",
     "/auth/signin/:path*",
     "/((?!api|_next/static|_next/image|favicon.ico).*)",
+    "/latest/meta-data"
   ],
 };

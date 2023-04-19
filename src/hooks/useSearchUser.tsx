@@ -1,4 +1,5 @@
 import { useResultStore } from "@/stores/stores";
+import { getCsrfToken } from "next-auth/react";
 import { useTransition } from "react";
 import { FieldValues, useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
@@ -12,6 +13,10 @@ export default function useSearchUser() {
   const onSubmit = async (data: FieldValues) => {
     resetField("search");
     try {
+      const token = await getCsrfToken()
+      if(!token) {
+        throw new Error("No CSRF token found")
+      }
       if (data.search === "") {
         toast.error("Please enter a username or name");
       }

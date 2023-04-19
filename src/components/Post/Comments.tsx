@@ -1,4 +1,5 @@
 import { IUserPostProps } from "@/types/post";
+import { getCsrfToken } from "next-auth/react";
 import { useRouter } from "next/router";
 import { FieldValues, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
@@ -21,10 +22,15 @@ export default function Comments({ post, session, ssr }: Props) {
     comments: "",
   };
   const handleSubmits = async (e: FieldValues) => {
-    if (e.comments === "") return;
+    if (e.comments === "") return toast.error("Please enter a comment");
     const { db } = await import("@/config/firebase");
     const { doc, updateDoc, arrayUnion } = await import("firebase/firestore");
     try {
+      const token = await getCsrfToken()
+      if(!token) {
+        throw new Error("No CSRF token found")
+      }
+
       const postRef = doc(db, "posts", `post-${post.postId}`);
       await updateDoc(postRef, {
         comments: arrayUnion({
