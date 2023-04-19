@@ -6,22 +6,21 @@ import { useStore } from "zustand";
 
 export default function useSearchUser() {
   const { register, handleSubmit, resetField } = useForm();
-  const {  setResult } = useStore(useResultStore);
+  const { setResult } = useStore(useResultStore);
   const [isPending, startTransition] = useTransition();
 
   const onSubmit = async (data: FieldValues) => {
     resetField("search");
     try {
-      if(data.search === ""){
+      if (data.search === "") {
         toast.error("Please enter a username or name");
       }
       const response = await fetch(`api/search-user?search=${data.search}`, {
         headers: {
           "Content-Type": "application/json",
         },
-        method: "GET",    
-      },
-      );
+        method: "GET",
+      });
       const result = await response.json();
       if (result) {
         startTransition(() => {

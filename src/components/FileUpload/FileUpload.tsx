@@ -35,7 +35,9 @@ export default function FileUpload({ img, setPreviewUrl }: Props) {
                 required
                 className="hidden "
                 onChange={async (e) => {
-                  const { handleInputImage } = await import("@/helper/fileUpload");
+                  const { handleInputImage } = await import(
+                    "@/helper/fileUpload"
+                  );
                   const args = {
                     e,
                     setPreviewUrl,

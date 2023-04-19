@@ -37,7 +37,7 @@ export default function PreviewMobile({
 }: Props) {
   const { setSelectedPost } = useStore(useSelectedPostStore);
   const { setPostPreviewModal } = useStore(usePostPreviewModalStore);
-  const handleClick = (e:MouseEvent) => {
+  const handleClick = (e: MouseEvent) => {
     e.stopPropagation();
     setSelectedPost(null);
     setPostPreviewModal(false);
@@ -71,7 +71,6 @@ export default function PreviewMobile({
         width={1300}
         height={1300}
         sizes="100vw"
-        
         quality={60}
         loader={() =>
           imageLoader({ src: post?.image ?? "", width: 1300, quality: 10 })

@@ -26,13 +26,16 @@ export default function Results({
     <>
       {results ? (
         <div
-          className={`result flex h-full w-full justify-center  px-5 ${darkMode ? "bg-black text-white" : "bg-white text-black"
-            } transition-all md:px-0 ${results.length < 1 ? "hidden" : "block"} ${customs ? customs : ""
-            }`}
+          className={`result flex h-full w-full justify-center  px-5 ${
+            darkMode ? "bg-black text-white" : "bg-white text-black"
+          } transition-all md:px-0 ${results.length < 1 ? "hidden" : "block"} ${
+            customs ? customs : ""
+          }`}
         >
           <div
-            className={`w-full ${darkMode ? "bg-black text-white" : "bg-white text-black"
-              }`}
+            className={`w-full ${
+              darkMode ? "bg-black text-white" : "bg-white text-black"
+            }`}
           >
             {isPending && (
               <div role="status" className="flex items-center justify-center">
@@ -45,12 +48,12 @@ export default function Results({
               <div className="flex items-center justify-center">
                 <p className="text-sm font-semibold">No results found</p>
               </div>
-
             )}
             {results.map((result) => (
               <div
-                className={`mb-3 flex w-full justify-between border-b border-gray-500 border-opacity-50 pb-5 ${darkMode ? "bg-black text-white" : "bg-white text-black"
-                  }`}
+                className={`mb-3 flex w-full justify-between border-b border-gray-500 border-opacity-50 pb-5 ${
+                  darkMode ? "bg-black text-white" : "bg-white text-black"
+                }`}
                 key={result.uid}
               >
                 <Link

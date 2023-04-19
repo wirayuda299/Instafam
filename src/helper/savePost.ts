@@ -19,7 +19,6 @@ export async function savePost(params: SavedPostProps) {
   const { post, uid, refreshData, ssr } = params;
   if (typeof window === "undefined") return;
   try {
-  
     const q = doc(db, "users", `${uid}`);
     const userSnap = await getDoc(q);
     const savedPosts = userSnap

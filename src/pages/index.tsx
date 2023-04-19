@@ -6,7 +6,10 @@ import { getUserRecommendation } from "@/helper/getUser";
 import { getSession } from "next-auth/react";
 import { RiLoader2Line } from "react-icons/ri";
 
-const Suggestions = dynamic(() => import("@/components/Suggestions/Suggestions"), { ssr: true });
+const Suggestions = dynamic(
+  () => import("@/components/Suggestions/Suggestions"),
+  { ssr: true }
+);
 const PostCard = dynamic(() => import("@/components/Post"), { ssr: true });
 
 export default function Home({ posts, users, last }: any) {
@@ -31,8 +34,7 @@ export default function Home({ posts, users, last }: any) {
             <>
               {postsState?.map((post) => (
                 <PostCard post={post} key={post.postId} />
-              ))
-              }
+              ))}
             </>
           )}
         </div>

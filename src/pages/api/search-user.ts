@@ -8,9 +8,8 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-
-  const session = await getServerSession(req, res, authOptions)
-  if (!session) return res.status(401).end("Unauthorized")
+  const session = await getServerSession(req, res, authOptions);
+  if (!session) return res.status(401).end("Unauthorized");
   const { search } = req.query;
   if (req.method !== "GET") {
     return res.status(405).end(`Method ${req.method} Not Allowed`);
@@ -42,5 +41,4 @@ export default async function handler(
     }
     return res.status(200).json(data3);
   }
-
 }

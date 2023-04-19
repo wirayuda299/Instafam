@@ -9,8 +9,6 @@ import { db } from "@/config/firebase";
 import { IUserPostProps } from "@/types/post";
 import { z } from "zod";
 
-
-
 type LikesProps = {
   post: IUserPostProps;
   uid: string;

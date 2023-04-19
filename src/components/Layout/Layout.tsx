@@ -33,8 +33,9 @@ export default function Layout({ children }: { children: any }) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <div
-        className={`mx-auto h-screen max-w-screen-3xl !select-none  ${darkMode ? "!bg-black text-white" : "!bg-white text-black"
-          } `}
+        className={`mx-auto h-screen max-w-screen-3xl !select-none  ${
+          darkMode ? "!bg-black text-white" : "!bg-white text-black"
+        } `}
       >
         <div className="flex">
           <Sidebar />

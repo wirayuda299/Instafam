@@ -43,8 +43,9 @@ export default function Report() {
     <>
       {reportModal ? (
         <div
-          className={` fixed left-0 top-0 z-[99999999] h-screen w-full  select-none !overflow-x-hidden !overflow-y-hidden  bg-black bg-opacity-60 shadow-sm  ${reportModal ? "animate-fadeIn" : "animate-fadeOut"
-            }`}
+          className={` fixed left-0 top-0 z-[99999999] h-screen w-full  select-none !overflow-x-hidden !overflow-y-hidden  bg-black bg-opacity-60 shadow-sm  ${
+            reportModal ? "animate-fadeIn" : "animate-fadeOut"
+          }`}
           aria-modal="true"
           role="dialog"
         >
@@ -116,7 +117,6 @@ export default function Report() {
             </div>
           </div>
         </div>
-
       ) : null}
     </>
   );

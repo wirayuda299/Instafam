@@ -6,15 +6,12 @@ const getUserRecommendationSchema = z.object({
   uid: z.string().nonempty(),
 });
 const getCurrentUserDataSchema = z.object({
-  username: z.string().nonempty()
+  username: z.string().nonempty(),
 });
 export async function getUserRecommendation(uid: string) {
   try {
     const isValid = getUserRecommendationSchema.parse({ uid });
-    if (!isValid)
-      throw new Error(
-        "Please add uid"
-      );
+    if (!isValid) throw new Error("Please add uid");
     const getUsers = await getDocs(
       query(collection(db, "users"), where("uid", "!=", uid), limit(5))
     );
@@ -27,10 +24,7 @@ export async function getUserRecommendation(uid: string) {
 export async function getCurrentUserData(username: string = "") {
   try {
     const isValid = getCurrentUserDataSchema.parse({ username });
-    if (!isValid)
-      throw new Error(
-        "username was not provided"
-      );
+    if (!isValid) throw new Error("username was not provided");
     const q = query(collection(db, "users"), where("username", "==", username));
     const res = await getDocs(q);
     return res.docs.map((doc) => doc.data()) as IUser[];

@@ -18,11 +18,11 @@ module.exports = {
         },
         commentSlideOut: {
           "0%": { left: "0px", display: "block" },
-          "100%": { 
-            left: "100%", 
+          "100%": {
+            left: "100%",
             display: "none",
             pointerEvent: "none",
-           },
+          },
         },
         slideOut: {
           "0%": { left: "79px", display: "block" },

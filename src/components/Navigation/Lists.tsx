@@ -99,20 +99,20 @@ export default function NavbarLists({ session }: any) {
     },
   ];
   return (
-   <>
-   {session ? (
-     <ul className="flex w-full flex-row items-center justify-around sm:items-start md:flex-col  md:space-y-2 lg:space-y-4">
-     {navList.map((list) => (
-       <ListItem
-         key={list.id}
-         list={list}
-         path={list.path}
-         pathname={pathname}
-         session={session}
-       />
-     ))}
-   </ul>
-   ):null}
-   </>
+    <>
+      {session ? (
+        <ul className="flex w-full flex-row items-center justify-around sm:items-start md:flex-col  md:space-y-2 lg:space-y-4">
+          {navList.map((list) => (
+            <ListItem
+              key={list.id}
+              list={list}
+              path={list.path}
+              pathname={pathname}
+              session={session}
+            />
+          ))}
+        </ul>
+      ) : null}
+    </>
   );
 }

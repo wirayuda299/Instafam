@@ -1,4 +1,3 @@
-
 export function share(post: any, url: string) {
   try {
     if (navigator.share) {

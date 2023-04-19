@@ -34,7 +34,7 @@ type postPreviewModalStore = {
 type MobileViewStore = {
   mobileView: boolean;
   setMobileView: (mobileView: boolean) => void;
-}
+};
 
 export const useMobileViewStore = create<MobileViewStore>((set) => ({
   mobileView: false,
@@ -44,7 +44,7 @@ export const useMobileViewStore = create<MobileViewStore>((set) => ({
 type windowSizeStore = {
   windowSize: number;
   setWindowSize: (windowSize: number) => void;
-}
+};
 
 export const useWindowSizeStore = create<windowSizeStore>((set) => ({
   windowSize: 0,
@@ -53,12 +53,15 @@ export const useWindowSizeStore = create<windowSizeStore>((set) => ({
 type postCommentModalStore = {
   postCommentModal: boolean;
   setPostCommentModal: (postCommentModal: boolean) => void;
-}
+};
 
-export const usePostCommentModalStore = create<postCommentModalStore>((set) => ({
-  postCommentModal: false,
-  setPostCommentModal: (postCommentModal: boolean) => set({ postCommentModal }),
-}));
+export const usePostCommentModalStore = create<postCommentModalStore>(
+  (set) => ({
+    postCommentModal: false,
+    setPostCommentModal: (postCommentModal: boolean) =>
+      set({ postCommentModal }),
+  })
+);
 export const usePostPreviewModalStore = create<postPreviewModalStore>(
   (set) => ({
     postPreviewModal: false,

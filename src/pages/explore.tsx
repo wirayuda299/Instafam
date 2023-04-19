@@ -11,7 +11,7 @@ import PostCard from "@/components/Post";
 const ExplorePostCard = dynamic(() => import("@/components/Feeds"), {
   ssr: true,
 });
-const FeedsMobile = dynamic(() => import("@/components/Feeds/mobile"))
+const FeedsMobile = dynamic(() => import("@/components/Feeds/mobile"));
 
 type Props = {
   posts: IUserPostProps[];
@@ -24,7 +24,7 @@ export default function Explore({ posts, last }: Props) {
 
   const handleClick = () => {
     setMobileView(!mobileView);
-  }
+  };
 
   return (
     <>
@@ -37,7 +37,11 @@ export default function Explore({ posts, last }: Props) {
       </Head>
       <div className="h-screen w-full overflow-y-auto p-5 ">
         <h1 className="py-8 text-center text-5xl font-semibold">Explore</h1>
-        <div className={`mb-7 w-full grid gap-2 transition-transform ease ease-out duration-700 lg:grid-cols-3  ${mobileView ? 'grid-cols-1' : 'grid-cols-3 '} `}>
+        <div
+          className={`ease mb-7 grid w-full gap-2 transition-transform duration-700 ease-out lg:grid-cols-3  ${
+            mobileView ? "grid-cols-1" : "grid-cols-3 "
+          } `}
+        >
           {posts?.map((post) => (
             <div key={post.postId}>
               <ExplorePostCard post={post} />
@@ -47,7 +51,6 @@ export default function Explore({ posts, last }: Props) {
                 mobileView={mobileView}
               />
             </div>
-
           ))}
           <span ref={ref}></span>
           {loading && (
@@ -67,7 +70,6 @@ export default function Explore({ posts, last }: Props) {
                 mobileView={mobileView}
               />
             </div>
-
           ))}
         </div>
       </div>
@@ -82,7 +84,7 @@ export async function getServerSideProps({ res }: GetServerSidePropsContext) {
   return {
     props: {
       posts,
-      last
+      last,
     },
   };
 }

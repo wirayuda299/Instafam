@@ -3,13 +3,16 @@ import { imageLoader } from "@/util/imageLoader";
 import dynamic from "next/dynamic";
 import Image from "next/image";
 import { useStore } from "zustand";
-import { usePostPreviewModalStore, useSelectedPostStore } from "@/stores/stores";
+import {
+  usePostPreviewModalStore,
+  useSelectedPostStore,
+} from "@/stores/stores";
 
 const PostInfo = dynamic(() => import("./PostInfo"));
 
 type Props = {
   post: IUserPostProps;
-}
+};
 
 export default function ExplorePostCard({ post }: Props) {
   const { setSelectedPost } = useStore(useSelectedPostStore);
@@ -21,8 +24,9 @@ export default function ExplorePostCard({ post }: Props) {
 
   return (
     <div
-      className="group relative cursor-pointer shadow-lg hidden lg:block"
-      onClick={handleClick}>
+      className="group relative hidden cursor-pointer shadow-lg lg:block"
+      onClick={handleClick}
+    >
       <div className="rounded-sm shadow-lg">
         <Image
           src={post?.image}
@@ -31,7 +35,9 @@ export default function ExplorePostCard({ post }: Props) {
           sizes="100vw"
           placeholder="blur"
           blurDataURL={Buffer.from(post?.image as string).toString()}
-          loader={() => imageLoader({ src: post?.image, width: 40, quality: 10 })}
+          loader={() =>
+            imageLoader({ src: post?.image, width: 40, quality: 10 })
+          }
           priority
           quality={60}
           className="mb-5 h-full w-full rounded-lg object-cover"
@@ -42,4 +48,3 @@ export default function ExplorePostCard({ post }: Props) {
     </div>
   );
 }
-

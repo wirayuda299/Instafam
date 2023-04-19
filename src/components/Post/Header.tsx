@@ -35,7 +35,6 @@ export default function Postheader({ post }: { post: IUserPostProps }) {
         priority
         blurDataURL={Buffer.from(post?.postedByPhotoUrl as string).toString()}
         sizes="50px"
-       
       />
       <div className={`ml-3 flex w-full items-center justify-between`}>
         <div>

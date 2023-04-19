@@ -22,30 +22,22 @@ type Props = {
 };
 
 export default function ActionButton(props: Props) {
-  const {
-    post,
-    uid,
-    likes,
-    savedPosts,
-    refreshData,
-    ssr,
-  } = props;
+  const { post, uid, likes, savedPosts, refreshData, ssr } = props;
   const { setPostPreviewModal } = useStore(usePostPreviewModalStore);
   const { setSelectedPost } = useStore(useSelectedPostStore);
-  const { setPostCommentModal } = useStore(usePostCommentModalStore)
+  const { setPostCommentModal } = useStore(usePostCommentModalStore);
 
   const clickLgScreen = () => {
     setPostPreviewModal(true);
     setPostCommentModal(false);
     setSelectedPost(post);
-  }
+  };
 
   const clickMobileScreen = () => {
     setSelectedPost(post);
     setPostCommentModal(true);
     setPostPreviewModal(false);
-
-  }
+  };
 
   const Buttons = [
     {
@@ -71,14 +63,15 @@ export default function ActionButton(props: Props) {
       icon: (
         <>
           <FaRegComment
-            className="hidden lg:block text-2xl hover:text-gray-500 sm:text-3xl"
-            onClick={clickLgScreen} />
+            className="hidden text-2xl hover:text-gray-500 sm:text-3xl lg:block"
+            onClick={clickLgScreen}
+          />
           <TbMessageCircle2
-            className="block lg:hidden text-2xl hover:text-gray-500 sm:text-3xl"
-            onClick={clickMobileScreen} />
+            className="block text-2xl hover:text-gray-500 sm:text-3xl lg:hidden"
+            onClick={clickMobileScreen}
+          />
         </>
       ),
-
     },
     {
       id: 3,

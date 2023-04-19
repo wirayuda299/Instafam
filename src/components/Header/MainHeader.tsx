@@ -25,8 +25,9 @@ export default function Header() {
     <>
       {session ? (
         <header
-          className={`relative w-full border-b border-gray-500 border-opacity-50 px-5 md:hidden ${darkMode ? "bg-black text-white" : "bg-white text-black"
-            }`}
+          className={`relative w-full border-b border-gray-500 border-opacity-50 px-5 md:hidden ${
+            darkMode ? "bg-black text-white" : "bg-white text-black"
+          }`}
         >
           <div className="flex w-full items-center justify-between space-x-2">
             <div className="w-full">

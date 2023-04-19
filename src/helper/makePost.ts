@@ -16,7 +16,6 @@ type TMakePost = {
   img: string;
 };
 
-
 export const makePost = async <T extends TMakePost>(params: T) => {
   const {
     captions,
@@ -38,7 +37,6 @@ export const makePost = async <T extends TMakePost>(params: T) => {
       .split(" ") || [];
   const uuid = crypto.randomUUID();
   try {
-
     const storageRef = `post/${uuid}/image`;
 
     const imageRef = ref(storage, storageRef);

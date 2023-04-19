@@ -29,7 +29,6 @@ export default function PreviewComments({ comment }: Props) {
               alt={comment?.commentByName ?? "comment"}
               sizes="40px"
               className="rounded-full"
-              
             />
             <Link
               href={`/profile/${comment?.commentByUid}`}

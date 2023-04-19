@@ -10,7 +10,6 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { useStore } from "zustand";
 
-
 export default function Menu() {
   const { setReportModal } = useStore(useReportModalStore);
   const { selectedPost, setSelectedPost } = useStore(useSelectedPostStore);
@@ -43,11 +42,11 @@ export default function Menu() {
         selectedPost?.postedById === session?.user.uid
           ? "Delete"
           : user?.following.find(
-            (user: { userId: string }) =>
-              user.userId === selectedPost?.postedById
-          )
-            ? "Unfollow"
-            : "Follow",
+              (user: { userId: string }) =>
+                user.userId === selectedPost?.postedById
+            )
+          ? "Unfollow"
+          : "Follow",
       event: async () => {
         if (selectedPost?.postedById === session?.user.uid) {
           const { deletePost } = await import("@/helper/deletePost");
@@ -107,25 +106,30 @@ export default function Menu() {
     <>
       {menuModal ? (
         <div
-          className={` fixed left-0 top-0 z-[99999999] h-screen w-full  select-none !overflow-x-hidden !overflow-y-hidden  bg-black bg-opacity-60 shadow-sm  ${menuModal ? "animate-fadeIn" : "animate-fadeOut"
-            }`}
+          className={` fixed left-0 top-0 z-[99999999] h-screen w-full  select-none !overflow-x-hidden !overflow-y-hidden  bg-black bg-opacity-60 shadow-sm  ${
+            menuModal ? "animate-fadeIn" : "animate-fadeOut"
+          }`}
           aria-modal="true"
           role="dialog"
         >
           <div className="mx-auto h-full max-w-5xl text-center ">
             <div className="flex h-full flex-col items-center justify-center">
               <ul
-                className={`flex min-w-[400px] flex-col rounded-lg  p-5 ${darkMode ? "!bg-black text-white" : "!bg-white text-black"
-                  } `}
+                className={`flex min-w-[400px] flex-col rounded-lg  p-5 ${
+                  darkMode ? "!bg-black text-white" : "!bg-white text-black"
+                } `}
               >
                 {buttonLists.map((button) => (
                   <li
                     key={button.id}
-                    className={`!w-full rounded-none border-b border-gray-500 border-opacity-10 py-3 text-sm font-semibold transition-all  duration-300 ease-out hover:rounded-lg ${darkMode ? "hover:bg-[#a8a8a817]" : "hover:bg-[#a5a5a517]"
-                      } md:py-4 md:text-base ${button.id === 1 || button.id === 2 ? "text-red-600" : ""
-                      }`}
+                    className={`!w-full rounded-none border-b border-gray-500 border-opacity-10 py-3 text-sm font-semibold transition-all  duration-300 ease-out hover:rounded-lg ${
+                      darkMode ? "hover:bg-[#a8a8a817]" : "hover:bg-[#a5a5a517]"
+                    } md:py-4 md:text-base ${
+                      button.id === 1 || button.id === 2 ? "text-red-600" : ""
+                    }`}
                   >
-                    {selectedPost?.postedById === user?.uid && button.id === 1 ? (
+                    {selectedPost?.postedById === user?.uid &&
+                    button.id === 1 ? (
                       <Link
                         href={`/post/${selectedPost?.postId}`}
                         prefetch={false}
@@ -161,7 +165,6 @@ export default function Menu() {
             </div>
           </div>
         </div>
-
       ) : null}
     </>
   );
