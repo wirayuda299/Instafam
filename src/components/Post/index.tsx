@@ -59,7 +59,7 @@ export default function PostCard({ post }: Props) {
           alt={post?.author ?? "user post image"}
         />
         <ActionButton
-          ssr={false}
+          ssr={true}
           refreshData={refreshData}
           savedPosts={savedPosts}
           likes={likes}

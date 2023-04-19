@@ -60,6 +60,20 @@ export const getPostByLikes = async (num:number) => {
     throw Error(error.message);
   }
 }
+export const getAllPosts = async () => {
+  try {
+   
+    const q = query(
+      collection(db, "posts"),
+      orderBy("likedBy", "desc"),
+    );
+    const res = await getDocs(q);
+    const userPosts = res.docs.map((data) => data.data()) as IUserPostProps[];
+    return userPosts;
+  } catch (error: any) {
+    throw Error(error.message);
+  }
+}
 
 export async function fetchNextPosts(
   last: IUserPostProps | null

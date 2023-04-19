@@ -82,7 +82,10 @@ export default function ExtraMenus() {
       path: "",
       title: "Log Out",
       event: () => {
-        signOut();
+        signOut({
+          callbackUrl: '/auth/signin',
+          redirect: true,
+        });
       },
     },
   ];

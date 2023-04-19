@@ -2,10 +2,11 @@ import { useDarkModeStore, useFeedModalStore, useSelectedPostStore } from "@/sto
 import { useStore } from "zustand"
 import Image from "next/image"
 import Link from "next/link"
-import { AiOutlineClose } from "react-icons/ai"
+import { AiOutlineClose, AiOutlineLeft, AiOutlineRight } from "react-icons/ai"
 import Postheader from "../Post/Header"
+import { IUserPostProps } from "@/types/post"
 
-export default function Feed() {
+export default function Feed({postPrev, postNext}: {postPrev: IUserPostProps, postNext: IUserPostProps}) {
   const { darkMode } = useStore(useDarkModeStore)
   const { feedModal, setFeedModal } = useStore(useFeedModalStore)
   const { selectedPost, setSelectedPost } = useStore(useSelectedPostStore)
@@ -13,11 +14,16 @@ export default function Feed() {
     <>
       {selectedPost && feedModal && (
         <div
-          className={` fixed left-0 top-0 z-[99999999] h-screen w-full  select-none !overflow-x-hidden !overflow-y-hidden  bg-black bg-opacity-60 shadow-sm  ${feedModal ? "animate-fadeIn" : "animate-fadeOut"
+          className={` fixed left-0 top-0 z-[99999999] h-screen w-full  select-none !overflow-x-hidden !overflow-y-hidden flex justify-center p-5 items-center bg-black bg-opacity-60 shadow-sm  ${feedModal ? "animate-fadeIn" : "animate-fadeOut"
             }`}
           aria-modal="true"
           role="dialog"
         >
+          <div className="w-10 h-10 text-center flex items-center justify-center bg-gray-200 rounded-full">
+            <button onClick={() => setSelectedPost(postPrev)}>
+              <AiOutlineLeft size={25} />
+            </button>
+          </div>
           <div className="mx-auto h-full max-w-[500px] text-center ">
             <div className="flex h-full flex-col items-center justify-center" onClick={() => setSelectedPost(null)}>
               <div
@@ -39,7 +45,7 @@ export default function Feed() {
                     width={500}
                     height={500}
                     sizes="(max-width: 1300px) 100vw, 500px"
-                    quality={60}
+                    quality={100}
                     placeholder="blur"
                     blurDataURL={'data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABQODxIPDRQSEBIXFRQYHjIhHhwcHj0sLiQySUBMS0dARkVQWnNiUFVtVkVGZIhlbXd7gYKBTmCNl4x9lnN+gXz/2wBDARUXFx4aHjshITt8U0ZTfHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHz/wAARCAACAAMDASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwDpbiR1mYB2A46H2ooooEf/2Q=='}
                     priority
@@ -50,6 +56,13 @@ export default function Feed() {
               </div>
             </div>
           </div>
+          <div className="w-10 h-10 text-center flex items-center justify-center bg-gray-200 rounded-full">
+            <button onClick={() => setSelectedPost(postNext)}>
+              <AiOutlineRight size={25} />
+            </button>
+
+          </div>
+
         </div>
       )}
     </>

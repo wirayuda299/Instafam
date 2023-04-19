@@ -37,7 +37,7 @@ export default function ListItem({
       key={list.id}
       className={` w-fit rounded-full p-2 text-base font-light  md:w-full md:p-3 ${
         darkMode ? "hover:bg-[#b9b9b917]" : "hover:bg-gray-200"
-      } ${list.id === 2 || list.id === 5 ? "hidden md:block" : ""} ${
+      } ${list.id === 2 || list.id === 4 ? "hidden md:block" : ""} ${
         list.id === 8 ? "hidden md:block" : ""
       } ${pathname === list.path ? "font-semibold" : ""}`}
     >

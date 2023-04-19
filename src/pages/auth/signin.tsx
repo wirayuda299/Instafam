@@ -3,6 +3,8 @@ import { FcGoogle } from "react-icons/fc";
 import { AiOutlineInstagram } from "react-icons/ai";
 import { GetServerSidePropsContext } from "next";
 import Head from "next/head";
+import { useStore } from "zustand";
+import { useDarkModeStore } from "@/stores/stores";
 
 interface Providers {
   id: string;
@@ -13,7 +15,9 @@ interface Providers {
 }
 
 export default function SignIn({ providers }: { providers: Providers }) {
+  const {darkMode} = useStore(useDarkModeStore)
   return (
+    
     <>
       <Head>
         <title>Sign In &#8226; Instafam</title>
@@ -31,7 +35,7 @@ export default function SignIn({ providers }: { providers: Providers }) {
         <meta name="googlebot" content="index, follow" />
         <meta name="google" content="notranslate" />
       </Head>
-      <div className="grid h-screen w-full place-items-center p-5 text-black dark:text-white">
+      <div className={`grid h-screen w-full place-items-center p-5 ${darkMode ? 'text-white' : 'text-black'}`}>
         <div className="flex aspect-square max-h-[512px] max-w-lg flex-col items-center justify-center text-center">
           <div className="text-9xl  ">
             <svg width="1em" height="1em">
@@ -51,7 +55,7 @@ export default function SignIn({ providers }: { providers: Providers }) {
           <h1 className=" bg-gradient-to-r from-pink-600 from-50% to-orange-400 bg-clip-text text-3xl font-bold text-transparent  sm:text-4xl md:text-5xl ">
             Welcome Back to Instafam
           </h1>
-          <p className=" pb-7 pt-4  font-semibold text-black dark:text-white md:text-lg ">
+          <p className=" pb-7 pt-4  font-semibold  md:text-lg ">
             Share your experiences, connect with your friends and family, and
             discover new things on Instafam.
           </p>

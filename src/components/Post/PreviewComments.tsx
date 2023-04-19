@@ -18,7 +18,7 @@ export default function PreviewComments({ comment }: Props) {
       )}
       {comment?.map((comment) => (
         <div
-          className="mb-5 flex w-full gap-x-14 pr-2"
+          className="mb-5 flex w-full gap-x-14 pr-2 "
           key={comment?.createdAt}
         >
           <div className="flex items-center space-x-2 px-2 py-2 ">

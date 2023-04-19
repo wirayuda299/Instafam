@@ -41,8 +41,8 @@ export default function NavbarLists({ session }: any) {
     },
     {
       id: 3,
-      title: "Explore",
-      path: "/explore",
+      title: "Trending",
+      path: "/trending",
       icon: (
         <MdOutlineExplore
           className={`${darkMode ? "text-white" : "text-black "} text-3xl`}

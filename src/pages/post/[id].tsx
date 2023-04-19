@@ -10,7 +10,9 @@ import { BsThreeDots } from "react-icons/bs";
 import usePost from "@/hooks/usePost";
 import useUser from "@/hooks/useUser";
 const IDPreviewMobile = dynamic(
-  () => import("@/components/Post/PreviewMobile")
+  () => import("@/components/Post/PreviewMobile"), {
+    ssr: true,
+  }
 );
 const PostCommentDesktop = dynamic(
   () => import("@/components/Post/PreviewDesktop"),
@@ -41,7 +43,7 @@ export default function PostDetail({ post }: { post: IUserPostProps }) {
         />
       </>
     );
-  }, [commentOpen, post]);
+  }, [commentOpen, post, likes, comments, session, user, savedPosts]);
 
   const PreviewDesktop = useMemo(() => {
     return (
@@ -60,7 +62,7 @@ export default function PostDetail({ post }: { post: IUserPostProps }) {
         </PostCommentDesktop>
       </>
     );
-  }, [commentOpen, post]);
+  }, [commentOpen, post, likes, comments, session, user, savedPosts]);
   return (
     <>
       <Head>

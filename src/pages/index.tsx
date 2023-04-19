@@ -5,6 +5,10 @@ import { getPosts } from "@/helper/getPosts";
 import { getUserRecommendation } from "@/helper/getUser";
 import { getSession } from "next-auth/react";
 import { RiLoader2Line } from "react-icons/ri";
+const Menu = dynamic(() => import("@/components/Modal/Menu"));
+const Report = dynamic(() => import("@/components/Modal/Report"));
+const PostPreview = dynamic(() => import("@/components/Modal/PostPreview"));
+const PostComment = dynamic(() => import("@/components/Modal/PostComment"));
 
 const Suggestions = dynamic(
   () => import("@/components/Suggestions/Suggestions"),
@@ -14,35 +18,29 @@ const PostCard = dynamic(() => import("@/components/Post"), { ssr: true });
 
 export default function Home({ posts, users, last }: any) {
   const { ref, postsState, loading } = useInfiniteScroll(last);
+  const merged = [...posts, ...postsState];
 
 
   return (
     <div className="h-full w-full ">
       <div className="flex h-screen w-full items-start justify-between">
         <div className="flex w-full flex-col p-5 ">
-          {posts?.map((post: any) => (
-            <PostCard post={post} key={post.postId} />
+          {merged.map((post) => (
+            <PostCard key={post.postId} post={post} />
           ))}
-          <div ref={ref}></div>
-          {loading ? (
-            <>
-              <RiLoader2Line
-                className="mx-auto  animate-spin text-gray-500"
-                size={50}
-              />
-            </>
-          ) : (
-            <>
-              {postsState?.map((post) => (
-                <PostCard post={post} key={post.postId} />
-              ))}
-            </>
+          {loading && (
+            <RiLoader2Line className="mx-auto animate-spin text-gray-500" size={50} />
           )}
+          <div ref={ref}></div>
         </div>
         <div className="relative">
           <Suggestions reccomend={users} />
         </div>
       </div>
+      <Menu />
+      <Report />
+      <PostComment />
+      <PostPreview />
     </div>
   );
 }
@@ -62,7 +60,10 @@ export async function getServerSideProps({
   }
   const posts = await getPosts(4);
   const users = await getUserRecommendation(session?.user?.uid);
-  res.setHeader("Cache-Control", "maxage=120, stale-while-revalidate=59");
+  res.setHeader(
+    'Cache-Control',
+    'public, maxage=60, stale-while-revalidate=59'
+  )
 
   return {
     props: {

@@ -24,7 +24,7 @@ export default function PreviewHeader({
   return (
     <div
       className={`sticky -top-3 flex w-full border-b border-gray-500 border-opacity-50 px-2 py-3 transition-all duration-300  ${
-        darkMode ? "bg-black" : "bg-white"
+        darkMode ? "bg-blac text-white" : "bg-white text-black"
       }`}
     >
       <div className="flex flex-1 items-start space-x-2">
