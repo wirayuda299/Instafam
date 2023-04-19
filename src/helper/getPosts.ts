@@ -41,6 +41,26 @@ export const getPosts = async (num: number) => {
   }
 };
 
+export const getPostByLikes = async (num:number) => {
+  try {
+    const isValid = GetPostsSchema.parse({ num });
+    if (!isValid)
+      throw new Error(
+        "Invalid data passed to getPosts function. Args must be a number."
+      );
+    const q = query(
+      collection(db, "posts"),
+      orderBy("likedBy", "desc"),
+      limit(num)
+    );
+    const res = await getDocs(q);
+    const userPosts = res.docs.map((data) => data.data()) as IUserPostProps[];
+    return userPosts;
+  } catch (error: any) {
+    throw Error(error.message);
+  }
+}
+
 export async function fetchNextPosts(
   last: IUserPostProps | null
 ): Promise<IUserPostProps[] | undefined> {

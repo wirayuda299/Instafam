@@ -9,6 +9,7 @@ const Menu = dynamic(() => import("@/components/Modal/Menu"));
 const Report = dynamic(() => import("@/components/Modal/Report"));
 const PostPreview = dynamic(() => import("@/components/Modal/PostPreview"));
 const PostComment = dynamic(() => import("@/components/Modal/PostComment"));
+const FeedModal = dynamic(() => import("../Feeds/Feed"));
 
 export default function Layout({ children }: { children: any }) {
   const { darkMode } = useStore(useDarkModeStore);
@@ -49,6 +50,7 @@ export default function Layout({ children }: { children: any }) {
         <Report />
         <PostComment />
         <PostPreview />
+        <FeedModal/>
       </div>
     </>
   );

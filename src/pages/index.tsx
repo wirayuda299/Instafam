@@ -15,6 +15,7 @@ const PostCard = dynamic(() => import("@/components/Post"), { ssr: true });
 export default function Home({ posts, users, last }: any) {
   const { ref, postsState, loading } = useInfiniteScroll(last);
 
+
   return (
     <div className="h-full w-full ">
       <div className="flex h-screen w-full items-start justify-between">

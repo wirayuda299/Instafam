@@ -28,7 +28,7 @@ export default function PostComment() {
         <div
           className={` ${
             darkMode ? "bg-black text-white" : "bg-white text-black"
-          } fixed left-0 top-0 z-[99] h-screen w-full select-none overflow-y-auto !overflow-x-hidden  bg-black bg-opacity-60 shadow-sm  ${
+          } fixed left-0 top-0 z-[99999] h-screen w-full select-none overflow-y-auto !overflow-x-hidden  bg-black bg-opacity-60 shadow-sm  ${
             postCommentModal
               ? "animate-commentSlideIn "
               : "animate-commentSlideOut"
@@ -109,7 +109,8 @@ export default function PostComment() {
                       ))}
                     </div>
                   </div>
-                  {comments.map((comment) => (
+                 <div className="w-full h-full overflow-y-auto py-10">
+                 {comments.map((comment) => (
                     <div
                       className="mb-5 flex w-full space-x-2"
                       key={comment.createdAt}
@@ -137,6 +138,7 @@ export default function PostComment() {
                       </div>
                     </div>
                   ))}
+                 </div>
                 </div>
               </div>
             </div>

@@ -30,25 +30,13 @@ type postPreviewModalStore = {
   postPreviewModal: boolean;
   setPostPreviewModal: (postPreviewModal: boolean) => void;
 };
-
-type MobileViewStore = {
-  mobileView: boolean;
-  setMobileView: (mobileView: boolean) => void;
-};
-
-export const useMobileViewStore = create<MobileViewStore>((set) => ({
-  mobileView: false,
-  setMobileView: (mobileView: boolean) => set({ mobileView }),
-}));
-
-type windowSizeStore = {
-  windowSize: number;
-  setWindowSize: (windowSize: number) => void;
-};
-
-export const useWindowSizeStore = create<windowSizeStore>((set) => ({
-  windowSize: 0,
-  setWindowSize: (windowSize: number) => set({ windowSize }),
+type feedModalStore = {
+  feedModal: boolean;
+  setFeedModal: (feedModal: boolean) => void;
+}
+export const useFeedModalStore = create<feedModalStore>((set) => ({
+  feedModal: false,
+  setFeedModal: (feedModal: boolean) => set({ feedModal }),
 }));
 type postCommentModalStore = {
   postCommentModal: boolean;

@@ -1,17 +1,13 @@
 import Head from "next/head";
 import { IUserPostProps } from "@/types/post";
-import dynamic from "next/dynamic";
 import useInfiniteScroll from "@/hooks/useInfiniteScroll";
 import { GetServerSidePropsContext } from "next";
-import { getPosts } from "@/helper/getPosts";
+import { getPostByLikes } from "@/helper/getPosts";
 import { RiLoader2Line } from "react-icons/ri";
-import { useState } from "react";
-import PostCard from "@/components/Post";
-
-const ExplorePostCard = dynamic(() => import("@/components/Feeds"), {
-  ssr: true,
-});
-const FeedsMobile = dynamic(() => import("@/components/Feeds/mobile"));
+import Image from "next/image";
+import PostInfo from "@/components/Feeds/PostInfo";
+import { useStore } from "zustand";
+import { useFeedModalStore, useSelectedPostStore } from "@/stores/stores";
 
 type Props = {
   posts: IUserPostProps[];
@@ -20,11 +16,8 @@ type Props = {
 
 export default function Explore({ posts, last }: Props) {
   const { ref, postsState, loading } = useInfiniteScroll(last);
-  const [mobileView, setMobileView] = useState(false);
-
-  const handleClick = () => {
-    setMobileView(!mobileView);
-  };
+  const { setSelectedPost } = useStore(useSelectedPostStore)
+  const { setFeedModal } = useStore(useFeedModalStore)
 
   return (
     <>
@@ -38,21 +31,29 @@ export default function Explore({ posts, last }: Props) {
       <div className="h-screen w-full overflow-y-auto p-5 ">
         <h1 className="py-8 text-center text-5xl font-semibold">Explore</h1>
         <div
-          className={`ease mb-7 grid w-full gap-2 transition-transform duration-700 ease-out lg:grid-cols-3  ${
-            mobileView ? "grid-cols-1" : "grid-cols-3 "
-          } `}
+          className={`ease mb-7  w-full transition-transform duration-700 ease-out columns-1 md:columns-2 gap-5 lg:columns-3`}
         >
           {posts?.map((post) => (
             <div key={post.postId}>
-              <ExplorePostCard post={post} />
-              <FeedsMobile
-                post={post}
-                handleClick={handleClick}
-                mobileView={mobileView}
-              />
+              <div  className="relative group  " onClick={() => {
+                setSelectedPost(post)
+                setFeedModal(true)
+              }}>
+
+                <Image
+                  className="rounded-lg mb-5 lg:w-[500px]  h-auto shadow-lg"
+                  src={post.image}
+                  priority
+                  width={1300}
+                  height={1300}
+                  alt={post.captions ?? post.author}
+                />
+                <PostInfo post={post} />
+              </div>
             </div>
+
           ))}
-          <span ref={ref}></span>
+          <div ref={ref}></div>
           {loading && (
             <>
               <RiLoader2Line
@@ -62,13 +63,19 @@ export default function Explore({ posts, last }: Props) {
             </>
           )}
           {postsState?.map((post) => (
-            <div key={post.postId}>
-              <ExplorePostCard post={post} />
-              <FeedsMobile
-                post={post}
-                handleClick={handleClick}
-                mobileView={mobileView}
+            <div key={post.postId} className="relative group " onClick={() => {
+              setSelectedPost(post)
+              setFeedModal(true)
+            }}>
+              <Image
+                className="rounded-lg mb-5 lg:w-[500px]  h-auto shadow-lg"
+                src={post.image}
+                priority
+                width={1300}
+                height={1300}
+                alt={post.captions ?? post.author}
               />
+              <PostInfo post={post} />
             </div>
           ))}
         </div>
@@ -77,7 +84,7 @@ export default function Explore({ posts, last }: Props) {
   );
 }
 export async function getServerSideProps({ res }: GetServerSidePropsContext) {
-  const posts = await getPosts(10);
+  const posts = await getPostByLikes(10);
   const last = posts ? posts[posts.length - 1] : null;
   res.setHeader("Cache-Control", "maxage=120, stale-while-revalidate=60");
 
@@ -88,3 +95,4 @@ export async function getServerSideProps({ res }: GetServerSidePropsContext) {
     },
   };
 }
+
