@@ -1,6 +1,4 @@
-import {
-  useDarkModeStore,
-} from "@/stores/stores";
+import { useDarkModeStore } from "@/stores/stores";
 import dynamic from "next/dynamic";
 import Head from "next/head";
 import { useStore } from "zustand";

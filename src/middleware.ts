@@ -1,4 +1,16 @@
-export { default } from "next-auth/middleware"
+import { NextRequest, NextResponse } from "next/server";
+export { withAuth } from "next-auth/middleware"
+
+ export async  function middleware(req:NextRequest) {
+    const cookie = req.cookies.has("next-auth.session-token")
+
+    if(cookie) {
+        return NextResponse.next()
+    } else {
+      return NextResponse.rewrite(new URL("/auth/signin", req.url).toString());
+    }
+  }
+
 export const config = {
   matcher: [
     "/",
@@ -7,13 +19,14 @@ export const config = {
     "/messages",
     "/create",
     "/profile",
-    "/api/auth/:path*",
-    "/api/auth/signin/:path*",
-    "/api/auth/signin",
-    "/api/auth/signin/callback/:path*",
-    "/api/auth/signin/callback",
-    "/api/auth/signin/:path*",
+    "/profile/:path*",
     "/post/:path*",
     "/post/:path*/:path*",
+    "/api/:path*",
+    "/auth/:path*",
+    "/auth/:path*/:path*",
+    "/auth/signin/:path*/:path*",
+    "/auth/signin/:path*",
+    '/((?!api|_next/static|_next/image|favicon.ico).*)',
   ],
 };

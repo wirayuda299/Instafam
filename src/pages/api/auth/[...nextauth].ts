@@ -24,17 +24,20 @@ export const authOptions: NextAuthOptions = {
       client_id: process.env.GOOGLE_CLIENT_ID,
       client_secret: process.env.GOOGLE_CLIENT_SECRET,
       
-     }
+     },
+     
     }),
-  ],
+  ], 
   callbacks: {
     async session({ session, token }: { session: any; token: JWT }) {
       if (session && session.user) {
         session.user.username = `@${getUsernameFromEmail(session.user.email)}`;
         session.user.uid = token.sub as string;
+        session.user.role = 'user'
       }
       return session;
     },
+    
     async signIn(params: any) {
       await setDoc(
         doc(db, "users", `${params.user?.id}`),

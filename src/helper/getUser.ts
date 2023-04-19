@@ -6,14 +6,14 @@ const getUserRecommendationSchema = z.object({
   uid: z.string().nonempty(),
 });
 const getCurrentUserDataSchema = z.object({
-  username: z.string().nonempty(),
+  username: z.string().nonempty()
 });
-export async function getUserRecommendation(uid: string = "") {
+export async function getUserRecommendation(uid: string) {
   try {
     const isValid = getUserRecommendationSchema.parse({ uid });
     if (!isValid)
       throw new Error(
-        "Invalid data passed to function. uid must be a string passed to the function and cannot be empty."
+        "Please add uid"
       );
     const getUsers = await getDocs(
       query(collection(db, "users"), where("uid", "!=", uid), limit(5))
@@ -29,7 +29,7 @@ export async function getCurrentUserData(username: string = "") {
     const isValid = getCurrentUserDataSchema.parse({ username });
     if (!isValid)
       throw new Error(
-        "Invalid data passed to function. username must be a string passed to the function and cannot be empty."
+        "username was not provided"
       );
     const q = query(collection(db, "users"), where("username", "==", username));
     const res = await getDocs(q);

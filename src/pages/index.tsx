@@ -11,26 +11,30 @@ const PostCard = dynamic(() => import("@/components/Post"), { ssr: true });
 
 export default function Home({ posts, users, last }: any) {
   const { ref, postsState, loading } = useInfiniteScroll(last);
-  
+
   return (
     <div className="h-full w-full ">
       <div className="flex h-screen w-full items-start justify-between">
         <div className="flex w-full flex-col p-5 ">
           {posts?.map((post: any) => (
-            <PostCard post={post} key={post.postId}  />
+            <PostCard post={post} key={post.postId} />
           ))}
-          <span ref={ref}></span>
-          {loading && (
+          <div ref={ref}></div>
+          {loading ? (
             <>
               <RiLoader2Line
                 className="mx-auto  animate-spin text-gray-500"
                 size={50}
               />
             </>
+          ) : (
+            <>
+              {postsState?.map((post) => (
+                <PostCard post={post} key={post.postId} />
+              ))
+              }
+            </>
           )}
-          {postsState?.map((post) => (
-            <PostCard post={post} key={post.postId}  />
-          ))}
         </div>
         <div className="relative">
           <Suggestions reccomend={users} />
@@ -55,7 +59,7 @@ export async function getServerSideProps({
   }
   const posts = await getPosts(4);
   const users = await getUserRecommendation(session?.user?.uid);
-  res.setHeader("Cache-Control", "maxage=500, stale-while-revalidate");
+  res.setHeader("Cache-Control", "maxage=120, stale-while-revalidate=59");
 
   return {
     props: {
