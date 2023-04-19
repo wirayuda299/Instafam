@@ -5,6 +5,7 @@ import { FiLoader } from "react-icons/fi";
 import { IUser } from "@/types/user";
 import { useDarkModeStore } from "@/stores/stores";
 import { useStore } from "zustand";
+
 interface Props {
   results: IUser[];
   handleDrawerToggler: () => void;

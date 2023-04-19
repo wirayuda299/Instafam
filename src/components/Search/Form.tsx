@@ -7,7 +7,7 @@ import {
   useResultStore,
 } from "@/stores/stores";
 import { useStore } from "zustand";
-const FormResult = dynamic(() => import("./Results"), { ssr: false });
+const FormResult = dynamic(() => import("./Results"), { ssr: true });
 
 const defaultValues = {
   search: "",
@@ -56,7 +56,7 @@ export default function Form({ height, children }: Props) {
                 security="restricted"
                 className="w-full bg-transparent py-2 text-xs focus:border-0 focus:outline-none focus:ring-0 md:text-sm"
                 defaultValue={defaultValues.search}
-                {...register("search"), {required: true}}
+                {...register("search")}
               />
               {children}
             </div>

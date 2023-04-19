@@ -24,7 +24,7 @@ function SearchDrawer() {
         <section
           className={`fixed z-50  transition-all duration-300 ease-out ${
             darkMode ? "bg-black" : "bg-white"
-          }  ${
+          } ${
             drawer
               ? "animate-slideIn lg:animate-slideIn"
               : "animate-slideOut lg:animate-slideOutWidth"
