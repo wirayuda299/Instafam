@@ -71,7 +71,6 @@ export default function PostPreview() {
                       user={user}
                     >
                       <button
-                        className="btn"
                         onClick={() => {
                           setPostPreviewModal(false);
                           setPostCommentModal(false);

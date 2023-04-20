@@ -33,7 +33,7 @@ type postPreviewModalStore = {
 type feedModalStore = {
   feedModal: boolean;
   setFeedModal: (feedModal: boolean) => void;
-}
+};
 export const useFeedModalStore = create<feedModalStore>((set) => ({
   feedModal: false,
   setFeedModal: (feedModal: boolean) => set({ feedModal }),

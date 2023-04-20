@@ -109,36 +109,41 @@ export default function PostComment() {
                       ))}
                     </div>
                   </div>
-                 <div className="w-full h-full overflow-y-auto py-10">
-                 {comments.map((comment) => (
-                    <div
-                      className="mb-5 flex w-full space-x-2"
-                      key={comment.createdAt}
-                    >
-                      <Image
-                        src={comment?.commentByPhoto as string}
-                        width={40}
-                        height={40}
-                        priority
-                        alt={comment?.commentByName ?? "post"}
-                        className="rounded-full"
-                      />
-                      <div>
-                        <div className="flex space-x-1">
-                          <h4 className=" text-left text-sm font-semibold ">
-                            {comment?.commentByName}
-                          </h4>
+                  <div className="h-full w-full overflow-y-auto py-10">
+                    {comments.map((comment) => (
+                      <div
+                        className="mb-5 flex w-full space-x-2"
+                        key={comment.createdAt}
+                      >
+                        <Image
+                          src={comment?.commentByPhoto as string}
+                          width={40}
+                          height={40}
+                          priority
+                          alt={comment?.commentByName ?? "post"}
+                          className="rounded-full"
+                        />
+                        <div>
+                          <div className="flex space-x-1">
+                            <h4 className=" text-left text-sm font-semibold ">
+                              {comment?.commentByName}
+                            </h4>
+                          </div>
+                          <p className=" text-left text-xs">
+                            {comment?.comment}
+                          </p>
+                          {selectedPost?.hashtags.map((hashtag) => (
+                            <span
+                              className="text-xs text-gray-500"
+                              key={hashtag}
+                            >
+                              {hashtag}
+                            </span>
+                          ))}
                         </div>
-                        <p className=" text-left text-xs">{comment?.comment}</p>
-                        {selectedPost?.hashtags.map((hashtag) => (
-                          <span className="text-xs text-gray-500" key={hashtag}>
-                            {hashtag}
-                          </span>
-                        ))}
                       </div>
-                    </div>
-                  ))}
-                 </div>
+                    ))}
+                  </div>
                 </div>
               </div>
             </div>

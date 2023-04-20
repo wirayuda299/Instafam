@@ -1,6 +1,6 @@
 import { signOut } from "next-auth/react";
 import { AiOutlineWarning } from "react-icons/ai";
-import { BsFillGearFill, BsFillMoonStarsFill } from "react-icons/bs";
+import { BsFillGearFill, BsMoonFill } from "react-icons/bs";
 import { RxCountdownTimer } from "react-icons/rx";
 import { useEffect } from "react";
 import { useStore } from "zustand";
@@ -29,12 +29,16 @@ export default function ExtraMenus() {
     {
       id: 2,
       icon: darkMode ? (
-        <BsFillMoonStarsFill
-          className={`text-2xl ${darkMode ? "text-white" : "text-black"}`}
+        <BsMoonFill
+          className={`animate-rotateOnView text-2xl ${
+            darkMode ? "text-white" : "text-black"
+          }`}
         />
       ) : (
         <BiSun
-          className={`text-2xl ${darkMode ? "text-white" : "text-black"}`}
+          className={`animate-rotateOnView text-2xl ${
+            darkMode ? "text-white" : "text-black"
+          }`}
         />
       ),
       path: "/switch-appearance",
@@ -83,7 +87,7 @@ export default function ExtraMenus() {
       title: "Log Out",
       event: () => {
         signOut({
-          callbackUrl: '/auth/signin',
+          callbackUrl: "/auth/signin",
           redirect: true,
         });
       },

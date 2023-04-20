@@ -11,7 +11,8 @@ import usePost from "@/hooks/usePost";
 import useUser from "@/hooks/useUser";
 
 const IDPreviewMobile = dynamic(
-  () => import("@/components/Post/PreviewMobile"), {
+  () => import("@/components/Post/PreviewMobile"),
+  {
     ssr: true,
   }
 );

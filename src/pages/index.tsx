@@ -1,71 +1,86 @@
 import dynamic from "next/dynamic";
-import useInfiniteScroll from "@/hooks/useInfiniteScroll";
+import { SWRConfig } from "swr/_internal";
+import useSWR from "swr";
 import { GetServerSidePropsContext } from "next";
-import { getPosts } from "@/helper/getPosts";
-import { RiLoader2Line } from "react-icons/ri";
-const Menu = dynamic(() => import("@/components/Modal/Menu"));
-const Report = dynamic(() => import("@/components/Modal/Report"));
-const PostPreview = dynamic(() => import("@/components/Modal/PostPreview"));
-const PostComment = dynamic(() => import("@/components/Modal/PostComment"));
+import useInfiniteScroll from "@/hooks/useInfiniteScroll";
+import { Suspense } from "react";
+import { IUserPostProps } from "@/types/post";
+import { IUser } from "@/types/user";
 
 const Suggestions = dynamic(
   () => import("@/components/Suggestions/Suggestions"),
-  {ssr: true}
+  { ssr: true }
 );
-const PostCard = dynamic(() => import("@/components/Post"), { ssr: true });
+const PostCard = dynamic(() => import("@/components/Post"), { ssr: false });
+const Postloader = dynamic(() => import("@/components/Loader/Post"));
 
-export default function Home({ posts, users, last }: any) {
-  const { ref, postsState, loading } = useInfiniteScroll(last);
-  const merged = [...posts, ...postsState];
-  
+type Props = {
+  fallback: {
+    posts: IUserPostProps[];
+    users: IUser[];
+  };
+};
+
+export default function Home({ fallback: { posts, users } }: Props) {
+  const { data, isLoading } = useSWR(
+    "/api/posts",
+    async () => {
+      const { getPosts } = await import("@/helper/getPosts");
+      const posts = await getPosts(4);
+      return posts;
+    },
+    {
+      suspense: true,
+      fallbackData: posts,
+    }
+  );
+  const { ref, postsState, loading } = useInfiniteScroll(
+    data ? data?.[data.length - 1] : null
+  );
   return (
     <div className="h-full w-full ">
       <div className="flex h-screen w-full items-start justify-between">
         <div className="flex w-full flex-col p-5 ">
-          {merged?.map((post) => (
-            <PostCard key={post.postId} post={post} />
-          ))}
-          {loading && (
-            <RiLoader2Line className="mx-auto animate-spin text-gray-500" size={50} />
+          {isLoading && loading ? (
+            <Postloader />
+          ) : (
+            <SWRConfig value={{ fallback: posts }}>
+              {data?.map((post) => (
+                <Suspense key={post.postId} fallback={<Postloader />}>
+                  <PostCard post={post} />
+                </Suspense>
+              ))}
+            </SWRConfig>
           )}
           <div ref={ref}></div>
+          <>
+            {postsState?.map((post) => (
+              <PostCard post={post} key={post.postId} />
+            ))}
+          </>
         </div>
-        <div className="relative">
+        <div>
           <Suggestions reccomend={users} />
         </div>
       </div>
-      <Menu />
-      <Report />
-      <PostComment />
-      <PostPreview />
     </div>
   );
 }
 
-export async function getServerSideProps({ req, res }: GetServerSidePropsContext) {
+export async function getServerSideProps({ req }: GetServerSidePropsContext) {
+  const { getPosts } = await import("@/helper/getPosts");
   const { getSession } = await import("next-auth/react");
-  const { getUserRecommendation } = await import("@/helper/getUser");
+  const posts = await getPosts(4);
   const session = await getSession({ req });
-  if (!session) {
-    return {
-      redirect: {
-        destination: "/auth/signin",
-        permanent: false,
-      },
-    };
-  }
-  const posts = await getPosts(3);
-  const users = await getUserRecommendation(session?.user?.uid);
-  res.setHeader(
-    'Cache-Control',
-    'public, maxage=60, stale-while-revalidate=59'
-  )
+  const { getUserRecommendation } = await import("@/helper/getUser");
+  const users = await getUserRecommendation(session?.user.uid as string);
 
   return {
     props: {
-      posts,
-      users: users ?? [],
-      last: posts ? posts[posts.length - 1] : null,
+      fallback: {
+        posts,
+        users,
+      },
     },
   };
 }

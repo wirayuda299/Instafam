@@ -41,7 +41,7 @@ export const getPosts = async (num: number) => {
   }
 };
 
-export const getPostByLikes = async (num:number) => {
+export const getPostByLikes = async (num: number) => {
   try {
     const isValid = GetPostsSchema.parse({ num });
     if (!isValid)
@@ -59,21 +59,7 @@ export const getPostByLikes = async (num:number) => {
   } catch (error: any) {
     throw Error(error.message);
   }
-}
-export const getAllPosts = async () => {
-  try {
-   
-    const q = query(
-      collection(db, "posts"),
-      orderBy("likedBy", "desc"),
-    );
-    const res = await getDocs(q);
-    const userPosts = res.docs.map((data) => data.data()) as IUserPostProps[];
-    return userPosts;
-  } catch (error: any) {
-    throw Error(error.message);
-  }
-}
+};
 
 export async function fetchNextPosts(
   last: IUserPostProps | null
@@ -82,7 +68,7 @@ export async function fetchNextPosts(
     const q = query(
       collection(db, "posts"),
       orderBy("createdAt", "desc"),
-      startAfter(last?.createdAt),
+      startAfter(last?.createdAt)
     );
     const res = await getDocs(q);
     const userPosts = res.docs.map((data) => data.data()) as IUserPostProps[];

@@ -1,14 +1,16 @@
 import { useDarkModeStore } from "@/stores/stores";
 import dynamic from "next/dynamic";
 import Head from "next/head";
+import { useEffect, useLayoutEffect, useState } from "react";
 import { useStore } from "zustand";
 const SearchForm = dynamic(() => import("@/components/Search"));
 const Sidebar = dynamic(() => import("../Navigation/Sidebar"));
 const MainHeader = dynamic(() => import("../Header/MainHeader"));
 
-
 export default function Layout({ children }: { children: any }) {
   const { darkMode } = useStore(useDarkModeStore);
+  const [mounted, setMounted] = useState(false);
+
   return (
     <>
       <Head>
@@ -30,9 +32,8 @@ export default function Layout({ children }: { children: any }) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <div
-        className={`mx-auto h-screen max-w-screen-3xl !select-none  ${
-          darkMode ? "!bg-black text-white" : "!bg-white text-black"
-        } `}
+        className={`mx-auto h-screen max-w-screen-3xl !select-none  ${darkMode ? "!bg-black text-white" : "!bg-white text-black"
+          } `}
       >
         <div className="flex">
           <Sidebar />
@@ -42,8 +43,8 @@ export default function Layout({ children }: { children: any }) {
             {children}
           </main>
         </div>
-       
       </div>
+      
     </>
   );
 }

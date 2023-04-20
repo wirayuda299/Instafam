@@ -29,10 +29,6 @@ export default function useInfiniteScroll(last: IUserPostProps | null) {
     } catch (error: any) {
       toast.error(error.message);
     }
-
-    return () => {
-      setPostsState([]);
-    }
   }, [inView]);
 
   return { ref, loading, inView, postsState };

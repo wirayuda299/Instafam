@@ -26,9 +26,9 @@ export default function Comments({ post, session, ssr }: Props) {
     const { db } = await import("@/config/firebase");
     const { doc, updateDoc, arrayUnion } = await import("firebase/firestore");
     try {
-      const token = await getCsrfToken()
-      if(!token) {
-        throw new Error("No CSRF token found")
+      const token = await getCsrfToken();
+      if (!token) {
+        throw new Error("No CSRF token found");
       }
 
       const postRef = doc(db, "posts", `post-${post.postId}`);

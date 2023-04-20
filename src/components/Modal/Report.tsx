@@ -1,7 +1,7 @@
 import { db } from "@/config/firebase";
 import { useReportModalStore, useSelectedPostStore } from "@/stores/stores";
 import { doc, setDoc } from "firebase/firestore";
-import { useSession } from "next-auth/react";
+import { getCsrfToken, useSession } from "next-auth/react";
 import Image from "next/image";
 import { FieldValues, useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
@@ -18,6 +18,8 @@ export default function Report() {
 
   const handleReport = async (e: FieldValues) => {
     try {
+      const token = await getCsrfToken();
+      if (!token) throw new Error("CSRF Token not found");
       const reportRef = doc(db, "reports", `${selectedPost?.postId}`);
       const reportData = {
         postId: selectedPost?.postId,

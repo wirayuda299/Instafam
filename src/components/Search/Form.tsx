@@ -23,7 +23,7 @@ export default function Form({ height, children }: Props) {
   const { result, setResult } = useStore(useResultStore);
   const { setDrawer } = useStore(useDrawerStore);
   const { darkMode } = useStore(useDarkModeStore);
-  
+
   const handleDrawerToggler = () => {
     setResult([]);
     setDrawer(false);

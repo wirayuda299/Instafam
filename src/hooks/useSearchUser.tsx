@@ -13,9 +13,9 @@ export default function useSearchUser() {
   const onSubmit = async (data: FieldValues) => {
     resetField("search");
     try {
-      const token = await getCsrfToken()
-      if(!token) {
-        throw new Error("No CSRF token found")
+      const token = await getCsrfToken();
+      if (!token) {
+        throw new Error("No CSRF token found");
       }
       if (data.search === "") {
         toast.error("Please enter a username or name");

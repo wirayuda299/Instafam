@@ -2,7 +2,7 @@ import { IUserPostProps } from "@/types/post";
 import { getCreatedDate } from "@/util/postDate";
 import Link from "next/link";
 
-export default function CreatedTime({post}:{post: IUserPostProps}) {
+export default function CreatedTime({ post }: { post: IUserPostProps }) {
   return (
     <div className={`ml-3 flex w-full items-center justify-between`}>
       <div>
@@ -19,5 +19,5 @@ export default function CreatedTime({post}:{post: IUserPostProps}) {
         </Link>
       </div>
     </div>
-  )
+  );
 }
