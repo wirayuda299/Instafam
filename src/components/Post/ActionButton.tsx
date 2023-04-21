@@ -16,13 +16,13 @@ type Props = {
   post: IUserPostProps;
   uid: string;
   likes: string[];
-  savedPosts: string[];
+  savedBy: string[];
   refreshData: () => void;
   ssr: boolean;
 };
 
 export default function ActionButton(props: Props) {
-  const { post, uid, likes, savedPosts, refreshData, ssr } = props;
+  const { post, uid, likes, savedBy, refreshData, ssr } = props;
   const { setPostPreviewModal } = useStore(usePostPreviewModalStore);
   const { setSelectedPost } = useStore(useSelectedPostStore);
   const { setPostCommentModal } = useStore(usePostCommentModalStore);
@@ -85,7 +85,7 @@ export default function ActionButton(props: Props) {
   ];
 
   return (
-    <div className="relative mb-2 mt-3 flex items-center justify-between p-1">
+    <div className=" mb-2 mt-3 flex items-center justify-between p-1">
       <div className="flex gap-x-5">
         {Buttons.map((btn) => (
           <button
@@ -94,7 +94,7 @@ export default function ActionButton(props: Props) {
             name="action button"
             type="button"
             title="action button"
-          >
+                      >
             {btn.icon}
           </button>
         ))}
@@ -107,14 +107,16 @@ export default function ActionButton(props: Props) {
             refreshData,
             ssr,
           };
+        
           const { savePost } = await import("@/helper/savePost");
+          
           savePost(savedPostArgs);
         }}
         name="save post"
         type="button"
         title="save post"
       >
-        {savedPosts && savedPosts?.includes(post?.postId) ? (
+        { savedBy?.includes(uid) ? (
           <RiBookmarkFill className="text-2xl sm:text-3xl" />
         ) : (
           <BiBookmark className="text-2xl hover:text-gray-500 sm:text-3xl" />

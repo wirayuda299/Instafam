@@ -10,6 +10,7 @@ export default function usePost(post: IUserPostProps | null) {
   const [likesCount, setLikesCount] = useState<string[]>([]);
   const [comment, setComment] = useState<IComment["comments"]>([]);
   const { selectedPost } = useStore(useSelectedPostStore);
+  const [savedBy, setSavedBy] = useState<string[]>([]);
   useEffect(() => {
     const unsub = onSnapshot(
       doc(db, "posts", `post-${post ? post.postId : selectedPost?.postId}`),
@@ -17,6 +18,7 @@ export default function usePost(post: IUserPostProps | null) {
         if (doc.exists()) {
           setLikesCount(doc.data().likedBy);
           setComment(doc?.data().comments);
+          setSavedBy(doc?.data().savedBy);
         }
       }
     );
@@ -30,5 +32,5 @@ export default function usePost(post: IUserPostProps | null) {
   const comments = useMemo(() => {
     return comment;
   }, [comment]);
-  return { likes, comments };
+  return { likes, comments, savedBy };
 }

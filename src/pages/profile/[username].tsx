@@ -6,7 +6,7 @@ import { IUser } from "@/types/user";
 import { useRouter } from "next/router";
 import useAuth from "@/hooks/useAuth";
 import { GetServerSidePropsContext } from "next";
-import { Suspense, memo, useMemo, useState, useTransition } from "react";
+import { memo, useMemo, useState, useTransition } from "react";
 import Image from "next/image";
 
 const Statistic = dynamic(
@@ -15,6 +15,7 @@ const Statistic = dynamic(
     ssr: true,
   }
 );
+const PostInfo = dynamic(() => import("@/components/Feeds/PostInfo"))
 const Tab = dynamic(() => import("@/components/User/Tab/Tab"));
 
 type Props = {
@@ -23,16 +24,18 @@ type Props = {
   user: IUser | null;
   query: {
     readonly username: string;
-  };
+  }
+  savedPosts: IUserPostProps[] | [];
 };
 
-function UserProfile({ posts, user, query }: Props) {
+function UserProfile({ posts, user, query, savedPosts }: Props) {
   const [postTab, setPostTab] = useState(true);
   const [savedPostTab, setSavedPosts] = useState(false);
   const { session } = useAuth();
   const { replace, asPath } = useRouter();
   const [activeTab, setActiveTab] = useState<number>(1);
   const [isPending, startTransition] = useTransition();
+
 
   const refreshData = () => {
     replace(asPath);
@@ -101,40 +104,6 @@ function UserProfile({ posts, user, query }: Props) {
     );
   }, [postTab, posts]);
 
-  const SavedPost = useMemo(() => {
-    return (
-      <>
-        {savedPostTab && (
-          <>
-            {user?.savedPosts && user?.savedPosts.length < 1 ? (
-              <div className="col-span-3 mx-auto h-full w-full">
-                <h1 className="w-full text-center text-2xl font-semibold text-gray-500 dark:text-gray-400">
-                  No saved posts
-                </h1>
-              </div>
-            ) : (
-              user?.savedPosts?.map((post) => (
-                <Suspense key={post.postId} fallback={<p>Loading...</p>}>
-                  <Image
-                    placeholder="blur"
-                    blurDataURL={
-                      "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABQODxIPDRQSEBIXFRQYHjIhHhwcHj0sLiQySUBMS0dARkVQWnNiUFVtVkVGZIhlbXd7gYKBTmCNl4x9lnN+gXz/2wBDARUXFx4aHjshITt8U0ZTfHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHz/wAARCAACAAMDASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwDpbiR1mYB2A46H2ooooEf/2Q=="
-                    }
-                    src={post.image}
-                    width={500}
-                    height={500}
-                    alt={post.captions ?? post.author}
-                    key={post.postId}
-                    className="rounded-lg"
-                  />
-                </Suspense>
-              ))
-            )}
-          </>
-        )}
-      </>
-    );
-  }, [savedPostTab]);
 
   const Statistics = useMemo(() => {
     return (
@@ -148,6 +117,44 @@ function UserProfile({ posts, user, query }: Props) {
       </>
     );
   }, [session, user, posts]);
+
+  const SavedPosts = useMemo(() => {
+    return (
+      <>
+        {savedPostTab && (
+          <>
+            {savedPosts && savedPosts.length < 1 ? (
+              <div className="col-span-3 mx-auto h-full w-full">
+                <h1 className="w-full text-center text-2xl font-semibold text-gray-500 dark:text-gray-400">
+                  No saved posts
+                </h1>
+              </div>
+            ) : (
+              <>
+                {savedPosts?.map((post) => (
+                  <div key={post.postId} className="relative group" >
+                    <Image
+                      src={post.image}
+                      alt={post.captions ?? post.author}
+                      width={1300}
+                      height={1300}
+                      placeholder="blur"
+                      blurDataURL={ post.image}
+                      className="rounded-lg"
+
+                    />
+                    <PostInfo post={post} />
+                  </div>
+                ))}
+              </>
+            )}
+
+          </>
+        )
+        }
+      </>
+    )
+  }, [savedPostTab]);
 
   return (
     <>
@@ -167,10 +174,10 @@ function UserProfile({ posts, user, query }: Props) {
             {Statistics}
           </div>
 
-          {session?.user?.username === query.username ? <>{Tabs}</> : null}
+          {session?.user?.username === query?.username ? <>{Tabs}</> : null}
           <div className="grid w-full grid-cols-1 items-center justify-center gap-5 p-5 sm:grid-cols-2 md:grid-cols-3 ">
             {Feeds}
-            {SavedPost}
+            {SavedPosts}
           </div>
           <br className="md:hidden" />
           <br className="md:hidden" />
@@ -185,10 +192,12 @@ function UserProfile({ posts, user, query }: Props) {
 export default memo(UserProfile);
 
 export async function getServerSideProps({ query }: GetServerSidePropsContext) {
-  const { getPostByCurrentUser } = await import("@/helper/getPosts");
+  const { getPostByCurrentUser, getPostsSavedByUser } = await import("@/helper/getPosts");
   const { getCurrentUserData } = await import("@/helper/getUser");
   const user = (await getCurrentUserData(query?.username as string)) as IUser[];
   const posts = await getPostByCurrentUser(user ? user[0]?.uid : "");
+  const savedPosts = await getPostsSavedByUser(user ? user[0]?.uid : "");
+
   if (!user || !posts) {
     return {
       notFound: true,
@@ -200,6 +209,7 @@ export async function getServerSideProps({ query }: GetServerSidePropsContext) {
       posts,
       user: user ? user[0] : null,
       query,
+      savedPosts: savedPosts ? savedPosts : [],
     },
   };
 }

@@ -6,6 +6,7 @@ import { getUserRecommendation } from "@/helper/getUser";
 import { getSession } from "next-auth/react";
 import { IUserPostProps } from "@/types/post";
 import { useEffect, useRef, useState } from "react";
+import { useRouter } from "next/router";
 
 const Suggestions = dynamic(
   () => import("@/components/Suggestions/Suggestions"),
@@ -20,9 +21,14 @@ type Props = {
 };
 
 export default function Home({ posts, users }: Props) {
+  const router = useRouter();
+  const refreshData = () => {
+   return router.replace(router.asPath);
+  }
   const [newPosts, setNewPosts] = useState<IUserPostProps[]>([]);
   const [loading, setLoading] = useState(true);
   const ref = useRef<HTMLDivElement>(null)
+
   useEffect(() => {
     const observer = new IntersectionObserver(async (entries) => {
       if (entries[0].isIntersecting) {
@@ -36,14 +42,15 @@ export default function Home({ posts, users }: Props) {
       observer.observe(ref.current)
     }
   }, [])
+  if(!posts) return <div>loading</div>
 
   return (
-    <div className="h-full w-full ">
+    <div className="h-full w-full">
       <div className="flex h-screen w-full items-start justify-between">
         <div className="flex w-full flex-col p-5 ">
           {!posts && <Postloader />}
           {posts?.map((post) => (
-            <PostCard post={post} key={post.postId} />
+            <PostCard post={post} key={post.postId} refreshData={refreshData} />
           ))
           }
           <div ref={ref}></div>
@@ -53,6 +60,7 @@ export default function Home({ posts, users }: Props) {
               <PostCard
                 post={post}
                 key={post.postId}
+                refreshData={refreshData}
               />
             ))}
           </>
@@ -79,10 +87,6 @@ export async function getServerSideProps({ req, res }: GetServerSidePropsContext
   }
   const users = await getUserRecommendation(session.user.uid)
   const posts = await getPosts(4)
-  res.setHeader(
-    "Cache-Control",
-    "public, s-maxage=60, stale-while-revalidate=59"
-  );
 
   return {
     props: {

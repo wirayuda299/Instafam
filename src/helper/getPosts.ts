@@ -117,3 +117,21 @@ export async function getPostById(
     console.log(error.message);
   }
 }
+
+type GetPostsSavedByUser = (uid: string) => Promise<IUserPostProps[] | undefined>;
+
+export const getPostsSavedByUser: GetPostsSavedByUser = async (uid) => {
+  try {
+    const q = query(
+      collection(db, "posts"),
+      where("savedBy", "array-contains", uid),
+      orderBy("createdAt", "desc")
+    );
+    const res = await getDocs(q);
+    const posts = res.docs.map((data) => data.data()) as IUserPostProps[];    
+    return posts;
+  } catch (error: any) {
+    console.log(error.message);
+  }
+};
+

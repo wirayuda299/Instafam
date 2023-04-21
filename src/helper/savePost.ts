@@ -16,28 +16,25 @@ type SavedPostProps = {
 };
 
 export async function savePost(params: SavedPostProps) {
-  if (typeof window === "undefined") return;
-  const { post, uid, refreshData, ssr } = params;
+  const { post, uid, refreshData, ssr} = params;
   try {
-    const q = doc(db, "users", `${uid}`);
-    const userSnap = await getDoc(q);
-    const savedPosts = userSnap
-      .data()
-      ?.savedPosts.map((userPost: { postId: string }) => userPost.postId);
-    const hasSaved = savedPosts.includes(post.postId);
-    if (hasSaved) {
-      await updateDoc(q, {
-        savedPosts: arrayRemove(post),
-      }).then(() => {
-        ssr ? refreshData() : null;
-      });
-    } else {
-      await updateDoc(q, {
-        savedPosts: arrayUnion(post),
-      }).then(() => {
-        ssr ? refreshData() : null;
-      });
+    if (typeof window === "undefined") return;
+    const q = doc(db, "posts", `post-${post.postId}`);
+    const res = await getDoc(q);
+    if(res.exists()) {
+      const savedBy = res.data()?.savedBy;
+      const hasSavedByUsers = savedBy?.find((save: string) => save === uid);
+      if (hasSavedByUsers) {
+        await updateDoc(q, { savedBy: arrayRemove(uid) });
+        if(!ssr) refreshData();
+      } else {
+        await updateDoc(q, { savedBy: arrayUnion(uid) });
+        if(!ssr) refreshData();
+      }
     }
+
+
+   
   } catch (error: any) {
     console.log(error.message);
   }

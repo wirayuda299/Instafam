@@ -27,9 +27,9 @@ export default function PostDetail({ post }: { post: IUserPostProps }) {
   const [commentOpen] = useState<boolean>(false);
   const { asPath, replace } = useRouter();
   const refreshData = () => replace(asPath);
-  const { likes, comments } = usePost(post);
+  const { likes, comments, savedBy } = usePost(post);
   const { data: session } = useSession();
-  const { savedPosts, user } = useUser(session?.user?.uid as string);
+  const { user } = useUser(session?.user?.uid as string);
 
   const PreviewMobile = useMemo(() => {
     return (
@@ -37,7 +37,7 @@ export default function PostDetail({ post }: { post: IUserPostProps }) {
         <IDPreviewMobile
           comments={comments}
           likes={likes}
-          savedPosts={savedPosts}
+          savedBy={savedBy}
           session={session}
           user={user}
           post={post}
@@ -45,7 +45,7 @@ export default function PostDetail({ post }: { post: IUserPostProps }) {
         />
       </>
     );
-  }, [commentOpen, post, likes, comments, session, user, savedPosts]);
+  }, [commentOpen, post, likes, comments, session, user, savedBy]);
 
   const PreviewDesktop = useMemo(() => {
     return (
@@ -53,7 +53,7 @@ export default function PostDetail({ post }: { post: IUserPostProps }) {
         <PostCommentDesktop
           comments={comments}
           likes={likes}
-          savedPosts={savedPosts}
+          savedBy={savedBy}
           user={user}
           post={post}
           refreshData={refreshData}
@@ -64,7 +64,7 @@ export default function PostDetail({ post }: { post: IUserPostProps }) {
         </PostCommentDesktop>
       </>
     );
-  }, [commentOpen, post, likes, comments, session, user, savedPosts]);
+  }, [commentOpen, post, likes, comments, session, user, savedBy]);
 
   return (
     <>

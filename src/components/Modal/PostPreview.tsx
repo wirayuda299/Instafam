@@ -26,9 +26,9 @@ export default function PostPreview() {
   );
   const { selectedPost, setSelectedPost } = useStore(useSelectedPostStore);
   const { setPostCommentModal } = useStore(usePostCommentModalStore);
-  const { likes, comments } = usePost(selectedPost ?? null);
+  const { likes, comments, savedBy } = usePost(selectedPost ?? null);
   const { data: session } = useSession();
-  const { user, savedPosts } = useUser(session?.user?.uid as string);
+  const { user } = useUser(session?.user?.uid as string);
   const { replace, asPath } = useRouter();
   const refreshData = () => {
     replace(asPath);
@@ -57,7 +57,7 @@ export default function PostPreview() {
                       post={selectedPost}
                       likes={likes}
                       comments={comments}
-                      savedPosts={savedPosts}
+                      savedBy={savedBy}
                       user={user}
                       refreshData={refreshData}
                       session={session}
@@ -67,7 +67,7 @@ export default function PostPreview() {
                       refreshData={refreshData}
                       comments={comments}
                       likes={likes}
-                      savedPosts={savedPosts}
+                      savedBy={savedBy}
                       user={user}
                     >
                       <button

@@ -19,7 +19,7 @@ type Props = {
   post: IUserPostProps | null;
   likes: string[];
   comments: PostComments["comments"];
-  savedPosts: string[];
+  savedBy: string[];
   user: any;
   refreshData: () => void;
   session: any;
@@ -30,7 +30,7 @@ export default function PreviewMobile({
   comments,
   likes,
   refreshData,
-  savedPosts,
+  savedBy,
   session,
   user,
 }: Props) {
@@ -89,7 +89,7 @@ export default function PreviewMobile({
           refreshData={refreshData}
           likes={likes}
           post={post as IUserPostProps}
-          savedPosts={savedPosts}
+          savedBy={savedBy}
           uid={user?.uid as string}
         />
         <Likes likesCount={likes} session={session} />

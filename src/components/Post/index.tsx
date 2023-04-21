@@ -1,8 +1,6 @@
 import { IUserPostProps } from "@/types/post";
 import Image from "next/image";
 import dynamic from "next/dynamic";
-import { useRouter } from "next/router";
-import useUser from "@/hooks/useUser";
 import usePost from "@/hooks/usePost";
 import { useSession } from "next-auth/react";
 import {
@@ -21,14 +19,13 @@ const Comments = dynamic(() => import("./Comments"));
 
 type Props = {
   post: IUserPostProps;
+  refreshData: () => void;
 };
 
-export default function PostCard({ post }: Props) {
-  const { replace, asPath } = useRouter();
-  const refreshData = () => replace(asPath);
-  const { likes, comments } = usePost(post);
+export default function PostCard({ post, refreshData }: Props) {
+
+  const { likes, comments, savedBy } = usePost(post);
   const { data: session } = useSession();
-  const { savedPosts } = useUser(session?.user.uid as string);
   const { darkMode } = useStore(useDarkModeStore);
   const { setSelectedPost } = useStore(useSelectedPostStore);
   const { menuModal, setMenuModal } = useStore(useMenuModalStore);
@@ -72,9 +69,9 @@ export default function PostCard({ post }: Props) {
           alt={post?.author ?? "user post image"}
         />
         <ActionButton
-          ssr={true}
+          ssr={false}
           refreshData={refreshData}
-          savedPosts={savedPosts}
+          savedBy={savedBy}
           likes={likes}
           post={post}
           uid={session?.user?.uid as string}

@@ -5,6 +5,7 @@ import { useStore } from "zustand";
 const SearchForm = dynamic(() => import("@/components/Search"));
 const Sidebar = dynamic(() => import("../Navigation/Sidebar"));
 const MainHeader = dynamic(() => import("../Header/MainHeader"));
+import React from "react";
 
 export default function Layout({ children }: { children: any }) {
   const { darkMode } = useStore(useDarkModeStore);

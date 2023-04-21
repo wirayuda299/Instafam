@@ -26,7 +26,7 @@ export default function App({
   useEffect(() => {
     setTimeout(() => {
       setMounted(true);
-    }, 3500);
+    }, 1000);
     return () => setMounted(false);
   }, []);
 

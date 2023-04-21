@@ -18,4 +18,5 @@ export interface IUserPostProps {
   hashtags: string[];
   postId: string;
   tagged: [];
+  savedBy: string[];
 }

@@ -10,7 +10,7 @@ export default function useUser(uid: string) {
   const [savedPosts, setSavedPosts] = useState<string[]>([]);
   const { selectedPost } = useStore(useSelectedPostStore);
   useEffect(() => {
-    onSnapshot(
+    const unsub = onSnapshot(
       doc(db, "users", `${uid ? uid : selectedPost?.postedById}`),
       (docs) => {
         if (docs.exists()) {
@@ -23,6 +23,7 @@ export default function useUser(uid: string) {
         }
       }
     );
+    return () => unsub();
   }, [db, selectedPost]);
 
   return { user, savedPosts };

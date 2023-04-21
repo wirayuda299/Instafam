@@ -19,13 +19,13 @@ type Props = {
   children?: ReactNode;
   refreshData: () => void;
   comments: any;
-  likes: any;
-  savedPosts: any;
+  likes: string[]
+  savedBy: string[]
   user: any;
 };
 
 export default function PostCommentsDesktop(props: Props) {
-  const { post, children, refreshData, comments, likes, savedPosts, user } = props;
+  const { post, children, refreshData, comments, likes, savedBy, user } = props;
   const { data: session } = useSession();
   const { darkMode } = useStore(useDarkModeStore);
 
@@ -75,7 +75,7 @@ export default function PostCommentsDesktop(props: Props) {
             refreshData={refreshData}
             likes={likes}
             post={post ?? []}
-            savedPosts={savedPosts}
+            savedBy={savedBy}
             uid={session?.user.uid as string}
           />
           <Likes likesCount={likes} session={session} />
