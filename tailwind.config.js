@@ -80,7 +80,7 @@ module.exports = {
         slide: "slide 0.5s ease forwards",
         commentSlideIn: "commentSlideIn 0.3s ease forwards",
         commentSlideOut: "commentSlideOut 0.3s ease forwards",
-        rotateOnView: "rootateOnView 1s ease forwards",
+        rotateOnView: "rootateOnView 1s forwards",
       },
       screens: {
         xs: "320px",
@@ -104,5 +104,5 @@ module.exports = {
       all: "all",
     },
   },
-  plugins: [require("daisyui")],
+  plugins: [],
 };

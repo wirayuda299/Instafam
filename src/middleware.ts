@@ -34,7 +34,6 @@ export const config = {
   matcher: [
     "/",
     "/trending",
-    "/trending/:path*",
     "/notifications",
     "/messages",
     "/create",

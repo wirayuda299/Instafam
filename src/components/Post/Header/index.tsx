@@ -4,20 +4,21 @@ import { useStore } from "zustand";
 import { useDarkModeStore } from "@/stores/stores";
 import CreatedTime from "./CreatedTime";
 
+type Props = {
+  post: IUserPostProps;
+  children: React.ReactNode;
+}
+
 export default function Postheader({
   post,
   children,
-}: {
-  post: IUserPostProps;
-  children: React.ReactNode;
-}) {
+}: Props) {
   const { darkMode } = useStore(useDarkModeStore);
 
   return (
     <div
-      className={`relative flex h-fit items-center px-4 py-3 ${
-        darkMode ? "bg-black text-white" : "bg-white text-black"
-      }`}
+      className={`relative flex h-fit items-center px-4 py-3 ${darkMode ? "bg-black text-white" : "bg-white text-black"
+        }`}
     >
       <Image
         className="h-8 w-8 rounded-full object-cover"

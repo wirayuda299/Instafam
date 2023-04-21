@@ -13,6 +13,7 @@ type Props = {
 
 function Suggestions({ reccomend }: Props) {
   const { data: session } = useSession();
+  
   return (
     <section className="hidden h-full min-w-[384px] lg:block">
       <div className="h-full w-full max-w-sm p-5">

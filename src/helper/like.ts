@@ -7,19 +7,16 @@ import {
 } from "firebase/firestore";
 import { db } from "@/config/firebase";
 import { IUserPostProps } from "@/types/post";
-import { z } from "zod";
 
 type LikesProps = {
   post: IUserPostProps;
   uid: string;
-  refreshData: () => void;
-  ssr: boolean;
 };
 
 export const handleLikes = async <T extends LikesProps>(params: T) => {
   if (typeof window === "undefined") return;
   try {
-    const { post, uid, refreshData, ssr } = params;
+    const { post, uid } = params;
     const postRef = doc(db, "posts", `post-${post.postId}`);
     const getPostDetails = await getDoc(postRef);
     const likedBy = getPostDetails.data()?.likedBy;

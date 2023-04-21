@@ -1,3 +1,5 @@
+import toast from "react-hot-toast";
+
 export function share(post: any, url: string) {
   try {
     if (navigator.share) {
@@ -14,7 +16,10 @@ export function share(post: any, url: string) {
           console.error("Error sharing:", err);
         });
     } else {
-      console.log("Web Share API not supported");
+      toast.error("Share not supported");
     }
-  } catch (error: any) {}
+  } catch (error: any) {
+    toast.error(error.message);
+
+  }
 }

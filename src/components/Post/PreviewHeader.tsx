@@ -23,11 +23,11 @@ export default function PreviewHeader({
   const { darkMode } = useStore(useDarkModeStore);
   return (
     <div
-      className={`sticky -top-3 flex w-full border-b border-gray-500 border-opacity-50 px-2 py-3 transition-all duration-300  ${
-        darkMode ? "bg-blac text-white" : "bg-white text-black"
+      className={`absolute -top-0 !overflow-x-hidden flex w-full border-b border-gray-500 border-opacity-50 px-2 py-3 transition-all duration-300  ${
+        darkMode ? "bg-black text-white" : "bg-white text-black"
       }`}
     >
-      <div className="flex flex-1 items-start space-x-2">
+      <div className="flex flex-1 items-start space-x-2 ">
         <div className="flex space-x-2">
           <Image
             src={post?.postedByPhotoUrl}
@@ -44,7 +44,7 @@ export default function PreviewHeader({
           <div className="cursor-pointer">
             <h4 className="pr-1 font-semibold">{post?.author}</h4>
             <p className="text-left text-xs text-gray-500">
-              {getCreatedDate(post)}
+              {getCreatedDate(post.createdAt)}
             </p>
           </div>
         </div>

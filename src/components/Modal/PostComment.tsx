@@ -7,10 +7,11 @@ import {
 } from "@/stores/stores";
 import Image from "next/image";
 import { getCreatedDate } from "@/util/postDate";
-import Comments from "../Post/Comments";
 import { useSession } from "next-auth/react";
 import { IUserPostProps } from "@/types/post";
 import usePost from "@/hooks/usePost";
+import dynamic from "next/dynamic";
+const Comments = dynamic(() => import("../Post/Comments"));
 
 type Comments = Pick<IUserPostProps, "comments">;
 
@@ -26,26 +27,22 @@ export default function PostComment() {
     <>
       {postCommentModal && selectedPost && session && (
         <div
-          className={` ${
-            darkMode ? "bg-black text-white" : "bg-white text-black"
-          } fixed left-0 top-0 z-[99999] h-screen w-full select-none overflow-y-auto !overflow-x-hidden  bg-black bg-opacity-60 shadow-sm  ${
-            postCommentModal
+          className={` ${darkMode ? "bg-black text-white" : "bg-white text-black"
+            } fixed left-0 top-0 z-[99999] h-screen w-full select-none overflow-y-auto !overflow-x-hidden  bg-black bg-opacity-60 shadow-sm  ${postCommentModal
               ? "animate-commentSlideIn "
               : "animate-commentSlideOut"
-          }`}
+            }`}
           aria-modal="true"
           role="dialog"
         >
           <div
-            className={` relative  h-full text-center ${
-              darkMode ? "bg-black text-white" : "bg-white text-black"
-            }`}
+            className={` relative  h-full text-center ${darkMode ? "bg-black text-white" : "bg-white text-black"
+              }`}
           >
             <div className="h-full">
               <div
-                className={`sticky top-0 flex w-full items-center space-x-3 border-b border-gray-500 border-opacity-50 bg-black py-3 text-white  ${
-                  darkMode ? "bg-black text-white" : "bg-white text-black"
-                }`}
+                className={`sticky top-0 flex w-full items-center space-x-3 border-b border-gray-500 border-opacity-50 bg-black py-3 text-white  ${darkMode ? "bg-black text-white" : "bg-white text-black"
+                  }`}
               >
                 <button
                   onClick={() => setPostCommentModal(false)}
@@ -58,23 +55,20 @@ export default function PostComment() {
                 </button>
                 <div className="w-full">
                   <h1
-                    className={`text-center font-semibold ${
-                      darkMode ? "text-white" : "text-black"
-                    }`}
+                    className={`text-center font-semibold ${darkMode ? "text-white" : "text-black"
+                      }`}
                   >
                     Comments
                   </h1>
                 </div>
               </div>
               <div
-                className={`w-full ${
-                  darkMode ? "bg-black text-white" : "bg-white text-black"
-                }`}
+                className={`w-full ${darkMode ? "bg-black text-white" : "bg-white text-black"
+                  }`}
               >
                 <div
-                  className={`flex flex-wrap space-x-2 py-4  ${
-                    darkMode ? "bg-black text-white" : "bg-white text-black"
-                  }`}
+                  className={`flex flex-wrap space-x-2 py-4  ${darkMode ? "bg-black text-white" : "bg-white text-black"
+                    }`}
                 >
                   <div className="mb-5 flex w-full space-x-2 pl-2">
                     <div>
@@ -93,7 +87,7 @@ export default function PostComment() {
                           {selectedPost?.author}
                         </h4>
                         <small className="text-[10px] text-gray-500">
-                          {getCreatedDate(selectedPost)}
+                          {getCreatedDate(selectedPost.createdAt)}
                         </small>
                       </div>
                       <p className=" text-left text-xs">
@@ -149,9 +143,8 @@ export default function PostComment() {
             </div>
             {postCommentModal && (
               <div
-                className={`fixed bottom-0 left-0 right-0 w-full ${
-                  darkMode ? "bg-black" : "bg-white"
-                }`}
+                className={`fixed bottom-0 left-0 right-0 w-full ${darkMode ? "bg-black" : "bg-white"
+                  }`}
               >
                 <div className="flex items-center space-x-3 px-3">
                   <Image
@@ -163,10 +156,10 @@ export default function PostComment() {
                   />
                   <div className="w-full rounded-full border px-2 py-2">
                     <Comments
+                      ssr={false}
                       comments={selectedPost?.comments as Comments["comments"]}
                       post={selectedPost as IUserPostProps}
                       session={session}
-                      ssr={false}
                     />
                   </div>
                 </div>

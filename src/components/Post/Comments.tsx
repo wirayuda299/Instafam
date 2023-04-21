@@ -1,8 +1,6 @@
 import { IUserPostProps } from "@/types/post";
-import { getCsrfToken } from "next-auth/react";
 import { useRouter } from "next/router";
 import { FieldValues, useForm } from "react-hook-form";
-import toast from "react-hot-toast";
 export type IComment = Pick<IUserPostProps, "comments">;
 
 type Props = {
@@ -13,16 +11,17 @@ type Props = {
 };
 
 export default function Comments({ post, session, ssr }: Props) {
-  const router = useRouter();
-  const refreshData = () => {
-    router.replace(router.asPath);
-  };
+  const { replace, asPath, pathname } = useRouter();
+  const refreshData = () => replace(asPath)
   const { register, handleSubmit, resetField } = useForm();
   const defaultValues = {
     comments: "",
   };
   const handleSubmits = async (e: FieldValues) => {
+
+    const { toast } = await import("react-hot-toast");
     if (e.comments === "") return toast.error("Please enter a comment");
+    const { getCsrfToken } = await import("next-auth/react");
     const { db } = await import("@/config/firebase");
     const { doc, updateDoc, arrayUnion } = await import("firebase/firestore");
     try {
@@ -52,7 +51,7 @@ export default function Comments({ post, session, ssr }: Props) {
   return (
     <div
       className={
-        router.pathname === "/post/[id]" ? "flex flex-col-reverse " : "block"
+        pathname === "/post/[id]" ? "flex flex-col-reverse " : "block"
       }
     >
       <form className="px-1 py-1" onSubmit={handleSubmit(handleSubmits)}>

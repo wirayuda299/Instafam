@@ -7,8 +7,8 @@ import { useStore } from "zustand";
 import Image from "next/image";
 import Link from "next/link";
 import { AiOutlineClose } from "react-icons/ai";
-import Postheader from "../Post/Header";
-
+import dynamic from "next/dynamic";
+const Postheader = dynamic(() => import("../Post/Header"), { ssr: false });
 export default function Feed() {
   const { darkMode } = useStore(useDarkModeStore);
   const { feedModal, setFeedModal } = useStore(useFeedModalStore);

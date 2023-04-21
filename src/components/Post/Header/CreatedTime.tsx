@@ -14,7 +14,7 @@ export default function CreatedTime({ post }: { post: IUserPostProps }) {
           <span
             className={`block font-thin leading-tight text-gray-500 antialiased xs:text-[10px] sm:text-xs `}
           >
-            {getCreatedDate(post)}
+            {getCreatedDate(post.createdAt)}
           </span>
         </Link>
       </div>

@@ -53,7 +53,6 @@ export default function ActionButton(props: Props) {
           post,
           uid,
           refreshData,
-          ssr,
         };
         handleLikes(Likes);
       },
@@ -115,7 +114,7 @@ export default function ActionButton(props: Props) {
         type="button"
         title="save post"
       >
-        {savedPosts?.includes(post?.postId) ? (
+        {savedPosts && savedPosts?.includes(post?.postId) ? (
           <RiBookmarkFill className="text-2xl sm:text-3xl" />
         ) : (
           <BiBookmark className="text-2xl hover:text-gray-500 sm:text-3xl" />

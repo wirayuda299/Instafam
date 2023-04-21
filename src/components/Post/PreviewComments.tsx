@@ -1,11 +1,11 @@
 import { IUserPostProps } from "@/types/post";
-import { getCommentcreatedAt } from "@/util/postDate";
+import { getCreatedDate } from "@/util/postDate";
 import Image from "next/image";
 import Link from "next/link";
 
-export type IComment = Pick<IUserPostProps, "comments">;
+export type PostComments = Pick<IUserPostProps, "comments">;
 type Props = {
-  comment: IComment["comments"];
+  comment: PostComments["comments"];
 };
 
 export default function PreviewComments({ comment }: Props) {
@@ -40,7 +40,7 @@ export default function PreviewComments({ comment }: Props) {
             >
               {comment?.commentByName}
               <small className="block text-left text-xs font-semibold text-gray-500">
-                {getCommentcreatedAt(comment)}
+                {getCreatedDate(comment.createdAt)}
               </small>
             </Link>
           </div>

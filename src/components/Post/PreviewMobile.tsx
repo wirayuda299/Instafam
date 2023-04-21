@@ -61,7 +61,7 @@ export default function PreviewMobile({
             />
             <Link href={`/profile/${post?.author}`}>
               <h1 className="text-sm font-bold">{post?.author}</h1>
-              <p className="text-left text-xs">{getCreatedDate(post)}</p>
+              <p className="text-left text-xs">{getCreatedDate(post ? post.createdAt : '')}</p>
             </Link>
           </div>
           <button onClick={(e) => handleClick(e)}>

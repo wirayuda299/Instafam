@@ -1,13 +1,12 @@
 import PostInfo from "@/components/Feeds/PostInfo";
 import { getPostByLikes } from "@/helper/getPosts";
-import useInfiniteScroll from "@/hooks/useInfiniteScroll";
 import { useFeedModalStore, useSelectedPostStore } from "@/stores/stores";
 import { IUserPostProps } from "@/types/post";
 import dynamic from "next/dynamic";
 import Image from "next/image";
+import { useEffect, useRef, useState } from "react";
 import { RiLoader2Line } from "react-icons/ri";
 import { useStore } from "zustand";
-
 type Props = {
   posts: IUserPostProps[];
   lastPost: IUserPostProps | null;
@@ -17,9 +16,25 @@ const FeedModal = dynamic(() => import("@/components/Modal/Feed"), {
 });
 
 export default function Trending({ posts, lastPost }: Props) {
-  const { ref, loading, postsState } = useInfiniteScroll(lastPost);
   const { setFeedModal } = useStore(useFeedModalStore);
   const { setSelectedPost } = useStore(useSelectedPostStore);
+  const [newPosts, setNewPosts] = useState<IUserPostProps[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  const ref =useRef<HTMLDivElement>(null)
+  useEffect(() => {
+    const observer = new IntersectionObserver(async (entries) => {
+      if (entries[0].isIntersecting) {
+        const {fetchNextPosts} = await import('@/helper/getPosts')
+        const newPosts = await fetchNextPosts(lastPost)
+        setNewPosts(newPosts ?? [])
+        setLoading(false)
+      }
+    })
+    if (ref.current) {
+      observer.observe(ref.current)
+    }
+  }, [])
   return (
     <div className="h-screen  w-full overflow-y-auto p-5">
       <div className="h-full w-full">
@@ -51,7 +66,7 @@ export default function Trending({ posts, lastPost }: Props) {
             />
           ) : (
             <>
-              {postsState?.map((post) => (
+              {newPosts?.map((post) => (
                 <div
                   key={post.postId}
                   className="group relative"

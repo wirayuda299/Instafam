@@ -63,13 +63,13 @@ export default function PostCommentsDesktop(props: Props) {
           <h4 className="pr-3 font-semibold ">
             {post?.author}
             <span className="block pt-0 text-left text-xs text-gray-500">
-              {getCreatedDate(post)}
+              {getCreatedDate(post.createdAt)}
             </span>
           </h4>
           <p>{post?.captions ?? ""}</p>
         </Link>
         <PreviewComment comment={comments} />
-        <div className="absolute bottom-0 hidden w-full border-t border-gray-500 border-opacity-50 px-2 lg:block">
+        <div className={`absolute bottom-0 hidden w-full border-t border-gray-500 border-opacity-50 px-2 lg:block ${darkMode ? 'bg-black' : 'bg-white'}`}>
           <ActionButton
             ssr={true}
             refreshData={refreshData}

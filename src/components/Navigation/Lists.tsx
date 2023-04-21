@@ -11,7 +11,7 @@ import { useRouter } from "next/router";
 import dynamic from "next/dynamic";
 import { useDarkModeStore, useDrawerStore } from "@/stores/stores";
 import { useStore } from "zustand";
-const ListItem = dynamic(() => import("./ListItem"));
+const ListItem = dynamic(() => import("./ListItem"), { ssr: false });
 
 export default function NavbarLists({ session }: any) {
   const { pathname } = useRouter();
