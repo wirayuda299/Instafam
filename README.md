@@ -48,6 +48,3 @@ Other features is comming soon.
 
 If you'd like to contribute to Instafam, please fork the repository and make your changes. Once you're happy with your changes, submit a pull request.
 
-## License
-
-Instafam is licensed under the MIT License. See LICENSE for more information.
