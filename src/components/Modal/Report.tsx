@@ -1,23 +1,25 @@
-import { db } from "@/config/firebase";
-import { useReportModalStore, useSelectedPostStore } from "@/stores/stores";
-import { doc, setDoc } from "firebase/firestore";
-import { getCsrfToken, useSession } from "next-auth/react";
+import { useDarkModeStore, useReportModalStore, useSelectedPostStore } from "@/stores/stores";
+import {  useSession } from "next-auth/react";
 import Image from "next/image";
 import { FieldValues, useForm } from "react-hook-form";
-import { toast } from "react-hot-toast";
 import { useStore } from "zustand";
 
 export default function Report() {
   const { data: session } = useSession();
   const { register, resetField, handleSubmit } = useForm();
   const { selectedPost } = useStore(useSelectedPostStore);
+  const {darkMode} = useStore(useDarkModeStore)
   const { reportModal, setReportModal } = useStore(useReportModalStore);
   const defaultValues = {
     reason: "",
   };
 
   const handleReport = async (e: FieldValues) => {
+    const { toast } = await import("react-hot-toast");
     try {
+      const { getCsrfToken } = await import("next-auth/react");
+      const { db } = await import("@/config/firebase");
+      const { doc, setDoc } = await import("firebase/firestore");
       const token = await getCsrfToken();
       if (!token) throw new Error("CSRF Token not found");
       const reportRef = doc(db, "reports", `${selectedPost?.postId}`);
@@ -53,7 +55,7 @@ export default function Report() {
         >
           <div className="mx-auto h-full max-w-5xl text-center ">
             <div className="flex h-full flex-col items-center justify-center ">
-              <div className="flex min-w-[400px] flex-col rounded-lg border-gray-500  bg-white  p-5 py-10 text-black dark:bg-black  dark:text-white">
+              <div className={`flex min-w-[400px] flex-col rounded-lg border-gray-500 p-5 py-10 ${darkMode ? 'bg-black text-white' : 'text-black bg-white'}`}>
                 <div>
                   <h1 className="text-2xl font-bold">Report</h1>
                   <p className="text-sm text-gray-500">

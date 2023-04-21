@@ -1,19 +1,20 @@
 import dynamic from "next/dynamic";
 import { GetServerSidePropsContext } from "next";
 import { IUser } from "@/types/user";
-import { getPosts } from "@/helper/getPosts";
-import { getUserRecommendation } from "@/helper/getUser";
-import { getSession } from "next-auth/react";
 import { IUserPostProps } from "@/types/post";
 import { useEffect, useRef, useState } from "react";
-import { useRouter } from "next/router";
 
 const Suggestions = dynamic(
   () => import("@/components/Suggestions/Suggestions"),
   { ssr: true }
 );
-const PostCard = dynamic(() => import("@/components/Post"), { ssr: true });
-const Postloader = dynamic(() => import("@/components/Loader/Post"));
+const Postloader = dynamic(() => import("@/components/Loader/Post"),{
+  ssr: true
+});
+const PostCard = dynamic(() => import("@/components/Post"), { 
+  ssr: true,
+  loading: () => <Postloader/>
+ });
 
 type Props = {
   posts: IUserPostProps[];
@@ -21,10 +22,6 @@ type Props = {
 };
 
 export default function Home({ posts, users }: Props) {
-  const router = useRouter();
-  const refreshData = () => {
-   return router.replace(router.asPath);
-  }
   const [newPosts, setNewPosts] = useState<IUserPostProps[]>([]);
   const [loading, setLoading] = useState(true);
   const ref = useRef<HTMLDivElement>(null)
@@ -41,16 +38,19 @@ export default function Home({ posts, users }: Props) {
     if (ref.current) {
       observer.observe(ref.current)
     }
+    return () => {
+      if (ref.current) {
+        observer.unobserve(ref.current)
+      }
+    }
   }, [])
-  if(!posts) return <div>loading</div>
 
   return (
     <div className="h-full w-full">
       <div className="flex h-screen w-full items-start justify-between">
         <div className="flex w-full flex-col p-5 ">
-          {!posts && <Postloader />}
           {posts?.map((post) => (
-            <PostCard post={post} key={post.postId} refreshData={refreshData} />
+            <PostCard post={post} key={post.postId}  />
           ))
           }
           <div ref={ref}></div>
@@ -60,7 +60,6 @@ export default function Home({ posts, users }: Props) {
               <PostCard
                 post={post}
                 key={post.postId}
-                refreshData={refreshData}
               />
             ))}
           </>
@@ -75,7 +74,10 @@ export default function Home({ posts, users }: Props) {
 
 
 
-export async function getServerSideProps({ req, res }: GetServerSidePropsContext) {
+export async function getServerSideProps({ req }: GetServerSidePropsContext) {
+  const { getPosts, } = await import('@/helper/getPosts')
+  const { getUserRecommendation } = await import('@/helper/getUser')
+  const { getSession } = await import('next-auth/react')
   const session = await getSession({ req })
   if (!session) {
     return {

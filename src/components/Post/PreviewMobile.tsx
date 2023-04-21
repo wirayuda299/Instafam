@@ -21,15 +21,14 @@ type Props = {
   comments: PostComments["comments"];
   savedBy: string[];
   user: any;
-  refreshData: () => void;
   session: any;
+  refreshData: () => void;
 };
 
 export default function PreviewMobile({
   post,
   comments,
   likes,
-  refreshData,
   savedBy,
   session,
   user,
@@ -85,8 +84,6 @@ export default function PreviewMobile({
       />
       <div className="block lg:hidden">
         <ActionButton
-          ssr={false}
-          refreshData={refreshData}
           likes={likes}
           post={post as IUserPostProps}
           savedBy={savedBy}

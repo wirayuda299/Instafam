@@ -1,11 +1,4 @@
-import {
-  doc,
-  getDoc,
-  arrayRemove,
-  arrayUnion,
-  updateDoc,
-} from "firebase/firestore";
-import { db } from "@/config/firebase";
+
 import { IUser } from "@/types/user";
 import { z } from "zod";
 const FollowSchema = z.object({
@@ -34,8 +27,17 @@ export const handleFollow = async <T extends HandleFollowProps>(props: T) => {
       refreshData,
       ssr,
     });
-    if (!isValidArgs)
+    if (!isValidArgs) {
       throw new Error("Invalid data passed to handleFollow function.");
+    }
+    const {
+      doc,
+      getDoc,
+      arrayRemove,
+      arrayUnion,
+      updateDoc,
+    } = await import("firebase/firestore");
+    const { db } = await import("@/config/firebase");
 
     const userRef = doc(db, "users", id);
     const currentUserRef = doc(db, "users", `${uid}`);

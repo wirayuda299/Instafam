@@ -60,8 +60,18 @@ export default function PreviewHeader({
           <button
             className="pt-1 text-xs font-semibold"
             type="button"
-            name="follow and unfollow"
-            title="folow and unfollow"
+            name={user?.following?.find(
+              (user: { userId: string }) =>
+                user?.userId === post?.postedById ?? ""
+            )
+              ? "Unfollow"
+              : "Follow"}
+            title={user?.following?.find(
+              (user: { userId: string }) =>
+                user?.userId === post?.postedById ?? ""
+            )
+              ? "Unfollow"
+              : "Follow"}
             onClick={async () => {
               const { handleFollow } = await import("@/helper/follow");
               const followArgs = {

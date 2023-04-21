@@ -2,6 +2,11 @@
 
 Welcome to Instafam! This is a social media app that allows you to connect with people around the world. You can post pictures, like and comment on other people's posts, and follow other users. You can also search for users by their username.
 
+## Notes 
+
+- This project is still in development. There are still many features that are not yet implemented.
+- This project is only for learning purposes..
+
 ## Features
 
 - Create an account

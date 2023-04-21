@@ -9,6 +9,8 @@ import { getCurrentUserData } from "@/helper/getUser";
 import { BsThreeDots } from "react-icons/bs";
 import usePost from "@/hooks/usePost";
 import useUser from "@/hooks/useUser";
+import { useSelectedPostStore, useMenuModalStore } from "@/stores/stores";
+import { useStore } from "zustand";
 
 const IDPreviewMobile = dynamic(
   () => import("@/components/Post/PreviewMobile"),
@@ -30,6 +32,13 @@ export default function PostDetail({ post }: { post: IUserPostProps }) {
   const { likes, comments, savedBy } = usePost(post);
   const { data: session } = useSession();
   const { user } = useUser(session?.user?.uid as string);
+  const { setSelectedPost } = useStore(useSelectedPostStore);
+  const { menuModal, setMenuModal } = useStore(useMenuModalStore);
+
+  const handleClick = () => {
+    setMenuModal(!menuModal);
+    setSelectedPost(post);
+  };
 
   const PreviewMobile = useMemo(() => {
     return (
@@ -58,7 +67,7 @@ export default function PostDetail({ post }: { post: IUserPostProps }) {
           post={post}
           refreshData={refreshData}
         >
-          <button>
+          <button onClick={handleClick} name="menu" title="">
             <BsThreeDots size={20} />
           </button>
         </PostCommentDesktop>

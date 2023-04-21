@@ -11,8 +11,7 @@ type Props = {
 };
 
 export default function Comments({ post, session, ssr }: Props) {
-  const { replace, asPath, pathname } = useRouter();
-  const refreshData = () => replace(asPath)
+  const { pathname } = useRouter();
   const { register, handleSubmit, resetField } = useForm();
   const defaultValues = {
     comments: "",
@@ -42,7 +41,6 @@ export default function Comments({ post, session, ssr }: Props) {
       }).then(() => {
         resetField("comments");
       });
-      ssr ? refreshData() : undefined;
     } catch (error: any) {
       toast.error(error.message);
     }

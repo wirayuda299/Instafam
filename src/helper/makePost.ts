@@ -4,7 +4,6 @@ import { ref, uploadString, getDownloadURL } from "firebase/storage";
 import { Session } from "next-auth";
 import { Dispatch, SetStateAction } from "react";
 import toast from "react-hot-toast";
-import { z } from "zod";
 
 type TMakePost = {
   captions: string;

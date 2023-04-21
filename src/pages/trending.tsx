@@ -25,7 +25,7 @@ export default function Trending({ posts, lastPost }: Props) {
   useEffect(() => {
     const observer = new IntersectionObserver(async (entries) => {
       if (entries[0].isIntersecting) {
-        const {fetchNextPosts} = await import('@/helper/getPosts')
+        const { fetchNextPosts } = await import('@/helper/getPosts')
         const newPosts = await fetchNextPosts(lastPost)
         setNewPosts(newPosts ?? [])
         setLoading(false)
@@ -33,6 +33,11 @@ export default function Trending({ posts, lastPost }: Props) {
     })
     if (ref.current) {
       observer.observe(ref.current)
+    }
+    return () => {
+      if (ref.current) {
+        observer.unobserve(ref.current)
+      }
     }
   }, [])
   return (

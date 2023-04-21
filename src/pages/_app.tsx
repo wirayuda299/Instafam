@@ -1,15 +1,9 @@
 import "@/styles/globals.css";
 import { SessionProvider } from "next-auth/react";
 import { Toaster } from "react-hot-toast";
-import "nprogress/nprogress.css";
-import nProgress from "nprogress";
-import Router from "next/router";
 import dynamic from "next/dynamic";
-import { useEffect, useMemo, useState } from "react";
-nProgress.configure({ showSpinner: false, trickle: false, easing: "ease" });
-Router.events.on("routeChangeStart", () => nProgress.start());
-Router.events.on("routeChangeComplete", () => nProgress.done());
-Router.events.on("routeChangeError", () => nProgress.done());
+import { useEffect, useState } from "react";
+import NextNProgress from 'nextjs-progressbar';
 const Menu = dynamic(() => import("@/components/Modal/Menu"));
 const Report = dynamic(() => import("@/components/Modal/Report"));
 const PostPreview = dynamic(() => import("@/components/Modal/PostPreview"));
@@ -21,7 +15,6 @@ export default function App({
   Component,
   pageProps: { session, ...pageProps },
 }: any) {
-
   const [mounted, setMounted] = useState(false);
   useEffect(() => {
     setTimeout(() => {
@@ -29,25 +22,25 @@ export default function App({
     }, 1000);
     return () => setMounted(false);
   }, []);
-
-  const MainLoader = useMemo(() => {
-    return (
-      <div className={`w-full h-screen fixed left-0 top-0 z-[99] !overflow-x-hidden !overflow-y-hidden bg-white shadow-sm ${mounted ? 'hidden' : 'block'} `}>
-        <Entrance />
-      </div>
-    );
-  }, [mounted]);
+  
   return (
     <SessionProvider session={session}>
       <Layout>
         <Toaster />
+        <NextNProgress color="#e23e44" startPosition={0.3} stopDelayMs={200} height={3} options={
+          {
+            showSpinner: false,
+          }
+        }/>
         <Component {...pageProps} />
         <Menu />
         <Report />
         <PostComment />
         <PostPreview />
       </Layout>
-      {MainLoader}
+      <div className={`w-full h-screen fixed left-0 top-0 z-[99] !overflow-x-hidden !overflow-y-hidden bg-white shadow-sm ${mounted ? 'hidden' : 'block'} `}>
+        <Entrance />
+      </div>
     </SessionProvider>
   );
 }

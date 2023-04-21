@@ -17,12 +17,10 @@ type Props = {
   uid: string;
   likes: string[];
   savedBy: string[];
-  refreshData: () => void;
-  ssr: boolean;
 };
 
 export default function ActionButton(props: Props) {
-  const { post, uid, likes, savedBy, refreshData, ssr } = props;
+  const { post, uid, likes, savedBy } = props;
   const { setPostPreviewModal } = useStore(usePostPreviewModalStore);
   const { setSelectedPost } = useStore(useSelectedPostStore);
   const { setPostCommentModal } = useStore(usePostCommentModalStore);
@@ -52,7 +50,7 @@ export default function ActionButton(props: Props) {
         const Likes = {
           post,
           uid,
-          refreshData,
+          likes
         };
         handleLikes(Likes);
       },
@@ -104,8 +102,6 @@ export default function ActionButton(props: Props) {
           const savedPostArgs = {
             post,
             uid,
-            refreshData,
-            ssr,
           };
         
           const { savePost } = await import("@/helper/savePost");

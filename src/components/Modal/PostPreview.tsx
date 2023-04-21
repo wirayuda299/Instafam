@@ -21,26 +21,21 @@ const PreviewMobile = dynamic(() => import("../Post/PreviewMobile"), {
 
 export default function PostPreview() {
   const { darkMode } = useStore(useDarkModeStore);
-  const { postPreviewModal, setPostPreviewModal } = useStore(
-    usePostPreviewModalStore
-  );
+  const { postPreviewModal, setPostPreviewModal } = useStore(usePostPreviewModalStore);
   const { selectedPost, setSelectedPost } = useStore(useSelectedPostStore);
   const { setPostCommentModal } = useStore(usePostCommentModalStore);
   const { likes, comments, savedBy } = usePost(selectedPost ?? null);
   const { data: session } = useSession();
   const { user } = useUser(session?.user?.uid as string);
   const { replace, asPath } = useRouter();
-  const refreshData = () => {
-    replace(asPath);
-  };
+  const refreshData = () => replace(asPath);
 
   return (
     <>
       {postPreviewModal && selectedPost && (
         <div
-          className={` fixed left-0 top-0 z-[999] h-screen w-full  select-none !overflow-x-hidden !overflow-y-hidden  bg-black bg-opacity-60 shadow-sm  ${
-            postPreviewModal ? "animate-fadeIn" : "animate-fadeOut"
-          }`}
+          className={` fixed left-0 top-0 z-[999] h-screen w-full  select-none !overflow-x-hidden !overflow-y-hidden  bg-black bg-opacity-60 shadow-sm  ${postPreviewModal ? "animate-fadeIn" : "animate-fadeOut"
+            }`}
           aria-modal="true"
           role="dialog"
         >
@@ -49,22 +44,21 @@ export default function PostPreview() {
               <div className="h-full w-full overflow-y-auto">
                 <div className="mx-auto grid h-screen w-full max-w-5xl place-items-center rounded-lg ">
                   <div
-                    className={`relative grid h-full w-full grid-cols-1 justify-between overflow-y-auto rounded-xl p-5 shadow-2xl  lg:max-h-[530px] lg:grid-cols-2 lg:p-0 ${
-                      darkMode ? "bg-black" : "bg-white"
-                    } `}
+                    className={`relative grid h-full w-full grid-cols-1 justify-between overflow-y-auto rounded-xl p-5 shadow-2xl  lg:max-h-[530px] lg:grid-cols-2 lg:p-0 ${darkMode ? "bg-black" : "bg-white"
+                      } `}
                   >
                     <PreviewMobile
                       post={selectedPost}
+                      refreshData={refreshData}
                       likes={likes}
                       comments={comments}
                       savedBy={savedBy}
                       user={user}
-                      refreshData={refreshData}
                       session={session}
                     />
                     <PostCommentDesktop
-                      post={selectedPost as IUserPostProps}
                       refreshData={refreshData}
+                      post={selectedPost as IUserPostProps}
                       comments={comments}
                       likes={likes}
                       savedBy={savedBy}

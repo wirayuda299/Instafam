@@ -71,8 +71,6 @@ export default function PostCommentsDesktop(props: Props) {
         <PreviewComment comment={comments} />
         <div className={`absolute bottom-0 hidden w-full border-t border-gray-500 border-opacity-50 px-2 lg:block ${darkMode ? 'bg-black' : 'bg-white'}`}>
           <ActionButton
-            ssr={true}
-            refreshData={refreshData}
             likes={likes}
             post={post ?? []}
             savedBy={savedBy}

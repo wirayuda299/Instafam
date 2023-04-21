@@ -19,17 +19,16 @@ const Comments = dynamic(() => import("./Comments"));
 
 type Props = {
   post: IUserPostProps;
-  refreshData: () => void;
 };
 
-export default function PostCard({ post, refreshData }: Props) {
+export default function PostCard({ post }: Props) {
 
   const { likes, comments, savedBy } = usePost(post);
   const { data: session } = useSession();
   const { darkMode } = useStore(useDarkModeStore);
   const { setSelectedPost } = useStore(useSelectedPostStore);
   const { menuModal, setMenuModal } = useStore(useMenuModalStore);
-
+  
   const handleClick = () => {
     setMenuModal(!menuModal);
     setSelectedPost(post);
@@ -69,8 +68,6 @@ export default function PostCard({ post, refreshData }: Props) {
           alt={post?.author ?? "user post image"}
         />
         <ActionButton
-          ssr={false}
-          refreshData={refreshData}
           savedBy={savedBy}
           likes={likes}
           post={post}
