@@ -1,5 +1,9 @@
-import { useDarkModeStore, useReportModalStore, useSelectedPostStore } from "@/stores/stores";
-import {  useSession } from "next-auth/react";
+import {
+  useDarkModeStore,
+  useReportModalStore,
+  useSelectedPostStore,
+} from "@/stores/stores";
+import { useSession } from "next-auth/react";
 import Image from "next/image";
 import { FieldValues, useForm } from "react-hook-form";
 import { useStore } from "zustand";
@@ -8,7 +12,7 @@ export default function Report() {
   const { data: session } = useSession();
   const { register, resetField, handleSubmit } = useForm();
   const { selectedPost } = useStore(useSelectedPostStore);
-  const {darkMode} = useStore(useDarkModeStore)
+  const { darkMode } = useStore(useDarkModeStore);
   const { reportModal, setReportModal } = useStore(useReportModalStore);
   const defaultValues = {
     reason: "",
@@ -55,7 +59,11 @@ export default function Report() {
         >
           <div className="mx-auto h-full max-w-5xl text-center ">
             <div className="flex h-full flex-col items-center justify-center ">
-              <div className={`flex min-w-[400px] flex-col rounded-lg border-gray-500 p-5 py-10 ${darkMode ? 'bg-black text-white' : 'text-black bg-white'}`}>
+              <div
+                className={`flex min-w-[400px] flex-col rounded-lg border-gray-500 p-5 py-10 ${
+                  darkMode ? "bg-black text-white" : "bg-white text-black"
+                }`}
+              >
                 <div>
                   <h1 className="text-2xl font-bold">Report</h1>
                   <p className="text-sm text-gray-500">

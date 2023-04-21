@@ -6,20 +6,16 @@ type SavedPostProps = {
 };
 
 export async function savePost(params: SavedPostProps) {
-  const { post, uid} = params;
+  const { post, uid } = params;
   try {
     if (typeof window === "undefined") return;
-    const {
-      doc,
-      updateDoc,
-      arrayRemove,
-      arrayUnion,
-      getDoc,
-    }  = await import("firebase/firestore");
+    const { doc, updateDoc, arrayRemove, arrayUnion, getDoc } = await import(
+      "firebase/firestore"
+    );
     const { db } = await import("@/config/firebase");
     const q = doc(db, "posts", `post-${post.postId}`);
     const res = await getDoc(q);
-    if(res.exists()) {
+    if (res.exists()) {
       const savedBy = res.data()?.savedBy;
       const hasSavedByUsers = savedBy?.find((save: string) => save === uid);
       if (hasSavedByUsers) {
@@ -28,9 +24,6 @@ export async function savePost(params: SavedPostProps) {
         await updateDoc(q, { savedBy: arrayUnion(uid) });
       }
     }
-
-
-   
   } catch (error: any) {
     console.log(error.message);
   }

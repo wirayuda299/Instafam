@@ -20,6 +20,5 @@ export function share(post: any, url: string) {
     }
   } catch (error: any) {
     toast.error(error.message);
-
   }
 }

@@ -7,7 +7,9 @@ import dynamic from "next/dynamic";
 import Head from "next/head";
 
 const Headers = dynamic(() => import("@/components/PostEdit/Header"));
-const PostEditImage = dynamic(() => import("@/components/PostEdit/PreviewImage"));
+const PostEditImage = dynamic(
+  () => import("@/components/PostEdit/PreviewImage")
+);
 const PostForm = dynamic(() => import("@/components/PostEdit/Form"));
 
 interface Values extends FieldValues {

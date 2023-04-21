@@ -19,8 +19,8 @@ type Props = {
   children?: ReactNode;
   refreshData: () => void;
   comments: any;
-  likes: string[]
-  savedBy: string[]
+  likes: string[];
+  savedBy: string[];
   user: any;
 };
 
@@ -69,7 +69,11 @@ export default function PostCommentsDesktop(props: Props) {
           <p>{post?.captions ?? ""}</p>
         </Link>
         <PreviewComment comment={comments} />
-        <div className={`absolute bottom-0 hidden w-full border-t border-gray-500 border-opacity-50 px-2 lg:block ${darkMode ? 'bg-black' : 'bg-white'}`}>
+        <div
+          className={`absolute bottom-0 hidden w-full border-t border-gray-500 border-opacity-50 px-2 lg:block ${
+            darkMode ? "bg-black" : "bg-white"
+          }`}
+        >
           <ActionButton
             likes={likes}
             post={post ?? []}
@@ -79,7 +83,6 @@ export default function PostCommentsDesktop(props: Props) {
           <Likes likesCount={likes} session={session} />
           <div className="py-2">
             <Comments
-              ssr={false}
               post={post ?? []}
               comments={comments ?? []}
               session={session}

@@ -2,7 +2,6 @@
 
 Welcome to Instafam! This is a social media app that allows you to connect with people around the world. You can post pictures, like and comment on other people's posts, and follow other users. You can also search for users by their username.
 
-
 ## Features
 
 - Create an account
@@ -40,7 +39,7 @@ Other features is comming soon.
 - Firebase
 - NextAuth
 
-## Notes 
+## Notes
 
 - This project is still in development. There are still many features that are not yet implemented.
 - This project is only for learning purposes.
@@ -48,4 +47,3 @@ Other features is comming soon.
 ## Contributing
 
 If you'd like to contribute to Instafam, please fork the repository and make your changes. Once you're happy with your changes, submit a pull request.
-

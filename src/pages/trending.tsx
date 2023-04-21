@@ -21,25 +21,25 @@ export default function Trending({ posts, lastPost }: Props) {
   const [newPosts, setNewPosts] = useState<IUserPostProps[]>([]);
   const [loading, setLoading] = useState(true);
 
-  const ref =useRef<HTMLDivElement>(null)
+  const ref = useRef<HTMLDivElement>(null);
   useEffect(() => {
     const observer = new IntersectionObserver(async (entries) => {
       if (entries[0].isIntersecting) {
-        const { fetchNextPosts } = await import('@/helper/getPosts')
-        const newPosts = await fetchNextPosts(lastPost)
-        setNewPosts(newPosts ?? [])
-        setLoading(false)
+        const { fetchNextPosts } = await import("@/helper/getPosts");
+        const newPosts = await fetchNextPosts(lastPost);
+        setNewPosts(newPosts ?? []);
+        setLoading(false);
       }
-    })
+    });
     if (ref.current) {
-      observer.observe(ref.current)
+      observer.observe(ref.current);
     }
     return () => {
       if (ref.current) {
-        observer.unobserve(ref.current)
+        observer.unobserve(ref.current);
       }
-    }
-  }, [])
+    };
+  }, []);
   return (
     <div className="h-screen  w-full overflow-y-auto p-5">
       <div className="h-full w-full">

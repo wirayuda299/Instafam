@@ -60,7 +60,9 @@ export default function PreviewMobile({
             />
             <Link href={`/profile/${post?.author}`}>
               <h1 className="text-sm font-bold">{post?.author}</h1>
-              <p className="text-left text-xs">{getCreatedDate(post ? post.createdAt : '')}</p>
+              <p className="text-left text-xs">
+                {getCreatedDate(post ? post.createdAt : "")}
+              </p>
             </Link>
           </div>
           <button onClick={(e) => handleClick(e)}>
@@ -95,7 +97,6 @@ export default function PreviewMobile({
           <p className="break-words text-xs">{post?.captions}</p>
         </figcaption>
         <Comments
-          ssr={false}
           comments={comments}
           post={post as IUserPostProps}
           session={session}

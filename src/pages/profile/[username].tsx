@@ -15,7 +15,7 @@ const Statistic = dynamic(
     ssr: true,
   }
 );
-const PostInfo = dynamic(() => import("@/components/Feeds/PostInfo"))
+const PostInfo = dynamic(() => import("@/components/Feeds/PostInfo"));
 const Tab = dynamic(() => import("@/components/User/Tab/Tab"));
 
 type Props = {
@@ -24,7 +24,7 @@ type Props = {
   user: IUser | null;
   query: {
     readonly username: string;
-  }
+  };
   savedPosts: IUserPostProps[] | [];
 };
 
@@ -35,7 +35,6 @@ function UserProfile({ posts, user, query, savedPosts }: Props) {
   const { replace, asPath } = useRouter();
   const [activeTab, setActiveTab] = useState<number>(1);
   const [isPending, startTransition] = useTransition();
-
 
   const refreshData = () => {
     replace(asPath);
@@ -104,7 +103,6 @@ function UserProfile({ posts, user, query, savedPosts }: Props) {
     );
   }, [postTab, posts]);
 
-
   const Statistics = useMemo(() => {
     return (
       <>
@@ -132,28 +130,25 @@ function UserProfile({ posts, user, query, savedPosts }: Props) {
             ) : (
               <>
                 {savedPosts?.map((post) => (
-                  <div key={post.postId} className="relative group" >
+                  <div key={post.postId} className="group relative">
                     <Image
                       src={post.image}
                       alt={post.captions ?? post.author}
                       width={1300}
                       height={1300}
                       placeholder="blur"
-                      blurDataURL={ post.image}
+                      blurDataURL={post.image}
                       className="rounded-lg"
-
                     />
                     <PostInfo post={post} />
                   </div>
                 ))}
               </>
             )}
-
           </>
-        )
-        }
+        )}
       </>
-    )
+    );
   }, [savedPostTab]);
 
   return (
@@ -192,7 +187,9 @@ function UserProfile({ posts, user, query, savedPosts }: Props) {
 export default memo(UserProfile);
 
 export async function getServerSideProps({ query }: GetServerSidePropsContext) {
-  const { getPostByCurrentUser, getPostsSavedByUser } = await import("@/helper/getPosts");
+  const { getPostByCurrentUser, getPostsSavedByUser } = await import(
+    "@/helper/getPosts"
+  );
   const { getCurrentUserData } = await import("@/helper/getUser");
   const user = (await getCurrentUserData(query?.username as string)) as IUser[];
   const posts = await getPostByCurrentUser(user ? user[0]?.uid : "");

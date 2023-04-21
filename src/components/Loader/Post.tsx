@@ -6,7 +6,7 @@ export default function Post() {
       role="status"
       className="max-w-2xl animate-pulse  rounded p-4 shadow md:p-6 "
     >
-     <div className="mt-4 flex items-center space-x-3">
+      <div className="mt-4 flex items-center space-x-3">
         <svg
           className="h-14 w-14 text-gray-200 "
           aria-hidden="true"

@@ -22,13 +22,12 @@ type Props = {
 };
 
 export default function PostCard({ post }: Props) {
-
   const { likes, comments, savedBy } = usePost(post);
   const { data: session } = useSession();
   const { darkMode } = useStore(useDarkModeStore);
   const { setSelectedPost } = useStore(useSelectedPostStore);
   const { menuModal, setMenuModal } = useStore(useMenuModalStore);
-  
+
   const handleClick = () => {
     setMenuModal(!menuModal);
     setSelectedPost(post);
@@ -76,7 +75,6 @@ export default function PostCard({ post }: Props) {
         <Likes likesCount={likes} session={session} />
         <Author post={post} />
         <Comments
-          ssr={false}
           comments={comments}
           post={post}
           session={session}

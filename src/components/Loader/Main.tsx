@@ -2,8 +2,8 @@ import { AiOutlineInstagram } from "react-icons/ai";
 
 export default function Entrance() {
   return (
-    <div className="w-full h-screen flex flex-col justify-center items-center">
-      <div className="text-9xl  ">
+    <div className="flex h-screen w-full flex-col items-center justify-center">
+      <div className="text-9xl">
         <svg width="1em" height="1em">
           <linearGradient
             id="blue-gradient"
@@ -18,7 +18,6 @@ export default function Entrance() {
           <AiOutlineInstagram style={{ fill: "url(#blue-gradient)" }} />
         </svg>
       </div>
-
     </div>
-  )
+  );
 }

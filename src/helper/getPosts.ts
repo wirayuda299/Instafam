@@ -118,7 +118,9 @@ export async function getPostById(
   }
 }
 
-type GetPostsSavedByUser = (uid: string) => Promise<IUserPostProps[] | undefined>;
+type GetPostsSavedByUser = (
+  uid: string
+) => Promise<IUserPostProps[] | undefined>;
 
 export const getPostsSavedByUser: GetPostsSavedByUser = async (uid) => {
   try {
@@ -128,10 +130,9 @@ export const getPostsSavedByUser: GetPostsSavedByUser = async (uid) => {
       orderBy("createdAt", "desc")
     );
     const res = await getDocs(q);
-    const posts = res.docs.map((data) => data.data()) as IUserPostProps[];    
+    const posts = res.docs.map((data) => data.data()) as IUserPostProps[];
     return posts;
   } catch (error: any) {
     console.log(error.message);
   }
 };
-

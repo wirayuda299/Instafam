@@ -9,9 +9,13 @@ type Props = {
 };
 
 export default function PostEditHeader({ posts, getCreatedDate }: Props) {
-  const {darkMode} = useStore(useDarkModeStore)
+  const { darkMode } = useStore(useDarkModeStore);
   return (
-    <header className={`ease flex w-full items-start border-gray-500 border-opacity-50  px-3 py-3 transition-all duration-300 ${darkMode ? 'bg-black text-white' : 'bg-white text-black'}`}>
+    <header
+      className={`ease flex w-full items-start border-gray-500 border-opacity-50  px-3 py-3 transition-all duration-300 ${
+        darkMode ? "bg-black text-white" : "bg-white text-black"
+      }`}
+    >
       <div className="flex flex-1 items-start space-x-2 border-b border-gray-500 border-opacity-50 pb-3">
         <div className="flex cursor-pointer space-x-2">
           <Image

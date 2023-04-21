@@ -1,4 +1,4 @@
-export const getCreatedDate = (createdAt:number | string) => {
+export const getCreatedDate = (createdAt: number | string) => {
   try {
     const now = Date.now();
     const diff = now - Number(createdAt);
@@ -42,4 +42,3 @@ export const getCreatedDate = (createdAt:number | string) => {
     console.log(error.message);
   }
 };
-

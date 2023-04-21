@@ -23,7 +23,7 @@ export default function PreviewHeader({
   const { darkMode } = useStore(useDarkModeStore);
   return (
     <div
-      className={`absolute -top-0 !overflow-x-hidden flex w-full border-b border-gray-500 border-opacity-50 px-2 py-3 transition-all duration-300  ${
+      className={`absolute -top-0 flex w-full !overflow-x-hidden border-b border-gray-500 border-opacity-50 px-2 py-3 transition-all duration-300  ${
         darkMode ? "bg-black text-white" : "bg-white text-black"
       }`}
     >
@@ -60,18 +60,22 @@ export default function PreviewHeader({
           <button
             className="pt-1 text-xs font-semibold"
             type="button"
-            name={user?.following?.find(
-              (user: { userId: string }) =>
-                user?.userId === post?.postedById ?? ""
-            )
-              ? "Unfollow"
-              : "Follow"}
-            title={user?.following?.find(
-              (user: { userId: string }) =>
-                user?.userId === post?.postedById ?? ""
-            )
-              ? "Unfollow"
-              : "Follow"}
+            name={
+              user?.following?.find(
+                (user: { userId: string }) =>
+                  user?.userId === post?.postedById ?? ""
+              )
+                ? "Unfollow"
+                : "Follow"
+            }
+            title={
+              user?.following?.find(
+                (user: { userId: string }) =>
+                  user?.userId === post?.postedById ?? ""
+              )
+                ? "Unfollow"
+                : "Follow"
+            }
             onClick={async () => {
               const { handleFollow } = await import("@/helper/follow");
               const followArgs = {

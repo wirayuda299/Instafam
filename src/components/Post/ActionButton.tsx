@@ -50,7 +50,7 @@ export default function ActionButton(props: Props) {
         const Likes = {
           post,
           uid,
-          likes
+          likes,
         };
         handleLikes(Likes);
       },
@@ -92,7 +92,7 @@ export default function ActionButton(props: Props) {
             name="action button"
             type="button"
             title="action button"
-                      >
+          >
             {btn.icon}
           </button>
         ))}
@@ -103,16 +103,16 @@ export default function ActionButton(props: Props) {
             post,
             uid,
           };
-        
+
           const { savePost } = await import("@/helper/savePost");
-          
+
           savePost(savedPostArgs);
         }}
         name="save post"
         type="button"
         title="save post"
       >
-        { savedBy?.includes(uid) ? (
+        {savedBy?.includes(uid) ? (
           <RiBookmarkFill className="text-2xl sm:text-3xl" />
         ) : (
           <BiBookmark className="text-2xl hover:text-gray-500 sm:text-3xl" />

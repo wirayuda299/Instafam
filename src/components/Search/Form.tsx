@@ -1,4 +1,3 @@
-import useSearchUser from "@/hooks/useSearchUser";
 import { ReactNode } from "react";
 import dynamic from "next/dynamic";
 import {
@@ -7,6 +6,7 @@ import {
   useResultStore,
 } from "@/stores/stores";
 import { useStore } from "zustand";
+import { FieldValues, useForm } from "react-hook-form";
 const FormResult = dynamic(() => import("./Results"), { ssr: true });
 
 const defaultValues = {
@@ -19,7 +19,7 @@ type Props = {
 };
 
 export default function Form({ height, children }: Props) {
-  const { handleSubmit, onSubmit, register, isPending } = useSearchUser();
+  const {handleSubmit, resetField, register} = useForm()
   const { result, setResult } = useStore(useResultStore);
   const { setDrawer } = useStore(useDrawerStore);
   const { darkMode } = useStore(useDarkModeStore);
@@ -28,13 +28,28 @@ export default function Form({ height, children }: Props) {
     setResult([]);
     setDrawer(false);
   };
+
+  const searchUser = async (data:FieldValues) => {
+    try {
+      const {onSubmit} = await import('@/helper/searchUser')
+      const result = await onSubmit({
+        data,
+        resetField
+      })
+      setResult(result)
+    } catch (error:any) {
+      console.log(error.message)
+      
+    }
+
+  }
   return (
     <>
       <form
         className={`mt-5 rounded-sm  ${height} ${
           darkMode ? "bg-black text-white" : "bg-white text-black"
         }`}
-        onSubmit={handleSubmit(onSubmit)}
+        onSubmit={handleSubmit(searchUser)}
       >
         <div
           className={`w-full pb-5  ${
@@ -63,7 +78,6 @@ export default function Form({ height, children }: Props) {
             <FormResult
               handleDrawerToggler={handleDrawerToggler}
               results={result}
-              isPending={isPending}
               setResults={setResult}
               customs={`h-screen mt-5 -left-1 fixed z-50 top-16 md: h-full  md:top-0 md:left-0 md:w-full md:z-0  md:transition-all md:duration-300 md:ease-in-out md:static ${
                 darkMode ? "bg-black text-white" : "bg-white text-black"

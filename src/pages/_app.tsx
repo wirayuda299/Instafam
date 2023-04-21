@@ -3,7 +3,7 @@ import { SessionProvider } from "next-auth/react";
 import { Toaster } from "react-hot-toast";
 import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
-import NextNProgress from 'nextjs-progressbar';
+import NextNProgress from "nextjs-progressbar";
 const Menu = dynamic(() => import("@/components/Modal/Menu"));
 const Report = dynamic(() => import("@/components/Modal/Report"));
 const PostPreview = dynamic(() => import("@/components/Modal/PostPreview"));
@@ -22,23 +22,31 @@ export default function App({
     }, 1000);
     return () => setMounted(false);
   }, []);
-  
+
   return (
     <SessionProvider session={session}>
       <Layout>
         <Toaster />
-        <NextNProgress color="#e23e44" startPosition={0.3} stopDelayMs={200} height={3} options={
-          {
+        <NextNProgress
+          color="#e23e44"
+          startPosition={0.3}
+          stopDelayMs={200}
+          height={3}
+          options={{
             showSpinner: false,
-          }
-        }/>
+          }}
+        />
         <Component {...pageProps} />
         <Menu />
         <Report />
         <PostComment />
         <PostPreview />
       </Layout>
-      <div className={`w-full h-screen fixed left-0 top-0 z-[99] !overflow-x-hidden !overflow-y-hidden bg-white shadow-sm ${mounted ? 'hidden' : 'block'} `}>
+      <div
+        className={`fixed left-0 top-0 z-[99] h-screen w-full !overflow-x-hidden !overflow-y-hidden bg-white shadow-sm ${
+          mounted ? "hidden" : "block"
+        } `}
+      >
         <Entrance />
       </div>
     </SessionProvider>

@@ -1,7 +1,6 @@
 import Link from "next/link";
 import { AiOutlineClose } from "react-icons/ai";
 import Image from "next/image";
-import { FiLoader } from "react-icons/fi";
 import { IUser } from "@/types/user";
 import { useDarkModeStore } from "@/stores/stores";
 import { useStore } from "zustand";
@@ -10,7 +9,6 @@ interface Props {
   results: IUser[];
   handleDrawerToggler: () => void;
   setResults: (result: IUser[]) => void;
-  isPending: boolean;
   customs?: string;
 }
 
@@ -19,7 +17,6 @@ export default function Results({
   handleDrawerToggler,
   setResults,
   customs,
-  isPending,
 }: Props) {
   const { darkMode } = useStore(useDarkModeStore);
 
@@ -38,13 +35,6 @@ export default function Results({
               darkMode ? "bg-black text-white" : "bg-white text-black"
             }`}
           >
-            {isPending && (
-              <div role="status" className="flex items-center justify-center">
-                <FiLoader size={25} />
-                <span className="sr-only">Loading...</span>
-              </div>
-            )}
-
             {results.length < 1 && (
               <div className="flex items-center justify-center">
                 <p className="text-sm font-semibold">No results found</p>
