@@ -1,8 +1,9 @@
 import { AiOutlineSearch } from "react-icons/ai";
 import { memo, useEffect } from "react";
-import Form from "./Form";
 import { useDarkModeStore, useDrawerStore } from "@/stores/stores";
 import { useStore } from "zustand";
+import dynamic from "next/dynamic";
+const Form = dynamic(() => import("./Form"), { ssr: false });
 
 function SearchDrawer() {
   const { drawer, setDrawer } = useStore(useDrawerStore);

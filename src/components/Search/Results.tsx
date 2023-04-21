@@ -12,12 +12,8 @@ interface Props {
   customs?: string;
 }
 
-export default function Results({
-  results,
-  handleDrawerToggler,
-  setResults,
-  customs,
-}: Props) {
+export default function Results(props: Props) {
+  const { results, handleDrawerToggler, setResults, customs } = props;
   const { darkMode } = useStore(useDarkModeStore);
 
   return (

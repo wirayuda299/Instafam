@@ -5,6 +5,7 @@ import {
   useReportModalStore,
   useSelectedPostStore,
 } from "@/stores/stores";
+import { IUserPostProps } from "@/types/post";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -91,7 +92,7 @@ export default function Menu() {
       event: async () => {
         const { share } = await import("@/util/share");
         share(
-          selectedPost,
+          selectedPost as IUserPostProps,
           `${process.env.NEXTAUTH_URL}/post/${selectedPost?.postId}`
         );
       },

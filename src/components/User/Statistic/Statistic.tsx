@@ -1,6 +1,5 @@
 import { IUserPostProps } from "@/types/post";
 import { IUser } from "@/types/user";
-import { Session } from "next-auth";
 import Image from "next/image";
 import dynamic from "next/dynamic";
 import { memo } from "react";
@@ -13,7 +12,7 @@ const StatisticMobile = dynamic(() => import("./Mobile"));
 type Props = {
   users: IUser | null;
   posts: IUserPostProps[] | [];
-  session: Session | null;
+  session:  any;
   refreshData: () => void;
 };
 

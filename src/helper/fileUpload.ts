@@ -13,19 +13,13 @@ type Params = {
   img: string | undefined;
 };
 type UploadFile = ({ e, img, setPreviewUrl }: Params) => Promise<void>;
+type FilterImage = (file: File | Blob | undefined) => Promise<any>;
 
-export const handleInputImage: UploadFile = async (args) => {
-  const { e, img, setPreviewUrl } = args;
+const filterImage: FilterImage = async (file) => {
   try {
-    const isValid = imageInputSchema.parse({ setPreviewUrl, img });
-    if (!isValid)
-      throw new Error(
-        "Invalid data passed to ImageInput, please pass valid data such as string for image and function for setPreviewUrl"
-      );
-    let selectedFile = e.target.files?.[0];
-    if (!selectedFile) return;
     const data = new FormData();
-    data.append("image", selectedFile, selectedFile.name);
+    if (!file) return;
+    data.append("image", file, file.name);
 
     const options = {
       method: "POST",
@@ -39,7 +33,28 @@ export const handleInputImage: UploadFile = async (args) => {
       "https://nsfw-images-detection-and-classification.p.rapidapi.com/adult-content-file",
       options
     );
-    const result = await getResult.json();
+    const result = await getResult.json();    
+    return result;
+
+
+  } catch (error: any) {
+    console.log(error.message);
+
+  }
+}
+
+export const handleInputImage: UploadFile = async (args) => {
+  const { e, img, setPreviewUrl } = args;
+  try {
+    const isValid = imageInputSchema.parse({ setPreviewUrl, img });
+    if (!isValid)
+      throw new Error(
+        "Invalid data passed to ImageInput, please pass valid data such as string for image and function for setPreviewUrl"
+      );
+    let selectedFile = e.target.files?.[0];
+    if (!selectedFile) return;
+    const result = await filterImage(selectedFile);
+
     const reader = new FileReader();
     reader.onload = async (event) => {
       if (event.target) {

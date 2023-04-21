@@ -34,6 +34,7 @@ export default function ListItem({
   return (
     <li
       role="listitem"
+      
       key={list.id}
       className={` w-fit rounded-full p-2 text-base font-light  md:w-full md:p-3 ${
         darkMode ? "hover:bg-[#b9b9b917]" : "hover:bg-gray-200"
@@ -66,12 +67,13 @@ export default function ListItem({
           role="link"
           shallow
           href={path}
-          prefetch={false}
+          title={list.title}
         >
           <button
             disabled={session ? false : true}
             className="flex space-x-2"
             name={list.title}
+            title={list.title}
             type="button"
           >
             {list.icon}

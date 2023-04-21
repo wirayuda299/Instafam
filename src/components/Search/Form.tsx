@@ -38,10 +38,8 @@ export default function Form({ height, children }: Props) {
       })
       setResult(result)
     } catch (error:any) {
-      console.log(error.message)
-      
+      console.log(error.message)    
     }
-
   }
   return (
     <>

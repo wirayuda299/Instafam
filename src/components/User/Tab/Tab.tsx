@@ -88,7 +88,7 @@ export default function Tab({ activeTab, handleTabChange }: Props) {
         <span
           className={`ease absolute left-0 top-0 h-0.5 w-16 rounded-full bg-gray-500 transition-all duration-300`}
           style={{
-            left: position - 8,
+            left: position - 7,
           }}
         ></span>
       </div>

@@ -1,5 +1,4 @@
 import Image from "next/image";
-import { Session } from "next-auth";
 import dynamic from "next/dynamic";
 import { Dispatch, SetStateAction } from "react";
 const TextArea = dynamic(() => import("./TextArea"));
@@ -7,20 +6,15 @@ const TextArea = dynamic(() => import("./TextArea"));
 interface Props {
   handlePost: () => Promise<void>;
   loading: boolean;
-  session: Session | null;
+  session: any
   img: string;
   setCaptions: Dispatch<SetStateAction<string>>;
   captions: string;
 }
 
-export default function Captions({
-  handlePost,
-  loading,
-  session,
-  img,
-  setCaptions,
-  captions,
-}: Props) {
+export default function Captions(props: Props) {
+  const { handlePost, loading, session, img, setCaptions, captions } = props;
+
   return (
     <div
       id="create-post"

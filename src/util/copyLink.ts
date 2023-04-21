@@ -1,7 +1,10 @@
 import { toast } from "react-hot-toast";
 import { z } from "zod";
 const urlSchema = z.string().url();
-export function copyLink(url: string) {
+
+type CopyLink = (url: string) => void;
+
+export const copyLink: CopyLink = (url) => {
   try {
     const isValid = urlSchema.parse(url);
     if (!isValid) throw new Error("Invalid url");
@@ -16,4 +19,5 @@ export function copyLink(url: string) {
   } catch (error: any) {
     console.log(error.message);
   }
+
 }

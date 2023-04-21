@@ -15,26 +15,28 @@ type TMakePost = {
   img: string;
 };
 
+type ParseCaptions = (captions: string) => string[] | undefined;
+
+const parseHashtags: ParseCaptions = (captions) => {
+  return captions
+    .match(/#(?!\n)(.+)/g)
+    ?.join(" ")
+    .split(" ");
+}
+
 export const makePost = async <T extends TMakePost>(params: T) => {
-  const {
-    captions,
-    croppedImg,
-    session,
-    setCaptions,
-    setImg,
-    setLoading,
-    img,
-  } = params;
-  if (!session || !session.user)
-    return toast.error("You must be logged in to make a post.");
+  const { captions, croppedImg, session, setCaptions, setImg, setLoading, img } = params;
+
   if (!img) return;
+  if (!session || !session.user) {
+    return toast.error("You must be logged in to make a post.");
+  }
+
   setLoading(true);
-  const hashtags =
-    captions
-      .match(/#(?!\n)(.+)/g)
-      ?.join(" ")
-      .split(" ") || [];
+  const hashtags = parseHashtags(captions);
   const uuid = crypto.randomUUID();
+
+  
   try {
     const storageRef = `post/${uuid}/image`;
 

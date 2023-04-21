@@ -13,13 +13,8 @@ type Props = {
   user: IUser | null;
   children: any;
 };
-export default function PreviewHeader({
-  post,
-  session,
-  refreshData,
-  user,
-  children,
-}: Props) {
+export default function PreviewHeader(props: Props) {
+  const { post, session, refreshData, user, children } = props;
   const { darkMode } = useStore(useDarkModeStore);
   return (
     <div

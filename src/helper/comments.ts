@@ -8,7 +8,6 @@ type Props = {
   resetField: UseFormResetField<FieldValues>
 }
 
-
 export const postComments = async (args:Props) => {
   const { e, post, session, resetField } = args;
   const { toast } = await import("react-hot-toast");
@@ -16,6 +15,7 @@ export const postComments = async (args:Props) => {
   const { getCsrfToken } = await import("next-auth/react");
   const { db } = await import("@/config/firebase");
   const { doc, updateDoc, arrayUnion } = await import("firebase/firestore");
+  
   try {
     const token = await getCsrfToken();
     if (!token) {

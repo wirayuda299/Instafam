@@ -98,6 +98,7 @@ export default function NavbarLists({ session }: any) {
       ),
     },
   ];
+  
   return (
     <>
       {session ? (

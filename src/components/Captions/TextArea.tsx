@@ -6,12 +6,8 @@ type Props = {
   loading: boolean;
   handlePost: () => Promise<void>;
 };
-export default function TextArea({
-  captions,
-  handlePost,
-  loading,
-  setCaptions,
-}: Props) {
+export default function TextArea(props: Props) {
+  const { captions, setCaptions, loading, handlePost } = props;
   return (
     <div className="w-full p-3">
       <textarea

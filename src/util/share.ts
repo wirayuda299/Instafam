@@ -1,6 +1,9 @@
+import { IUserPostProps } from "@/types/post";
 import toast from "react-hot-toast";
 
-export function share(post: any, url: string) {
+type Share = (post: IUserPostProps, url: string) => void;
+
+export const share: Share = (post, url) => {
   try {
     if (navigator.share) {
       navigator
@@ -22,3 +25,4 @@ export function share(post: any, url: string) {
     toast.error(error.message);
   }
 }
+

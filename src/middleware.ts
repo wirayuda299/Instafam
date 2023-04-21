@@ -8,20 +8,20 @@ export default withAuth(
       /^\/([a-zA-Z0-9-_+]+\/)*[a-zA-Z0-9-_+]+\.[a-zA-Z0-9]+$/
     );
     const isStatic = regex.test(pathname);
-    const hasToken =
-      req.nextauth.token !== null || req.nextauth.token !== undefined;
+    const hasToken = req.nextauth.token != null;
+
     if (pathname === "/latest/meta-data") {
       if (hasToken && isStatic) {
         return NextResponse.rewrite(new URL("/", req.url));
-      } else {
-        return NextResponse.rewrite(new URL("/auth/signin", req.url));
       }
-    } else if (hasToken && isStatic) {
-      return NextResponse.rewrite(new URL(pathname, req.url));
-    } else {
-      if (isStatic && !hasToken) {
-        return NextResponse.rewrite(new URL("/auth/signin", req.url));
+      return NextResponse.rewrite(new URL("/auth/signin", req.url));
+    }
+
+    if (isStatic) {
+      if (hasToken) {
+        return NextResponse.rewrite(new URL(pathname, req.url));
       }
+      return NextResponse.rewrite(new URL("/auth/signin", req.url));
     }
   },
   {

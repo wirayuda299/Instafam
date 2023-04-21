@@ -25,14 +25,8 @@ type Props = {
   refreshData: () => void;
 };
 
-export default function PreviewMobile({
-  post,
-  comments,
-  likes,
-  savedBy,
-  session,
-  user,
-}: Props) {
+export default function PreviewMobile(props: Props) {
+  const { post, likes, comments, savedBy, user, session, refreshData } = props;
   const { setSelectedPost } = useStore(useSelectedPostStore);
   const { setPostPreviewModal } = useStore(usePostPreviewModalStore);
   const handleClick = (e: MouseEvent) => {
