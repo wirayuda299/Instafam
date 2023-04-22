@@ -36,7 +36,7 @@ export default function PostComment() {
             className={` relative  overflow-hidden  h-full text-center ${darkMode ? "bg-black text-white" : "bg-white text-black"
               }`}
           >
-            <div className="w-full flex items-center py-2 px-3 bg-black text-white">
+            <div className={`w-full flex items-center py-2 px-3 ${darkMode ? "bg-black text-white" : "bg-white text-black"}`}>
               <div>
                 <button className="text-left" onClick={() => setPostCommentModal(false)}>
                   <AiOutlineArrowLeft size={20} />

@@ -13,7 +13,7 @@ type Props = {
   setMenuModal: (menuModal: boolean) => void
 }
 
-export default function Lists({ buttonLists, selectedPost, user, darkMode,setMenuModal }: Props) {
+export default function Lists({ buttonLists, selectedPost, user, darkMode, setMenuModal }: Props) {
   return (
     <div> {buttonLists.map((button) => (
       <li
@@ -26,7 +26,6 @@ export default function Lists({ buttonLists, selectedPost, user, darkMode,setMen
           button.id === 1 ? (
           <Link
             href={`/post/${selectedPost?.postId}/edit`}
-            prefetch={false}
             onClick={() => setMenuModal(false)}
           >
             {button.name}
@@ -37,7 +36,6 @@ export default function Lists({ buttonLists, selectedPost, user, darkMode,setMen
               <Link
                 href={`/post/${selectedPost?.postId}`}
                 onClick={button.event}
-                prefetch={false}
               >
                 {button.name}
               </Link>

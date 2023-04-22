@@ -28,6 +28,22 @@ module.exports = {
           "0%": { left: "79px", display: "block" },
           "100%": { left: "-100%", display: "none" },
         },
+        scaleUp: {
+          "0%": {
+            transform: "scale(0.8)",
+          },
+          "100%": {
+            transform: "scale(1)",
+          }
+        },
+        scaleDown : {
+          "0%": {
+            transform: "scale(1)",
+          },
+          "100%": {
+            transform: "scale(0)",
+          }
+        },
         popUp: {
           "0%": {
             display: "none",
@@ -68,17 +84,6 @@ module.exports = {
         "0%": { display: "block" },
         "100%": { display: "none" },
       },
-      
-    
-      gridTemplateColumns: {
-        "1/2": "1fr 2fr",
-        "1/3": "1fr 2fr 1fr",
-        "1/4": "1fr 2fr 1fr 1fr",
-        "1/5": "1fr 2fr 1fr 1fr 1fr",
-        "1/6": "1fr 2fr 1fr 1fr 1fr 1fr",
-        "1/7": "1fr 2fr 1fr 1fr 1fr 1fr 1fr",
-      },
-
 
       animation: {
         slideIn: "slideIn 0.4s ease forwards",
@@ -92,6 +97,8 @@ module.exports = {
         commentSlideIn: "commentSlideIn 0.3s ease forwards",
         commentSlideOut: "commentSlideOut 0.3s ease forwards",
         rotateOnView: "rootateOnView 1s forwards",
+        scaleUp: "scaleUp 0.3s ease forwards",
+        scaleDown: "scaleDown 0.3s ease-out forwards",
       },
       screens: {
         xs: "320px",

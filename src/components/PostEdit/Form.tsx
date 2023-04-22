@@ -1,5 +1,5 @@
 import { useDarkModeStore } from "@/stores/stores";
-import { useStore } from "zustand";
+import { useStore } from "zustand/react";
 
 type Props = {
   defaultValues: {
