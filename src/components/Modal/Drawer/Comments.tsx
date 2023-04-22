@@ -7,7 +7,7 @@ type Props = {
 };
 export default function PostComments({ comments }: Props) {
   return (
-    <div className="h-full w-full overflow-y-auto px-3 py-10">
+    <div className="h-auto w-full overflow-y-auto px-3 py-10">
       {comments.length < 1 && (
         <div className="flex items-center justify-center">
           <div className="flex flex-col items-center justify-center text-center">

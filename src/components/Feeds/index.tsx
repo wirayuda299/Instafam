@@ -22,8 +22,8 @@ export default function Feeds({ post, index }: Props) {
       }}
     >
       <Image
-        className={` h-full w-full object-cover object-top ${
-          index % 2 === 0 ? "aspect-video" : "aspect-square "
+        className={` h-full w-full object-cover xs:object-top object-center ${
+          index % 2 === 0 ? "aspect-video md:aspect-square" : "aspect-square "
         }`}
         src={post.image}
         width={1000}

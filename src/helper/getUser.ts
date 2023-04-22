@@ -13,7 +13,11 @@ export async function getUserRecommendation(uid: string) {
     const isValid = getUserRecommendationSchema.parse({ uid });
     if (!isValid) throw new Error("Please add uid");
     const getUsers = await getDocs(
-      query(collection(db, "users"), where("uid", "!=", uid))
+      query(
+        collection(db, "users"),
+         where("uid", "!=", uid),
+        limit(5)
+         )
     );
     const users = getUsers.docs.map((doc) => doc.data()) as IUser[];
     return users;

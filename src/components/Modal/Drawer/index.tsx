@@ -26,7 +26,7 @@ export default function PostComment() {
         <div
           className={` ${
             darkMode ? "bg-black text-white" : "bg-white text-black"
-          } fixed left-0 top-0 z-[99999] h-screen w-full select-none overflow-y-auto !overflow-x-hidden bg-black  bg-opacity-60 shadow-sm lg:hidden  ${
+          } fixed left-0 top-0 z-[99999] h-screen w-full select-none overflow-y-auto !overflow-x-hidden bg-black  bg-opacity-60 shadow-sm lg:hidden   ${
             postCommentModal
               ? "animate-commentSlideIn "
               : "animate-commentSlideOut"
@@ -40,7 +40,7 @@ export default function PostComment() {
             }`}
           >
             <div
-              className={`flex w-full items-center px-3 py-2 ${
+              className={`flex w-full items-center px-3 py-3 border-b border-gray-500 border-opacity-50 ${
                 darkMode ? "bg-black text-white" : "bg-white text-black"
               }`}
             >
@@ -49,7 +49,7 @@ export default function PostComment() {
                   className="text-left"
                   onClick={() => setPostCommentModal(false)}
                 >
-                  <AiOutlineArrowLeft size={20} />
+                  <AiOutlineArrowLeft size={25} />
                 </button>
               </div>
               <div className=" flex-grow">

@@ -134,7 +134,7 @@ export default function Menu() {
                   buttonLists={buttonLists}
                   darkMode={darkMode}
                   selectedPost={selectedPost}
-                  user={user}
+                  session={session}
                   setMenuModal={setMenuModal}
                 />
               </ul>

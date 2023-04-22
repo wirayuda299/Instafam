@@ -1,5 +1,4 @@
 import { IUserPostProps } from "@/types/post";
-import { IUser } from "@/types/user";
 import Link from "next/link";
 type Props = {
   buttonLists: {
@@ -8,7 +7,7 @@ type Props = {
     event: () => void;
   }[];
   selectedPost: IUserPostProps | null;
-  user: IUser | null;
+ session: any
   darkMode: boolean;
   setMenuModal: (menuModal: boolean) => void;
 };
@@ -16,7 +15,7 @@ type Props = {
 export default function Lists({
   buttonLists,
   selectedPost,
-  user,
+  session,
   darkMode,
   setMenuModal,
 }: Props) {
@@ -31,7 +30,7 @@ export default function Lists({
             button.id === 1 || button.id === 2 ? "text-red-600" : ""
           }`}
         >
-          {selectedPost?.postedById === user?.uid && button.id === 1 ? (
+          {selectedPost?.postedById === session?.user.uid && button.id === 1 ? (
             <Link
               href={`/post/${selectedPost?.postId}/edit`}
               onClick={() => setMenuModal(false)}
