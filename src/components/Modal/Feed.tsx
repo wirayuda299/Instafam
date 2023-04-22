@@ -5,14 +5,22 @@ import {
 } from "@/stores/stores";
 import { useStore } from "zustand";
 import Image from "next/image";
-import Link from "next/link";
 import { AiOutlineClose } from "react-icons/ai";
 import dynamic from "next/dynamic";
+import { useRouter } from "next/router";
 const Postheader = dynamic(() => import("../Post/Header"), { ssr: false });
+
 export default function Feed() {
   const { darkMode } = useStore(useDarkModeStore);
   const { feedModal, setFeedModal } = useStore(useFeedModalStore);
   const { selectedPost, setSelectedPost } = useStore(useSelectedPostStore);
+  const router = useRouter();
+
+  const handleClick = () => {
+    router.replace(`/post/${selectedPost?.postId}`);
+    setFeedModal(false);
+    setSelectedPost(null);
+  }
   return (
     <>
       {selectedPost && feedModal && (
@@ -43,10 +51,10 @@ export default function Feed() {
                     <AiOutlineClose size={20} />
                   </button>
                 </Postheader>
-                <Link
-                  href={`/post/${selectedPost.postId}`}
-                  onClick={() => setSelectedPost(null)}
+                <button
+                  onClick={handleClick}
                   title={`/post/${selectedPost.postId}`}
+                  name={`/post/${selectedPost.postId}`}
                 >
                   <Image
                     src={selectedPost?.image as string}
@@ -62,7 +70,7 @@ export default function Feed() {
                     className=" aspect-square h-[500px] w-fit rounded-lg object-cover"
                     alt={selectedPost?.author ?? "user post image"}
                   />
-                </Link>
+                </button>
               </div>
             </div>
           </div>

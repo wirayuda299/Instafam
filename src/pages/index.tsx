@@ -25,6 +25,7 @@ export default function Home({ posts, users }: Props) {
   const [newPosts, setNewPosts] = useState<IUserPostProps[]>([]);
   const [loading, setLoading] = useState(true);
   const ref = useRef<HTMLDivElement>(null);
+  
 
   useEffect(() => {
     const observer = new IntersectionObserver(async (entries) => {

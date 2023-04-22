@@ -40,7 +40,19 @@ export const getPosts = async (num: number) => {
     throw Error(error.message);
   }
 };
-
+export const getAllPosts = async () => {
+  try {
+    const q = query(
+      collection(db, "posts"),
+      orderBy("createdAt", "desc"),
+    );
+    const res = await getDocs(q);
+    const userPosts = res.docs.map((data) => data.data()) as IUserPostProps[];
+    return userPosts;
+  } catch (error: any) {
+    throw Error(error.message);
+  }
+}
 export const getPostByLikes = async (num: number) => {
   try {
     const isValid = GetPostsSchema.parse({ num });

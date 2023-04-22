@@ -68,6 +68,17 @@ module.exports = {
         "0%": { display: "block" },
         "100%": { display: "none" },
       },
+      
+    
+      gridTemplateColumns: {
+        "1/2": "1fr 2fr",
+        "1/3": "1fr 2fr 1fr",
+        "1/4": "1fr 2fr 1fr 1fr",
+        "1/5": "1fr 2fr 1fr 1fr 1fr",
+        "1/6": "1fr 2fr 1fr 1fr 1fr 1fr",
+        "1/7": "1fr 2fr 1fr 1fr 1fr 1fr 1fr",
+      },
+
 
       animation: {
         slideIn: "slideIn 0.4s ease forwards",

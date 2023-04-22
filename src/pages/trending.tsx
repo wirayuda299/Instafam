@@ -1,98 +1,47 @@
-import PostInfo from "@/components/Feeds/PostInfo";
-import { getPostByLikes } from "@/helper/getPosts";
-import { useFeedModalStore, useSelectedPostStore } from "@/stores/stores";
+import Feeds from "@/components/Feeds";
+import { getAllPosts } from "@/helper/getPosts";
 import { IUserPostProps } from "@/types/post";
 import dynamic from "next/dynamic";
 import Image from "next/image";
-import { useEffect, useRef, useState } from "react";
-import { RiLoader2Line } from "react-icons/ri";
-import { useStore } from "zustand";
+import Link from "next/link";
+
 type Props = {
   posts: IUserPostProps[];
   lastPost: IUserPostProps | null;
 };
 const FeedModal = dynamic(() => import("@/components/Modal/Feed"), {
-  ssr: false,
+  ssr: true,
 });
 
-export default function Trending({ posts, lastPost }: Props) {
-  const { setFeedModal } = useStore(useFeedModalStore);
-  const { setSelectedPost } = useStore(useSelectedPostStore);
-  const [newPosts, setNewPosts] = useState<IUserPostProps[]>([]);
-  const [loading, setLoading] = useState(true);
 
-  const ref = useRef<HTMLDivElement>(null);
-  useEffect(() => {
-    const observer = new IntersectionObserver(async (entries) => {
-      if (entries[0].isIntersecting) {
-        const { fetchNextPosts } = await import("@/helper/getPosts");
-        const newPosts = await fetchNextPosts(lastPost);
-        setNewPosts(newPosts ?? []);
-        setLoading(false);
-      }
-    });
-    if (ref.current) {
-      observer.observe(ref.current);
-    }
-    return () => {
-      if (ref.current) {
-        observer.unobserve(ref.current);
-      }
-    };
-  }, []);
+export default function Trending({ posts }: Props) {
+
   return (
-    <div className="h-screen  w-full overflow-y-auto p-5">
-      <div className="h-full w-full">
-        <div className="container mx-auto columns-1 gap-5 sm:columns-2 lg:columns-3">
-          {posts?.map((post) => (
-            <div
-              key={post.postId}
-              className="group relative"
-              onClick={() => {
-                setSelectedPost(post);
-                setFeedModal(true);
-              }}
-            >
+    <div className="h-screen w-full overflow-y-auto">
+      <div className="md:container columns-3 md:mx-auto md:p-5 gap-0 md:gap-5 md:grid md:grid-cols-3">
+        {posts?.map((post, i) => (
+          <div key={`${post.postId}`}>
+              <div className="hidden md:block">
+                <Feeds post={post} />
+              </div>
+            <Link
+              href={`/post/${post.postId}`}
+              shallow
+              prefetch
+              as={`/post/${post.postId}`}
+              className={`w-full md:hidden `}
+              key={post.postId}>
               <Image
-                className="mb-5 rounded-lg "
                 src={post.image}
-                width={1300}
-                height={1300}
                 alt={post.captions ?? post.author}
+                width={1000}
+                priority
+                height={2000}
+                className={`${i % 2 === 0 ? 'aspect-video' : 'aspect-square'} w-full object-cover h-full`}
               />
-              <PostInfo post={post} />
-            </div>
-          ))}
-          <div ref={ref}></div>
-          {loading ? (
-            <RiLoader2Line
-              className="mx-auto animate-spin text-gray-500"
-              size={50}
-            />
-          ) : (
-            <>
-              {newPosts?.map((post) => (
-                <div
-                  key={post.postId}
-                  className="group relative"
-                  onClick={() => {
-                    setSelectedPost(post);
-                    setFeedModal(true);
-                  }}
-                >
-                  <Image
-                    className="mb-5 rounded-lg"
-                    src={post.image}
-                    width={1300}
-                    height={1300}
-                    alt={post.captions ?? post.author}
-                  />
-                  <PostInfo post={post} />
-                </div>
-              ))}
-            </>
-          )}
-        </div>
+            </Link>
+          </div>
+        ))}
       </div>
       <FeedModal />
     </div>
@@ -100,18 +49,14 @@ export default function Trending({ posts, lastPost }: Props) {
 }
 
 export async function getServerSideProps({ res }: any) {
-  const posts = await getPostByLikes(10);
-  const highestLikes = posts.sort(
-    (a, b) => b.likedBy.length - a.likedBy.length
-  );
+  const posts = await getAllPosts();
   res.setHeader(
     "Cache-Control",
-    "public, s-maxage=60, stale-while-revalidate=59"
+    "public, maxage=60, stale-while-revalidate"
   );
   return {
     props: {
-      posts: highestLikes ?? [],
-      lastPost: highestLikes[highestLikes.length - 1] ?? null,
+      posts,
     },
   };
 }

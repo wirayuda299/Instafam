@@ -15,10 +15,6 @@ import { AiOutlineClose } from "react-icons/ai";
 const PostCommentDesktop = dynamic(() => import("../Post/PreviewDesktop"), {
   ssr: false,
 });
-const PreviewMobile = dynamic(() => import("../Post/PreviewMobile"), {
-  ssr: false,
-});
-
 export default function PostPreview() {
   const { darkMode } = useStore(useDarkModeStore);
   const { postPreviewModal, setPostPreviewModal } = useStore(
@@ -51,15 +47,7 @@ export default function PostPreview() {
                       darkMode ? "bg-black" : "bg-white"
                     } `}
                   >
-                    <PreviewMobile
-                      post={selectedPost}
-                      refreshData={refreshData}
-                      likes={likes}
-                      comments={comments}
-                      savedBy={savedBy}
-                      user={user}
-                      session={session}
-                    />
+                  
                     <PostCommentDesktop
                       refreshData={refreshData}
                       post={selectedPost as IUserPostProps}

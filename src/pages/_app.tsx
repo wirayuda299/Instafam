@@ -7,7 +7,7 @@ import NextNProgress from "nextjs-progressbar";
 const Menu = dynamic(() => import("@/components/Modal/Menu"));
 const Report = dynamic(() => import("@/components/Modal/Report"));
 const PostPreview = dynamic(() => import("@/components/Modal/PostPreview"));
-const PostComment = dynamic(() => import("@/components/Modal/PostComment"));
+const PostComment = dynamic(() => import("@/components/Modal/Drawer"));
 const Entrance = dynamic(() => import("@/components/Loader/Main"));
 const Layout = dynamic(() => import("@/components/Layout/Layout"));
 
