@@ -13,7 +13,6 @@ export default function useUser(uid: string) {
       doc(db, "users", `${uid ? uid : selectedPost?.postedById}`),
       (docs) => {
         if (docs.exists()) {
-        
           setUser(docs.data() as IUser);
         }
       }

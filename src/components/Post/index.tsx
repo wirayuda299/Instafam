@@ -74,11 +74,7 @@ export default function PostCard({ post }: Props) {
         />
         <Likes likesCount={likes} session={session} />
         <Author post={post} />
-        <Comments
-          comments={comments}
-          post={post}
-          session={session}
-        />
+        <Comments comments={comments} post={post} session={session} />
       </div>
     </div>
   );

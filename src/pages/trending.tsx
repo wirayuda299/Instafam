@@ -22,23 +22,24 @@ const Feeds = dynamic(() => import("@/components/Feeds"), {
 });
 
 export default function Trending({ posts }: Props) {
-  const {setSelectedPost} = useStore(useSelectedPostStore)
-  const {setPostModal} = useStore(usePostModalStore)
+  const { setSelectedPost } = useStore(useSelectedPostStore);
+  const { setPostModal } = useStore(usePostModalStore);
 
   return (
     <div className="h-screen w-full overflow-y-auto">
-      <div className="md:container columns-3 md:mx-auto md:p-5 gap-0 md:gap-5 md:grid md:grid-cols-3">
+      <div className="columns-3 gap-0 md:container md:mx-auto md:grid md:grid-cols-3 md:gap-5 md:p-5">
         {posts?.map((post, i) => (
           <div key={`${post.postId}`}>
             <div className="hidden md:block">
               <Feeds post={post} index={i} />
             </div>
             <div
-            onClick={() => {
-              setSelectedPost(post)
-              setPostModal(true)
-            }}
-              className={`w-full md:hidden cursor-pointer`}>
+              onClick={() => {
+                setSelectedPost(post);
+                setPostModal(true);
+              }}
+              className={`w-full cursor-pointer md:hidden`}
+            >
               <Image
                 src={post.image}
                 alt={post.captions ?? post.author}
@@ -50,24 +51,23 @@ export default function Trending({ posts }: Props) {
                 }
                 quality={60}
                 height={2000}
-                className={`${i % 2 === 0 ? 'aspect-video' : 'aspect-square'} !w-full object-cover object-top h-full`}
+                className={`${
+                  i % 2 === 0 ? "aspect-video" : "aspect-square"
+                } h-full !w-full object-cover object-top`}
               />
             </div>
           </div>
         ))}
       </div>
       <FeedModal />
-      <PostModal/>
+      <PostModal />
     </div>
   );
 }
 
 export async function getServerSideProps({ res }: any) {
   const posts = await getAllPosts();
-  res.setHeader(
-    "Cache-Control",
-    "public, maxage=60, stale-while-revalidate"
-  );
+  res.setHeader("Cache-Control", "public, maxage=60, stale-while-revalidate");
   return {
     props: {
       posts,

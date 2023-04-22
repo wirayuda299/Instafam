@@ -6,7 +6,7 @@ const TextArea = dynamic(() => import("./TextArea"));
 interface Props {
   handlePost: () => Promise<void>;
   loading: boolean;
-  session: any
+  session: any;
   img: string;
   setCaptions: Dispatch<SetStateAction<string>>;
   captions: string;

@@ -12,7 +12,7 @@ const StatisticMobile = dynamic(() => import("./Mobile"));
 type Props = {
   users: IUser | null;
   posts: IUserPostProps[] | [];
-  session:  any;
+  session: any;
   refreshData: () => void;
 };
 

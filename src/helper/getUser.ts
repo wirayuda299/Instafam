@@ -25,7 +25,7 @@ export async function getCurrentUserData(username: string = "") {
   try {
     const isValid = getCurrentUserDataSchema.parse({ username });
     if (!isValid) throw new Error("username was not provided");
-    
+
     const q = query(collection(db, "users"), where("username", "==", username));
     const res = await getDocs(q);
     return res.docs.map((doc) => doc.data()) as IUser[];

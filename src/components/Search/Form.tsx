@@ -19,7 +19,7 @@ type Props = {
 };
 
 export default function Form({ height, children }: Props) {
-  const {handleSubmit, resetField, register} = useForm()
+  const { handleSubmit, resetField, register } = useForm();
   const { result, setResult } = useStore(useResultStore);
   const { setDrawer } = useStore(useDrawerStore);
   const { darkMode } = useStore(useDarkModeStore);
@@ -29,18 +29,18 @@ export default function Form({ height, children }: Props) {
     setDrawer(false);
   };
 
-  const searchUser = async (data:FieldValues) => {
+  const searchUser = async (data: FieldValues) => {
     try {
-      const {onSubmit} = await import('@/helper/searchUser')
+      const { onSubmit } = await import("@/helper/searchUser");
       const result = await onSubmit({
         data,
-        resetField
-      })
-      setResult(result)
-    } catch (error:any) {
-      console.log(error.message)    
+        resetField,
+      });
+      setResult(result);
+    } catch (error: any) {
+      console.log(error.message);
     }
-  }
+  };
   return (
     <>
       <form

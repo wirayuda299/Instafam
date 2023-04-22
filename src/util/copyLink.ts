@@ -19,5 +19,4 @@ export const copyLink: CopyLink = (url) => {
   } catch (error: any) {
     console.log(error.message);
   }
-
-}
+};

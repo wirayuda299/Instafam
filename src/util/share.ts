@@ -24,5 +24,4 @@ export const share: Share = (post, url) => {
   } catch (error: any) {
     toast.error(error.message);
   }
-}
-
+};

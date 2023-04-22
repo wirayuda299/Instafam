@@ -37,8 +37,9 @@ export default function PostCommentsDesktop(props: Props) {
 
   return (
     <div
-      className={`relative hidden md:block ${darkMode ? "bg-black text-white" : "bg-white text-black"
-        }`}
+      className={`relative hidden md:block ${
+        darkMode ? "bg-black text-white" : "bg-white text-black"
+      }`}
     >
       <div className="hidden h-full max-h-[400px] overflow-y-auto overflow-x-hidden py-3 lg:block ">
         <PreviewHeader
@@ -75,8 +76,9 @@ export default function PostCommentsDesktop(props: Props) {
         </Link>
         <PreviewComment comment={comments} />
         <div
-          className={`absolute bottom-0 hidden w-full border-t border-gray-500 border-opacity-50 px-2 lg:block ${darkMode ? "bg-black" : "bg-white"
-            }`}
+          className={`absolute bottom-0 hidden w-full border-t border-gray-500 border-opacity-50 px-2 lg:block ${
+            darkMode ? "bg-black" : "bg-white"
+          }`}
         >
           <ActionButton
             likes={likes}

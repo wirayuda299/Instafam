@@ -16,15 +16,15 @@ export default function Comments({ post, session }: Props) {
     comments: "",
   };
 
-  const handleSubmits = async  (e:FieldValues) => {
-    const { postComments } = await import('@/helper/comments')
+  const handleSubmits = async (e: FieldValues) => {
+    const { postComments } = await import("@/helper/comments");
     await postComments({
       e,
       post,
       session,
-      resetField
-    })
-  }
+      resetField,
+    });
+  };
 
   return (
     <div

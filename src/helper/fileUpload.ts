@@ -33,15 +33,12 @@ const filterImage: FilterImage = async (file) => {
       "https://nsfw-images-detection-and-classification.p.rapidapi.com/adult-content-file",
       options
     );
-    const result = await getResult.json();    
+    const result = await getResult.json();
     return result;
-
-
   } catch (error: any) {
     console.log(error.message);
-
   }
-}
+};
 
 export const handleInputImage: UploadFile = async (args) => {
   const { e, img, setPreviewUrl } = args;

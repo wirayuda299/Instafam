@@ -47,7 +47,6 @@ export default function PostPreview() {
                       darkMode ? "bg-black" : "bg-white"
                     } `}
                   >
-                  
                     <PostCommentDesktop
                       refreshData={refreshData}
                       post={selectedPost as IUserPostProps}

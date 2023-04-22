@@ -28,13 +28,12 @@ const Postloader = dynamic(() => import("@/components/Loader/Post"), {
   ssr: true,
 });
 
-
 type Props = {
-  post: IUserPostProps,
-}
+  post: IUserPostProps;
+};
 
 export default function PostDetail({ post }: Props) {
-  const { asPath, replace, pathname,  } = useRouter();
+  const { asPath, replace, pathname } = useRouter();
   const refreshData = () => replace(asPath);
   const { likes, comments, savedBy } = usePost(post);
   const { data: session } = useSession();
@@ -49,10 +48,9 @@ export default function PostDetail({ post }: Props) {
   useEffect(() => {
     const observer = new IntersectionObserver(async (entries) => {
       if (entries[0].isIntersecting) {
-        const newPosts = await getAllPosts()
+        const newPosts = await getAllPosts();
         setNextPosts(newPosts.filter((p) => p.postId !== post.postId));
         setLoading(false);
-       
       }
     });
     if (ref.current) {
@@ -69,15 +67,15 @@ export default function PostDetail({ post }: Props) {
     setMenuModal(!menuModal);
     setSelectedPost(post);
   };
-useEffect(() => {
-    if(typeof window !== "undefined") {
+  useEffect(() => {
+    if (typeof window !== "undefined") {
       window.scrollTo({
         top: 0,
         left: 0,
         behavior: "smooth",
       });
-  }
-}, [nextPosts, pathname, post])
+    }
+  }, [nextPosts, pathname, post]);
 
   const PreviewDesktop = useMemo(() => {
     return (
@@ -108,8 +106,11 @@ useEffect(() => {
       <div className="h-full w-full text-black dark:text-white">
         <div className="h-full w-full overflow-y-auto">
           <div className="container mx-auto grid h-screen w-full max-w-5xl place-items-center rounded-lg ">
-            <div className="relative grid h-full w-full grid-cols-1 justify-between overflow-y-auto border border-gray-500 border-opacity-50 p-5 lg:max-h-[530px] lg:grid-cols-2 lg:p-0" ref={postRef}>
-              <div className="shadow-sm hidden lg:block">
+            <div
+              className="relative grid h-full w-full grid-cols-1 justify-between overflow-y-auto border border-gray-500 border-opacity-50 p-5 lg:max-h-[530px] lg:grid-cols-2 lg:p-0"
+              ref={postRef}
+            >
+              <div className="hidden shadow-sm lg:block">
                 <Image
                   src={post?.image ?? ""}
                   width={1300}
@@ -126,14 +127,12 @@ useEffect(() => {
                 />
               </div>
               {PreviewDesktop}
-              <div className="block lg:hidden" >
+              <div className="block lg:hidden">
                 <PostCard post={post} />
                 <div ref={ref}></div>
-                {loading && (
-                  <Postloader />
-                )}
+                {loading && <Postloader />}
                 <>
-                  {nextPosts?.map(post => (
+                  {nextPosts?.map((post) => (
                     <PostCard post={post} key={post.postId} />
                   ))}
                 </>
@@ -151,9 +150,7 @@ useEffect(() => {
   );
 }
 
-export async function getServerSideProps({
-  query,
-}: GetServerSidePropsContext) {
+export async function getServerSideProps({ query }: GetServerSidePropsContext) {
   const { getPostById } = await import("@/helper/getPosts");
   const posts = await getPostById(query?.id as string);
 

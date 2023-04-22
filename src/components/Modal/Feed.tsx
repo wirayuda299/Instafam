@@ -20,7 +20,7 @@ export default function Feed() {
     router.replace(`/post/${selectedPost?.postId}`);
     setFeedModal(false);
     setSelectedPost(null);
-  }
+  };
   return (
     <>
       {selectedPost && feedModal && (

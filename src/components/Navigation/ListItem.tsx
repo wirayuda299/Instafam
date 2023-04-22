@@ -34,7 +34,6 @@ export default function ListItem({
   return (
     <li
       role="listitem"
-      
       key={list.id}
       className={` w-fit rounded-full p-2 text-base font-light  md:w-full md:p-3 ${
         darkMode ? "hover:bg-[#b9b9b917]" : "hover:bg-gray-200"

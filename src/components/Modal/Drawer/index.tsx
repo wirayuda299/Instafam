@@ -8,9 +8,9 @@ import {
 import { useSession } from "next-auth/react";
 import usePost from "@/hooks/usePost";
 import dynamic from "next/dynamic";
-const Comments = dynamic(() => import('../../Post/Comments'))
-const Postheader = dynamic(() => import("../../Post/Header"))
-const PostComments =dynamic(() => import("./Comments"))
+const Comments = dynamic(() => import("../../Post/Comments"));
+const Postheader = dynamic(() => import("../../Post/Header"));
+const PostComments = dynamic(() => import("./Comments"));
 
 export default function PostComment() {
   const { postCommentModal, setPostCommentModal } = useStore(
@@ -24,21 +24,31 @@ export default function PostComment() {
     <>
       {postCommentModal && selectedPost && (
         <div
-          className={` ${darkMode ? "bg-black text-white" : "bg-white text-black"
-            } fixed left-0 top-0 lg:hidden z-[99999] h-screen w-full select-none overflow-y-auto !overflow-x-hidden  bg-black bg-opacity-60 shadow-sm  ${postCommentModal
+          className={` ${
+            darkMode ? "bg-black text-white" : "bg-white text-black"
+          } fixed left-0 top-0 z-[99999] h-screen w-full select-none overflow-y-auto !overflow-x-hidden bg-black  bg-opacity-60 shadow-sm lg:hidden  ${
+            postCommentModal
               ? "animate-commentSlideIn "
               : "animate-commentSlideOut"
-            }`}
+          }`}
           aria-modal="true"
           role="dialog"
         >
           <div
-            className={` relative  overflow-hidden  h-full text-center ${darkMode ? "bg-black text-white" : "bg-white text-black"
-              }`}
+            className={` relative  h-full  overflow-hidden text-center ${
+              darkMode ? "bg-black text-white" : "bg-white text-black"
+            }`}
           >
-            <div className={`w-full flex items-center py-2 px-3 ${darkMode ? "bg-black text-white" : "bg-white text-black"}`}>
+            <div
+              className={`flex w-full items-center px-3 py-2 ${
+                darkMode ? "bg-black text-white" : "bg-white text-black"
+              }`}
+            >
               <div>
-                <button className="text-left" onClick={() => setPostCommentModal(false)}>
+                <button
+                  className="text-left"
+                  onClick={() => setPostCommentModal(false)}
+                >
                   <AiOutlineArrowLeft size={20} />
                 </button>
               </div>
@@ -47,15 +57,17 @@ export default function PostComment() {
               </div>
             </div>
             <div className="w-full">
-              <Postheader post={selectedPost}>
-                {''}
-              </Postheader>
-              <div className="!w-full  max-h-screen pb-28 overflow-y-auto">
-                <PostComments comments={comments}  />
+              <Postheader post={selectedPost}>{""}</Postheader>
+              <div className="max-h-screen  !w-full overflow-y-auto pb-28">
+                <PostComments comments={comments} />
               </div>
             </div>
-            <div className="absolute bottom-0 left-0 bg-gray-200 w-full py-2">
-              <Comments comments={comments} post={selectedPost} session={session} />
+            <div className="absolute bottom-0 left-0 w-full bg-gray-200 py-2">
+              <Comments
+                comments={comments}
+                post={selectedPost}
+                session={session}
+              />
             </div>
           </div>
         </div>

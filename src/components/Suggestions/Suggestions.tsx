@@ -15,7 +15,7 @@ function Suggestions({ reccomend }: Props) {
   const { data: session } = useSession();
 
   return (
-    <section className="hidden h-screen sticky top-0 min-w-[384px] lg:block">
+    <section className="sticky top-0 hidden h-screen min-w-[384px] lg:block">
       <div className="h-full w-full max-w-sm p-5">
         <div className="mb-2 flex items-center justify-around space-x-2 md:justify-between">
           <div className="mb-2 flex items-center space-x-3">

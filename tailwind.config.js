@@ -34,15 +34,15 @@ module.exports = {
           },
           "100%": {
             transform: "scale(1)",
-          }
+          },
         },
-        scaleDown : {
+        scaleDown: {
           "0%": {
             transform: "scale(1)",
           },
           "100%": {
             transform: "scale(0)",
-          }
+          },
         },
         popUp: {
           "0%": {

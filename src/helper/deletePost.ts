@@ -6,11 +6,10 @@ type DeletePostProps = {
   post: IUserPostProps | null;
   refreshData: () => void;
   ssr: boolean;
-  session: any
+  session: any;
 };
 
 export const deletePost = async <T extends DeletePostProps>(props: T) => {
-  
   if (typeof window === "undefined") return;
   const { post, refreshData, ssr, session } = props;
   if (!session || !session.user) return;

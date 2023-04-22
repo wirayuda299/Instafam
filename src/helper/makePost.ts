@@ -22,10 +22,18 @@ const parseHashtags: ParseCaptions = (captions) => {
     .match(/#(?!\n)(.+)/g)
     ?.join(" ")
     .split(" ");
-}
+};
 
 export const makePost = async <T extends TMakePost>(params: T) => {
-  const { captions, croppedImg, session, setCaptions, setImg, setLoading, img } = params;
+  const {
+    captions,
+    croppedImg,
+    session,
+    setCaptions,
+    setImg,
+    setLoading,
+    img,
+  } = params;
 
   if (!img) return;
   if (!session || !session.user) {
@@ -36,7 +44,6 @@ export const makePost = async <T extends TMakePost>(params: T) => {
   const hashtags = parseHashtags(captions);
   const uuid = crypto.randomUUID();
 
-  
   try {
     const storageRef = `post/${uuid}/image`;
 

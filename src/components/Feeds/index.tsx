@@ -7,7 +7,7 @@ import { IUserPostProps } from "@/types/post";
 type Props = {
   post: IUserPostProps;
   index: number;
-}
+};
 
 export default function Feeds({ post, index }: Props) {
   const { setFeedModal } = useStore(useFeedModalStore);
@@ -22,15 +22,17 @@ export default function Feeds({ post, index }: Props) {
       }}
     >
       <Image
-        className={` w-full h-full object-cover object-top ${index % 2 === 0 ? 'aspect-video' : 'aspect-square '}`}
+        className={` h-full w-full object-cover object-top ${
+          index % 2 === 0 ? "aspect-video" : "aspect-square "
+        }`}
         src={post.image}
         width={1000}
         height={500}
         alt={post.captions ?? post.author}
       />
       <div className="hidden md:block">
-      <PostInfo post={post} />
+        <PostInfo post={post} />
       </div>
     </div>
-  )
+  );
 }

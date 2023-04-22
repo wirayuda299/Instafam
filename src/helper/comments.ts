@@ -3,19 +3,19 @@ import { FieldValues, UseFormResetField } from "react-hook-form";
 
 type Props = {
   e: FieldValues;
-  post:IUserPostProps,
-  session:any,
-  resetField: UseFormResetField<FieldValues>
-}
+  post: IUserPostProps;
+  session: any;
+  resetField: UseFormResetField<FieldValues>;
+};
 
-export const postComments = async (args:Props) => {
+export const postComments = async (args: Props) => {
   const { e, post, session, resetField } = args;
   const { toast } = await import("react-hot-toast");
   if (e.comments === "") return toast.error("Please enter a comment");
   const { getCsrfToken } = await import("next-auth/react");
   const { db } = await import("@/config/firebase");
   const { doc, updateDoc, arrayUnion } = await import("firebase/firestore");
-  
+
   try {
     const token = await getCsrfToken();
     if (!token) {

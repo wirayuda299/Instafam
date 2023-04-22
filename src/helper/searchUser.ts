@@ -2,13 +2,12 @@ import { getCsrfToken } from "next-auth/react";
 import { FieldValues, UseFormResetField } from "react-hook-form";
 import toast from "react-hot-toast";
 
-
 type Args = {
   data: FieldValues;
-  resetField:UseFormResetField<FieldValues>
-}
+  resetField: UseFormResetField<FieldValues>;
+};
 
-export const onSubmit = async (props:Args) => {
+export const onSubmit = async (props: Args) => {
   const { data, resetField } = props;
   resetField("search");
   try {
@@ -26,7 +25,7 @@ export const onSubmit = async (props:Args) => {
       method: "GET",
     });
     const result = await response.json();
-    if (result) return result
+    if (result) return result;
     if (result.length < 1) {
       toast.error("No user found");
     }
