@@ -4,11 +4,11 @@ import { useRouter } from "next/router";
 import { FieldValues, useForm } from "react-hook-form";
 import dynamic from "next/dynamic";
 import Head from "next/head";
-import { toast } from "react-hot-toast";
 
 const Postheader = dynamic(() => import("@/components/Header/PostHeader"));
 const PostForm = dynamic(() => import("@/components/Post/Form"));
 const PostImage = dynamic(() => import("@/components/Post/Image"));
+
 interface Values extends FieldValues {
   updated: string;
 }
@@ -21,6 +21,7 @@ export default function EditPosts({ post }: { post: IUserPostProps }) {
   };
 
   const updateCurrentPost = async (e: Values) => {
+    const {toast} = await import("react-hot-toast");
     try {
       const { updatePost } = await import("@/helper/updatePost");
       await updatePost(e, post).then(() => {

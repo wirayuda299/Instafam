@@ -1,5 +1,4 @@
 import { IUserPostProps } from "@/types/post";
-import Image from "next/image";
 import dynamic from "next/dynamic";
 import usePost from "@/hooks/usePost";
 import { useSession } from "next-auth/react";

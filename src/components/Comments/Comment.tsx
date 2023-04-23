@@ -11,10 +11,10 @@ type Props = {
     createdAt: string | number;
   }[]
 }
-export default function Comment({comments}:Props) {
+export default function Comment({ comments }: Props) {
   return (
-   <>
-   {comments?.map((comment) => (
+    <>
+      {comments?.map((comment) => (
         <div
           className="mb-5 flex w-full gap-x-14 pr-2 "
           key={comment?.createdAt}
@@ -49,6 +49,6 @@ export default function Comment({comments}:Props) {
           </div>
         </div>
       ))}
-   </>
+    </>
   )
 }

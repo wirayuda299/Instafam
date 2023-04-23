@@ -8,8 +8,8 @@ import usePost from "@/hooks/usePost";
 import { useSelectedPostStore, useMenuModalStore } from "@/stores/stores";
 import { useStore } from "zustand";
 
-const PostCommentDesktop = dynamic(
-  () => import("@/components/Post/PreviewDesktop"),
+const PostDetailComment = dynamic(
+  () => import("@/components/Post/Preview"),
   {
     ssr: true,
   }
@@ -39,7 +39,6 @@ export default function PostDetail({ post }: Props) {
   const { menuModal, setMenuModal } = useStore(useMenuModalStore);
   const [loading, setLoading] = useState(true);
   const ref = useRef<HTMLDivElement>(null);
-  const postRef = useRef<HTMLDivElement>(null);
   const [nextPosts, setNextPosts] = useState<IUserPostProps[] | null>(null);
 
   useEffect(() => {
@@ -78,12 +77,11 @@ export default function PostDetail({ post }: Props) {
           <div className="container mx-auto grid h-screen w-full max-w-5xl place-items-center rounded-lg ">
             <div
               className="relative grid h-full w-full grid-cols-1 justify-between overflow-y-auto border border-gray-500 border-opacity-50 p-5 lg:max-h-[530px] lg:grid-cols-2 lg:p-0"
-              ref={postRef}
             >
               <div className="hidden shadow-sm lg:block">
                 <PostImage post={post} />
               </div>
-              <PostCommentDesktop
+              <PostDetailComment
                 comments={comments}
                 likes={likes}
                 savedBy={savedBy}
@@ -92,7 +90,7 @@ export default function PostDetail({ post }: Props) {
                 <Buttons onClick={handleClick} name="menu" title="menu">
                   <BsThreeDots size={20} />
                 </Buttons>
-              </PostCommentDesktop>
+              </PostDetailComment>
               <div className="block lg:hidden">
                 <PostCard post={post} />
                 <div ref={ref}></div>
