@@ -2,7 +2,7 @@ import dynamic from "next/dynamic";
 import { GetServerSidePropsContext } from "next";
 import { IUser } from "@/types/user";
 import { IUserPostProps } from "@/types/post";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 
 const Suggestions = dynamic(
   () => import("@/components/Suggestions/Suggestions"),
@@ -25,6 +25,7 @@ export default function Home({ posts, users }: Props) {
   const [newPosts, setNewPosts] = useState<IUserPostProps[]>([]);
   const [loading, setLoading] = useState(true);
   const ref = useRef<HTMLDivElement>(null);
+
 
   useEffect(() => {
     const observer = new IntersectionObserver(async (entries) => {

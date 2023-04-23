@@ -1,3 +1,4 @@
+import Buttons from "@/components/Buttons/Buttons";
 import { IUser } from "@/types/user";
 
 type Props = {
@@ -12,7 +13,7 @@ export default function Info({ users, session, refreshData }: Props) {
         {users ? users?.username : ""}
       </h1>
       {session?.user.uid !== users?.uid ? (
-        <button
+        <Buttons
           name="Follow unfollow"
           title="follow unfollow"
           className="w-full truncate rounded bg-blue-600 px-5 py-1 text-xs text-white md:py-2"
@@ -34,7 +35,7 @@ export default function Info({ users, session, refreshData }: Props) {
           )
             ? "Unfollow"
             : "Follow"}
-        </button>
+        </Buttons>
       ) : null}
     </div>
   );

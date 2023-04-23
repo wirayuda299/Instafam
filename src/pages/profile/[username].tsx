@@ -1,13 +1,11 @@
 import dynamic from "next/dynamic";
 import Head from "next/head";
 import { IUserPostProps } from "@/types/post";
-import { Session } from "next-auth";
 import { IUser } from "@/types/user";
 import { useRouter } from "next/router";
 import useAuth from "@/hooks/useAuth";
 import { GetServerSidePropsContext } from "next";
 import { memo, useMemo, useState, useTransition } from "react";
-import Image from "next/image";
 
 const Statistic = dynamic(
   () => import("@/components/User/Statistic/Statistic"),
@@ -17,10 +15,13 @@ const Statistic = dynamic(
 );
 const PostInfo = dynamic(() => import("@/components/Feeds/PostInfo"));
 const Tab = dynamic(() => import("@/components/User/Tab/Tab"));
+const PostImage = dynamic(() => import("@/components/Post/Image"), {
+  ssr: true,
+});
 
 type Props = {
   posts: IUserPostProps[] | [];
-  session: Session | null;
+  session: any
   user: IUser | null;
   query: {
     readonly username: string;
@@ -83,18 +84,7 @@ function UserProfile({ posts, user, query, savedPosts }: Props) {
               </div>
             ) : (
               posts?.map((post) => (
-                <Image
-                  placeholder="blur"
-                  blurDataURL={
-                    "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABQODxIPDRQSEBIXFRQYHjIhHhwcHj0sLiQySUBMS0dARkVQWnNiUFVtVkVGZIhlbXd7gYKBTmCNl4x9lnN+gXz/2wBDARUXFx4aHjshITt8U0ZTfHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHz/wAARCAACAAMDASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwDpbiR1mYB2A46H2ooooEf/2Q=="
-                  }
-                  src={post.image}
-                  width={500}
-                  height={500}
-                  alt={post.captions ?? post.author}
-                  key={post.postId}
-                  className="rounded-lg"
-                />
+                <PostImage key={post.postId} post={post} />
               ))
             )}
           </>
@@ -131,15 +121,7 @@ function UserProfile({ posts, user, query, savedPosts }: Props) {
               <>
                 {savedPosts?.map((post) => (
                   <div key={post.postId} className="group relative">
-                    <Image
-                      src={post.image}
-                      alt={post.captions ?? post.author}
-                      width={1300}
-                      height={1300}
-                      placeholder="blur"
-                      blurDataURL={post.image}
-                      className="rounded-lg"
-                    />
+                    <PostImage post={post} />
                     <PostInfo post={post} />
                   </div>
                 ))}

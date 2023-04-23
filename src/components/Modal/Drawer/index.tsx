@@ -8,10 +8,10 @@ import {
 import { useSession } from "next-auth/react";
 import usePost from "@/hooks/usePost";
 import dynamic from "next/dynamic";
-const Comments = dynamic(() => import("../../Post/Comments"));
-const Postheader = dynamic(() => import("../../Post/Header"));
+const Comments = dynamic(() => import("../../Comments/Forms"));
+const Postheader = dynamic(() => import("@/components/Header/PostHeader"));
 const PostComments = dynamic(() => import("./Comments"));
-
+const Buttons = dynamic(() => import("@/components/Buttons/Buttons"));
 export default function PostComment() {
   const { postCommentModal, setPostCommentModal } = useStore(
     usePostCommentModalStore
@@ -45,12 +45,12 @@ export default function PostComment() {
               }`}
             >
               <div>
-                <button
+                <Buttons
                   className="text-left"
                   onClick={() => setPostCommentModal(false)}
                 >
                   <AiOutlineArrowLeft size={25} />
-                </button>
+                </Buttons>
               </div>
               <div className=" flex-grow">
                 <h2 className="text-center font-semibold">Comments</h2>

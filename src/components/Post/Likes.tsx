@@ -1,8 +1,11 @@
+import { memo } from "react";
+
 type Props = {
   likesCount: string[];
   session: any;
 };
-export default function Likes({ likesCount, session }: Props) {
+ function Likes({ likesCount, session }: Props) {
+  
   return (
     <>
       {likesCount && likesCount.length > 0 ? (
@@ -26,3 +29,4 @@ export default function Likes({ likesCount, session }: Props) {
     </>
   );
 }
+export default memo(Likes);

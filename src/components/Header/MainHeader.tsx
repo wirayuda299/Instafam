@@ -9,6 +9,7 @@ import { Playfair_Display } from "next/font/google";
 import { useStore } from "zustand";
 import { useDarkModeStore } from "@/stores/stores";
 import { useSession } from "next-auth/react";
+import Buttons from "../Buttons/Buttons";
 
 const playfair = Playfair_Display({
   fallback: ["sans-serif"],
@@ -25,9 +26,8 @@ export default function Header() {
     <>
       {session ? (
         <header
-          className={`relative w-full border-b border-gray-500 border-opacity-50 px-5 md:hidden ${
-            darkMode ? "bg-black text-white" : "bg-white text-black"
-          }`}
+          className={`relative w-full border-b border-gray-500 border-opacity-50 px-5 md:hidden ${darkMode ? "bg-black text-white" : "bg-white text-black"
+            }`}
         >
           <div className="flex w-full items-center justify-between space-x-2">
             <div className="w-full">
@@ -43,7 +43,7 @@ export default function Header() {
                 <AiOutlineSearch size={20} />
               </button>
             </Form>
-            <button
+            <Buttons
               name="sign out"
               type="button"
               title="sign out"
@@ -56,7 +56,7 @@ export default function Header() {
               }}
             >
               <GiExitDoor size={28} />
-            </button>
+            </Buttons>
           </div>
         </header>
       ) : null}

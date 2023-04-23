@@ -5,6 +5,7 @@ import {
 } from "@/stores/stores";
 import Link from "next/link";
 import { useStore } from "zustand";
+import Buttons from "../Buttons/Buttons";
 
 type ListItemProps = {
   path: string;
@@ -44,7 +45,7 @@ export default function ListItem({
       }`}
     >
       {list.id === 2 ? (
-        <button
+        <Buttons
           role="button"
           type="button"
           name="search"
@@ -59,7 +60,7 @@ export default function ListItem({
           <span className={`${drawer ? "hidden" : "hidden lg:block"}`}>
             {list.title}
           </span>
-        </button>
+        </Buttons>
       ) : (
         <Link
           onClick={toggler}

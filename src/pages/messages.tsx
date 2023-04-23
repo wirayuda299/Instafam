@@ -38,7 +38,6 @@ export default function Messages() {
       console.log("Error writing document: ", error);
     }
   };
-  console.log(followingLists);
 
   return (
     <>

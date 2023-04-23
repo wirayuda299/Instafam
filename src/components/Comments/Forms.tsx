@@ -1,5 +1,6 @@
 import { IUserPostProps } from "@/types/post";
 import { useRouter } from "next/router";
+import { memo } from "react";
 import { FieldValues, useForm } from "react-hook-form";
 export type IComment = Pick<IUserPostProps, "comments">;
 
@@ -9,9 +10,10 @@ type Props = {
   comments: IComment["comments"];
 };
 
-export default function Comments({ post, session }: Props) {
+ function Comments({ post, session }: Props) {
   const { pathname } = useRouter();
   const { register, handleSubmit, resetField } = useForm();
+  
   const defaultValues = {
     comments: "",
   };
@@ -44,3 +46,4 @@ export default function Comments({ post, session }: Props) {
     </div>
   );
 }
+export default memo(Comments)

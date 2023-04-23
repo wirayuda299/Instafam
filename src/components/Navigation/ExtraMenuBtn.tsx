@@ -6,6 +6,7 @@ import {
 import { AiOutlineClose } from "react-icons/ai";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { useStore } from "zustand";
+import Buttons from "../Buttons/Buttons";
 
 export default function ExtraMenuBtn() {
   const { setExtraList, extraList } = useStore(useExtraListStore);
@@ -17,7 +18,7 @@ export default function ExtraMenuBtn() {
   };
 
   return (
-    <button
+    <Buttons
       type="button"
       className="hidden md:block"
       name="extra menu"
@@ -42,6 +43,6 @@ export default function ExtraMenuBtn() {
         )}
         <span className={`${drawer ? "hidden" : "hidden lg:block"}`}>More</span>
       </div>
-    </button>
+    </Buttons>
   );
 }

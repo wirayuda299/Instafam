@@ -7,6 +7,7 @@ import { useSession } from "next-auth/react";
 import Image from "next/image";
 import { FieldValues, useForm } from "react-hook-form";
 import { useStore } from "zustand";
+import Buttons from "../Buttons/Buttons";
 
 export default function Report() {
   const { data: session } = useSession();
@@ -14,37 +15,14 @@ export default function Report() {
   const { selectedPost } = useStore(useSelectedPostStore);
   const { darkMode } = useStore(useDarkModeStore);
   const { reportModal, setReportModal } = useStore(useReportModalStore);
+  
   const defaultValues = {
     reason: "",
   };
 
-  const handleReport = async (e: FieldValues) => {
-    const { toast } = await import("react-hot-toast");
-    try {
-      const { getCsrfToken } = await import("next-auth/react");
-      const { db } = await import("@/config/firebase");
-      const { doc, setDoc } = await import("firebase/firestore");
-      const token = await getCsrfToken();
-      if (!token) throw new Error("CSRF Token not found");
-      const reportRef = doc(db, "reports", `${selectedPost?.postId}`);
-      const reportData = {
-        postId: selectedPost?.postId,
-        reportedBy: session?.user.uid,
-        reportedAt: Date.now(),
-        reportedPost: selectedPost?.image,
-        reportedPostAuthor: selectedPost?.author,
-        reportedPostAuthorId: selectedPost?.postedById,
-        reportedPostAuthorImage: selectedPost?.postedByPhotoUrl,
-        reason: e.reason,
-      };
-      await setDoc(reportRef, reportData).then(() => {
-        setReportModal(false);
-        resetField("reason");
-        toast.success("Reported Successfully");
-      });
-    } catch (error) {
-      toast.error("Something went wrong");
-    }
+  const reportPost = async (e: FieldValues) => {
+    const { handleReport } = await import("@/helper/reportPost");
+    handleReport(e, selectedPost, session, setReportModal, resetField);
   };
 
   return (
@@ -87,7 +65,7 @@ export default function Report() {
                       </div>
                       <form
                         className="flex w-full items-center justify-between rounded-md bg-[#b9b9b917] px-3"
-                        onSubmit={handleSubmit(handleReport)}
+                        onSubmit={handleSubmit(reportPost)}
                       >
                         <input
                           type="text"
@@ -102,17 +80,16 @@ export default function Report() {
                         />
                       </form>
                       <div className="mt-3 flex">
-                        <button
+                        <Buttons
                           className="ml-5 rounded bg-red-700 px-5 py-1 text-white"
-                          type="submit"
                           name="report"
                           title="report"
-                          onClick={handleReport}
+                          onClick={reportPost}
                         >
                           Submit
-                        </button>
+                        </Buttons>
 
-                        <button
+                        <Buttons
                           name="cancel"
                           title="cancel"
                           type="button"
@@ -120,7 +97,7 @@ export default function Report() {
                           onClick={() => setReportModal(false)}
                         >
                           Cancel
-                        </button>
+                        </Buttons>
                       </div>
                     </div>
                   </div>

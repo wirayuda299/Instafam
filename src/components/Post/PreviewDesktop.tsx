@@ -7,17 +7,15 @@ import Link from "next/link";
 import { useSession } from "next-auth/react";
 import { useStore } from "zustand";
 import { useDarkModeStore } from "@/stores/stores";
-
 const Likes = dynamic(() => import("./Likes"));
-const Comments = dynamic(() => import("@/components/Post/Comments"));
+const CommentsForm = dynamic(() => import("@/components/Comments/Forms"));
 const ActionButton = dynamic(() => import("@/components/Post/ActionButton"));
-const PreviewHeader = dynamic(() => import("./PreviewHeader"));
-const PreviewComment = dynamic(() => import("./PreviewComments"));
+const PreviewHeader = dynamic(() => import("@/components/Header/PostPreview"));
+const Comment = dynamic(() => import("@/components/Comments/Comment"));
 
 type Props = {
   post: IUserPostProps;
   children?: ReactNode;
-  refreshData: () => void;
   comments: {
     commentByUid: string;
     comment: string;
@@ -27,27 +25,20 @@ type Props = {
   }[];
   likes: string[];
   savedBy: string[];
-  user: any;
 };
 
 export default function PostCommentsDesktop(props: Props) {
-  const { post, children, refreshData, comments, likes, savedBy, user } = props;
+  const { post, children, comments, likes, savedBy } = props;
   const { data: session } = useSession();
   const { darkMode } = useStore(useDarkModeStore);
 
   return (
     <div
-      className={`relative hidden md:block ${
-        darkMode ? "bg-black text-white" : "bg-white text-black"
-      }`}
+      className={`relative hidden md:block ${darkMode ? "bg-black text-white" : "bg-white text-black"
+        }`}
     >
-      <div className="hidden h-full max-h-[400px] overflow-y-auto overflow-x-hidden py-3 lg:block ">
-        <PreviewHeader
-          post={post}
-          refreshData={refreshData}
-          session={session}
-          user={user}
-        >
+      <div className="hidden h-full max-h-[400px] overflow-y-auto  overflow-x-hidden py-3 lg:block ">
+        <PreviewHeader post={post}>
           {children}
         </PreviewHeader>
         <Link
@@ -74,11 +65,12 @@ export default function PostCommentsDesktop(props: Props) {
           </h4>
           <p>{post?.captions ?? ""}</p>
         </Link>
-        <PreviewComment comment={comments} />
+        <div className="px-4">
+          <Comment comments={comments} />
+        </div>
         <div
-          className={`absolute bottom-0 hidden w-full border-t border-gray-500 border-opacity-50 px-2 lg:block ${
-            darkMode ? "bg-black" : "bg-white"
-          }`}
+          className={`absolute bottom-0 hidden w-full border-t border-gray-500 border-opacity-50 px-2 lg:block ${darkMode ? "bg-black" : "bg-white"
+            }`}
         >
           <ActionButton
             likes={likes}
@@ -88,7 +80,7 @@ export default function PostCommentsDesktop(props: Props) {
           />
           <Likes likesCount={likes} session={session} />
           <div className="py-2">
-            <Comments
+            <CommentsForm
               post={post ?? []}
               comments={comments ?? []}
               session={session}

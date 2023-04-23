@@ -3,6 +3,7 @@ import { getCreatedDate } from "@/util/postDate";
 import Link from "next/link";
 
 export default function CreatedTime({ post }: { post: IUserPostProps }) {
+  const createdAt = getCreatedDate(post.createdAt)
   return (
     <div className={`ml-3 flex w-full items-center justify-between`}>
       <div>
@@ -18,7 +19,7 @@ export default function CreatedTime({ post }: { post: IUserPostProps }) {
           <span
             className={`block text-left font-thin leading-tight text-gray-500 antialiased xs:text-[10px] sm:text-xs `}
           >
-            {getCreatedDate(post.createdAt)}
+            {createdAt}
           </span>
         </div>
       </div>

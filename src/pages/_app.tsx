@@ -22,33 +22,39 @@ export default function App({
     }, 1000);
     return () => setMounted(false);
   }, []);
+  
 
   return (
     <SessionProvider session={session}>
-      <Layout>
-        <Toaster />
-        <NextNProgress
-          color="#e23e44"
-          startPosition={0.3}
-          stopDelayMs={200}
-          height={3}
-          options={{
-            showSpinner: false,
-          }}
-        />
-        <Component {...pageProps} />
-        <Menu />
-        <Report />
-        <PostComment />
-        <PostPreview />
-      </Layout>
-      <div
-        className={`fixed left-0 top-0 z-[99] h-screen w-full !overflow-x-hidden !overflow-y-hidden bg-white shadow-sm ${
-          mounted ? "hidden" : "block"
-        } `}
-      >
-        <Entrance />
-      </div>
+        <Layout>
+          <Toaster />
+          <NextNProgress
+            color="#e23e44"
+            startPosition={0.3}
+            stopDelayMs={200}
+            height={3}
+            options={{
+              showSpinner: false,
+              trickle: true,
+              trickleSpeed: 100,
+              minimum: 0.3,
+
+            }}
+          />
+          <Component {...pageProps} />
+          <Menu />
+          <Report />
+          <PostComment />
+          <PostPreview />
+        </Layout>
+    
+      {!mounted && (
+        <div
+          className={`fixed left-0 top-0 z-[99] h-screen w-full !overflow-x-hidden !overflow-y-hidden bg-white shadow-sm `}
+        >
+          <Entrance />
+        </div>
+      )}
     </SessionProvider>
   );
 }

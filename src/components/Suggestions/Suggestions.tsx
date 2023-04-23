@@ -3,6 +3,7 @@ import Image from "next/image";
 import { memo } from "react";
 import { IUser } from "@/types/user";
 import { useSession } from "next-auth/react";
+import Buttons from "../Buttons/Buttons";
 
 const Footer = dynamic(() => import("@/components/Footer"));
 const UserRecommendations = dynamic(() => import("./User"));
@@ -38,14 +39,14 @@ function Suggestions({ reccomend }: Props) {
             </span>
           </div>
           <div>
-            <button
+            <Buttons
               type="button"
               name="switch accounts"
               title="switch accounts"
               className="text-xs font-semibold text-blue-600"
             >
               Switch
-            </button>
+            </Buttons>
           </div>
         </div>
         <div className="flex justify-between">

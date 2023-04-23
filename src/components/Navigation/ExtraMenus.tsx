@@ -6,6 +6,7 @@ import { useEffect } from "react";
 import { useStore } from "zustand";
 import { useDarkModeStore, useExtraListStore } from "@/stores/stores";
 import { BiSun } from "react-icons/bi";
+import Buttons from "../Buttons/Buttons";
 
 export default function ExtraMenus() {
   const { setExtraList, extraList } = useStore(useExtraListStore);
@@ -132,7 +133,7 @@ export default function ExtraMenus() {
                   title={list.title}
                   onClick={list.event}
                 >
-                  <button
+                  <Buttons
                     className="flex w-full items-center justify-between gap-2 space-x-2"
                     type="button"
                     name={list.title}
@@ -142,7 +143,7 @@ export default function ExtraMenus() {
                       {list.title}
                     </span>
                     <span>{list.icon}</span>
-                  </button>
+                  </Buttons>
                 </li>
               ))}
             </ul>

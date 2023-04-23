@@ -1,4 +1,5 @@
 import { Dispatch, SetStateAction } from "react";
+import Buttons from "../Buttons/Buttons";
 
 type Props = {
   captions: string;
@@ -20,12 +21,12 @@ export default function TextArea(props: Props) {
         cols={60}
         rows={10}
       ></textarea>
-      <button
+      <Buttons
         disabled={loading}
+        onClick={handlePost}
         name="post"
         type="button"
         title="post"
-        onClick={handlePost}
         className="ease h-16 w-full rounded-md bg-black bg-opacity-90 text-lg font-semibold uppercase text-white transition-all duration-300 hover:bg-opacity-100 dark:bg-white dark:bg-opacity-50 dark:text-black"
       >
         {loading ? (
@@ -35,7 +36,8 @@ export default function TextArea(props: Props) {
         ) : (
           "Post"
         )}
-      </button>
+      </Buttons>
+
     </div>
   );
 }

@@ -3,6 +3,7 @@ import { memo, useEffect } from "react";
 import { useDarkModeStore, useDrawerStore } from "@/stores/stores";
 import { useStore } from "zustand";
 import dynamic from "next/dynamic";
+import Buttons from "../Buttons/Buttons";
 const Form = dynamic(() => import("./Form"), { ssr: false });
 
 function SearchDrawer() {
@@ -35,9 +36,9 @@ function SearchDrawer() {
             <div className="w-64 border-b p-5">
               <h1 className="py-5 text-2xl font-semibold">Search</h1>
               <Form height="h-screen ">
-                <button type="submit" name="search" title="search">
+                <Buttons type="submit" name="search" title="search">
                   <AiOutlineSearch size={20} />
-                </button>
+                </Buttons>
               </Form>
             </div>
           </div>

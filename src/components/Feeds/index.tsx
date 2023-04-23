@@ -15,7 +15,7 @@ export default function Feeds({ post, index }: Props) {
   return (
     <div
       key={post.postId}
-      className={`group relative `}
+      className={`group relative`}
       onClick={() => {
         setSelectedPost(post);
         setFeedModal(true);

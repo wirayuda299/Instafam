@@ -6,9 +6,9 @@ import {
 import { useStore } from "zustand";
 import { useEffect, useState } from "react";
 import { IUserPostProps } from "@/types/post";
-import { getAllPosts } from "@/helper/getPosts";
 import { AiOutlineArrowLeft } from "react-icons/ai";
 import dynamic from "next/dynamic";
+import Buttons from "@/components/Buttons/Buttons";
 const PostLoader = dynamic(() => import("@/components/Loader/Post"), {
   ssr: true,
 });
@@ -25,6 +25,7 @@ export default function PostModal() {
   useEffect(() => {
     try {
       const getPosts = async () => {
+        const { getAllPosts } = await import("@/helper/getPosts");
         const res = await getAllPosts();
         setPosts(res.filter((p) => p.postId !== selectedPost?.postId));
         setLoading(false);
@@ -69,7 +70,7 @@ export default function PostModal() {
               }`}
             >
               <div>
-                <button
+                <Buttons
                   className="text-left"
                   onClick={() => {
                     setPostModal(false);
@@ -77,7 +78,7 @@ export default function PostModal() {
                   }}
                 >
                   <AiOutlineArrowLeft size={25} />
-                </button>
+                </Buttons>
               </div>
             </div>
             <div className="z-10 p-2">

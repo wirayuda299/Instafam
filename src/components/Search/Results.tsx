@@ -4,6 +4,7 @@ import Image from "next/image";
 import { IUser } from "@/types/user";
 import { useDarkModeStore } from "@/stores/stores";
 import { useStore } from "zustand";
+import Buttons from "../Buttons/Buttons";
 
 interface Props {
   results: IUser[];
@@ -67,7 +68,7 @@ export default function Results(props: Props) {
                     </p>
                   </div>
                 </Link>
-                <button
+                <Buttons
                   type="button"
                   name="close"
                   title="close"
@@ -78,7 +79,7 @@ export default function Results(props: Props) {
                   }
                 >
                   <AiOutlineClose size={20} />
-                </button>
+                </Buttons>
               </div>
             ))}
           </div>

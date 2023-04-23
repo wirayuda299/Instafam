@@ -2,11 +2,11 @@ import Image from "next/image";
 import { IUserPostProps } from "@/types/post";
 import { useStore } from "zustand";
 import { useDarkModeStore } from "@/stores/stores";
-import CreatedTime from "./CreatedTime";
+import CreatedTime from "@/components/Post/CreatedTime";
 
 type Props = {
   post: IUserPostProps;
-  children: React.ReactNode;
+  children?: React.ReactNode;
 };
 
 export default function Postheader({ post, children }: Props) {
@@ -14,12 +14,12 @@ export default function Postheader({ post, children }: Props) {
 
   return (
     <div
-      className={`relative flex h-fit items-center px-4 py-3 ${
+      className={`relative flex h-fit items-center  px-4 py-3 ${
         darkMode ? "bg-black text-white" : "bg-white text-black"
       }`}
     >
       <Image
-        className="h-8 w-8 rounded-full object-cover"
+        className="h-8 w-8 rounded-full object-cover "
         alt={post?.author ?? "user profile"}
         width={50}
         height={50}

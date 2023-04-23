@@ -11,6 +11,8 @@ import {
   useSelectedPostStore,
 } from "@/stores/stores";
 import { useStore } from "zustand";
+import { memo } from "react";
+import Buttons from "../Buttons/Buttons";
 
 type Props = {
   post: IUserPostProps;
@@ -19,11 +21,12 @@ type Props = {
   savedBy: string[];
 };
 
-export default function ActionButton(props: Props) {
+function ActionButton(props: Props) {
   const { post, uid, likes, savedBy } = props;
   const { setPostPreviewModal } = useStore(usePostPreviewModalStore);
   const { setSelectedPost } = useStore(useSelectedPostStore);
   const { setPostCommentModal } = useStore(usePostCommentModalStore);
+
 
   const clickLgScreen = () => {
     setPostPreviewModal(true);
@@ -37,7 +40,7 @@ export default function ActionButton(props: Props) {
     setPostPreviewModal(false);
   };
 
-  const Buttons = [
+  const BUTTON_LISTS = [
     {
       id: 1,
       icon: likes?.includes(uid) ? (
@@ -85,8 +88,8 @@ export default function ActionButton(props: Props) {
   return (
     <div className=" mb-2 mt-3 flex items-center justify-between p-1">
       <div className="flex gap-x-5">
-        {Buttons.map((btn) => (
-          <button
+        {BUTTON_LISTS.map((btn) => (
+          <Buttons
             key={btn.id}
             onClick={btn.onClick}
             name="action button"
@@ -94,18 +97,16 @@ export default function ActionButton(props: Props) {
             title="action button"
           >
             {btn.icon}
-          </button>
+          </Buttons>
         ))}
       </div>
-      <button
+      <Buttons
         onClick={async () => {
           const savedPostArgs = {
             post,
             uid,
           };
-
           const { savePost } = await import("@/helper/savePost");
-
           savePost(savedPostArgs);
         }}
         name="save post"
@@ -117,7 +118,9 @@ export default function ActionButton(props: Props) {
         ) : (
           <BiBookmark className="text-2xl hover:text-gray-500 sm:text-3xl" />
         )}
-      </button>
+      </Buttons>
     </div>
   );
 }
+
+export default memo(ActionButton);
