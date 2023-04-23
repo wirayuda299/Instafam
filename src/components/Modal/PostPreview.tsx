@@ -9,8 +9,10 @@ import { useStore } from "zustand";
 import usePost from "@/hooks/usePost";
 import dynamic from "next/dynamic";
 import { AiOutlineClose } from "react-icons/ai";
-import Buttons from "../Buttons/Buttons";
 const PostCommentDesktop = dynamic(() => import("../Post/Preview"), {
+  ssr: false,
+});
+const Buttons = dynamic(() => import("../Buttons/Buttons"), {
   ssr: false,
 });
 export default function PostPreview() {

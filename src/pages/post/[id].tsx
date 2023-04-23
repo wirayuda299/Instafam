@@ -3,20 +3,9 @@ import { useEffect, useRef, useState } from "react";
 import dynamic from "next/dynamic";
 import Head from "next/head";
 import { GetServerSidePropsContext } from "next";
-import { BsThreeDots } from "react-icons/bs";
 import usePost from "@/hooks/usePost";
 import { useSelectedPostStore, useMenuModalStore } from "@/stores/stores";
 import { useStore } from "zustand";
-
-const PostDetailComment = dynamic(
-  () => import("@/components/Post/Preview"),
-  {
-    ssr: true,
-  }
-);
-const Buttons = dynamic(() => import("@/components/Buttons/Buttons"), {
-  ssr: true,
-});
 
 const PostCard = dynamic(() => import("@/components/Post"), {
   ssr: true,
@@ -25,15 +14,12 @@ const PostCard = dynamic(() => import("@/components/Post"), {
 const Postloader = dynamic(() => import("@/components/Loader/Post"), {
   ssr: true,
 });
-const PostImage = dynamic(() => import("@/components/Post/Image"), {
+const PreviewLargeScreen = dynamic( () => import("@/components/Post/PreviewLargeScreen"), {
   ssr: true,
 });
 
-type Props = {
-  post: IUserPostProps;
-};
 
-export default function PostDetail({ post }: Props) {
+export default function PostDetail({ post }: { post: IUserPostProps }) {
   const { likes, comments, savedBy } = usePost(post);
   const { setSelectedPost } = useStore(useSelectedPostStore);
   const { menuModal, setMenuModal } = useStore(useMenuModalStore);
@@ -44,7 +30,7 @@ export default function PostDetail({ post }: Props) {
   useEffect(() => {
     const observer = new IntersectionObserver(async (entries) => {
       if (entries[0].isIntersecting) {
-        const {getAllPosts} = await import("@/helper/getPosts");
+        const { getAllPosts } = await import("@/helper/getPosts");
         const newPosts = await getAllPosts();
         setNextPosts(newPosts.filter((p) => p.postId !== post.postId));
         setLoading(false);
@@ -78,19 +64,13 @@ export default function PostDetail({ post }: Props) {
             <div
               className="relative grid h-full w-full grid-cols-1 justify-between overflow-y-auto border border-gray-500 border-opacity-50 p-5 lg:max-h-[530px] lg:grid-cols-2 lg:p-0"
             >
-              <div className="hidden shadow-sm lg:block">
-                <PostImage post={post} />
-              </div>
-              <PostDetailComment
+              <PreviewLargeScreen
                 comments={comments}
+                handleClick={handleClick}
                 likes={likes}
-                savedBy={savedBy}
                 post={post}
-              >
-                <Buttons onClick={handleClick} name="menu" title="menu">
-                  <BsThreeDots size={20} />
-                </Buttons>
-              </PostDetailComment>
+                savedBy={savedBy}
+              />
               <div className="block lg:hidden">
                 <PostCard post={post} />
                 <div ref={ref}></div>
@@ -105,8 +85,6 @@ export default function PostDetail({ post }: Props) {
             <br className="md:hidden" />
             <br className="md:hidden" />
             <br className="md:hidden" />
-            <br className="md:hidden" />
-            <br className="md:hidden" />
           </div>
         </div>
       </div>
@@ -114,9 +92,10 @@ export default function PostDetail({ post }: Props) {
   );
 }
 
-export async function getServerSideProps({ query }: GetServerSidePropsContext) {
+export async function getServerSideProps({ query, res }: GetServerSidePropsContext) {
   const { getPostById } = await import("@/helper/getPosts");
   const posts = await getPostById(query?.id as string);
+  res.setHeader( "Cache-Control", "s-maxage=60, stale-while-revalidate");
 
   return {
     props: {

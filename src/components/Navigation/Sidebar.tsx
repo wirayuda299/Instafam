@@ -5,7 +5,7 @@ import { useStore } from "zustand";
 const ExtraMenus = dynamic(() => import("./ExtraMenus"));
 const NavbarList = dynamic(() => import("./Lists"));
 const ExtraMenuBtn = dynamic(() => import("./ExtraMenuBtn"));
-const NavHeader = dynamic(() => import("./Header"));
+const NavHeader = dynamic(() => import("../Header/NavHeader"));
 
 export default function Sidebar() {
   const { drawer } = useStore(useDrawerStore);

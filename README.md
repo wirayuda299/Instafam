@@ -42,7 +42,6 @@ Other features is comming soon.
 
 ## Notes
 
-- This project is still in development. There are still many features that are not yet implemented.
 - This project is only for learning purposes.
 
 ## Contributing

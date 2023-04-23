@@ -11,6 +11,7 @@ const playfair = Playfair_Display({
   weight: "700",
   display: "swap",
 });
+
 export default function NavHeader() {
   const { drawer } = useStore(useDrawerStore);
   return (

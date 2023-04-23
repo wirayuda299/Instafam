@@ -1,4 +1,3 @@
-import { signOut } from "next-auth/react";
 import { AiOutlineWarning } from "react-icons/ai";
 import { BsFillGearFill, BsMoonFill } from "react-icons/bs";
 import { RxCountdownTimer } from "react-icons/rx";
@@ -86,7 +85,8 @@ export default function ExtraMenus() {
       icon: "",
       path: "",
       title: "Log Out",
-      event: () => {
+      event: async () => {
+        const {signOut} = await import("next-auth/react");
         signOut({
           callbackUrl: "/auth/signin",
           redirect: true,

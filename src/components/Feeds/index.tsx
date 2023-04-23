@@ -28,6 +28,9 @@ export default function Feeds({ post, index }: Props) {
         src={post.image}
         width={1000}
         height={500}
+        priority
+        placeholder="blur"
+        blurDataURL={post.image}
         alt={post.captions ?? post.author}
       />
       <div className="hidden md:block">

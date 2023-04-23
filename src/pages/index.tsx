@@ -1,5 +1,4 @@
 import dynamic from "next/dynamic";
-import { GetServerSidePropsContext } from "next";
 import { IUser } from "@/types/user";
 import { IUserPostProps } from "@/types/post";
 import { useEffect, useRef, useState } from "react";
@@ -25,7 +24,6 @@ export default function Home({ posts, users }: Props) {
   const [newPosts, setNewPosts] = useState<IUserPostProps[]>([]);
   const [loading, setLoading] = useState(true);
   const ref = useRef<HTMLDivElement>(null);
-
 
   useEffect(() => {
     const observer = new IntersectionObserver(async (entries) => {
@@ -69,7 +67,7 @@ export default function Home({ posts, users }: Props) {
   );
 }
 
-export async function getServerSideProps({ req }: GetServerSidePropsContext) {
+export async function getServerSideProps({ req, res}: any) {
   const { getPosts } = await import("@/helper/getPosts");
   const { getUserRecommendation } = await import("@/helper/getUser");
   const { getSession } = await import("next-auth/react");
@@ -84,6 +82,9 @@ export async function getServerSideProps({ req }: GetServerSidePropsContext) {
   }
   const users = await getUserRecommendation(session.user.uid);
   const posts = await getPosts(4);
+
+  res.setHeader( "Cache-Control", "s-maxage=60, stale-while-revalidate");
+
 
   return {
     props: {

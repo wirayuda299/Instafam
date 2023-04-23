@@ -28,6 +28,7 @@ export default function App({
             trickle: true,
             trickleSpeed: 100,
             minimum: 0.3,
+            easing: "ease-out",
 
           }}
         />

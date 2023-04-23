@@ -5,7 +5,7 @@ type FooterProps = {
   link: string;
 };
 export default function Footer() {
-  const router = useRouter();
+  const { pathname } = useRouter();
   const footerlists: FooterProps[] = [
     {
       name: "About",
@@ -43,9 +43,8 @@ export default function Footer() {
   return (
     <footer className="w-full px-5 ">
       <ul
-        className={`flex flex-wrap gap-3 text-xs  text-gray-500 ${
-          router.pathname === "/explore" ? "justify-center" : "justify-start"
-        }`}
+        className={`flex flex-wrap gap-3 text-xs  text-gray-500 ${pathname === "/explore" ? "justify-center" : "justify-start"
+          }`}
       >
         {footerlists.map((list) => (
           <li
@@ -60,9 +59,8 @@ export default function Footer() {
         ))}
       </ul>
       <p
-        className={`mt-5 w-full text-xs text-gray-500 ${
-          router.pathname === "/explore" ? "text-center" : ""
-        }`}
+        className={`mt-5 w-full text-xs text-gray-500 ${pathname === "/explore" ? "text-center" : ""
+          }`}
       >
         © 2023 INSTAFAM by{" "}
         <a href="https://instafam.vercel.app" className="pr-1">
