@@ -16,7 +16,6 @@ const MainHeader = dynamic(() => import("../Header/MainHeader"), {
 
 export default function Layout({ children }: { children: any }) {
   const { darkMode } = useStore(useDarkModeStore);
-
   return (
     <>
       <Head>

@@ -61,7 +61,7 @@ export const makePost = async <T extends TMakePost>(params: T) => {
           likedBy: [],
           storageRef,
           createdAt: Date.now(),
-          hashtags,
+          hashtags: hashtags ?? [],
           tags: [],
           postId: uuid,
         }).then(() => {
