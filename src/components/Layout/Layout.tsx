@@ -2,9 +2,17 @@ import { useDarkModeStore } from "@/stores/stores";
 import dynamic from "next/dynamic";
 import Head from "next/head";
 import { useStore } from "zustand";
+const Menu = dynamic(() => import("@/components/Modal/Menu"));
+const Report = dynamic(() => import("@/components/Modal/Report"));
+const PostPreview = dynamic(() => import("@/components/Modal/PostPreview"));
+const PostComment = dynamic(() => import("@/components/Modal/Drawer"));
 const SearchForm = dynamic(() => import("@/components/Search"));
-const Sidebar = dynamic(() => import("../Navigation/Sidebar"));
-const MainHeader = dynamic(() => import("../Header/MainHeader"));
+const Sidebar = dynamic(() => import("../Navigation/Sidebar"), {
+  ssr: true
+});
+const MainHeader = dynamic(() => import("../Header/MainHeader"), {
+  ssr: true
+});
 
 export default function Layout({ children }: { children: any }) {
   const { darkMode } = useStore(useDarkModeStore);
@@ -30,9 +38,8 @@ export default function Layout({ children }: { children: any }) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <div
-        className={`mx-auto h-screen max-w-screen-3xl !select-none  ${
-          darkMode ? "!bg-black text-white" : "!bg-white text-black"
-        } `}
+        className={`mx-auto h-screen max-w-screen-3xl !select-none  ${darkMode ? "!bg-black text-white" : "!bg-white text-black"
+          } `}
       >
         <div className="flex">
           <Sidebar />
@@ -43,6 +50,10 @@ export default function Layout({ children }: { children: any }) {
           </main>
         </div>
       </div>
+      <Menu />
+      <Report />
+      <PostComment />
+      <PostPreview />
     </>
   );
 }

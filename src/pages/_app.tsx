@@ -3,10 +3,7 @@ import { SessionProvider } from "next-auth/react";
 import { Toaster } from "react-hot-toast";
 import dynamic from "next/dynamic";
 import NextNProgress from "nextjs-progressbar";
-const Menu = dynamic(() => import("@/components/Modal/Menu"));
-const Report = dynamic(() => import("@/components/Modal/Report"));
-const PostPreview = dynamic(() => import("@/components/Modal/PostPreview"));
-const PostComment = dynamic(() => import("@/components/Modal/Drawer"));
+
 const Layout = dynamic(() => import("@/components/Layout/Layout"));
 
 export default function App({
@@ -33,10 +30,6 @@ export default function App({
           }}
         />
         <Component {...pageProps} />
-        <Menu />
-        <Report />
-        <PostComment />
-        <PostPreview />
       </Layout>
     </SessionProvider>
   );
