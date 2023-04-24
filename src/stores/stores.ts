@@ -53,6 +53,34 @@ type postCommentModalStore = {
   setPostCommentModal: (postCommentModal: boolean) => void;
 };
 
+type postCreateModalStore = {
+  postCreateModal: boolean;
+  setPostCreateModal: (postCreateModal: boolean) => void;
+}
+export const usePostCreateModalStore = create<postCreateModalStore>((set) => ({ 
+  postCreateModal: false,
+  setPostCreateModal: (postCreateModal: boolean) => set({ postCreateModal }),
+}));
+
+type postImageModalStore = {
+  postImageModal: string;
+  setPostImageModal: (postImageModal: string) => void;
+}
+
+type croppedImgStore = {
+  croppedImg: string;
+  setCroppedImg: (croppedImg: string) => void;
+}
+
+export const useCroppedImgStore = create<croppedImgStore>((set) => ({
+  croppedImg: '',
+  setCroppedImg: (croppedImg: string) => set({ croppedImg }),
+}));
+export const usePostImageModalStore = create<postImageModalStore>((set) => ({
+  postImageModal: '',
+  setPostImageModal: (postImageModal: string) => set({ postImageModal }),
+}));
+
 export const usePostCommentModalStore = create<postCommentModalStore>(
   (set) => ({
     postCommentModal: false,

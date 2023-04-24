@@ -11,6 +11,7 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import { useStore } from "zustand";
 import Lists from "./Lists";
+import { createPortal } from "react-dom";
 
 export default function Menu() {
   const { setReportModal } = useStore(useReportModalStore);
@@ -50,11 +51,11 @@ export default function Menu() {
         selectedPost?.postedById === session?.user.uid
           ? "Delete"
           : user?.following.find(
-              (user: { userId: string }) =>
-                user.userId === selectedPost?.postedById
-            )
-          ? "Unfollow"
-          : "Follow",
+            (user: { userId: string }) =>
+              user.userId === selectedPost?.postedById
+          )
+            ? "Unfollow"
+            : "Follow",
       event: async () => {
         if (selectedPost?.postedById === session?.user.uid) {
           const { deletePost } = await import("@/helper/deletePost");
@@ -64,7 +65,9 @@ export default function Menu() {
             ssr: true,
             session,
           };
-          deletePost(deletePostsArgs);
+          deletePost(deletePostsArgs).then(() => {
+            setMenuModal(false);
+          });
         } else {
           const { handleFollow } = await import("@/helper/follow");
           const followArgs = {
@@ -113,35 +116,32 @@ export default function Menu() {
       event: handleCLose,
     },
   ];
-  return (
-    <>
-      {menuModal ? (
-        <div
-          className={` fixed left-0 top-0 z-[99999999] h-screen w-full  select-none !overflow-x-hidden !overflow-y-hidden  bg-black bg-opacity-60 shadow-sm  ${
-            menuModal ? "animate-fadeIn" : "animate-fadeOut"
-          }`}
-          aria-modal="true"
-          role="dialog"
-        >
-          <div className="mx-auto h-full max-w-5xl text-center ">
-            <div className="flex h-full flex-col items-center justify-center">
-              <ul
-                className={`flex min-w-[400px] flex-col rounded-lg  p-5 ${
-                  darkMode ? "!bg-black text-white" : "!bg-white text-black"
-                } `}
-              >
-                <Lists
-                  buttonLists={buttonLists}
-                  darkMode={darkMode}
-                  selectedPost={selectedPost}
-                  session={session}
-                  setMenuModal={setMenuModal}
-                />
-              </ul>
-            </div>
-          </div>
+  if (!menuModal) return null
+
+  return createPortal(
+    <div
+      className={` fixed left-0 top-0 z-[99999999] h-screen w-full  select-none !overflow-x-hidden !overflow-y-hidden  bg-black bg-opacity-60 shadow-sm  ${menuModal ? "animate-fadeIn" : "animate-fadeOut"
+        }`}
+      aria-modal="true"
+      role="dialog"
+    >
+      <div className="mx-auto h-full max-w-5xl text-center ">
+        <div className="flex h-full flex-col items-center justify-center">
+          <ul
+            className={`flex min-w-[400px] flex-col rounded-lg  p-5 ${darkMode ? "!bg-black text-white" : "!bg-white text-black"
+              } `}
+          >
+            <Lists
+              buttonLists={buttonLists}
+              darkMode={darkMode}
+              selectedPost={selectedPost}
+              session={session}
+              setMenuModal={setMenuModal}
+            />
+          </ul>
         </div>
-      ) : null}
-    </>
-  );
+      </div>
+    </div>,
+    document.getElementById("modal") as Element
+  )
 }

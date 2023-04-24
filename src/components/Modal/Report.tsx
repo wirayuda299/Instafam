@@ -8,6 +8,7 @@ import Image from "next/image";
 import { FieldValues, useForm } from "react-hook-form";
 import { useStore } from "zustand";
 import Buttons from "../Buttons/Buttons";
+import { createPortal } from "react-dom";
 
 export default function Report() {
   const { data: session } = useSession();
@@ -15,7 +16,7 @@ export default function Report() {
   const { selectedPost } = useStore(useSelectedPostStore);
   const { darkMode } = useStore(useDarkModeStore);
   const { reportModal, setReportModal } = useStore(useReportModalStore);
-  
+
   const defaultValues = {
     reason: "",
   };
@@ -25,88 +26,85 @@ export default function Report() {
     handleReport(e, selectedPost, session, setReportModal, resetField);
   };
 
-  return (
-    <>
-      {reportModal ? (
-        <div
-          className={` fixed left-0 top-0 z-[99999999] h-screen w-full  select-none !overflow-x-hidden !overflow-y-hidden  bg-black bg-opacity-60 shadow-sm  ${
-            reportModal ? "animate-fadeIn" : "animate-fadeOut"
-          }`}
-          aria-modal="true"
-          role="dialog"
-        >
-          <div className="mx-auto h-full max-w-5xl text-center ">
-            <div className="flex h-full flex-col items-center justify-center ">
-              <div
-                className={`flex min-w-[400px] flex-col rounded-lg border-gray-500 p-5 py-10 ${
-                  darkMode ? "bg-black text-white" : "bg-white text-black"
-                }`}
-              >
-                <div>
-                  <h1 className="text-2xl font-bold">Report</h1>
-                  <p className="text-sm text-gray-500">
-                    Please specify the reason for reporting this post.
-                  </p>
+  if (!reportModal) return null
 
-                  <div className="mt-5">
-                    <div className="flex flex-col items-center">
-                      <div className="mb-5 flex items-center space-x-3 py-3">
-                        <Image
-                          src={selectedPost?.image as string}
-                          width={50}
-                          height={50}
-                          alt={selectedPost?.author as string}
-                          priority
-                          className="rounded-full"
-                        />
-                        <h2 className="text-xl font-semibold">
-                          {selectedPost?.author}
-                        </h2>
-                      </div>
-                      <form
-                        className="flex w-full items-center justify-between rounded-md bg-[#b9b9b917] px-3"
-                        onSubmit={handleSubmit(reportPost)}
-                      >
-                        <input
-                          type="text"
-                          placeholder="specify reason"
-                          autoComplete="off"
-                          defaultValue={defaultValues.reason}
-                          {...register("reason")}
-                          autoFocus={false}
-                          alt="specify reason"
-                          security="restricted"
-                          className="w-full bg-transparent py-2 text-xs focus:border-0 focus:outline-none focus:ring-0 md:text-sm"
-                        />
-                      </form>
-                      <div className="mt-3 flex">
-                        <Buttons
-                          className="ml-5 rounded bg-red-700 px-5 py-1 text-white"
-                          name="report"
-                          title="report"
-                          onClick={reportPost}
-                        >
-                          Submit
-                        </Buttons>
+  return createPortal(
+    <div
+      className={` fixed left-0 top-0 z-[99999999] h-screen w-full  select-none !overflow-x-hidden !overflow-y-hidden  bg-black bg-opacity-60 shadow-sm  ${reportModal ? "animate-fadeIn" : "animate-fadeOut"
+        }`}
+      aria-modal="true"
+      role="dialog"
+    >
+      <div className="mx-auto h-full max-w-5xl text-center ">
+        <div className="flex h-full flex-col items-center justify-center ">
+          <div
+            className={`flex min-w-[400px] flex-col rounded-lg border-gray-500 p-5 py-10 ${darkMode ? "bg-black text-white" : "bg-white text-black"
+              }`}
+          >
+            <div>
+              <h1 className="text-2xl font-bold">Report</h1>
+              <p className="text-sm text-gray-500">
+                Please specify the reason for reporting this post.
+              </p>
 
-                        <Buttons
-                          name="cancel"
-                          title="cancel"
-                          type="button"
-                          className="ml-5 rounded border bg-green-500 px-5 py-1 text-white"
-                          onClick={() => setReportModal(false)}
-                        >
-                          Cancel
-                        </Buttons>
-                      </div>
-                    </div>
+              <div className="mt-5">
+                <div className="flex flex-col items-center">
+                  <div className="mb-5 flex items-center space-x-3 py-3">
+                    <Image
+                      src={selectedPost?.image as string}
+                      width={50}
+                      height={50}
+                      alt={selectedPost?.author as string}
+                      priority
+                      className="rounded-full"
+                    />
+                    <h2 className="text-xl font-semibold">
+                      {selectedPost?.author}
+                    </h2>
+                  </div>
+                  <form
+                    className="flex w-full items-center justify-between rounded-md bg-[#b9b9b917] px-3"
+                    onSubmit={handleSubmit(reportPost)}
+                  >
+                    <input
+                      type="text"
+                      placeholder="specify reason"
+                      autoComplete="off"
+                      defaultValue={defaultValues.reason}
+                      {...register("reason")}
+                      autoFocus={false}
+                      alt="specify reason"
+                      security="restricted"
+                      className="w-full bg-transparent py-2 text-xs focus:border-0 focus:outline-none focus:ring-0 md:text-sm"
+                    />
+                  </form>
+                  <div className="mt-3 flex">
+                    <Buttons
+                      className="ml-5 rounded bg-red-700 px-5 py-1 text-white"
+                      name="report"
+                      title="report"
+                      onClick={reportPost}
+                    >
+                      Submit
+                    </Buttons>
+
+                    <Buttons
+                      name="cancel"
+                      title="cancel"
+                      type="button"
+                      className="ml-5 rounded border bg-green-500 px-5 py-1 text-white"
+                      onClick={() => setReportModal(false)}
+                    >
+                      Cancel
+                    </Buttons>
                   </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-      ) : null}
-    </>
-  );
+      </div>
+    </div>,
+    document.getElementById("modal") as Element
+  )
 }

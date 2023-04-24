@@ -8,13 +8,16 @@ import { useEffect, useState } from "react";
 import { IUserPostProps } from "@/types/post";
 import { AiOutlineArrowLeft } from "react-icons/ai";
 import dynamic from "next/dynamic";
-import Buttons from "@/components/Buttons/Buttons";
+import { createPortal } from "react-dom";
 const PostLoader = dynamic(() => import("@/components/Loader/Post"), {
   ssr: true,
 });
 const PostCard = dynamic(() => import("@/components/Post"), {
   ssr: true,
 });
+const Buttons = dynamic(() => import("@/components/Buttons/Buttons"), {
+  ssr: true 
+})
 export default function PostModal() {
   const { postModal, setPostModal } = useStore(usePostModalStore);
   const { selectedPost, setSelectedPost } = useStore(useSelectedPostStore);
@@ -53,44 +56,44 @@ export default function PostModal() {
       });
     };
   }, [postModal]);
-  return (
-    <>
-      {selectedPost && postModal && (
-        <div
-          className={` fixed left-0 top-0 z-[99] h-screen w-full select-none  !overflow-y-auto !overflow-x-hidden bg-white  shadow-sm lg:hidden  ${
-            postModal ? "animate-scaleUp" : "animate-scaleDown"
-          }`}
-          aria-modal="true"
-          role="dialog"
-        >
-          <div className="relative w-full">
-            <div
-              className={`sticky top-0 z-30 flex w-full items-center border-b border-gray-500 border-opacity-50 px-3 py-3 ${
-                darkMode ? "bg-black text-white" : "bg-white text-black"
-              }`}
-            >
-              <div>
-                <Buttons
-                  className="text-left"
-                  onClick={() => {
-                    setPostModal(false);
-                    setSelectedPost(null);
-                  }}
-                >
-                  <AiOutlineArrowLeft size={25} />
-                </Buttons>
-              </div>
-            </div>
-            <div className="z-10 p-2">
-              <PostCard post={selectedPost} />
-              {loading && <PostLoader />}
-              {posts.map((post) => (
-                <PostCard key={post.postId} post={post} />
-              ))}
-            </div>
-          </div>
+
+  if(!selectedPost && !postModal) return null
+  
+  return createPortal(
+    <div
+    className={` fixed left-0 top-0 z-[99] h-screen w-full select-none  !overflow-y-auto !overflow-x-hidden bg-white  shadow-sm lg:hidden  ${
+      postModal ? "animate-scaleUp" : "animate-scaleDown"
+    }`}
+    aria-modal="true"
+    role="dialog"
+  >
+    <div className="relative w-full">
+      <div
+        className={`sticky top-0 z-30 flex w-full items-center border-b border-gray-500 border-opacity-50 px-3 py-3 ${
+          darkMode ? "bg-black text-white" : "bg-white text-black"
+        }`}
+      >
+        <div>
+          <Buttons
+            className="text-left"
+            onClick={() => {
+              setPostModal(false);
+              setSelectedPost(null);
+            }}
+          >
+            <AiOutlineArrowLeft size={25} />
+          </Buttons>
         </div>
-      )}
-    </>
-  );
+      </div>
+      <div className="z-10 p-2">
+        <PostCard post={selectedPost as IUserPostProps} />
+        {loading && <PostLoader />}
+        {posts.map((post) => (
+          <PostCard key={post.postId} post={post} />
+        ))}
+      </div>
+    </div>
+  </div>,
+  document.getElementById("modal") as Element
+  )
 }

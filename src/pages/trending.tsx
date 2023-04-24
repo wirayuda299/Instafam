@@ -40,7 +40,7 @@ export default function Trending({ posts }: Props) {
                 setSelectedPost(post);
                 setPostModal(true);
               }}
-              className={`w-full cursor-pointer md:hidden`}
+              className={`w-full cursor-pointer block md:hidden`}
             >
               <PostImage post={post} />
             </div>

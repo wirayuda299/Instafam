@@ -96,7 +96,7 @@ module.exports = {
         slide: "slide 0.5s ease forwards",
         commentSlideIn: "commentSlideIn 0.3s ease forwards",
         commentSlideOut: "commentSlideOut 0.3s ease forwards",
-        rotateOnView: "rootateOnView 1s forwards",
+        rotateOnView: "rootateOnView 0.3s ease forwards",
         scaleUp: "scaleUp 0.3s ease forwards",
         scaleDown: "scaleDown 0.3s ease-out forwards",
       },

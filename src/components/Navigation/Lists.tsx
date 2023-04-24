@@ -9,7 +9,7 @@ import { RiMessengerLine } from "react-icons/ri";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import dynamic from "next/dynamic";
-import { useDarkModeStore, useDrawerStore } from "@/stores/stores";
+import { useDarkModeStore, useDrawerStore, usePostCreateModalStore } from "@/stores/stores";
 import { useStore } from "zustand";
 const ListItem = dynamic(() => import("./ListItem"), { ssr: false });
 
@@ -17,6 +17,7 @@ export default function NavbarLists({ session }: any) {
   const { pathname } = useRouter();
   const { drawer } = useStore(useDrawerStore);
   const { darkMode } = useStore(useDarkModeStore);
+  const { setPostCreateModal } = useStore(usePostCreateModalStore);
 
   const navList = [
     {
@@ -72,12 +73,13 @@ export default function NavbarLists({ session }: any) {
     {
       id: 6,
       title: "Create",
-      path: "/create",
+      path: "",
       icon: (
         <AiOutlinePlusSquare
           className={`${darkMode ? "text-white" : "text-black "} text-3xl`}
         />
       ),
+      event: () => setPostCreateModal(true),
     },
     {
       id: 7,
@@ -92,6 +94,8 @@ export default function NavbarLists({ session }: any) {
           width={50}
           height={50}
           priority
+          placeholder="blur"
+          blurDataURL={session?.user?.image || ""}
           quality={50}
           alt={session?.user?.name || "user profile"}
         />

@@ -18,7 +18,6 @@ export default function App({
         <NextNProgress
           color="#e23e44"
           startPosition={0.3}
-          stopDelayMs={200}
           height={3}
           options={{
             showSpinner: false,
@@ -26,11 +25,11 @@ export default function App({
             trickleSpeed: 100,
             minimum: 0.3,
             easing: "ease-out",
-
           }}
         />
         <Component {...pageProps} />
       </Layout>
+
     </SessionProvider>
   );
 }

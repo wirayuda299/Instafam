@@ -16,7 +16,7 @@ export default function Comment({ comments }: Props) {
     <>
       {comments?.map((comment) => (
         <div
-          className="mb-5 flex w-full gap-x-14 pr-2 "
+          className="mb-5 flex w-full space-x-10 "
           key={comment?.createdAt}
         >
           <div className="flex items-center space-x-2 px-2 py-2 ">
@@ -33,7 +33,7 @@ export default function Comment({ comments }: Props) {
               }
             />
             <Link
-              href={`/profile/${comment?.commentByUid}`}
+              href={`/profile/${comment?.commentByName}`}
               className="text-sm font-semibold"
             >
               {comment?.commentByName}

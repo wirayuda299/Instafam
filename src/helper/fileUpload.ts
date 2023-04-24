@@ -9,7 +9,7 @@ const imageInputSchema = z.object({
 
 type Params = {
   e: ChangeEvent<HTMLInputElement>;
-  setPreviewUrl: React.Dispatch<React.SetStateAction<string>>;
+  setPreviewUrl:  (postImageModal: string) => void
   img: string | undefined;
 };
 type UploadFile = ({ e, img, setPreviewUrl }: Params) => Promise<void>;
@@ -55,13 +55,6 @@ export const handleInputImage: UploadFile = async (args) => {
     const reader = new FileReader();
     reader.onload = async (event) => {
       if (event.target) {
-        if (await result.unsafe) {
-          toast.error(
-            "Your uploaded image is contains adult content, please upload an image that does not contain adult content for the safety of our users."
-          );
-          return;
-        }
-
         return setPreviewUrl(event.target.result as string);
       }
     };

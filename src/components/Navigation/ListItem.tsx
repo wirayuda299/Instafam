@@ -1,6 +1,7 @@
 import {
   useDarkModeStore,
   useDrawerStore,
+  usePostCreateModalStore,
   useResultStore,
 } from "@/stores/stores";
 import Link from "next/link";
@@ -24,6 +25,7 @@ export default function ListItem(props: ListItemProps) {
   const { drawer, setDrawer } = useStore(useDrawerStore);
   const { setResult } = useStore(useResultStore);
   const { darkMode } = useStore(useDarkModeStore);
+  const { postCreateModal, setPostCreateModal } = useStore(usePostCreateModalStore);
 
   const toggler = () => {
     setResult([]);
@@ -56,27 +58,45 @@ export default function ListItem(props: ListItemProps) {
           </span>
         </Buttons>
       ) : (
-        <Buttons
-          disabled={session ? false : true}
-          name={list.title}
-          title={list.title}
-          type="button"
-          >
-          <Link
-            onClick={toggler}
-            className="flex cursor-pointer space-x-2"
-            role="link"
-            shallow
-            href={path}
-            title={list.title}
+        list.id === 6 ? (
+          <Buttons
+            role="button"
+            type="button"
+            name="search"
+            className="flex space-x-2"
+            disabled={session ? false : true}
+            onClick={() => setPostCreateModal(true)}
           >
             {list.icon}
             <span className={`${drawer ? "hidden" : "hidden lg:block"}`}>
               {list.title}
             </span>
-          </Link>
-        </Buttons>
-      )}
-    </li>
+          </Buttons>
+
+        ) : (
+          <Buttons
+            disabled={session ? false : true}
+            name={list.title}
+            title={list.title}
+            type="button"
+          >
+            <Link
+              onClick={toggler}
+              className="flex cursor-pointer space-x-2"
+              role="link"
+              shallow
+              href={path}
+              title={list.title}
+            >
+              {list.icon}
+              <span className={`${drawer ? "hidden" : "hidden lg:block"}`}>
+                {list.title}
+              </span>
+            </Link>
+          </Buttons>
+        )
+      )
+      }
+    </li >
   );
 }

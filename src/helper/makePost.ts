@@ -10,7 +10,7 @@ type TMakePost = {
   croppedImg: string;
   session: Session | null;
   setCaptions: Dispatch<SetStateAction<string>>;
-  setImg: Dispatch<SetStateAction<string>>;
+  setImg: (postImageModal: string) => void
   setLoading: Dispatch<SetStateAction<boolean>>;
   img: string;
 };

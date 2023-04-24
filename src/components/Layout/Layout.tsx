@@ -2,6 +2,7 @@ import { useDarkModeStore } from "@/stores/stores";
 import dynamic from "next/dynamic";
 import Head from "next/head";
 import { useStore } from "zustand";
+import Cropper from "../Modal/Cropper/Cropper";
 const Menu = dynamic(() => import("@/components/Modal/Menu"));
 const Report = dynamic(() => import("@/components/Modal/Report"));
 const PostPreview = dynamic(() => import("@/components/Modal/PostPreview"));
@@ -12,6 +13,9 @@ const Sidebar = dynamic(() => import("../Navigation/Sidebar"), {
 });
 const MainHeader = dynamic(() => import("../Header/MainHeader"), {
   ssr: true
+});
+const ImageCropperModal = dynamic(() => import("@/components/Modal/Cropper/Cropper"), {
+  ssr: false
 });
 
 export default function Layout({ children }: { children: any }) {
@@ -53,6 +57,7 @@ export default function Layout({ children }: { children: any }) {
       <Report />
       <PostComment />
       <PostPreview />
+      <ImageCropperModal/>
     </>
   );
 }

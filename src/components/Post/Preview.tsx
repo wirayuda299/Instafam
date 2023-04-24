@@ -9,17 +9,13 @@ const CommentsForm = dynamic(() => import("@/components/Comments/Forms"));
 const ActionButton = dynamic(() => import("@/components/Post/ActionButton"));
 const Comment = dynamic(() => import("@/components/Comments/Comment"));
 const PostHeader = dynamic(() => import("@/components/Header/PostHeader"));
+const Empty = dynamic(() => import("../Comments/Empty"))
 
+type CommentsProps = Pick<IUserPostProps, "comments">;
 type Props = {
   post: IUserPostProps;
   children?: ReactNode;
-  comments: {
-    commentByUid: string;
-    comment: string;
-    commentByName: string;
-    commentByPhoto: string;
-    createdAt: string | number;
-  }[];
+  comments: CommentsProps["comments"];
   likes: string[];
   savedBy: string[];
 };
@@ -35,12 +31,15 @@ export default function PostDetailComment(props: Props) {
         }`}
     >
       <div className="hidden h-full max-h-[400px] overflow-y-auto  overflow-x-hidden py-3 lg:block ">
-        <div className="border-b border-opacity-50 border-gray-500">
+        <div className="border-b border-opacity-50 absolute top-0 w-full border-gray-500">
           <PostHeader post={post}>
             {children}
           </PostHeader>
         </div>
         <div className="px-2">
+          <div className="pt-24">
+            <Empty comments={comments} />
+          </div>
           <Comment comments={comments} />
         </div>
         <div

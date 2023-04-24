@@ -1,6 +1,8 @@
 import Image from "next/image";
 import dynamic from "next/dynamic";
 import { Dispatch, SetStateAction } from "react";
+import { useDarkModeStore } from "@/stores/stores";
+import { useStore } from "zustand";
 const TextArea = dynamic(() => import("./TextArea"));
 
 interface Props {
@@ -14,15 +16,15 @@ interface Props {
 
 export default function Captions(props: Props) {
   const { handlePost, loading, session, img, setCaptions, captions } = props;
+  const { darkMode } = useStore(useDarkModeStore);
 
   return (
     <div
       id="create-post"
-      className={`max-h-full w-full rounded-md bg-white p-2 pb-10 shadow-lg dark:border-gray-500 dark:bg-black md:pb-0 ${
-        !img ? "hidden" : "block"
-      }`}
+      className={`max-h-full w-full max-w-lg rounded-md p-2 pb-10 shadow-lg  md:pb-0 ${!img ? "hidden" : "block"
+        } ${darkMode ? 'bg-black border border-gray-500 border-opacity-50' : 'bg-white shadow-md shadow-gray-400'}`}
     >
-      <div className="flex w-full items-center space-x-2 border-b p-2">
+      <div className="flex w-full items-center space-x-2 border-b border-opacity-50  border-gray-400 p-2">
         <Image
           className="rounded-full p-3"
           src={session?.user?.image || ""}

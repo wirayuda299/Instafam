@@ -1,5 +1,7 @@
 import { Dispatch, SetStateAction } from "react";
 import Buttons from "../Buttons/Buttons";
+import { useDarkModeStore } from "@/stores/stores";
+import { useStore } from "zustand";
 
 type Props = {
   captions: string;
@@ -9,11 +11,12 @@ type Props = {
 };
 export default function TextArea(props: Props) {
   const { captions, setCaptions, loading, handlePost } = props;
+  const { darkMode } = useStore(useDarkModeStore);
   return (
     <div className="w-full p-3">
       <textarea
         spellCheck="false"
-        className="w-full resize-none focus:outline-none dark:bg-transparent dark:text-white"
+        className={`w-full p-2 rounded-md resize-none outline-none  ${darkMode ? 'bg-black ' : 'bg-white'}`}
         value={captions}
         placeholder="Your caption"
         name="caption"
@@ -27,7 +30,7 @@ export default function TextArea(props: Props) {
         name="post"
         type="button"
         title="post"
-        className="ease h-16 w-full rounded-md bg-black bg-opacity-90 text-lg font-semibold uppercase text-white transition-all duration-300 hover:bg-opacity-100 dark:bg-white dark:bg-opacity-50 dark:text-black"
+        className={`ease py-4 w-full rounded-md  text-lg font-semibold uppercase  transition-all duration-300 hover:bg-opacity-100 ${darkMode ? 'bg-gray-500 border border-opacity-30 border-gray-400 bg-opacity-80 text-white' : 'bg-white text-black'}`}
       >
         {loading ? (
           <div className="flex w-full items-center justify-center space-x-3">

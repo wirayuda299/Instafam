@@ -1,21 +1,24 @@
+import { useDarkModeStore } from "@/stores/stores";
 import { AiOutlineCloudUpload } from "react-icons/ai";
+import { useStore } from "zustand";
 
 type Props = {
-  setPreviewUrl: React.Dispatch<React.SetStateAction<string>>;
+  setPreviewUrl: (postImageModal: string) => void
   img: string | undefined;
 };
 
 export default function FileUpload({ img, setPreviewUrl }: Props) {
+  const { darkMode } = useStore(useDarkModeStore);
   return (
     <>
       {!img ? (
         <div
-          className={`flex w-full items-center justify-center sm:min-w-[500px] `}
+          className={`flex w-full items-center justify-center max-w-[500px] `}
         >
           <div className="mx-auto flex w-full max-w-xl justify-center">
             <label
               htmlFor="dropzone-file"
-              className="flex h-80 w-full cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-gray-300  hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600"
+              className={`flex h-80 w-full cursor-pointer flex-col items-center justify-center rounded-lg  shadow-2xl ${darkMode ? 'bg-black bg-opacity-95 border border-gray-500 border-opacity-30' : 'bg-gray-200'}`}
             >
               <div className="flex flex-col items-center justify-center pb-6 pt-5">
                 <AiOutlineCloudUpload className="h-12 w-12 text-gray-400" />

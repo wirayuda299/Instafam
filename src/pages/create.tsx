@@ -1,65 +1,65 @@
-import { useState } from "react";
 import dynamic from "next/dynamic";
 import Head from "next/head";
-import { useSession } from "next-auth/react";
 import { useStore } from "zustand";
-import { useDarkModeStore } from "@/stores/stores";
+import { useCroppedImgStore, useDarkModeStore } from "@/stores/stores";
+import Image from "next/image";
+import { useEffect, useState } from "react";
+import { useSession } from "next-auth/react";
+import { makePost } from "@/helper/makePost";
+import { useRouter } from "next/router";
 const Captions = dynamic(() => import("@/components/Captions/Captions"), {
   ssr: false,
 });
-const ImageCropper = dynamic(() => import("@/components/Cropper/Cropper"), {
-  ssr: false,
-});
+
 
 export default function CreatePost() {
-  const [captions, setCaptions] = useState("");
-  const [img, setImg] = useState("");
-  const [loading, setLoading] = useState<boolean>(false);
-  const [croppedImg, setCroppedImg] = useState("");
-  const { data: session } = useSession();
+  const { croppedImg, setCroppedImg } = useStore(useCroppedImgStore);
   const { darkMode } = useStore(useDarkModeStore);
+  const [captions, setCaptions] = useState<string>('')
+  const [loading, setLoading] = useState(false);
+  const { data: session } = useSession()
+  const router = useRouter()
+
+  useEffect(() => {
+    if (!session) router.push("/auth/signin")
+    if (!croppedImg) router.push("/")
+  }, [croppedImg, session])
+
+  const makePosts = async () => {
+    const args = {
+      captions,
+      croppedImg: croppedImg,
+      session,
+      setCaptions,
+      setImg: setCroppedImg,
+      setLoading,
+      img: croppedImg,
+    }
+    await makePost(args)
+
+  }
   return (
-    <>
-      <Head>
-        <title>Create New Post &#8226; Instafam</title>
-      </Head>
-      <section
-        className={`h-screen w-full overflow-y-auto p-10  sm:grid sm:place-content-center md:p-5 ${
-          darkMode ? "bg-[#121212]" : "bg-white"
-        }`}
-      >
-        <div
-          className={`container mx-auto grid grid-cols-1 place-items-center gap-2 md:gap-7 ${
-            !img ? "" : "md:grid-cols-2"
-          }`}
-        >
-          <ImageCropper
-            img={img}
-            setCroppedImg={setCroppedImg}
-            setImg={setImg}
-          />
+    <div className={`w-full h-screen !overflow-y-auto mb-5 ${darkMode ? 'bg-black' : 'bg-white'}`}>
+      <div className=" mx-auto grid lg:grid-cols-2 place-items-center h-full !overflow-y-auto">
+        <Image
+          className="object-cover hidden lg:block"
+          src={croppedImg}
+          width={500}
+          height={500}
+          alt="post image"
+          priority />
+        <div>
           <Captions
             captions={captions}
-            setCaptions={setCaptions}
-            img={img}
-            session={session}
-            handlePost={async () => {
-              const { makePost } = await import("@/helper/makePost");
-              const args = {
-                captions,
-                croppedImg,
-                session,
-                setCaptions,
-                setImg,
-                setLoading,
-                img,
-              };
-              await makePost(args);
-            }}
+            handlePost={makePosts}
+            img={croppedImg}
             loading={loading}
-          />
+            session={session}
+            setCaptions={setCaptions} />
         </div>
-      </section>
-    </>
-  );
+      </div>
+      <br />
+      <br />
+    </div>
+  )
 }
