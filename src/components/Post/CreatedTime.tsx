@@ -3,7 +3,7 @@ import { getCreatedDate } from "@/util/postDate";
 import Link from "next/link";
 
 export default function CreatedTime({ post }: { post: IUserPostProps }) {
-  const createdAt = getCreatedDate(post.createdAt)
+  const createdAt = getCreatedDate(post?.createdAt)
   return (
     <div className={`ml-3 flex w-full items-center justify-between`}>
       <div>

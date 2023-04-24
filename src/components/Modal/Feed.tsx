@@ -25,46 +25,48 @@ export default function Feed() {
     setSelectedPost(null);
   };
 
-  if(!selectedPost && !feedModal) return null
+  if (!selectedPost && !feedModal) return null
   return createPortal(
-    <div
-    className={` fixed left-0 top-0 z-[99999999] h-screen w-full  select-none !overflow-x-hidden !overflow-y-hidden  bg-black bg-opacity-60 shadow-sm  ${
-      feedModal ? "animate-fadeIn" : "animate-fadeOut"
-    }`}
-    aria-modal="true"
-    role="dialog"
-  >
-    <div className="mx-auto h-full max-w-[500px] text-center ">
-      <div
-        className="flex h-full flex-col items-center justify-center"
-        onClick={() => setSelectedPost(null)}
-      >
+    <>
+      {selectedPost && feedModal && (
         <div
-          className={`flex min-w-[300px] flex-col rounded-lg ${
-            darkMode ? "!bg-black text-white" : "!bg-white text-black"
-          } `}
+          className={` fixed left-0 top-0 z-[99999999] h-screen w-full  select-none !overflow-x-hidden !overflow-y-hidden  bg-black bg-opacity-60 shadow-sm  ${feedModal && selectedPost ? "animate-fadeIn" : "animate-fadeOut"
+            }`}
+          aria-modal="true"
+          role="dialog"
         >
-          <Postheader post={selectedPost as IUserPostProps}>
-            <Buttons
-              onClick={() => {
-                setFeedModal(false);
-                setSelectedPost(null);
-              }}
+          <div className="mx-auto h-full max-w-[500px] text-center ">
+            <div
+              className="flex h-full flex-col items-center justify-center"
+              onClick={() => setSelectedPost(null)}
             >
-              <AiOutlineClose size={20} />
-            </Buttons>
-          </Postheader>
-          <Buttons
-            onClick={handleClick}
-            title={`/post/${selectedPost?.postId}`}
-            name={`/post/${selectedPost?.postId}`}
-          >
-           <PostImage post={selectedPost as IUserPostProps} />
-          </Buttons>
+              <div
+                className={`flex min-w-[300px] flex-col rounded-lg ${darkMode ? "!bg-black text-white" : "!bg-white text-black"
+                  } `}
+              >
+                <Postheader post={selectedPost as IUserPostProps}>
+                  <Buttons
+                    onClick={() => {
+                      setFeedModal(false);
+                      setSelectedPost(null);
+                    }}
+                  >
+                    <AiOutlineClose size={20} />
+                  </Buttons>
+                </Postheader>
+                <Buttons
+                  onClick={handleClick}
+                  title={`/post/${selectedPost?.postId}`}
+                  name={`/post/${selectedPost?.postId}`}
+                >
+                  <PostImage post={selectedPost as IUserPostProps} />
+                </Buttons>
+              </div>
+            </div>
+          </div>
         </div>
-      </div>
-    </div>
-  </div>,
-  document.getElementById("modal") as Element
+      )}
+    </>,
+    document.getElementById("modal") as Element
   )
 }

@@ -2,6 +2,7 @@ import { getAllPosts } from "@/helper/getPosts";
 import { usePostModalStore, useSelectedPostStore } from "@/stores/stores";
 import { IUserPostProps } from "@/types/post";
 import dynamic from "next/dynamic";
+import Image from "next/image";
 import { useStore } from "zustand";
 
 type Props = {
@@ -17,9 +18,6 @@ const PostModal = dynamic(() => import("@/components/Modal/Post/Post"), {
 });
 
 const Feeds = dynamic(() => import("@/components/Feeds"), {
-  ssr: true,
-});
-const PostImage = dynamic(() => import("@/components/Post/Image"), {
   ssr: true,
 });
 
@@ -42,7 +40,14 @@ export default function Trending({ posts }: Props) {
               }}
               className={`w-full cursor-pointer block md:hidden`}
             >
-              <PostImage post={post} />
+              <Image
+                src={post.image}
+                alt=""
+                width={1200}
+                height={1200}
+                placeholder="blur"
+                blurDataURL={post.image}
+                priority />
             </div>
           </div>
         ))}
