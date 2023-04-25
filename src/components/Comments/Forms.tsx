@@ -18,7 +18,7 @@ type Props = {
     comments: "",
   };
 
-  const handleSubmits = async (e: FieldValues) => {
+  const handleSubmits = async (e: FieldValues) => {    
     const { postComments } = await import("@/helper/comments");
     await postComments({
       e,

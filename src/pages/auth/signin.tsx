@@ -5,7 +5,6 @@ import { GetServerSidePropsContext } from "next";
 import Head from "next/head";
 import { useStore } from "zustand";
 import { useDarkModeStore } from "@/stores/stores";
-import Image from "next/image";
 
 interface Providers {
   id: string;

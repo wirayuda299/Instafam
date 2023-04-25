@@ -55,15 +55,15 @@ export default function Cropper() {
       role="dialog"
     >
       <Buttons
-        className="absolute top-3 right-3 border-2 rounded-lg text-white"
+        className="absolute top-32 sm:top-3 right-3 border-2  rounded-lg text-black bg-white font-semibold "
         onClick={() => {
           setPostCreateModal(false)
           setPostImageModal("")
           setCroppedImg("")
         }}>
-        <AiOutlineClose size={30} />
+        <AiOutlineClose size={30} className="font-semibold" />
       </Buttons>
-      <div className="w-full h-full ">
+      <div className="sm:w-full h-full max-w-lg mx-auto ">
         {postImageModal ? (
           <ImageCropper
             darkMode={darkMode}

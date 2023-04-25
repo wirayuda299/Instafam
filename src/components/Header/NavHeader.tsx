@@ -18,9 +18,9 @@ export default function NavHeader() {
     <header
       className={`hidden w-full flex-col pl-6 md:flex md:pl-2.5 ${playfair.className}`}
     >
-      <Link href="/" className={`text-3xl font-semibold lg:pt-5`}>
+      <Link href="/" className={`text-3xl font-semibold lg:pt-5 transition-transform`}>
         {drawer ? (
-          <AiOutlineInstagram size={35} />
+          <AiOutlineInstagram size={35} className="animate-scaleUp" />
         ) : (
           <>
             <h1 className="hidden lg:block ">Instafams</h1>

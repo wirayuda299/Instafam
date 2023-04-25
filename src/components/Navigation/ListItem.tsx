@@ -30,7 +30,7 @@ export default function ListItem(props: ListItemProps) {
       role="listitem"
       key={list.id}
       
-      className={` !w-fit  !rounded-full !p-2 text-base font-light h-full md:w-full md:p-3  ${list.id === 2 || list.id === 5 ? "hidden md:block" : ""}  ${pathname === list.path ? "font-semibold": ''} ${darkMode ? "md:hover:bg-[#b9b9b917]" : "md:hover:bg-gray-200 "}`}
+      className={` w-fit rounded-full transition-colors ease-out duration-700 p-2 text-base font-light h-full md:w-full md:p-3  ${list.id === 2 || list.id === 5 ? "hidden md:block" : ""}  ${pathname === list.path ? "font-semibold": ''} ${darkMode ? "md:hover:bg-[#b9b9b917]" : "md:hover:bg-gray-200 "}`}
     >
       {list.id === 2 ? (
         <Buttons

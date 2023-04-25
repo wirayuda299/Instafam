@@ -4,6 +4,7 @@ import Head from "next/head";
 import {  useState, useLayoutEffect } from "react";
 import { useStore } from "zustand";
 import Entrance from "../Loader/Main";
+import MessagesModal from "../Modal/Messages/Messages";
 
 const Menu = dynamic(() => import("@/components/Modal/Menu"));
 const Report = dynamic(() => import("@/components/Modal/Report"));
@@ -71,6 +72,8 @@ export default function Layout({ children }: { children: any }) {
       <PostComment />
       <PostPreview />
       <ImageCropperModal />
+      <MessagesModal />
+
       <div className={`fixed top-0 w-full h-screen bg-white z-50 ${mounted ? 'animate-fadeOut hidden' : 'animate-fadeIn'}`}>
         <Entrance />
       </div>

@@ -61,9 +61,9 @@ export default function PostModal() {
   
   return createPortal(
     <div
-    className={` fixed left-0 top-0 z-[99] h-screen w-full select-none  !overflow-y-auto !overflow-x-hidden bg-white  shadow-sm lg:hidden  ${
+    className={` fixed left-0 top-0 z-[99] h-screen w-full select-none  !overflow-y-auto !overflow-x-hidden  shadow-sm lg:hidden  ${
       postModal ? "animate-scaleUp" : "animate-scaleDown"
-    }`}
+    } ${darkMode ? 'bg-black' : 'bg-white'}`}
     aria-modal="true"
     role="dialog"
   >

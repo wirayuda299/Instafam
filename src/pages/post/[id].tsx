@@ -95,7 +95,7 @@ export default function PostDetail({ post }: { post: IUserPostProps }) {
 export async function getServerSideProps({ query, res }: GetServerSidePropsContext) {
   const { getPostById } = await import("@/helper/getPosts");
   const posts = await getPostById(query?.id as string);
-  res.setHeader( "Cache-Control", "s-maxage=60, stale-while-revalidate");
+  res.setHeader( "Cache-Control", "maxage=60, stale-while-revalidate");
 
   return {
     props: {

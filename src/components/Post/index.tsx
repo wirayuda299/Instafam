@@ -5,12 +5,13 @@ import { useSession } from "next-auth/react";
 import {
   useDarkModeStore,
   useMenuModalStore,
+  usePostCommentModalStore,
+  usePostPreviewModalStore,
   useSelectedPostStore,
 } from "@/stores/stores";
 import { memo } from "react";
 import { useStore } from "zustand";
 import { BsThreeDots } from "react-icons/bs";
-
 const Likes = dynamic(() => import("./Likes"));
 const ActionButton = dynamic(() => import("./ActionButton"));
 const PostHeader = dynamic(() => import("../Header/PostHeader"));
@@ -27,8 +28,10 @@ function PostCard({ post }: Props) {
   const { likes, comments, savedBy } = usePost(post);
   const { data: session } = useSession();
   const { darkMode } = useStore(useDarkModeStore);
-  const { setSelectedPost } = useStore(useSelectedPostStore);
   const { menuModal, setMenuModal } = useStore(useMenuModalStore);
+  const { setSelectedPost } = useStore(useSelectedPostStore);
+  const { setPostCommentModal } = useStore(usePostCommentModalStore)
+  const { setPostPreviewModal } = useStore(usePostPreviewModalStore)
 
   const handleClick = () => {
     setMenuModal(!menuModal);
@@ -43,7 +46,7 @@ function PostCard({ post }: Props) {
           }`}
       >
         <PostHeader post={post}>
-          <div>
+          <>
             <Buttons
               type="button"
               name="menu"
@@ -52,10 +55,13 @@ function PostCard({ post }: Props) {
             >
               <BsThreeDots className="text-gray-500" size={20} />
             </Buttons>
-          </div>
+          </>
         </PostHeader>
         <PostImage post={post} />
         <ActionButton
+          setPostCommentModal={setPostCommentModal}
+          setPostPreviewModal={setPostPreviewModal}
+          setSelectedPost={setSelectedPost}
           savedBy={savedBy}
           likes={likes}
           post={post}

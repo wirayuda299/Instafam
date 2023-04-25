@@ -1,14 +1,13 @@
 import { AiOutlineWarning } from "react-icons/ai";
 import { BsFillGearFill, BsMoonFill } from "react-icons/bs";
 import { RxCountdownTimer } from "react-icons/rx";
-import { useEffect } from "react";
 import { useStore } from "zustand";
 import { useDarkModeStore, useExtraListStore } from "@/stores/stores";
 import { BiSun } from "react-icons/bi";
 import Buttons from "../Buttons/Buttons";
 
 export default function ExtraMenus() {
-  const { setExtraList, extraList } = useStore(useExtraListStore);
+  const { extraList } = useStore(useExtraListStore);
   const { setDarkMode, darkMode } = useStore(useDarkModeStore);
 
   const extraLists = [
@@ -95,16 +94,7 @@ export default function ExtraMenus() {
     },
   ];
 
-  useEffect(() => {
-    window.addEventListener("resize", () => {
-      setExtraList(false);
-    });
-    return () => {
-      window.removeEventListener("resize", () => {
-        setExtraList(false);
-      });
-    };
-  }, []);
+ 
 
   return (
     <>

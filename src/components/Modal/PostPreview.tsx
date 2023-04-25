@@ -27,7 +27,7 @@ export default function PostPreview() {
   const { selectedPost, setSelectedPost } = useStore(useSelectedPostStore);
   const { setPostCommentModal } = useStore(usePostCommentModalStore);
   const { likes, comments, savedBy } = usePost(selectedPost ?? null);
-
+ 
   if (!postPreviewModal) return null
 
   return createPortal(
@@ -51,6 +51,9 @@ export default function PostPreview() {
                     comments={comments}
                     likes={likes}
                     savedBy={savedBy}
+                    setPostCommentModal={setPostCommentModal}
+                    setPostPreviewModal={setPostPreviewModal}
+                    setSelectedPost={setSelectedPost} 
                   >
                     <Buttons
                       onClick={() => {

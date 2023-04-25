@@ -47,6 +47,7 @@ export const config = {
     "/auth/signin/:path*/:path*",
     "/auth/signin/:path*",
     "/((?!api|_next/static|_next/image|favicon.ico).*)",
+    "/latest",
     "/latest/meta-data",
   ],
 };

@@ -71,6 +71,24 @@ type croppedImgStore = {
   croppedImg: string;
   setCroppedImg: (croppedImg: string) => void;
 }
+type messageModalStore = {
+  messageModal: boolean;
+  setMessageModal: (messageModal: boolean) => void;
+}
+
+type resultDrawerStore = {
+  resultDrawer: boolean;
+  setResultDrawer: (resultDrawer: boolean) => void;
+}
+
+export const useResultDrawerStore = create<resultDrawerStore>((set) => ({
+  resultDrawer: false,
+  setResultDrawer: (resultDrawer: boolean) => set({ resultDrawer }),
+}));
+export const useMessageModalStore = create<messageModalStore>((set) => ({
+  messageModal: false,
+  setMessageModal: (messageModal: boolean) => set({ messageModal }),
+}));
 
 export const useCroppedImgStore = create<croppedImgStore>((set) => ({
   croppedImg: '',

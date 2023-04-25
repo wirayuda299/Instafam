@@ -1,5 +1,4 @@
-import { getAllPosts } from "@/helper/getPosts";
-import { usePostModalStore, useSelectedPostStore } from "@/stores/stores";
+import { useFeedModalStore, usePostModalStore, useSelectedPostStore } from "@/stores/stores";
 import { IUserPostProps } from "@/types/post";
 import dynamic from "next/dynamic";
 import Image from "next/image";
@@ -17,22 +16,30 @@ const PostModal = dynamic(() => import("@/components/Modal/Post/Post"), {
   ssr: true,
 });
 
-const Feeds = dynamic(() => import("@/components/Feeds"), {
-  ssr: true,
-});
-
 export default function Trending({ posts }: Props) {
   const { setSelectedPost } = useStore(useSelectedPostStore);
   const { setPostModal } = useStore(usePostModalStore);
+  const { setFeedModal } = useStore(useFeedModalStore);
 
   return (
     <div className="h-screen w-full overflow-y-auto">
-      <div className="columns-3 gap-0 md:container md:mx-auto md:grid md:grid-cols-3 md:gap-5 md:p-5">
+      <div className="columns-3 m-0 gap-0">
         {posts?.map((post, i) => (
           <div key={`${post.postId}`}>
-            <div className="hidden md:block">
-              <Feeds post={post} index={i} />
-            </div>
+            <button name="click to view the post" title="click to view the post" className={`hidden  md:block h-max ${i % 2 === 0 ? 'aspect-square' : 'aspect-video'}`} onClick={() => {
+              setSelectedPost(post);
+              setFeedModal(true);
+            }}>
+              <Image
+                src={post.image}
+                alt=""
+                width={1200}
+                height={1200}
+                placeholder="blur"
+                blurDataURL={post.image}
+                className={`object-cover w-full h-full object-top border `}
+                priority />
+            </button>
             <div
               onClick={() => {
                 setSelectedPost(post);
@@ -47,11 +54,15 @@ export default function Trending({ posts }: Props) {
                 height={1200}
                 placeholder="blur"
                 blurDataURL={post.image}
+                className={`object-cover w-full h-auto border ${i % 2 === 0 ? 'aspect-video' : 'aspect-square'}`}
                 priority />
             </div>
           </div>
         ))}
       </div>
+      <br className="md:hidden" />
+      <br className="md:hidden" />
+      <br className="md:hidden" />
       <FeedModal />
       <PostModal />
     </div>
@@ -59,6 +70,7 @@ export default function Trending({ posts }: Props) {
 }
 
 export async function getServerSideProps({ res }: any) {
+  const { getAllPosts } = await import("@/helper/getPosts");
   const posts = await getAllPosts();
   res.setHeader("Cache-Control", "public, maxage=60, stale-while-revalidate");
   return {

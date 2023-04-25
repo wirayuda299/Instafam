@@ -2,7 +2,7 @@ import Link from "next/link";
 import { AiOutlineClose } from "react-icons/ai";
 import Image from "next/image";
 import { IUser } from "@/types/user";
-import { useDarkModeStore } from "@/stores/stores";
+import { useDarkModeStore, useResultDrawerStore } from "@/stores/stores";
 import { useStore } from "zustand";
 import Buttons from "../Buttons/Buttons";
 
@@ -16,10 +16,11 @@ interface Props {
 export default function Results(props: Props) {
   const { results, handleDrawerToggler, setResults, customs } = props;
   const { darkMode } = useStore(useDarkModeStore);
+  const {resultDrawer} = useStore(useResultDrawerStore);
+  if(!resultDrawer ) return null;
 
   return (
     <>
-      {results ? (
         <div
           className={`result flex h-full w-full justify-center  px-5 ${
             darkMode ? "bg-black text-white" : "bg-white text-black"
@@ -84,7 +85,6 @@ export default function Results(props: Props) {
             ))}
           </div>
         </div>
-      ) : null}
     </>
   );
 }

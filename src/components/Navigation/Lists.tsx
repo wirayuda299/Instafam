@@ -9,21 +9,26 @@ import { RiMessengerLine } from "react-icons/ri";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import dynamic from "next/dynamic";
-import { useDarkModeStore, useDrawerStore, usePostCreateModalStore, useResultStore } from "@/stores/stores";
+import { useDarkModeStore, useDrawerStore, useExtraListStore, usePostCreateModalStore, useResultStore } from "@/stores/stores";
 import { useStore } from "zustand";
+import { useEffect } from "react";
 const ListItem = dynamic(() => import("./ListItem"), { ssr: true });
 
-export default function NavbarLists({ session }: any) {
-  const { pathname } = useRouter();
-  const { setPostCreateModal } = useStore(usePostCreateModalStore);
-  const { drawer, setDrawer } = useStore(useDrawerStore);
-  const { setResult } = useStore(useResultStore);
-  const { darkMode } = useStore(useDarkModeStore);
+type Props = {
+  session: any;
+  setExtraList: (extraList: boolean) => void
+  setPostCreateModal: (postCreateModal: boolean) => void
+  setDrawer: (drawer: boolean) => void
+  darkMode: boolean
+  handleClick: () => void
+  pathname: string
+  setResult: (result: any) => void
+  drawer: boolean
 
-  const toggler = () => {
-    setResult([]);
-    setDrawer(false);
-  };
+}
+
+export default function NavbarLists(props: Props) {
+  const { session, setExtraList, setPostCreateModal, setDrawer, darkMode, handleClick, pathname, setResult, drawer } = props;
 
   const navList = [
     {
@@ -93,9 +98,8 @@ export default function NavbarLists({ session }: any) {
       path: `/profile/${session?.user.username}`,
       icon: (
         <Image
-          className={`h-7 w-7 border object-cover sm:h-8 sm:w-8 md:border-0 ${
-            drawer ? "!w-full" : ""
-          } rounded-full`}
+          className={`h-7 w-7 border object-cover sm:h-8 sm:w-8 md:border-0 ${drawer ? "!w-full" : ""
+            } rounded-full`}
           src={session?.user?.image || ""}
           width={50}
           height={50}
@@ -121,7 +125,7 @@ export default function NavbarLists({ session }: any) {
               pathname={pathname}
               session={session}
               darkMode={darkMode}
-              toggler={toggler}
+              toggler={handleClick}
               drawer={drawer}
               setDrawer={setDrawer}
               setPostCreateModal={setPostCreateModal}

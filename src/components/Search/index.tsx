@@ -9,6 +9,7 @@ const Form = dynamic(() => import("./Form"), { ssr: false });
 function SearchDrawer() {
   const { drawer, setDrawer } = useStore(useDrawerStore);
   const { darkMode } = useStore(useDarkModeStore);
+
   useEffect(() => {
     window.addEventListener("resize", () => {
       setDrawer(false);

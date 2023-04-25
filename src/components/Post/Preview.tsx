@@ -3,7 +3,7 @@ import { ReactNode } from "react";
 import dynamic from "next/dynamic";
 import { useSession } from "next-auth/react";
 import { useStore } from "zustand";
-import { useDarkModeStore } from "@/stores/stores";
+import { useDarkModeStore, usePostCommentModalStore, usePostPreviewModalStore, useSelectedPostStore } from "@/stores/stores";
 const Likes = dynamic(() => import("./Likes"));
 const CommentsForm = dynamic(() => import("@/components/Comments/Forms"));
 const ActionButton = dynamic(() => import("@/components/Post/ActionButton"));
@@ -18,12 +18,17 @@ type Props = {
   comments: CommentsProps["comments"];
   likes: string[];
   savedBy: string[];
+  setSelectedPost: (post: IUserPostProps | null) => void;
+  setPostCommentModal: (postCommentModal: boolean) => void
+  setPostPreviewModal: (postPreviewModal: boolean) => void
+
 };
 
 export default function PostDetailComment(props: Props) {
-  const { post, children, comments, likes, savedBy } = props;
+  const { post, children, comments, likes, savedBy, setSelectedPost, setPostCommentModal, setPostPreviewModal } = props;
   const { data: session } = useSession();
   const { darkMode } = useStore(useDarkModeStore);
+
 
   return (
     <div
@@ -47,6 +52,9 @@ export default function PostDetailComment(props: Props) {
             }`}
         >
           <ActionButton
+            setPostCommentModal={setPostCommentModal}
+            setPostPreviewModal={setPostPreviewModal}
+            setSelectedPost={setSelectedPost}
             likes={likes}
             post={post ?? []}
             savedBy={savedBy}

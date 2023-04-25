@@ -21,7 +21,7 @@ export default function EditPosts({ post }: { post: IUserPostProps }) {
   };
 
   const updateCurrentPost = async (e: Values) => {
-    const {toast} = await import("react-hot-toast");
+    const { toast } = await import("react-hot-toast");
     try {
       const { updatePost } = await import("@/helper/updatePost");
       await updatePost(e, post).then(() => {

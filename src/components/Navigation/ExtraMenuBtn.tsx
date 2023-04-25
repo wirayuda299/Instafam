@@ -1,22 +1,16 @@
-import {
-  useDarkModeStore,
-  useDrawerStore,
-  useExtraListStore,
-} from "@/stores/stores";
 import dynamic from "next/dynamic";
 import { AiOutlineClose } from "react-icons/ai";
 import { RxHamburgerMenu } from "react-icons/rx";
-import { useStore } from "zustand";
 const Buttons = dynamic(() => import("../Buttons/Buttons"), { ssr: false });
 
-export default function ExtraMenuBtn() {
-  const { setExtraList, extraList } = useStore(useExtraListStore);
-  const { drawer, setDrawer } = useStore(useDrawerStore);
-  const { darkMode } = useStore(useDarkModeStore);
-  const handleClick = () => {
-    setExtraList(!extraList);
-    setDrawer(false);
-  };
+type Props = {
+  extraList: boolean;
+  darkMode: boolean;
+  handleClick: () => void
+  drawer: boolean;
+};
+
+export default function ExtraMenuBtn({ darkMode, extraList, handleClick, drawer }: Props) {
 
   return (
     <Buttons
@@ -29,16 +23,14 @@ export default function ExtraMenuBtn() {
       <div className="ease flex items-center space-x-2 px-3 text-base transition-all duration-300 sm:text-lg">
         {extraList ? (
           <AiOutlineClose
-            className={`text-xl md:text-2xl ${
-              darkMode ? "text-white" : "text-black"
-            }`}
+            className={`text-xl md:text-2xl ${darkMode ? "text-white" : "text-black"
+              }`}
             size={30}
           />
         ) : (
           <RxHamburgerMenu
-            className={`text-xl md:text-2xl ${
-              darkMode ? "text-white" : "text-black"
-            }`}
+            className={`text-xl md:text-2xl ${darkMode ? "text-white" : "text-black"
+              }`}
             size={30}
           />
         )}

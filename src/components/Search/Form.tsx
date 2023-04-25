@@ -3,6 +3,7 @@ import dynamic from "next/dynamic";
 import {
   useDarkModeStore,
   useDrawerStore,
+  useResultDrawerStore,
   useResultStore,
 } from "@/stores/stores";
 import { useStore } from "zustand";
@@ -23,10 +24,12 @@ export default function Form({ height, children }: Props) {
   const { result, setResult } = useStore(useResultStore);
   const { setDrawer } = useStore(useDrawerStore);
   const { darkMode } = useStore(useDarkModeStore);
+  const {resultDrawer, setResultDrawer} = useStore(useResultDrawerStore);
 
   const handleDrawerToggler = () => {
     setResult([]);
     setDrawer(false);
+    setResultDrawer(false);
   };
 
   const searchUser = async (data: FieldValues) => {
@@ -37,6 +40,8 @@ export default function Form({ height, children }: Props) {
         resetField,
       });
       setResult(result);
+      setResultDrawer(true);
+
     } catch (error: any) {
       console.log(error.message);
     }

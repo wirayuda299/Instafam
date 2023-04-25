@@ -1,9 +1,7 @@
 import dynamic from "next/dynamic";
 import { IUser } from "@/types/user";
 import { IUserPostProps } from "@/types/post";
-import { useEffect, useRef, useState } from "react";
-
-
+import { useEffect, useState } from "react";
 const Suggestions = dynamic(
   () => import("@/components/Suggestions/Suggestions"),
   { ssr: true }
@@ -13,7 +11,6 @@ const Postloader = dynamic(() => import("@/components/Loader/Post"), {
 });
 const PostCard = dynamic(() => import("@/components/Post"), {
   ssr: true,
-  loading: () => <Postloader />,
 });
 
 type Props = {
@@ -23,8 +20,6 @@ type Props = {
 
 export default function Home({ posts, users }: Props) {
   const [newPosts, setNewPosts] = useState<IUserPostProps[]>([]);
-  const [loading, setLoading] = useState(true);
-  const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const observer = new IntersectionObserver(async (entries) => {
@@ -32,37 +27,40 @@ export default function Home({ posts, users }: Props) {
         const { fetchNextPosts } = await import("@/helper/getPosts");
         const newPosts = await fetchNextPosts(posts[posts.length - 1]);
         setNewPosts(newPosts ?? []);
-        setLoading(false);
       }
     });
-    if (ref.current) {
-      observer.observe(ref.current);
+    const entry = document.getElementById("entry");
+    if (entry) {
+      observer.observe(entry);
     }
     return () => {
-      if (ref.current) {
-        observer.unobserve(ref.current);
+      if (entry) {
+        observer.unobserve(entry);
       }
-    };
+    }
   }, []);
 
   return (
     <div className="h-full w-full">
       <div className="flex h-screen w-full items-start justify-between">
-        <div className="flex w-full flex-col p-5 ">
-          {posts?.map((post) => (
-            <PostCard post={post} key={post.postId} />
-          ))}
-          <div ref={ref}></div>
-          {loading && <Postloader />}
-          <>
-            {newPosts?.map((post) => (
+        <div className="w-full p-5 ">
+          {posts.length === 0 ? (
+            <Postloader />
+          ) : (
+            posts?.map((post) => (
               <PostCard post={post} key={post.postId} />
-            ))}
-          </>
+            ))
+          )}
+          <div id="entry"></div>
+          {newPosts.length === 0 ? (
+            <Postloader />
+          ) : (
+            newPosts?.map((post) => (
+              <PostCard post={post} key={post.postId} />
+            ))
+          )}
         </div>
-        <div>
-          <Suggestions reccomend={users as IUser[]} />
-        </div>
+        <Suggestions reccomend={users as IUser[]} />
       </div>
     </div>
   );
@@ -73,6 +71,7 @@ export async function getServerSideProps({ req, res }: any) {
   const { getUserRecommendation } = await import("@/helper/getUser");
   const { getSession } = await import("next-auth/react");
   const session = await getSession({ req });
+
   if (!session) {
     return {
       redirect: {
@@ -81,9 +80,8 @@ export async function getServerSideProps({ req, res }: any) {
       },
     };
   }
-  const users = await getUserRecommendation(session.user.uid);
-  const posts = await getPosts(4);
-
+  const users = await getUserRecommendation(session?.user.uid);
+  const posts = await getPosts(3);
   res.setHeader("Cache-Control", "maxage=60, stale-while-revalidate");
 
 

@@ -3,10 +3,12 @@ import Image from "next/image";
 import { memo } from "react";
 import { IUser } from "@/types/user";
 import { useSession } from "next-auth/react";
-import Buttons from "../Buttons/Buttons";
 
 const Footer = dynamic(() => import("@/components/Footer"));
-const UserRecommendations = dynamic(() => import("./User"));
+const UserRecommendation = dynamic(() => import("./User"), {
+  ssr: true
+});
+const Buttons = dynamic(() => import("../Buttons/Buttons"));
 
 type Props = {
   reccomend: IUser[];
@@ -62,7 +64,7 @@ function Suggestions({ reccomend }: Props) {
             See all
           </button>
         </div>
-        <UserRecommendations reccomend={reccomend} />
+        <UserRecommendation reccomend={reccomend} />
       </div>
       <Footer />
     </section>

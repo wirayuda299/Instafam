@@ -20,6 +20,7 @@ export const authOptions: NextAuthOptions = {
         };
       },
       encoding: "base64",
+      
       client: {
         client_id: process.env.GOOGLE_CLIENT_ID,
         client_secret: process.env.GOOGLE_CLIENT_SECRET,
@@ -31,7 +32,6 @@ export const authOptions: NextAuthOptions = {
       if (session && session.user) {
         session.user.username = `@${getUsernameFromEmail(session.user.email)}`;
         session.user.uid = token.sub as string;
-        session.user.role = "user";
       }
       return session;
     },

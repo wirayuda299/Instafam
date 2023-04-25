@@ -5,12 +5,6 @@ import { RiBookmarkFill } from "react-icons/ri";
 import { BiBookmark } from "react-icons/bi";
 import { IoPaperPlaneOutline } from "react-icons/io5";
 import { TbMessageCircle2 } from "react-icons/tb";
-import {
-  usePostCommentModalStore,
-  usePostPreviewModalStore,
-  useSelectedPostStore,
-} from "@/stores/stores";
-import { useStore } from "zustand";
 import { memo } from "react";
 import Buttons from "../Buttons/Buttons";
 
@@ -19,14 +13,13 @@ type Props = {
   uid: string;
   likes: string[];
   savedBy: string[];
+  setPostPreviewModal: (postPreviewModal: boolean) => void
+  setSelectedPost: (selectedPost: IUserPostProps | null) => void
+  setPostCommentModal: (postCommentModal: boolean) => void
 };
 
 function ActionButton(props: Props) {
-  const { post, uid, likes, savedBy } = props;
-  const { setPostPreviewModal } = useStore(usePostPreviewModalStore);
-  const { setSelectedPost } = useStore(useSelectedPostStore);
-  const { setPostCommentModal } = useStore(usePostCommentModalStore);
-
+  const { post, uid, likes, savedBy, setPostCommentModal,setPostPreviewModal, setSelectedPost } = props;
 
   const clickLgScreen = () => {
     setPostPreviewModal(true);
