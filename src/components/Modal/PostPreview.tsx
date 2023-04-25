@@ -10,12 +10,14 @@ import usePost from "@/hooks/usePost";
 import dynamic from "next/dynamic";
 import { AiOutlineClose } from "react-icons/ai";
 import { createPortal } from "react-dom";
-import PostImage from "../Post/Image";
 const PostCommentDesktop = dynamic(() => import("../Post/Preview"), {
   ssr: false,
 });
 const Buttons = dynamic(() => import("../Buttons/Buttons"), {
   ssr: false,
+});
+const PostImage = dynamic(() => import("../Post/Image"), {
+  ssr: true,
 });
 export default function PostPreview() {
   const { darkMode } = useStore(useDarkModeStore);

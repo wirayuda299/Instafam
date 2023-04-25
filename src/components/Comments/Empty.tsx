@@ -1,17 +1,8 @@
 import { AiOutlineComment } from "react-icons/ai";
 
-type Props = {
-  comments: {
-    commentByUid: string;
-    comment: string;
-    commentByName: string;
-    commentByPhoto: string;
-    createdAt: string | number;
-  }[]
-}
 export default function Empty({ comments }: { comments: any }) {
   return (
-    <div>
+    <>
       {comments.length < 1 && (
         <div className="flex items-center justify-center">
           <div className="flex flex-col items-center justify-center text-center">
@@ -24,6 +15,6 @@ export default function Empty({ comments }: { comments: any }) {
         </div>
       )}
 
-    </div>
+    </>
   )
 }

@@ -3,10 +3,11 @@ import {
   useDrawerStore,
   useExtraListStore,
 } from "@/stores/stores";
+import dynamic from "next/dynamic";
 import { AiOutlineClose } from "react-icons/ai";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { useStore } from "zustand";
-import Buttons from "../Buttons/Buttons";
+const Buttons = dynamic(() => import("../Buttons/Buttons"), { ssr: false });
 
 export default function ExtraMenuBtn() {
   const { setExtraList, extraList } = useStore(useExtraListStore);

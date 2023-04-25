@@ -34,7 +34,7 @@ export default function FileUpload({ img, setPreviewUrl }: Props) {
               <input
                 id="dropzone-file"
                 type="file"
-                accept="video/*,image/*, .png, .jpg, .jpeg, .gif, .mp4, .mov, .webm"
+                accept="image/*, .png, .jpg, .jpeg, .gif, .mp4, .mov, .webm"
                 required
                 className="hidden "
                 onChange={async (e) => {

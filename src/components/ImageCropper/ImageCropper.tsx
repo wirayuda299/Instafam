@@ -3,12 +3,14 @@ import Buttons from "../Buttons/Buttons"
 import { Dispatch, SetStateAction } from "react"
 import { Cropper } from "react-cropper-custom";
 import "react-cropper-custom/dist/index.css";
+
 export type Area = {
   width: number;
   height: number;
   x: number;
   y: number;
 };
+
 type Props = {
   img: string
   zoom: number
@@ -33,7 +35,7 @@ export default function ImageCropper(props: Props) {
               onZoomChange={setZoom}
               onCropComplete={onCropComplete}
             />
-            <button
+            <Buttons
               name="delete"
               title="delete"
               type="button"
@@ -44,7 +46,7 @@ export default function ImageCropper(props: Props) {
               }}
             >
               <AiOutlineClose size={25} />
-            </button>
+            </Buttons>
           </div>
           <Buttons
             className={`text-center w-full  py-2 rounded-md mt-3 ${darkMode ? "text-white bg-black" : "bg-gray-200 text-black"}`}

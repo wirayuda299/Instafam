@@ -7,8 +7,9 @@ import { useSession } from "next-auth/react";
 import Image from "next/image";
 import { FieldValues, useForm } from "react-hook-form";
 import { useStore } from "zustand";
-import Buttons from "../Buttons/Buttons";
 import { createPortal } from "react-dom";
+import dynamic from "next/dynamic";
+const Buttons = dynamic(() => import("../Buttons/Buttons"));
 
 export default function Report() {
   const { data: session } = useSession();

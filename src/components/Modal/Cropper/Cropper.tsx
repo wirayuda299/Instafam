@@ -54,13 +54,15 @@ export default function Cropper() {
       aria-modal="true"
       role="dialog"
     >
-      <button className="absolute top-3 right-3 border-2 rounded-lg text-white" onClick={() => {
-        setPostCreateModal(false)
-        setPostImageModal("")
-        setCroppedImg("")
-      }}>
+      <Buttons
+        className="absolute top-3 right-3 border-2 rounded-lg text-white"
+        onClick={() => {
+          setPostCreateModal(false)
+          setPostImageModal("")
+          setCroppedImg("")
+        }}>
         <AiOutlineClose size={30} />
-      </button>
+      </Buttons>
       <div className="w-full h-full ">
         {postImageModal ? (
           <ImageCropper
@@ -78,7 +80,6 @@ export default function Cropper() {
           </div>
         )}
       </div>
-
     </div>,
     document.getElementById("modal") as Element
   )

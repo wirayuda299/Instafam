@@ -9,6 +9,7 @@ import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
 import { createPortal } from "react-dom";
 import { IUserPostProps } from "@/types/post";
+
 const PostImage = dynamic(() => import("@/components/Post/Image"), { ssr: true });
 const Postheader = dynamic(() => import("@/components/Header/PostHeader"), { ssr: true });
 const Buttons = dynamic(() => import("../Buttons/Buttons"), { ssr: false });
@@ -26,6 +27,7 @@ export default function Feed() {
   };
 
   if (!selectedPost && !feedModal) return null
+  
   return createPortal(
     <>
       {selectedPost && feedModal && (
@@ -37,7 +39,7 @@ export default function Feed() {
         >
           <div className="mx-auto h-full max-w-[500px] text-center ">
             <div
-              className="flex h-full flex-col items-center justify-center"
+              className="flex h-full flex-col items-center justify-center "
               onClick={() => setSelectedPost(null)}
             >
               <div

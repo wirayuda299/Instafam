@@ -30,7 +30,7 @@ export default function TextArea(props: Props) {
         name="post"
         type="button"
         title="post"
-        className={`ease py-4 w-full rounded-md  text-lg font-semibold uppercase  transition-all duration-300 hover:bg-opacity-100 ${darkMode ? 'bg-gray-500 border border-opacity-30 border-gray-400 bg-opacity-80 text-white' : 'bg-white text-black'}`}
+        className={`ease py-4 w-full rounded-md  text-lg font-semibold  transition-all duration-300 hover:bg-opacity-100 ${darkMode ? 'bg-gray-500 border border-opacity-30 border-gray-400 bg-opacity-80 text-white' : 'bg-white text-black'}`}
       >
         {loading ? (
           <div className="flex w-full items-center justify-center space-x-3">

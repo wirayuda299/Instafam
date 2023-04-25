@@ -1,7 +1,7 @@
 import { AiOutlineInstagram } from "react-icons/ai";
 
 export default function Entrance() {
-  
+
   return (
     <div className="flex h-screen w-full flex-col items-center justify-center fixed z-50" >
       <div className="text-9xl">
