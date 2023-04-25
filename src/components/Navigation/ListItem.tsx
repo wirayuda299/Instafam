@@ -1,12 +1,7 @@
-import {
-  useDarkModeStore,
-  useDrawerStore,
-  usePostCreateModalStore,
-  useResultStore,
-} from "@/stores/stores";
+
 import Link from "next/link";
-import { useStore } from "zustand";
 import Buttons from "../Buttons/Buttons";
+import { IUser } from "@/types/user";
 
 type ListItemProps = {
   path: string;
@@ -18,27 +13,24 @@ type ListItemProps = {
     icon: JSX.Element;
   };
   session: any;
+  drawer: boolean;
+  setDrawer: (value: boolean) => void;
+  darkMode: boolean;
+  toggler : () => void;
+  setResult: (value: IUser[]) => void;
+  setPostCreateModal: (value: boolean) => void;
+  
 };
 
 export default function ListItem(props: ListItemProps) {
-  const { path, pathname, list, session } = props;
-  const { drawer, setDrawer } = useStore(useDrawerStore);
-  const { setResult } = useStore(useResultStore);
-  const { darkMode } = useStore(useDarkModeStore);
-  const { postCreateModal, setPostCreateModal } = useStore(usePostCreateModalStore);
-
-  const toggler = () => {
-    setResult([]);
-    setDrawer(false);
-  };
+  const { path, pathname, list, session, darkMode, drawer, setDrawer, toggler, setResult, setPostCreateModal} = props;
+ 
   return (
     <li
       role="listitem"
       key={list.id}
-      className={` w-fit rounded-full p-2 text-base font-light  md:w-full md:p-3 ${darkMode ? "hover:bg-[#b9b9b917]" : "hover:bg-gray-200"} ${list.id === 2 || list.id === 5 ? "hidden md:block" : ""}  ${pathname === list.path
-        ? "font-semibold"
-        : ''
-        }`}
+      
+      className={` !w-fit  !rounded-full !p-2 text-base font-light h-full md:w-full md:p-3  ${list.id === 2 || list.id === 5 ? "hidden md:block" : ""}  ${pathname === list.path ? "font-semibold": ''} ${darkMode ? "md:hover:bg-[#b9b9b917]" : "md:hover:bg-gray-200 "}`}
     >
       {list.id === 2 ? (
         <Buttons

@@ -84,7 +84,7 @@ export async function getServerSideProps({ req, res }: any) {
   const users = await getUserRecommendation(session.user.uid);
   const posts = await getPosts(4);
 
-  res.setHeader("Cache-Control", "s-maxage=60, stale-while-revalidate");
+  res.setHeader("Cache-Control", "maxage=60, stale-while-revalidate");
 
 
   return {

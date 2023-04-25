@@ -9,15 +9,21 @@ import { RiMessengerLine } from "react-icons/ri";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import dynamic from "next/dynamic";
-import { useDarkModeStore, useDrawerStore, usePostCreateModalStore } from "@/stores/stores";
+import { useDarkModeStore, useDrawerStore, usePostCreateModalStore, useResultStore } from "@/stores/stores";
 import { useStore } from "zustand";
-const ListItem = dynamic(() => import("./ListItem"), { ssr: false });
+const ListItem = dynamic(() => import("./ListItem"), { ssr: true });
 
 export default function NavbarLists({ session }: any) {
   const { pathname } = useRouter();
-  const { drawer } = useStore(useDrawerStore);
-  const { darkMode } = useStore(useDarkModeStore);
   const { setPostCreateModal } = useStore(usePostCreateModalStore);
+  const { drawer, setDrawer } = useStore(useDrawerStore);
+  const { setResult } = useStore(useResultStore);
+  const { darkMode } = useStore(useDarkModeStore);
+
+  const toggler = () => {
+    setResult([]);
+    setDrawer(false);
+  };
 
   const navList = [
     {
@@ -96,7 +102,7 @@ export default function NavbarLists({ session }: any) {
           priority
           placeholder="blur"
           blurDataURL={session?.user?.image || ""}
-          quality={50}
+          quality={40}
           alt={session?.user?.name || "user profile"}
         />
       ),
@@ -114,6 +120,12 @@ export default function NavbarLists({ session }: any) {
               path={list.path}
               pathname={pathname}
               session={session}
+              darkMode={darkMode}
+              toggler={toggler}
+              drawer={drawer}
+              setDrawer={setDrawer}
+              setPostCreateModal={setPostCreateModal}
+              setResult={setResult}
             />
           ))}
         </ul>
