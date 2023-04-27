@@ -40,8 +40,9 @@ export default function PostDetailComment(props: Props) {
 
   return (
     <div
-      className={`relative hidden md:block ${darkMode ? "bg-black text-white" : "bg-white text-black"
-        }`}
+      className={`relative hidden md:block ${
+        darkMode ? "bg-black text-white" : "bg-white text-black"
+      }`}
     >
       <div className="hidden h-full max-h-[400px] overflow-y-auto  overflow-x-hidden py-3 lg:block ">
         <div className="absolute top-0 w-full border-b border-gray-500 border-opacity-50">
@@ -54,8 +55,9 @@ export default function PostDetailComment(props: Props) {
           <Comment comments={comments} />
         </div>
         <div
-          className={`absolute bottom-0 hidden w-full border-t border-gray-500 border-opacity-50 px-2 lg:block ${darkMode ? "bg-black" : "bg-white"
-            }`}
+          className={`absolute bottom-0 hidden w-full border-t border-gray-500 border-opacity-50 px-2 lg:block ${
+            darkMode ? "bg-black" : "bg-white"
+          }`}
         >
           <ActionButton
             setPostCommentModal={setPostCommentModal}

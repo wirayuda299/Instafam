@@ -3,7 +3,7 @@ import type { Session } from "next-auth";
 
 type Props = {
   likesCount: string[];
-  session: Session | null 
+  session: Session | null;
 };
 function Likes({ likesCount, session }: Props) {
   return (

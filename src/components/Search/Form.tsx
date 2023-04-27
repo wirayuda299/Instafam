@@ -26,7 +26,7 @@ export default function Form({ height, children }: Props) {
   const { result, setResult } = useStore(useResultStore);
   const { setDrawer } = useStore(useDrawerStore);
   const { darkMode } = useStore(useDarkModeStore);
-  const {  setResultDrawer } = useStore(useResultDrawerStore);
+  const { setResultDrawer } = useStore(useResultDrawerStore);
 
   const handleDrawerToggler = () => {
     setResult([]);
@@ -40,20 +40,19 @@ export default function Form({ height, children }: Props) {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
-        }
+        },
       });
       const result: IUser[] = await res.json();
-      if(data.search === '') {
+      if (data.search === "") {
         toast.error("Please enter a username or name of user");
         return;
-      } else if(result.length === 0) {
+      } else if (result.length === 0) {
         toast.error("No user found");
         return;
       }
       setResult(result);
       resetField("search");
-      
-      
+
       setResultDrawer(true);
     } catch (error: any) {
       toast.error(error.message);

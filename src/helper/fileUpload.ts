@@ -55,9 +55,11 @@ export const handleInputImage: UploadFile = async (args) => {
     const reader = new FileReader();
     reader.onload = async (event) => {
       if (event.target) {
-        if(result.unsafe) {
-          toast.error('Your uploaded file is contain NSFW content, please upload file that safe for everyone')
-          return 
+        if (result.unsafe) {
+          toast.error(
+            "Your uploaded file is contain NSFW content, please upload file that safe for everyone"
+          );
+          return;
         }
         return setPreviewUrl(event.target.result as string);
       }

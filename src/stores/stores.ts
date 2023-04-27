@@ -96,7 +96,7 @@ export const useChatRoomSelectedStore = create<chatRoomSelectedStore>(
 type userReceiverdrawerStore = {
   userReceiverDrawer: boolean;
   setUserReceiverDrawer: (userReceiverDrawer: boolean) => void;
-}
+};
 export const useUserReceiverDrawerStore = create<userReceiverdrawerStore>(
   (set) => ({
     userReceiverDrawer: false,

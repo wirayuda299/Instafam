@@ -19,7 +19,6 @@ type Props = {
 };
 
 function Statistic({ session, users, posts, refreshData }: Props) {
-
   const data = [
     {
       id: 1,
@@ -71,7 +70,7 @@ function Statistic({ session, users, posts, refreshData }: Props) {
                         name="sign out"
                         type="button"
                         title="sign out"
-                        className="bg-blue-500 w-full text-white rounded-md mt-2 py-1 md:hidden"
+                        className="mt-2 w-full rounded-md bg-blue-500 py-1 text-white md:hidden"
                         onClick={async () => {
                           const { signOut } = await import("next-auth/react");
                           signOut({

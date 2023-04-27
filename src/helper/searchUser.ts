@@ -30,7 +30,6 @@ export const searchUserByQuery = async (props: Args) => {
       }
       return result ?? [];
     }
-
   } catch (error: any) {
     return new Error(error.message);
   }

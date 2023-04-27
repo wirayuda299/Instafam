@@ -4,11 +4,9 @@ import Link from "next/link";
 
 type Props = {
   reccomend: IUser[];
-}
+};
 
-export default function UserRecommendations({
-  reccomend,
-}: Props) {
+export default function UserRecommendations({ reccomend }: Props) {
   return (
     <>
       {reccomend?.map((user: any) => (

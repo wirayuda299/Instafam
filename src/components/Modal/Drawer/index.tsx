@@ -72,7 +72,7 @@ export default function PostComment() {
             <Comment comments={comments} key={id} />
           </div>
         </div>
-        <div className="absolute bottom-0 left-0 w-full bg-gray-200 py-2">
+        <div className={`absolute bottom-0 left-0 w-full py-2 ${darkMode ? 'bg-black' :'bg-gray-200'}`}>
           <CommentsForm
             comments={comments}
             post={selectedPost as IUserPostProps}

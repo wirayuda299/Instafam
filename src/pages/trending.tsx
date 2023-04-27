@@ -42,8 +42,9 @@ export default function Trending({ posts }: Props) {
             <button
               name="click to view the post"
               title="click to view the post"
-              className={`hidden  h-max md:block ${i % 2 === 0 ? "aspect-square" : "aspect-video"
-                }`}
+              className={`hidden  h-max md:block ${
+                i % 2 === 0 ? "aspect-square" : "aspect-video"
+              }`}
               onClick={() => {
                 setSelectedPost(post);
                 setFeedModal(true);
@@ -74,8 +75,9 @@ export default function Trending({ posts }: Props) {
                 height={1200}
                 placeholder="blur"
                 blurDataURL={post.image}
-                className={`h-auto w-full border object-cover ${i % 2 === 0 ? "aspect-video" : "aspect-square"
-                  }`}
+                className={`h-auto w-full border object-cover ${
+                  i % 2 === 0 ? "aspect-video" : "aspect-square"
+                }`}
                 priority
               />
             </div>
