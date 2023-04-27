@@ -56,8 +56,8 @@ type postCommentModalStore = {
 type postCreateModalStore = {
   postCreateModal: boolean;
   setPostCreateModal: (postCreateModal: boolean) => void;
-}
-export const usePostCreateModalStore = create<postCreateModalStore>((set) => ({ 
+};
+export const usePostCreateModalStore = create<postCreateModalStore>((set) => ({
   postCreateModal: false,
   setPostCreateModal: (postCreateModal: boolean) => set({ postCreateModal }),
 }));
@@ -65,21 +65,45 @@ export const usePostCreateModalStore = create<postCreateModalStore>((set) => ({
 type postImageModalStore = {
   postImageModal: string;
   setPostImageModal: (postImageModal: string) => void;
-}
+};
 
 type croppedImgStore = {
   croppedImg: string;
   setCroppedImg: (croppedImg: string) => void;
-}
+};
 type messageModalStore = {
   messageModal: boolean;
   setMessageModal: (messageModal: boolean) => void;
-}
+};
 
 type resultDrawerStore = {
   resultDrawer: boolean;
   setResultDrawer: (resultDrawer: boolean) => void;
+};
+
+type chatRoomSelectedStore = {
+  chatRoomSelected: IUser | null;
+  setChatRoomSelected: (chatRoomSelected: IUser | null) => void;
+};
+export const useChatRoomSelectedStore = create<chatRoomSelectedStore>(
+  (set) => ({
+    chatRoomSelected: null,
+    setChatRoomSelected: (chatRoomSelected: IUser | null) =>
+      set({ chatRoomSelected }),
+  })
+);
+
+type userReceiverdrawerStore = {
+  userReceiverDrawer: boolean;
+  setUserReceiverDrawer: (userReceiverDrawer: boolean) => void;
 }
+export const useUserReceiverDrawerStore = create<userReceiverdrawerStore>(
+  (set) => ({
+    userReceiverDrawer: false,
+    setUserReceiverDrawer: (userReceiverDrawer: boolean) =>
+      set({ userReceiverDrawer }),
+  })
+);
 
 export const useResultDrawerStore = create<resultDrawerStore>((set) => ({
   resultDrawer: false,
@@ -91,11 +115,11 @@ export const useMessageModalStore = create<messageModalStore>((set) => ({
 }));
 
 export const useCroppedImgStore = create<croppedImgStore>((set) => ({
-  croppedImg: '',
+  croppedImg: "",
   setCroppedImg: (croppedImg: string) => set({ croppedImg }),
 }));
 export const usePostImageModalStore = create<postImageModalStore>((set) => ({
-  postImageModal: '',
+  postImageModal: "",
   setPostImageModal: (postImageModal: string) => set({ postImageModal }),
 }));
 

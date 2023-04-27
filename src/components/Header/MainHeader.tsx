@@ -7,9 +7,10 @@ const Form = dynamic(() => import("../Search/Form"), {
 import { GiExitDoor } from "react-icons/gi";
 import { Playfair_Display } from "next/font/google";
 import { useStore } from "zustand";
-import { useDarkModeStore } from "@/stores/stores";
+import { useDarkModeStore, useUserReceiverDrawerStore } from "@/stores/stores";
 import { useSession } from "next-auth/react";
 import Buttons from "../Buttons/Buttons";
+import { RxHamburgerMenu } from "react-icons/rx";
 
 const playfair = Playfair_Display({
   fallback: ["sans-serif"],
@@ -22,14 +23,16 @@ const playfair = Playfair_Display({
 export default function Header() {
   const { darkMode } = useStore(useDarkModeStore);
   const { data: session } = useSession();
+  const {setUserReceiverDrawer, userReceiverDrawer} = useStore(useUserReceiverDrawerStore)
   return (
     <>
       {session ? (
         <header
-          className={`relative w-full border-b border-gray-500 border-opacity-50 px-5 md:hidden ${darkMode ? "bg-black text-white" : "bg-white text-black"
-            }`}
+          className={`relative w-full border-b border-gray-500 border-opacity-50 px-5 h-14 md:hidden ${
+            darkMode ? "bg-black text-white" : "bg-white text-black"
+          }`}
         >
-          <div className="flex w-full items-center justify-between space-x-2">
+          <div className="flex w-full items-center justify-between space-x-2 h-full">
             <div className="w-full">
               <Link
                 href="/"
@@ -38,11 +41,7 @@ export default function Header() {
                 <h1>Instafams</h1>
               </Link>
             </div>
-            <Form height="h-min">
-              <button type="submit" name="Search" title="search">
-                <AiOutlineSearch size={20} />
-              </button>
-            </Form>
+           
             <Buttons
               name="sign out"
               type="button"
@@ -56,6 +55,9 @@ export default function Header() {
               }}
             >
               <GiExitDoor size={28} />
+            </Buttons>
+            <Buttons onClick={() => setUserReceiverDrawer(true)}>
+              <RxHamburgerMenu/>
             </Buttons>
           </div>
         </header>

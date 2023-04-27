@@ -1,4 +1,8 @@
-import { useSelectedPostStore, usePostCommentModalStore, usePostPreviewModalStore } from "@/stores/stores";
+import {
+  useSelectedPostStore,
+  usePostCommentModalStore,
+  usePostPreviewModalStore,
+} from "@/stores/stores";
 import { IUserPostProps } from "@/types/post";
 import dynamic from "next/dynamic";
 import { BsThreeDots } from "react-icons/bs";
@@ -14,20 +18,20 @@ const Buttons = dynamic(() => import("@/components/Buttons/Buttons"), {
   ssr: true,
 });
 
-type CommentsProps = Pick<IUserPostProps, 'comments'>
+type CommentsProps = Pick<IUserPostProps, "comments">;
 type props = {
   post: IUserPostProps;
-  comments: CommentsProps['comments']
+  comments: CommentsProps["comments"];
   savedBy: string[];
   likes: string[];
   handleClick: () => void;
-}
+};
 
 export default function PreviewLargeScreen(props: props) {
   const { post, comments, likes, savedBy, handleClick } = props;
   const { setSelectedPost } = useStore(useSelectedPostStore);
-  const { setPostCommentModal } = useStore(usePostCommentModalStore)
-  const { setPostPreviewModal } = useStore(usePostPreviewModalStore)
+  const { setPostCommentModal } = useStore(usePostCommentModalStore);
+  const { setPostPreviewModal } = useStore(usePostPreviewModalStore);
 
   return (
     <>
@@ -48,5 +52,5 @@ export default function PreviewLargeScreen(props: props) {
         </Buttons>
       </PostDetailComment>
     </>
-  )
+  );
 }

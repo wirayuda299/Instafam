@@ -21,10 +21,15 @@ export default function Captions(props: Props) {
   return (
     <div
       id="create-post"
-      className={`max-h-full w-full max-w-lg rounded-md p-2 pb-10 shadow-lg  md:pb-0 ${!img ? "hidden" : "block"
-        } ${darkMode ? 'bg-black border border-gray-500 border-opacity-50' : 'bg-white shadow-md shadow-gray-400'}`}
+      className={`max-h-full w-full max-w-lg rounded-md p-2 pb-10 shadow-lg  md:pb-0 ${
+        !img ? "hidden" : "block"
+      } ${
+        darkMode
+          ? "border border-gray-500 border-opacity-50 bg-black"
+          : "bg-white shadow-md shadow-gray-400"
+      }`}
     >
-      <div className="flex w-full items-center space-x-2 border-b border-opacity-50  border-gray-400 p-2">
+      <div className="flex w-full items-center space-x-2 border-b border-gray-400  border-opacity-50 p-2">
         <Image
           className="rounded-full p-3"
           src={session?.user?.image || ""}
@@ -38,7 +43,11 @@ export default function Captions(props: Props) {
           height={60}
           quality={50}
         />
-        <h1 className={`text-sm font-semibold md:text-lg ${darkMode ? 'text-white' : 'text-black'}`}>
+        <h1
+          className={`text-sm font-semibold md:text-lg ${
+            darkMode ? "text-white" : "text-black"
+          }`}
+        >
           {session?.user?.username}
         </h1>
       </div>

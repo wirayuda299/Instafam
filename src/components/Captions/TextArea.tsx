@@ -12,12 +12,14 @@ type Props = {
 export default function TextArea(props: Props) {
   const { captions, setCaptions, loading, handlePost } = props;
   const { darkMode } = useStore(useDarkModeStore);
-  
+
   return (
     <div className="w-full p-3">
       <textarea
         spellCheck="false"
-        className={`w-full p-2 rounded-md resize-none outline-none  ${darkMode ? 'bg-black ' : 'bg-white'}`}
+        className={`w-full resize-none rounded-md p-2 outline-none  ${
+          darkMode ? "bg-black " : "bg-white"
+        }`}
         value={captions}
         placeholder="Your caption"
         name="caption"
@@ -31,7 +33,11 @@ export default function TextArea(props: Props) {
         name="post"
         type="button"
         title="post"
-        className={`ease py-4 w-full rounded-lg  text-lg font-semibold  transition-all duration-300 hover:bg-opacity-100 ${darkMode ? 'bg-gray-500 border border-opacity-30 border-gray-400 bg-opacity-80 text-white' : 'bg-gray-100 text-black'}`}
+        className={`ease w-full rounded-lg py-4  text-lg font-semibold  transition-all duration-300 hover:bg-opacity-100 ${
+          darkMode
+            ? "border border-gray-400 border-opacity-30 bg-gray-500 bg-opacity-80 text-white"
+            : "bg-gray-100 text-black"
+        }`}
       >
         {loading ? (
           <div className="flex w-full items-center justify-center space-x-3">
@@ -41,7 +47,6 @@ export default function TextArea(props: Props) {
           "Post"
         )}
       </Buttons>
-
     </div>
   );
 }

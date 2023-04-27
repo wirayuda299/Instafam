@@ -6,7 +6,7 @@ import { useSession } from "next-auth/react";
 
 const Footer = dynamic(() => import("@/components/Footer"));
 const UserRecommendation = dynamic(() => import("./User"), {
-  ssr: true
+  ssr: true,
 });
 const Buttons = dynamic(() => import("../Buttons/Buttons"));
 

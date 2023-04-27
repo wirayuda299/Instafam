@@ -16,5 +16,5 @@ export default function PostImage({ post }: { post: IUserPostProps }) {
       className="post h-auto w-full rounded-lg object-cover"
       alt={post?.author ?? "user post image"}
     />
-  )
+  );
 }

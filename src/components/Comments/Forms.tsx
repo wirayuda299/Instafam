@@ -10,15 +10,15 @@ type Props = {
   comments: IComment["comments"];
 };
 
- function Comments({ post, session }: Props) {
+function Comments({ post, session }: Props) {
   const { pathname } = useRouter();
   const { register, handleSubmit, resetField } = useForm();
-  
+
   const defaultValues = {
     comments: "",
   };
 
-  const handleSubmits = async (e: FieldValues) => {    
+  const handleSubmits = async (e: FieldValues) => {
     const { postComments } = await import("@/helper/comments");
     await postComments({
       e,
@@ -46,4 +46,4 @@ type Props = {
     </div>
   );
 }
-export default memo(Comments)
+export default memo(Comments);

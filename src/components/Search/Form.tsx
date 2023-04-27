@@ -24,7 +24,7 @@ export default function Form({ height, children }: Props) {
   const { result, setResult } = useStore(useResultStore);
   const { setDrawer } = useStore(useDrawerStore);
   const { darkMode } = useStore(useDarkModeStore);
-  const {resultDrawer, setResultDrawer} = useStore(useResultDrawerStore);
+  const {  setResultDrawer } = useStore(useResultDrawerStore);
 
   const handleDrawerToggler = () => {
     setResult([]);
@@ -41,7 +41,6 @@ export default function Form({ height, children }: Props) {
       });
       setResult(result);
       setResultDrawer(true);
-
     } catch (error: any) {
       console.log(error.message);
     }
@@ -82,7 +81,7 @@ export default function Form({ height, children }: Props) {
               handleDrawerToggler={handleDrawerToggler}
               results={result}
               setResults={setResult}
-              customs={`h-screen mt-5 -left-1 fixed z-50 top-16 md: h-full  md:top-0 md:left-0 md:w-full md:z-0  md:transition-all md:duration-300 md:ease-in-out md:static ${
+              customs={`h-screen fixed z-50 top-0 md: h-full  md:left-0 md:w-full md:z-0  md:transition-all md:duration-300 md:ease-in-out md:static ${
                 darkMode ? "bg-black text-white" : "bg-white text-black"
               }`}
             />

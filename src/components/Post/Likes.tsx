@@ -4,8 +4,7 @@ type Props = {
   likesCount: string[];
   session: any;
 };
- function Likes({ likesCount, session }: Props) {
-  
+function Likes({ likesCount, session }: Props) {
   return (
     <>
       {likesCount && likesCount.length > 0 ? (

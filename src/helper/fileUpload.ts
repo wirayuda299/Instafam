@@ -9,7 +9,7 @@ const imageInputSchema = z.object({
 
 type Params = {
   e: ChangeEvent<HTMLInputElement>;
-  setPreviewUrl:  (postImageModal: string) => void
+  setPreviewUrl: (postImageModal: string) => void;
   img: string | undefined;
 };
 type UploadFile = ({ e, img, setPreviewUrl }: Params) => Promise<void>;
@@ -55,6 +55,10 @@ export const handleInputImage: UploadFile = async (args) => {
     const reader = new FileReader();
     reader.onload = async (event) => {
       if (event.target) {
+        if(result.unsafe) {
+          toast.error('Your uploaded file is contain NSFW content, please upload file that safe for everyone')
+          return 
+        }
         return setPreviewUrl(event.target.result as string);
       }
     };

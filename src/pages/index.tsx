@@ -37,7 +37,7 @@ export default function Home({ posts, users }: Props) {
       if (entry) {
         observer.unobserve(entry);
       }
-    }
+    };
   }, []);
 
   return (
@@ -47,17 +47,13 @@ export default function Home({ posts, users }: Props) {
           {posts.length === 0 ? (
             <Postloader />
           ) : (
-            posts?.map((post) => (
-              <PostCard post={post} key={post.postId} />
-            ))
+            posts?.map((post) => <PostCard post={post} key={post.postId} />)
           )}
           <div id="entry"></div>
           {newPosts.length === 0 ? (
             <Postloader />
           ) : (
-            newPosts?.map((post) => (
-              <PostCard post={post} key={post.postId} />
-            ))
+            newPosts?.map((post) => <PostCard post={post} key={post.postId} />)
           )}
         </div>
         <Suggestions reccomend={users as IUser[]} />
@@ -83,7 +79,6 @@ export async function getServerSideProps({ req, res }: any) {
   const users = await getUserRecommendation(session?.user.uid);
   const posts = await getPosts(3);
   res.setHeader("Cache-Control", "maxage=60, stale-while-revalidate");
-
 
   return {
     props: {

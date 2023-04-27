@@ -1,29 +1,32 @@
 import { useDarkModeStore } from "@/stores/stores";
 import dynamic from "next/dynamic";
 import Head from "next/head";
-import {  useState, useLayoutEffect } from "react";
+import { useState, useLayoutEffect } from "react";
 import { useStore } from "zustand";
-import Entrance from "../Loader/Main";
-import MessagesModal from "../Modal/Messages/Messages";
-
 const Menu = dynamic(() => import("@/components/Modal/Menu"));
 const Report = dynamic(() => import("@/components/Modal/Report"));
 const PostPreview = dynamic(() => import("@/components/Modal/PostPreview"));
 const PostComment = dynamic(() => import("@/components/Modal/Drawer"));
 const SearchForm = dynamic(() => import("@/components/Search"));
 const Sidebar = dynamic(() => import("../Navigation/Sidebar"), {
-  ssr: true
+  ssr: true,
 });
 const MainHeader = dynamic(() => import("../Header/MainHeader"), {
-  ssr: true
+  ssr: true,
 });
-const ImageCropperModal = dynamic(() => import("@/components/Modal/Cropper/Cropper"), {
-  ssr: false
-});
+const MessagesModal = dynamic(() => import('../Modal/Messages/Messages'))
+const Entrance = dynamic(() => import('../Loader/Main'))
+const ImageCropperModal = dynamic(
+  () => import("@/components/Modal/Cropper/Cropper"),
+  {
+    ssr: false,
+  }
+);
 
 export default function Layout({ children }: { children: any }) {
   const { darkMode } = useStore(useDarkModeStore);
   const [mounted, setMounted] = useState(false);
+
   useLayoutEffect(() => {
     setTimeout(() => {
       setMounted(true);
@@ -31,8 +34,8 @@ export default function Layout({ children }: { children: any }) {
 
     return () => {
       setMounted(false);
-    }
-  }, [])
+    };
+  }, []);
 
   return (
     <>
@@ -74,7 +77,10 @@ export default function Layout({ children }: { children: any }) {
       <ImageCropperModal />
       <MessagesModal />
 
-      <div className={`fixed top-0 w-full h-screen bg-white z-50 ${mounted ? 'animate-fadeOut hidden' : 'animate-fadeIn'}`}>
+      <div
+        className={`fixed top-0 z-50 h-screen w-full bg-white ${mounted ? "hidden animate-fadeOut" : "animate-fadeIn"
+          }`}
+      >
         <Entrance />
       </div>
     </>

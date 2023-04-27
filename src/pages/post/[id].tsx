@@ -14,10 +14,12 @@ const PostCard = dynamic(() => import("@/components/Post"), {
 const Postloader = dynamic(() => import("@/components/Loader/Post"), {
   ssr: true,
 });
-const PreviewLargeScreen = dynamic( () => import("@/components/Post/PreviewLargeScreen"), {
-  ssr: true,
-});
-
+const PreviewLargeScreen = dynamic(
+  () => import("@/components/Post/PreviewLargeScreen"),
+  {
+    ssr: true,
+  }
+);
 
 export default function PostDetail({ post }: { post: IUserPostProps }) {
   const { likes, comments, savedBy } = usePost(post);
@@ -61,9 +63,7 @@ export default function PostDetail({ post }: { post: IUserPostProps }) {
       <div className="h-full w-full text-black dark:text-white">
         <div className="h-full w-full overflow-y-auto">
           <div className="container mx-auto grid h-screen w-full max-w-5xl place-items-center rounded-lg ">
-            <div
-              className="relative grid h-full w-full grid-cols-1 justify-between overflow-y-auto border border-gray-500 border-opacity-50 p-5 lg:max-h-[530px] lg:grid-cols-2 lg:p-0"
-            >
+            <div className="relative grid h-full w-full grid-cols-1 justify-between overflow-y-auto border border-gray-500 border-opacity-50 p-5 lg:max-h-[530px] lg:grid-cols-2 lg:p-0">
               <PreviewLargeScreen
                 comments={comments}
                 handleClick={handleClick}
@@ -92,10 +92,13 @@ export default function PostDetail({ post }: { post: IUserPostProps }) {
   );
 }
 
-export async function getServerSideProps({ query, res }: GetServerSidePropsContext) {
+export async function getServerSideProps({
+  query,
+  res,
+}: GetServerSidePropsContext) {
   const { getPostById } = await import("@/helper/getPosts");
   const posts = await getPostById(query?.id as string);
-  res.setHeader( "Cache-Control", "maxage=60, stale-while-revalidate");
+  res.setHeader("Cache-Control", "maxage=60, stale-while-revalidate");
 
   return {
     props: {

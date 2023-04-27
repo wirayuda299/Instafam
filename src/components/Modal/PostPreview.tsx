@@ -27,13 +27,14 @@ export default function PostPreview() {
   const { selectedPost, setSelectedPost } = useStore(useSelectedPostStore);
   const { setPostCommentModal } = useStore(usePostCommentModalStore);
   const { likes, comments, savedBy } = usePost(selectedPost ?? null);
- 
-  if (!postPreviewModal) return null
+
+  if (!postPreviewModal) return null;
 
   return createPortal(
     <div
-      className={` fixed left-0 top-0 z-50 h-screen w-full  select-none !overflow-x-hidden !overflow-y-hidden  bg-black bg-opacity-60 shadow-sm  ${postPreviewModal ? "animate-fadeIn" : "animate-fadeOut"
-        }`}
+      className={` fixed left-0 top-0 z-50 h-screen w-full  select-none !overflow-x-hidden !overflow-y-hidden  bg-black bg-opacity-60 shadow-sm  ${
+        postPreviewModal ? "animate-fadeIn" : "animate-fadeOut"
+      }`}
       aria-modal="true"
       role="dialog"
     >
@@ -42,29 +43,30 @@ export default function PostPreview() {
           <div className="h-full w-full">
             <div className="mx-auto grid h-screen w-full max-w-5xl place-items-center rounded-lg ">
               <div
-                className={`relative grid h-full w-full grid-cols-1 justify-between  rounded-xl p-5 shadow-2xl  lg:max-h-[500px] lg:grid-cols-2 lg:p-0 ${darkMode ? "bg-black" : "bg-white"
-                  } `}
+                className={`relative grid h-full w-full grid-cols-1 justify-between  rounded-xl p-5 shadow-2xl  lg:max-h-[500px] lg:grid-cols-2 lg:p-0 ${
+                  darkMode ? "bg-black" : "bg-white"
+                } `}
               >
                 <PostImage post={selectedPost as IUserPostProps} />
-                 <PostCommentDesktop
-                    post={selectedPost as IUserPostProps}
-                    comments={comments}
-                    likes={likes}
-                    savedBy={savedBy}
-                    setPostCommentModal={setPostCommentModal}
-                    setPostPreviewModal={setPostPreviewModal}
-                    setSelectedPost={setSelectedPost} 
+                <PostCommentDesktop
+                  post={selectedPost as IUserPostProps}
+                  comments={comments}
+                  likes={likes}
+                  savedBy={savedBy}
+                  setPostCommentModal={setPostCommentModal}
+                  setPostPreviewModal={setPostPreviewModal}
+                  setSelectedPost={setSelectedPost}
+                >
+                  <Buttons
+                    onClick={() => {
+                      setPostPreviewModal(false);
+                      setPostCommentModal(false);
+                      setSelectedPost(null);
+                    }}
                   >
-                    <Buttons
-                      onClick={() => {
-                        setPostPreviewModal(false);
-                        setPostCommentModal(false);
-                        setSelectedPost(null);
-                      }}
-                    >
-                      <AiOutlineClose size={25} />
-                    </Buttons>
-                  </PostCommentDesktop>
+                    <AiOutlineClose size={25} />
+                  </Buttons>
+                </PostCommentDesktop>
               </div>
             </div>
           </div>
@@ -72,5 +74,5 @@ export default function PostPreview() {
       </div>
     </div>,
     document.getElementById("modal") as Element
-  )
+  );
 }

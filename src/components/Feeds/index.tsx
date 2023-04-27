@@ -22,7 +22,7 @@ export default function Feeds({ post, index }: Props) {
       }}
     >
       <Image
-        className={` h-full w-full object-cover xs:object-top object-center ${
+        className={` h-full w-full object-cover object-center xs:object-top ${
           index % 2 === 0 ? "aspect-video md:aspect-square" : "aspect-square "
         }`}
         src={post.image}

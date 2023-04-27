@@ -1,4 +1,9 @@
-import { useCroppedImgStore, useDarkModeStore, usePostCreateModalStore, usePostImageModalStore } from "@/stores/stores";
+import {
+  useCroppedImgStore,
+  useDarkModeStore,
+  usePostCreateModalStore,
+  usePostImageModalStore,
+} from "@/stores/stores";
 import { useState } from "react";
 import { createPortal } from "react-dom";
 import { AiOutlineClose } from "react-icons/ai";
@@ -13,17 +18,24 @@ const FileUpload = dynamic(() => import("@/components/FileUpload/FileUpload"), {
 const Buttons = dynamic(() => import("@/components/Buttons/Buttons"), {
   ssr: false,
 });
-const ImageCropper = dynamic(() => import("@/components/ImageCropper/ImageCropper"), {
-  ssr: false,
-});
+const ImageCropper = dynamic(
+  () => import("@/components/ImageCropper/ImageCropper"),
+  {
+    ssr: false,
+  }
+);
 
 export default function Cropper() {
   const { darkMode } = useStore(useDarkModeStore);
-  const { postCreateModal, setPostCreateModal } = useStore(usePostCreateModalStore);
-  const { postImageModal, setPostImageModal } = useStore(usePostImageModalStore)
+  const { postCreateModal, setPostCreateModal } = useStore(
+    usePostCreateModalStore
+  );
+  const { postImageModal, setPostImageModal } = useStore(
+    usePostImageModalStore
+  );
   const [zoom, setZoom] = useState(1);
   const { setCroppedImg } = useStore(useCroppedImgStore);
-  const router = useRouter()
+  const router = useRouter();
 
   async function onCropComplete(croppedArea: Area) {
     if (!postImageModal) return;
@@ -32,7 +44,11 @@ export default function Cropper() {
         width: 1200,
         height: 1200 * 1,
       };
-      const image = await getCroppedImg(postImageModal, croppedArea, canvasSize);
+      const image = await getCroppedImg(
+        postImageModal,
+        croppedArea,
+        canvasSize
+      );
       setCroppedImg(image);
       return;
     } catch (e: any) {
@@ -41,29 +57,31 @@ export default function Cropper() {
   }
 
   const handleClick = () => {
-    setPostCreateModal(false)
-    router.push("/create")
-    setPostImageModal("")
-  }
-  if (!postCreateModal) return null
+    setPostCreateModal(false);
+    router.push("/create");
+    setPostImageModal("");
+  };
+  if (!postCreateModal) return null;
 
   return createPortal(
     <div
-      className={` ${darkMode ? " text-white" : " text-black"
-        } fixed left-0 top-0  z-50 h-screen w-full select-none !overflow-hidden bg-black  bg-opacity-50 shadow-sm `}
+      className={` ${
+        darkMode ? " text-white" : " text-black"
+      } fixed left-0 top-0  z-50 h-screen w-full select-none !overflow-hidden bg-black  bg-opacity-50 shadow-sm `}
       aria-modal="true"
       role="dialog"
     >
       <Buttons
-        className="absolute top-32 sm:top-3 right-3 border-2  rounded-lg text-black bg-white font-semibold "
+        className="absolute right-3 top-32 rounded-lg border-2  bg-white font-semibold text-black sm:top-3 "
         onClick={() => {
-          setPostCreateModal(false)
-          setPostImageModal("")
-          setCroppedImg("")
-        }}>
+          setPostCreateModal(false);
+          setPostImageModal("");
+          setCroppedImg("");
+        }}
+      >
         <AiOutlineClose size={30} className="font-semibold" />
       </Buttons>
-      <div className="sm:w-full h-full max-w-lg mx-auto ">
+      <div className="mx-auto h-full max-w-lg sm:w-full ">
         {postImageModal ? (
           <ImageCropper
             darkMode={darkMode}
@@ -72,15 +90,19 @@ export default function Cropper() {
             onCropComplete={onCropComplete}
             setCroppedImg={setCroppedImg}
             setPostImageModal={setPostImageModal}
-            setZoom={setZoom} zoom={zoom}
+            setZoom={setZoom}
+            zoom={zoom}
           />
         ) : (
-          <div className="flex justify-center  items-center w-full h-full">
-            <FileUpload img={postImageModal} setPreviewUrl={setPostImageModal} />
+          <div className="flex h-full  w-full items-center justify-center">
+            <FileUpload
+              img={postImageModal}
+              setPreviewUrl={setPostImageModal}
+            />
           </div>
         )}
       </div>
     </div>,
     document.getElementById("modal") as Element
-  )
+  );
 }

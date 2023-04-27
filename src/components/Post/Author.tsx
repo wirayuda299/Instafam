@@ -2,11 +2,11 @@ import { IUserPostProps } from "@/types/post";
 import { memo, useMemo, useState } from "react";
 import Buttons from "../Buttons/Buttons";
 
- function Author({ post }: { post: IUserPostProps }) {
+function Author({ post }: { post: IUserPostProps }) {
   const [show, setShow] = useState(false);
   const posthastag = useMemo<string[]>(() => post?.hashtags, [post]);
   const captions = useMemo<string>(() => post?.captions[0], [post]);
-  
+
   return (
     <div className="overflow-hidden">
       <div
@@ -57,4 +57,4 @@ import Buttons from "../Buttons/Buttons";
     </div>
   );
 }
-export default memo(Author)
+export default memo(Author);

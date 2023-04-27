@@ -13,13 +13,21 @@ type Props = {
   uid: string;
   likes: string[];
   savedBy: string[];
-  setPostPreviewModal: (postPreviewModal: boolean) => void
-  setSelectedPost: (selectedPost: IUserPostProps | null) => void
-  setPostCommentModal: (postCommentModal: boolean) => void
+  setPostPreviewModal: (postPreviewModal: boolean) => void;
+  setSelectedPost: (selectedPost: IUserPostProps | null) => void;
+  setPostCommentModal: (postCommentModal: boolean) => void;
 };
 
 function ActionButton(props: Props) {
-  const { post, uid, likes, savedBy, setPostCommentModal,setPostPreviewModal, setSelectedPost } = props;
+  const {
+    post,
+    uid,
+    likes,
+    savedBy,
+    setPostCommentModal,
+    setPostPreviewModal,
+    setSelectedPost,
+  } = props;
 
   const clickLgScreen = () => {
     setPostPreviewModal(true);

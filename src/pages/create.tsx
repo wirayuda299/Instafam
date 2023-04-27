@@ -1,5 +1,4 @@
 import dynamic from "next/dynamic";
-import Head from "next/head";
 import { useStore } from "zustand";
 import { useCroppedImgStore, useDarkModeStore } from "@/stores/stores";
 import Image from "next/image";
@@ -11,19 +10,18 @@ const Captions = dynamic(() => import("@/components/Captions/Captions"), {
   ssr: false,
 });
 
-
 export default function CreatePost() {
   const { croppedImg, setCroppedImg } = useStore(useCroppedImgStore);
   const { darkMode } = useStore(useDarkModeStore);
-  const [captions, setCaptions] = useState<string>('')
+  const [captions, setCaptions] = useState<string>("");
   const [loading, setLoading] = useState(false);
-  const { data: session } = useSession()
-  const router = useRouter()
+  const { data: session } = useSession();
+  const router = useRouter();
 
   useEffect(() => {
-    if (!session) router.push("/auth/signin")
-    if (!croppedImg) router.push("/")
-  }, [croppedImg, session])
+    if (!session) router.push("/auth/signin");
+    if (!croppedImg) router.push("/");
+  }, [croppedImg, session]);
 
   const makePosts = async () => {
     const args = {
@@ -34,20 +32,24 @@ export default function CreatePost() {
       setImg: setCroppedImg,
       setLoading,
       img: croppedImg,
-    }
-    await makePost(args)
-
-  }
+    };
+    await makePost(args);
+  };
   return (
-    <div className={`w-full h-screen !overflow-y-auto mb-5 ${darkMode ? 'bg-black' : 'bg-white'}`}>
-      <div className=" mx-auto grid lg:grid-cols-2 place-items-center h-full !overflow-y-auto">
+    <div
+      className={`mb-5 h-screen w-full !overflow-y-auto ${
+        darkMode ? "bg-black" : "bg-white"
+      }`}
+    >
+      <div className=" mx-auto grid h-full place-items-center !overflow-y-auto lg:grid-cols-2">
         <Image
-          className="object-cover hidden lg:block"
+          className="hidden object-cover lg:block"
           src={croppedImg}
           width={500}
           height={500}
           alt="post image"
-          priority />
+          priority
+        />
         <div>
           <Captions
             captions={captions}
@@ -55,11 +57,12 @@ export default function CreatePost() {
             img={croppedImg}
             loading={loading}
             session={session}
-            setCaptions={setCaptions} />
+            setCaptions={setCaptions}
+          />
         </div>
       </div>
       <br />
       <br />
     </div>
-  )
+  );
 }

@@ -14,7 +14,6 @@ export default function Empty({ comments }: { comments: any }) {
           </div>
         </div>
       )}
-
     </>
-  )
+  );
 }

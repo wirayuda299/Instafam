@@ -4,7 +4,7 @@ import { FieldValues } from "react-hook-form";
 interface Values extends FieldValues {
   updated: string;
 }
-export async function updatePost(e: Values, post:IUserPostProps) {
+export async function updatePost(e: Values, post: IUserPostProps) {
   try {
     const { db } = await import("@/config/firebase");
     const { doc, updateDoc } = await import("firebase/firestore");
@@ -17,7 +17,7 @@ export async function updatePost(e: Values, post:IUserPostProps) {
           .match(/#(?!\n)(.+)/g)
           ?.join(" ")
           .split(" ") || [],
-    })
+    });
   } catch (error: any) {
     console.log(error.message);
   }

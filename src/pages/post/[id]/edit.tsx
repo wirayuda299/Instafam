@@ -26,12 +26,12 @@ export default function EditPosts({ post }: { post: IUserPostProps }) {
       const { updatePost } = await import("@/helper/updatePost");
       await updatePost(e, post).then(() => {
         toast.success("Post updated successfully");
-        push('/');
-      })
+        push("/");
+      });
     } catch (error: any) {
       toast.error(error.message);
     }
-  }
+  };
 
   return (
     <>

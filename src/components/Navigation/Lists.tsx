@@ -9,26 +9,39 @@ import { RiMessengerLine } from "react-icons/ri";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import dynamic from "next/dynamic";
-import { useDarkModeStore, useDrawerStore, useExtraListStore, usePostCreateModalStore, useResultStore } from "@/stores/stores";
+import {
+  useDarkModeStore,
+  useDrawerStore,
+  useExtraListStore,
+  usePostCreateModalStore,
+  useResultStore,
+} from "@/stores/stores";
 import { useStore } from "zustand";
 import { useEffect } from "react";
 const ListItem = dynamic(() => import("./ListItem"), { ssr: true });
 
 type Props = {
   session: any;
-  setExtraList: (extraList: boolean) => void
-  setPostCreateModal: (postCreateModal: boolean) => void
-  setDrawer: (drawer: boolean) => void
-  darkMode: boolean
-  handleClick: () => void
-  pathname: string
-  setResult: (result: any) => void
-  drawer: boolean
-
-}
+  setPostCreateModal: (postCreateModal: boolean) => void;
+  setDrawer: (drawer: boolean) => void;
+  darkMode: boolean;
+  handleClick: () => void;
+  pathname: string;
+  setResult: (result: any) => void;
+  drawer: boolean;
+};
 
 export default function NavbarLists(props: Props) {
-  const { session, setExtraList, setPostCreateModal, setDrawer, darkMode, handleClick, pathname, setResult, drawer } = props;
+  const {
+    session,
+    setPostCreateModal,
+    setDrawer,
+    darkMode,
+    handleClick,
+    pathname,
+    setResult,
+    drawer,
+  } = props;
 
   const navList = [
     {
@@ -98,8 +111,9 @@ export default function NavbarLists(props: Props) {
       path: `/profile/${session?.user.username}`,
       icon: (
         <Image
-          className={`h-7 w-7 border object-cover sm:h-8 sm:w-8 md:border-0 ${drawer ? "!w-full" : ""
-            } rounded-full`}
+          className={`h-7 w-7 border object-cover sm:h-8 sm:w-8 md:border-0 ${
+            drawer ? "!w-full" : ""
+          } rounded-full`}
           src={session?.user?.image || ""}
           width={50}
           height={50}

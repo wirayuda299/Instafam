@@ -10,8 +10,12 @@ import { useRouter } from "next/router";
 import { createPortal } from "react-dom";
 import { IUserPostProps } from "@/types/post";
 
-const PostImage = dynamic(() => import("@/components/Post/Image"), { ssr: true });
-const Postheader = dynamic(() => import("@/components/Header/PostHeader"), { ssr: true });
+const PostImage = dynamic(() => import("@/components/Post/Image"), {
+  ssr: true,
+});
+const Postheader = dynamic(() => import("@/components/Header/PostHeader"), {
+  ssr: true,
+});
 const Buttons = dynamic(() => import("../Buttons/Buttons"), { ssr: false });
 
 export default function Feed() {
@@ -26,14 +30,15 @@ export default function Feed() {
     setSelectedPost(null);
   };
 
-  if (!selectedPost && !feedModal) return null
-  
+  if (!selectedPost && !feedModal) return null;
+
   return createPortal(
     <>
       {selectedPost && feedModal && (
         <div
-          className={` fixed left-0 top-0 z-[99999999] h-screen w-full  select-none !overflow-x-hidden !overflow-y-hidden  bg-black bg-opacity-60 shadow-sm  ${feedModal && selectedPost ? "animate-fadeIn" : "animate-fadeOut"
-            }`}
+          className={` fixed left-0 top-0 z-[99999999] h-screen w-full  select-none !overflow-x-hidden !overflow-y-hidden  bg-black bg-opacity-60 shadow-sm  ${
+            feedModal && selectedPost ? "animate-fadeIn" : "animate-fadeOut"
+          }`}
           aria-modal="true"
           role="dialog"
         >
@@ -43,8 +48,9 @@ export default function Feed() {
               onClick={() => setSelectedPost(null)}
             >
               <div
-                className={`flex min-w-[300px] flex-col rounded-lg ${darkMode ? "!bg-black text-white" : "!bg-white text-black"
-                  } `}
+                className={`flex min-w-[300px] flex-col rounded-lg ${
+                  darkMode ? "!bg-black text-white" : "!bg-white text-black"
+                } `}
               >
                 <Postheader post={selectedPost as IUserPostProps}>
                   <Buttons
@@ -70,5 +76,5 @@ export default function Feed() {
       )}
     </>,
     document.getElementById("modal") as Element
-  )
+  );
 }

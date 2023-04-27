@@ -1,22 +1,28 @@
-import Buttons from "@/components/Buttons/Buttons";
-import Form from "@/components/Search/Form";
-import { useDarkModeStore, useMessageModalStore, useResultStore } from "@/stores/stores";
-import { IUserPostProps } from "@/types/post";
+import {
+  useChatRoomSelectedStore,
+  useDarkModeStore,
+  useMessageModalStore,
+} from "@/stores/stores";
 import { IUser } from "@/types/user";
 import { useState } from "react";
 import { createPortal } from "react-dom";
 import { FieldValues, useForm } from "react-hook-form";
-import { AiOutlineClose, AiOutlineSearch } from "react-icons/ai";
+import { AiOutlineClose } from "react-icons/ai";
 import { useStore } from "zustand";
-import dynamic from "next/dynamic";
 import Image from "next/image";
-import CreatedTime from "@/components/Post/CreatedTime";
+import { addDoc, collection } from "firebase/firestore";
+import { db } from "@/config/firebase";
+import { useSession } from "next-auth/react";
 
 export default function MessagesModal() {
   const { messageModal, setMessageModal } = useStore(useMessageModalStore);
   const { handleSubmit, resetField, register } = useForm();
-  const [result, setResult] = useState<IUser[]>([])
+  const [result, setResult] = useState<IUser[] | undefined>([]);
   const { darkMode } = useStore(useDarkModeStore);
+  const { chatRoomSelected, setChatRoomSelected } = useStore(
+    useChatRoomSelectedStore
+  );
+  const { data: session } = useSession();
 
   const searchUser = async (data: FieldValues) => {
     try {
@@ -30,41 +36,68 @@ export default function MessagesModal() {
       console.log(error.message);
     }
   };
+
+  const startNewMessage = async () => {
+    try {
+      await addDoc(collection(db, "messages"), {
+        room: {
+          id: [session?.user.uid, chatRoomSelected?.uid],
+          receiver: {
+            id: chatRoomSelected?.uid,
+            image: chatRoomSelected?.image,
+            name: chatRoomSelected?.username,
+          },
+          chats: [],
+        },
+      }).then(() => {
+        setMessageModal(false);
+        setChatRoomSelected(null);
+        setResult([]);
+      });
+    } catch (error: any) {
+      console.log(error.message);
+    }
+  };
   const defaultValues = {
     search: "",
-  }
-  if (!messageModal) return null
+  };
+  if (!messageModal) return null;
+
   return createPortal(
     <div
-      className={` fixed left-0 top-0 z-[99999999] h-screen w-full  select-none !overflow-x-hidden !overflow-y-hidden  bg-white shadow-sm  ${messageModal ? "animate-fadeIn" : "animate-fadeOut"
-        }`}
+      className={` fixed left-0 top-0 z-[99999999] h-screen w-full  select-none !overflow-x-hidden !overflow-y-hidden  shadow-sm  ${
+        messageModal ? "animate-fadeIn" : "animate-fadeOut"
+      } ${darkMode ? 'bg-black text-white' : 'bg-white text-black'}`}
       aria-modal="true"
       role="dialog"
     >
-      <div className="max-w-lg mx-auto h-full text-center">
-        <div className="flex justify-center py-2 px-3">
+      <div className="mx-auto h-full max-w-lg text-center mt-5">
+        <div className="flex justify-center px-3 py-2">
           <div className="flex-1">
             <h1 className="text-lg font-semibold">Message</h1>
           </div>
-          <button onClick={() => {
-            setMessageModal(false)
-            setResult([])
-
-          }}>
+          <button
+            onClick={async () => {
+              setMessageModal(false);
+              setResult([]);
+            }}
+          >
             <AiOutlineClose size={30} />
           </button>
         </div>
-        <div className="border">
-          <form className="flex space-x-2 justify-start items-center  py-3 mx-5" onSubmit={handleSubmit(searchUser)}>
-            <h2 className="text-lg font-semibold">
-              To :
-            </h2>
+        <div className="border border-gray-400 border-opacity-50 rounded-2xl mt-3">
+          <form
+            className="mx-5 flex items-center justify-start  space-x-2 py-3"
+            onSubmit={handleSubmit(searchUser)}
+          >
+            <h2 className="text-lg font-semibold">To :</h2>
             <div>
               <div className="flex w-full items-center justify-between rounded-md  px-3">
                 <input
                   type="search"
                   placeholder="search user"
                   autoComplete="off"
+                  autoCorrect="off"
                   autoFocus={false}
                   alt="search user"
                   security="restricted"
@@ -75,11 +108,16 @@ export default function MessagesModal() {
               </div>
             </div>
           </form>
-          {result.map(user => (
+          {result?.map((user) => (
             <div
+              onClick={() => {
+                setChatRoomSelected(user);
+                startNewMessage();
+              }}
               key={user.uid}
-              className={`relative flex space-x-2 items-center  px-4 py-3 ${darkMode ? "bg-black text-white" : "bg-white text-black"
-                }`}
+              className={`relative flex items-center space-x-2  px-4 py-3 ${
+                darkMode ? "bg-black text-white" : "bg-white text-black"
+              }`}
             >
               <Image
                 className="h-8 w-8 rounded-full object-cover "
@@ -101,5 +139,5 @@ export default function MessagesModal() {
       </div>
     </div>,
     document.getElementById("modal") as Element
-  )
+  );
 }

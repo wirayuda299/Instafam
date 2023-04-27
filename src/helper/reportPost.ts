@@ -5,7 +5,13 @@ import { doc, setDoc } from "firebase/firestore";
 import { IUserPostProps } from "@/types/post";
 import toast from "react-hot-toast";
 
-export const handleReport = async (e: FieldValues, selectedPost: IUserPostProps | null, session: any, setReportModal: any, resetField: any) => {
+export const handleReport = async (
+  e: FieldValues,
+  selectedPost: IUserPostProps | null,
+  session: any,
+  setReportModal: any,
+  resetField: any
+) => {
   try {
     const token = await getCsrfToken();
     if (!token) throw new Error("CSRF Token not found");

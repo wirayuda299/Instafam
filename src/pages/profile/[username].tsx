@@ -21,7 +21,7 @@ const PostImage = dynamic(() => import("@/components/Post/Image"), {
 
 type Props = {
   posts: IUserPostProps[] | [];
-  session: any
+  session: any;
   user: IUser | null;
   query: {
     readonly username: string;
@@ -83,9 +83,7 @@ function UserProfile({ posts, user, query, savedPosts }: Props) {
                 </h1>
               </div>
             ) : (
-              posts?.map((post) => (
-                <PostImage key={post.postId} post={post} />
-              ))
+              posts?.map((post) => <PostImage key={post.postId} post={post} />)
             )}
           </>
         )}

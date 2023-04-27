@@ -6,12 +6,19 @@ const Buttons = dynamic(() => import("../Buttons/Buttons"), { ssr: false });
 type Props = {
   extraList: boolean;
   darkMode: boolean;
-  handleClick: () => void
+  handleClick: () => void;
   drawer: boolean;
 };
 
-export default function ExtraMenuBtn({ darkMode, extraList, handleClick, drawer }: Props) {
+export default function ExtraMenuBtn(props: Props) {
+  const {
+    darkMode,
+    extraList,
+    handleClick,
+    drawer,
+  } = props
 
+  
   return (
     <Buttons
       type="button"

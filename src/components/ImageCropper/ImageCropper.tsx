@@ -1,6 +1,6 @@
-import { AiOutlineClose } from "react-icons/ai"
-import Buttons from "../Buttons/Buttons"
-import { Dispatch, SetStateAction } from "react"
+import { AiOutlineClose } from "react-icons/ai";
+import Buttons from "../Buttons/Buttons";
+import { Dispatch, SetStateAction } from "react";
 import { Cropper } from "react-cropper-custom";
 import "react-cropper-custom/dist/index.css";
 
@@ -12,20 +12,31 @@ export type Area = {
 };
 
 type Props = {
-  img: string
-  zoom: number
-  setZoom: Dispatch<SetStateAction<number>>
-  onCropComplete: (area: Area) => void
-  darkMode: boolean
-  setPostImageModal: (postImageModal: string) => void
-  setCroppedImg: (croppedImg: string) => void
-  handleClick: () => void
-}
+  img: string;
+  zoom: number;
+  setZoom: Dispatch<SetStateAction<number>>;
+  onCropComplete: (area: Area) => void;
+  darkMode: boolean;
+  setPostImageModal: (postImageModal: string) => void;
+  setCroppedImg: (croppedImg: string) => void;
+  handleClick: () => void;
+};
 export default function ImageCropper(props: Props) {
-  const { img, zoom, setZoom, onCropComplete, darkMode, setPostImageModal, setCroppedImg, handleClick } = props
+  const {
+    img,
+    zoom,
+    setZoom,
+    onCropComplete,
+    darkMode,
+    setPostImageModal,
+    setCroppedImg,
+    handleClick,
+  } = props;
   return (
-    <div className="!w-full flex  justify-center items-center h-full">
-      <div className={`flex w-full items-center justify-center rounded-md max-w-[500px]`}>
+    <div className="flex h-full  !w-full items-center justify-center">
+      <div
+        className={`flex w-full max-w-[500px] items-center justify-center rounded-md`}
+      >
         <div className="relative h-full w-full ">
           <div className="wrapper relative flex max-w-lg items-center justify-center rounded-sm">
             <Cropper
@@ -39,22 +50,27 @@ export default function ImageCropper(props: Props) {
               name="delete"
               title="delete"
               type="button"
-              className={`absolute border-2 rounded-md -right-3 -top-3  ${darkMode ? "bg-white text-black" : "bg-black text-white"}`}
+              className={`absolute -right-3 -top-3 rounded-md border-2  ${
+                darkMode ? "bg-white text-black" : "bg-black text-white"
+              }`}
               onClick={() => {
-                setPostImageModal("")
-                setCroppedImg("")
+                setPostImageModal("");
+                setCroppedImg("");
               }}
             >
               <AiOutlineClose size={25} />
             </Buttons>
           </div>
           <Buttons
-            className={`text-center w-full  py-2 rounded-md mt-3 ${darkMode ? "text-white bg-black" : "bg-gray-200 text-black"}`}
-            onClick={handleClick}>
+            className={`mt-3 w-full  rounded-md py-2 text-center ${
+              darkMode ? "bg-black text-white" : "bg-gray-200 text-black"
+            }`}
+            onClick={handleClick}
+          >
             Done
           </Buttons>
         </div>
       </div>
     </div>
-  )
+  );
 }

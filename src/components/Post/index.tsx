@@ -30,20 +30,20 @@ function PostCard({ post }: Props) {
   const { darkMode } = useStore(useDarkModeStore);
   const { menuModal, setMenuModal } = useStore(useMenuModalStore);
   const { setSelectedPost } = useStore(useSelectedPostStore);
-  const { setPostCommentModal } = useStore(usePostCommentModalStore)
-  const { setPostPreviewModal } = useStore(usePostPreviewModalStore)
+  const { setPostCommentModal } = useStore(usePostCommentModalStore);
+  const { setPostPreviewModal } = useStore(usePostPreviewModalStore);
 
   const handleClick = () => {
     setMenuModal(!menuModal);
     setSelectedPost(post);
   };
 
-
   return (
     <div className={`relative mb-5 w-full`}>
       <div
-        className={`rounded-sm shadow-lg  ${darkMode ? "bg-black text-white" : "bg-white text-black"
-          }`}
+        className={`rounded-sm shadow-lg  ${
+          darkMode ? "bg-black text-white" : "bg-white text-black"
+        }`}
       >
         <PostHeader post={post}>
           <>

@@ -1,7 +1,13 @@
-import { useFeedModalStore, usePostModalStore, useSelectedPostStore } from "@/stores/stores";
+import Form from "@/components/Search/Form";
+import {
+  useFeedModalStore,
+  usePostModalStore,
+  useSelectedPostStore,
+} from "@/stores/stores";
 import { IUserPostProps } from "@/types/post";
 import dynamic from "next/dynamic";
 import Image from "next/image";
+import { AiOutlineSearch } from "react-icons/ai";
 import { useStore } from "zustand";
 
 type Props = {
@@ -23,29 +29,23 @@ export default function Trending({ posts }: Props) {
 
   return (
     <div className="h-screen w-full overflow-y-auto">
-      <div className="columns-3 m-0 gap-0">
+      <Form height="h-min">
+        <button type="submit" name="Search" title="search">
+          <AiOutlineSearch size={20} />
+        </button>
+      </Form>
+      <div className="m-0 columns-3 gap-0">
         {posts?.map((post, i) => (
           <div key={`${post.postId}`}>
-            <button name="click to view the post" title="click to view the post" className={`hidden  md:block h-max ${i % 2 === 0 ? 'aspect-square' : 'aspect-video'}`} onClick={() => {
-              setSelectedPost(post);
-              setFeedModal(true);
-            }}>
-              <Image
-                src={post.image}
-                alt=""
-                width={1200}
-                height={1200}
-                placeholder="blur"
-                blurDataURL={post.image}
-                className={`object-cover w-full h-full object-top border `}
-                priority />
-            </button>
-            <div
+            <button
+              name="click to view the post"
+              title="click to view the post"
+              className={`hidden  h-max md:block ${i % 2 === 0 ? "aspect-square" : "aspect-video"
+                }`}
               onClick={() => {
                 setSelectedPost(post);
-                setPostModal(true);
+                setFeedModal(true);
               }}
-              className={`w-full cursor-pointer block md:hidden`}
             >
               <Image
                 src={post.image}
@@ -54,8 +54,28 @@ export default function Trending({ posts }: Props) {
                 height={1200}
                 placeholder="blur"
                 blurDataURL={post.image}
-                className={`object-cover w-full h-auto border ${i % 2 === 0 ? 'aspect-video' : 'aspect-square'}`}
-                priority />
+                className={`h-full w-full border object-cover object-top `}
+                priority
+              />
+            </button>
+            <div
+              onClick={() => {
+                setSelectedPost(post);
+                setPostModal(true);
+              }}
+              className={`block w-full cursor-pointer md:hidden`}
+            >
+              <Image
+                src={post.image}
+                alt=""
+                width={1200}
+                height={1200}
+                placeholder="blur"
+                blurDataURL={post.image}
+                className={`h-auto w-full border object-cover ${i % 2 === 0 ? "aspect-video" : "aspect-square"
+                  }`}
+                priority
+              />
             </div>
           </div>
         ))}

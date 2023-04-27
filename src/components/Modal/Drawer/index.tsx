@@ -26,27 +26,29 @@ export default function PostComment() {
   const { darkMode } = useStore(useDarkModeStore);
   const { data: session } = useSession();
   const { comments } = usePost(selectedPost);
-  const id = useId()
+  const id = useId();
 
-  if (!postCommentModal) return null
+  if (!postCommentModal) return null;
 
   return createPortal(
     <div
-      className={` ${darkMode ? "bg-black text-white" : "bg-white text-black"
-        } fixed left-0 top-0 z-[99] h-screen w-full select-none overflow-y-auto !overflow-x-hidden bg-black  bg-opacity-60 shadow-sm lg:hidden   ${postCommentModal
-          ? "animate-commentSlideIn "
-          : "animate-commentSlideOut"
-        }`}
+      className={` ${
+        darkMode ? "bg-black text-white" : "bg-white text-black"
+      } fixed left-0 top-0 z-[99] h-screen w-full select-none overflow-y-auto !overflow-x-hidden bg-black  bg-opacity-60 shadow-sm lg:hidden   ${
+        postCommentModal ? "animate-commentSlideIn " : "animate-commentSlideOut"
+      }`}
       aria-modal="true"
       role="dialog"
     >
       <div
-        className={` relative  h-full  overflow-hidden text-center ${darkMode ? "bg-black text-white" : "bg-white text-black"
-          }`}
+        className={` relative  h-full  overflow-hidden text-center ${
+          darkMode ? "bg-black text-white" : "bg-white text-black"
+        }`}
       >
         <div
-          className={`flex w-full items-center px-3 py-3 border-b border-gray-500 border-opacity-50 ${darkMode ? "bg-black text-white" : "bg-white text-black"
-            }`}
+          className={`flex w-full items-center border-b border-gray-500 border-opacity-50 px-3 py-3 ${
+            darkMode ? "bg-black text-white" : "bg-white text-black"
+          }`}
         >
           <div>
             <Buttons
@@ -64,7 +66,7 @@ export default function PostComment() {
         </div>
         <div className="w-full">
           <Postheader post={selectedPost as IUserPostProps}>{""}</Postheader>
-          <div className="max-h-screen  !w-full overflow-y-auto pb-28 px-2">
+          <div className="max-h-screen  !w-full overflow-y-auto px-2 pb-28">
             <EmptyComment comments={comments} />
             <Comment comments={comments} key={id} />
           </div>
@@ -79,5 +81,5 @@ export default function PostComment() {
       </div>
     </div>,
     document.getElementById("modal") as Element
-  )
+  );
 }

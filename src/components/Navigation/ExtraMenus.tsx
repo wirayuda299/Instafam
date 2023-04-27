@@ -85,7 +85,7 @@ export default function ExtraMenus() {
       path: "",
       title: "Log Out",
       event: async () => {
-        const {signOut} = await import("next-auth/react");
+        const { signOut } = await import("next-auth/react");
         signOut({
           callbackUrl: "/auth/signin",
           redirect: true,
@@ -93,8 +93,6 @@ export default function ExtraMenus() {
       },
     },
   ];
-
- 
 
   return (
     <>

@@ -10,7 +10,6 @@ export default function App({
   Component,
   pageProps: { session, ...pageProps },
 }: any) {
-
   return (
     <SessionProvider session={session}>
       <Layout>
@@ -29,7 +28,6 @@ export default function App({
         />
         <Component {...pageProps} />
       </Layout>
-
     </SessionProvider>
   );
 }
