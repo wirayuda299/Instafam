@@ -11,7 +11,7 @@ function DesktopStatistic({ data }: Props) {
   return (
     <ul
       title="Statistic"
-      className={`mt-2 hidden items-center justify-start space-x-3 sm:flex`}
+      className={`sm:mt-0 md:mt-2 hidden items-center justify-start space-x-3 sm:flex`}
     >
       {data.map((item) => (
         <li

@@ -6,7 +6,7 @@ import { useRouter } from "next/router";
 import useAuth from "@/hooks/useAuth";
 import { GetServerSidePropsContext } from "next";
 import { memo, useMemo, useState, useTransition } from "react";
-
+import type { Session } from "next-auth";
 const Statistic = dynamic(
   () => import("@/components/User/Statistic/Statistic"),
   {
@@ -21,7 +21,7 @@ const PostImage = dynamic(() => import("@/components/Post/Image"), {
 
 type Props = {
   posts: IUserPostProps[] | [];
-  session: any;
+  session: Session | null;
   user: IUser | null;
   query: {
     readonly username: string;
@@ -62,6 +62,7 @@ function UserProfile({ posts, user, query, savedPosts }: Props) {
         break;
     }
   };
+
 
   const Tabs = useMemo(() => {
     return (
@@ -117,6 +118,7 @@ function UserProfile({ posts, user, query, savedPosts }: Props) {
               </div>
             ) : (
               <>
+
                 {savedPosts?.map((post) => (
                   <div key={post.postId} className="group relative">
                     <PostImage post={post} />

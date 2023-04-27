@@ -64,25 +64,29 @@ function Statistic({ session, users, posts, refreshData }: Props) {
                       session={session}
                       users={users}
                     />
+                    <div className="flex flex-col sm:flex-col-reverse">
+                      <div>
+                        {users?.uid === session?.user?.uid ? (
+                          <Buttons
+                            name="sign out"
+                            type="button"
+                            title="sign out"
+                            className="mt-2 w-full rounded-md bg-blue-500 py-1 text-white md:hidden"
+                            onClick={async () => {
+                              const { signOut } = await import("next-auth/react");
+                              signOut({
+                                callbackUrl: `${process.env.NEXTAUTH_URL}/auth/signin`,
+                                redirect: true,
+                              });
+                            }}
+                          >
+                            Log Out
+                          </Buttons>
+                        ) : null}
+                      </div>
+                      <DesktopStatistic data={data} />
+                    </div>
 
-                    {users?.uid === session?.user?.uid ? (
-                      <Buttons
-                        name="sign out"
-                        type="button"
-                        title="sign out"
-                        className="mt-2 w-full rounded-md bg-blue-500 py-1 text-white md:hidden"
-                        onClick={async () => {
-                          const { signOut } = await import("next-auth/react");
-                          signOut({
-                            callbackUrl: `${process.env.NEXTAUTH_URL}/auth/signin`,
-                            redirect: true,
-                          });
-                        }}
-                      >
-                        Log Out
-                      </Buttons>
-                    ) : null}
-                    <DesktopStatistic data={data} />
                   </div>
                 </div>
               </div>

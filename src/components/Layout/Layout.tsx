@@ -30,7 +30,7 @@ export default function Layout({ children }: { children: any }) {
   useLayoutEffect(() => {
     setTimeout(() => {
       setMounted(true);
-    }, 500);
+    }, 1000);
 
     return () => {
       setMounted(false);
