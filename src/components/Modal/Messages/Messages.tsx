@@ -27,26 +27,27 @@ export default function MessagesModal() {
 
   const searchUser = async (data: FieldValues) => {
     try {
-      const { searchUserByQuery } = await import("@/helper/searchUser");
-      const results = await searchUserByQuery({
-        data,
-        resetField,
-      }) as IUser[]
-
+      const res = await fetch(`/api/search-user?search=${data.search}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        }
+      });
+      const result: IUser[] = await res.json();
       if(data.search === '') {
         toast.error("Please enter a username or name of user");
         return;
-      } else if(results.length === 0) {
+      } else if(result.length === 0) {
         toast.error("No user found");
         return;
-      } else {
-        setResult(results);
       }
-   
+      setResult(result);
+      resetField("search");
+      
     } catch (error: any) {
-      console.log(error.message);
+      toast.error(error.message);
     }
-  }
+  };
 
 
   const startNewMessage = async () => {
