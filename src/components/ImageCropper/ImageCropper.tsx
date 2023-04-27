@@ -32,6 +32,7 @@ export default function ImageCropper(props: Props) {
     setCroppedImg,
     handleClick,
   } = props;
+
   return (
     <div className="flex h-full  !w-full items-center justify-center">
       <div

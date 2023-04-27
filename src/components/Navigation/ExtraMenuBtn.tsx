@@ -11,14 +11,8 @@ type Props = {
 };
 
 export default function ExtraMenuBtn(props: Props) {
-  const {
-    darkMode,
-    extraList,
-    handleClick,
-    drawer,
-  } = props
+  const { darkMode, extraList, handleClick, drawer } = props;
 
-  
   return (
     <Buttons
       type="button"
@@ -30,14 +24,16 @@ export default function ExtraMenuBtn(props: Props) {
       <div className="ease flex items-center space-x-2 px-3 text-base transition-all duration-300 sm:text-lg">
         {extraList ? (
           <AiOutlineClose
-            className={`text-xl md:text-2xl ${darkMode ? "text-white" : "text-black"
-              }`}
+            className={`text-xl md:text-2xl ${
+              darkMode ? "text-white" : "text-black"
+            }`}
             size={30}
           />
         ) : (
           <RxHamburgerMenu
-            className={`text-xl md:text-2xl ${darkMode ? "text-white" : "text-black"
-              }`}
+            className={`text-xl md:text-2xl ${
+              darkMode ? "text-white" : "text-black"
+            }`}
             size={30}
           />
         )}

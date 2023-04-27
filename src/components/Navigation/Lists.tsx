@@ -7,21 +7,13 @@ import {
 import { MdOutlineExplore } from "react-icons/md";
 import { RiMessengerLine } from "react-icons/ri";
 import Image from "next/image";
-import { useRouter } from "next/router";
 import dynamic from "next/dynamic";
-import {
-  useDarkModeStore,
-  useDrawerStore,
-  useExtraListStore,
-  usePostCreateModalStore,
-  useResultStore,
-} from "@/stores/stores";
-import { useStore } from "zustand";
-import { useEffect } from "react";
+import type { Session } from "next-auth";
+
 const ListItem = dynamic(() => import("./ListItem"), { ssr: true });
 
 type Props = {
-  session: any;
+  session: Session | null;
   setPostCreateModal: (postCreateModal: boolean) => void;
   setDrawer: (drawer: boolean) => void;
   darkMode: boolean;

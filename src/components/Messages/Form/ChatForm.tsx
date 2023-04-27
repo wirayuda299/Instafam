@@ -1,10 +1,10 @@
 import { db } from "@/config/firebase";
 import { useDarkModeStore } from "@/stores/stores";
-import { doc, setDoc, arrayUnion } from "firebase/firestore";
 import type { Session } from "next-auth";
 import { FieldValues, useForm } from "react-hook-form";
 import { SlPaperPlane } from "react-icons/sl";
 import { useStore } from "zustand";
+
 type Receiver = {
   id: string;
   image: string;
@@ -12,15 +12,15 @@ type Receiver = {
   docId: string;
 };
 type Props = {
-  selectedChat: Receiver | null
-  session: Session | null
-  
-}
+  selectedChat: Receiver | null;
+  session: Session | null;
+};
 
 export default function ChatForm({ selectedChat, session }: Props) {
   const { register, handleSubmit, resetField } = useForm();
   const sendMessage = async (e: FieldValues) => {
     const message = e.message;
+    const { doc, setDoc, arrayUnion } = await import("firebase/firestore");
     try {
       const q = doc(db, "messages", `${selectedChat?.docId}`);
       await setDoc(
@@ -45,9 +45,13 @@ export default function ChatForm({ selectedChat, session }: Props) {
       console.log(error.message);
     }
   };
-  const { darkMode } = useStore(useDarkModeStore)
+  const { darkMode } = useStore(useDarkModeStore);
   return (
-    <div className={`fixed bottom-16 right-0 md:absolute md:bottom-0 left-0 w-full rounded-full border-2 border-gray-500 border-opacity-40  ${darkMode ? 'bg-black' : 'bg-white '}`}>
+    <div
+      className={`fixed bottom-16 left-0 right-0 w-full rounded-full border-2 border-gray-500 border-opacity-40 md:absolute md:bottom-0  ${
+        darkMode ? "bg-black" : "bg-white "
+      }`}
+    >
       <form
         className="flex items-center justify-between px-5 py-4"
         onSubmit={handleSubmit(sendMessage)}
@@ -55,7 +59,7 @@ export default function ChatForm({ selectedChat, session }: Props) {
         <input
           type="text"
           autoComplete="off"
-          className="flex-1 outline-none bg-transparent"
+          className="flex-1 bg-transparent outline-none"
           placeholder="Type a message"
           {...register("message", { required: true, min: 1, max: 200 })}
         />
@@ -64,5 +68,5 @@ export default function ChatForm({ selectedChat, session }: Props) {
         </button>
       </form>
     </div>
-  )
+  );
 }

@@ -31,24 +31,22 @@ export default function MessagesModal() {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
-        }
+        },
       });
       const result: IUser[] = await res.json();
-      if(data.search === '') {
+      if (data.search === "") {
         toast.error("Please enter a username or name of user");
         return;
-      } else if(result.length === 0) {
+      } else if (result.length === 0) {
         toast.error("No user found");
         return;
       }
       setResult(result);
       resetField("search");
-      
     } catch (error: any) {
       toast.error(error.message);
     }
   };
-
 
   const startNewMessage = async () => {
     try {
@@ -85,11 +83,11 @@ export default function MessagesModal() {
     <div
       className={` fixed left-0 top-0 z-[99999999] h-screen w-full  select-none !overflow-x-hidden !overflow-y-hidden  shadow-sm  ${
         messageModal ? "animate-fadeIn" : "animate-fadeOut"
-      } ${darkMode ? 'bg-black text-white' : 'bg-white text-black'}`}
+      } ${darkMode ? "bg-black text-white" : "bg-white text-black"}`}
       aria-modal="true"
       role="dialog"
     >
-      <div className="mx-auto h-full max-w-lg text-center mt-5">
+      <div className="mx-auto mt-5 h-full max-w-lg text-center">
         <div className="flex justify-center px-3 py-2">
           <div className="flex-1">
             <h1 className="text-lg font-semibold">Message</h1>
@@ -103,7 +101,7 @@ export default function MessagesModal() {
             <AiOutlineClose size={30} />
           </button>
         </div>
-        <div className="border border-gray-400 border-opacity-50 rounded-2xl mt-3">
+        <div className="mt-3 rounded-2xl border border-gray-400 border-opacity-50">
           <form
             className="mx-5 flex items-center justify-start  space-x-2 py-3"
             onSubmit={handleSubmit(searchUser)}

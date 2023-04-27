@@ -27,6 +27,7 @@ export default function PostComment() {
   const { data: session } = useSession();
   const { comments } = usePost(selectedPost);
   const id = useId();
+  if (!session) return null;
 
   if (!postCommentModal) return null;
 

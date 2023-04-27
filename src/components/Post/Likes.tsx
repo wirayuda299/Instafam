@@ -1,8 +1,9 @@
 import { memo } from "react";
+import type { Session } from "next-auth";
 
 type Props = {
   likesCount: string[];
-  session: any;
+  session: Session | null 
 };
 function Likes({ likesCount, session }: Props) {
   return (

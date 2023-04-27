@@ -19,16 +19,19 @@ const playfair = Playfair_Display({
 export default function Header() {
   const { darkMode } = useStore(useDarkModeStore);
   const { data: session } = useSession();
-  const { setUserReceiverDrawer, userReceiverDrawer } = useStore(useUserReceiverDrawerStore)
-  const { pathname } = useRouter()
+  const { setUserReceiverDrawer, userReceiverDrawer } = useStore(
+    useUserReceiverDrawerStore
+  );
+  const { pathname } = useRouter();
   return (
     <>
       {session ? (
         <header
-          className={`relative w-full border-b border-gray-500 border-opacity-50 px-5 h-14 md:hidden ${darkMode ? "bg-black text-white" : "bg-white text-black"
-            }`}
+          className={`relative h-14 w-full border-b border-gray-500 border-opacity-50 px-5 md:hidden ${
+            darkMode ? "bg-black text-white" : "bg-white text-black"
+          }`}
         >
-          <div className="flex w-full items-center justify-between space-x-2 h-full">
+          <div className="flex h-full w-full items-center justify-between space-x-2">
             <div className="w-full">
               <Link
                 href="/"
@@ -37,20 +40,23 @@ export default function Header() {
                 <h1>Instafams</h1>
               </Link>
             </div>
-            <Buttons className="relative" name="notifications" title="notifications">
-              <span className="absolute w-2 h-2 rounded-full bg-red-500 top-0 right-0"></span>
+            <Buttons
+              className="relative"
+              name="notifications"
+              title="notifications"
+            >
+              <span className="absolute right-0 top-0 h-2 w-2 rounded-full bg-red-500"></span>
               <AiOutlineHeart size={25} />
             </Buttons>
 
-            {pathname === '/messages' ? (
+            {pathname === "/messages" ? (
               <Buttons onClick={() => setUserReceiverDrawer(true)}>
                 {userReceiverDrawer ? (
-                  <AiOutlineClose size={20}/>
-                ):(
-                  <RxHamburgerMenu size={20}/>
+                  <AiOutlineClose size={20} />
+                ) : (
+                  <RxHamburgerMenu size={20} />
                 )}
               </Buttons>
-
             ) : null}
           </div>
         </header>

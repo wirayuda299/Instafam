@@ -2,11 +2,13 @@ import { IUser } from "@/types/user";
 import Image from "next/image";
 import Link from "next/link";
 
+type Props = {
+  reccomend: IUser[];
+}
+
 export default function UserRecommendations({
   reccomend,
-}: {
-  reccomend: IUser[];
-}) {
+}: Props) {
   return (
     <>
       {reccomend?.map((user: any) => (

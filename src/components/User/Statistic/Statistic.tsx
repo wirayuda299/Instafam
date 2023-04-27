@@ -6,6 +6,7 @@ import { memo } from "react";
 import { useStore } from "zustand";
 import { useDarkModeStore } from "@/stores/stores";
 import Buttons from "@/components/Buttons/Buttons";
+import type { Session } from "next-auth";
 const UserInfo = dynamic(() => import("../Info/Info"));
 const DesktopStatistic = dynamic(() => import("./Desktop"));
 const StatisticMobile = dynamic(() => import("./Mobile"));
@@ -13,7 +14,7 @@ const StatisticMobile = dynamic(() => import("./Mobile"));
 type Props = {
   users: IUser | null;
   posts: IUserPostProps[] | [];
-  session: any;
+  session: Session | null;
   refreshData: () => void;
 };
 

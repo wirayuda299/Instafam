@@ -47,7 +47,7 @@ export default function Tab({ activeTab, handleTabChange }: Props) {
       ref: btn3,
     },
   ];
-  const [position, setPosition] = useState<number>(btn1.current?.offsetLeft!);
+  const [position, setPosition] = useState<number>(btn1.current?.offsetLeft! - 13);
 
   useEffect(() => {
     switch (activeTab) {

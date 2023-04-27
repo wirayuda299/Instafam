@@ -23,41 +23,47 @@ type Receiver = {
 
 type Props = {
   session: Session | null;
-  selectedChat: Receiver | null
+  selectedChat: Receiver | null;
 };
 export default function Chats({ session, selectedChat }: Props) {
   const [chats, setChats] = useState<Chats[]>([]);
+
   useEffect(() => {
-    const unsub = onSnapshot(doc(db, "messages", `${selectedChat?.docId}`), (snapshot) => {
-      if(snapshot.exists()) {
-        setChats(snapshot.data().room.chats);
+    const unsub = onSnapshot(
+      doc(db, "messages", `${selectedChat?.docId}`),
+      (snapshot) => {
+        if (snapshot.exists()) {
+          setChats(snapshot.data().room.chats);
+        }
       }
-    });
+    );
     return () => unsub();
   }, [selectedChat, db]);
-  
 
   return (
-    <div className="h-full w-full max-h-screen pb-44 md:pb-12">
+    <div className="h-full max-h-screen w-full pb-44 md:pb-12">
       <div className="h-full w-full overflow-y-auto md:pt-20">
         {chats?.map((item) => (
           <div
             key={item.createdAt}
-            className={`flex flex-row items-center p-3 ${item.sender.id === session?.user.uid
+            className={`flex flex-row items-center p-3 ${
+              item.sender.id === session?.user.uid
                 ? " justify-end"
                 : "justify-start"
-              }`}
+            }`}
           >
             <div className="flex max-w-sm flex-col">
               <div
-                className={`flex items-center gap-x-4 space-x-3 ${item.sender.id !== session?.user.uid ? "flex-row-reverse" : ""
-                  }`}
+                className={`flex items-center gap-x-4 space-x-3 ${
+                  item.sender.id !== session?.user.uid ? "flex-row-reverse" : ""
+                }`}
               >
                 <p
-                  className={` rounded-2xl px-5 py-2 ${item.sender.id === session?.user.uid
+                  className={` rounded-2xl px-5 py-2 ${
+                    item.sender.id === session?.user.uid
                       ? "bg-gray-200 text-black"
                       : "bg-blue-600 text-white"
-                    }`}
+                  }`}
                 >
                   {item.message}
                 </p>
@@ -75,7 +81,7 @@ export default function Chats({ session, selectedChat }: Props) {
             </div>
           </div>
         ))}
-        <ChatForm selectedChat={selectedChat} session={session}/>
+        <ChatForm selectedChat={selectedChat} session={session} />
       </div>
       <br />
       <br />

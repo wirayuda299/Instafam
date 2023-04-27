@@ -21,5 +21,5 @@ export default function EmptyMessages() {
         Send Message
       </Buttons>
     </div>
-  )
+  );
 }

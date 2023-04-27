@@ -38,9 +38,11 @@ export default function ListItem(props: ListItemProps) {
     <li
       role="listitem"
       key={list.id}
-      className={` h-full w-fit rounded-full text-base font-light transition-colors duration-700 ease-out md:w-full md:p-3  ${list.id === 2 || list.id === 5 ? "hidden md:block" : ""
-        }  ${pathname === list.path ? "font-semibold" : ""} ${darkMode ? "md:hover:bg-[#b9b9b917]" : "md:hover:bg-gray-200 "
-        }`}
+      className={` h-full w-fit rounded-full text-base font-light transition-colors duration-700 ease-out md:w-full md:p-3  ${
+        list.id === 2 || list.id === 5 ? "hidden md:block" : ""
+      }  ${pathname === list.path ? "font-semibold" : ""} ${
+        darkMode ? "md:hover:bg-[#b9b9b917]" : "md:hover:bg-gray-200 "
+      }`}
     >
       {list.id === 2 ? (
         <Buttons
@@ -68,9 +70,7 @@ export default function ListItem(props: ListItemProps) {
           disabled={session ? false : true}
           onClick={() => setPostCreateModal(true)}
         >
-          <div>
-            {list.icon}
-          </div>
+          <div>{list.icon}</div>
           <span className={`${drawer ? "hidden" : "hidden lg:block"}`}>
             {list.title}
           </span>

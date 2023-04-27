@@ -14,8 +14,8 @@ const Sidebar = dynamic(() => import("../Navigation/Sidebar"), {
 const MainHeader = dynamic(() => import("../Header/MainHeader"), {
   ssr: true,
 });
-const MessagesModal = dynamic(() => import('../Modal/Messages/Messages'))
-const Entrance = dynamic(() => import('../Loader/Main'))
+const MessagesModal = dynamic(() => import("../Modal/Messages/Messages"));
+const Entrance = dynamic(() => import("../Loader/Main"));
 const ImageCropperModal = dynamic(
   () => import("@/components/Modal/Cropper/Cropper"),
   {
@@ -58,8 +58,9 @@ export default function Layout({ children }: { children: any }) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <div
-        className={`mx-auto h-screen max-w-screen-3xl !select-none  ${darkMode ? "!bg-black text-white" : "!bg-white text-black"
-          } `}
+        className={`mx-auto h-screen max-w-screen-3xl !select-none  ${
+          darkMode ? "!bg-black text-white" : "!bg-white text-black"
+        } `}
       >
         <div className="flex">
           <Sidebar />
@@ -78,8 +79,9 @@ export default function Layout({ children }: { children: any }) {
       <MessagesModal />
 
       <div
-        className={`fixed top-0 z-50 h-screen w-full bg-white ${mounted ? "hidden animate-fadeOut" : "animate-fadeIn"
-          }`}
+        className={`fixed top-0 z-50 h-screen w-full bg-white ${
+          mounted ? "hidden animate-fadeOut" : "animate-fadeIn"
+        }`}
       >
         <Entrance />
       </div>

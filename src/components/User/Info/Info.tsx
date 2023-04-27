@@ -1,9 +1,10 @@
 import Buttons from "@/components/Buttons/Buttons";
 import { IUser } from "@/types/user";
+import type { Session } from "next-auth";
 
 type Props = {
   users: IUser | null;
-  session: any;
+  session: Session | null;
   refreshData: () => void;
 };
 export default function Info({ users, session, refreshData }: Props) {
