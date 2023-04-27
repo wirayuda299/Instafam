@@ -13,6 +13,7 @@ import Image from "next/image";
 import { addDoc, collection } from "firebase/firestore";
 import { db } from "@/config/firebase";
 import { useSession } from "next-auth/react";
+import toast from "react-hot-toast";
 
 export default function MessagesModal() {
   const { messageModal, setMessageModal } = useStore(useMessageModalStore);
@@ -26,16 +27,27 @@ export default function MessagesModal() {
 
   const searchUser = async (data: FieldValues) => {
     try {
-      const { onSubmit } = await import("@/helper/searchUser");
-      const result = await onSubmit({
+      const { searchUserByQuery } = await import("@/helper/searchUser");
+      const results = await searchUserByQuery({
         data,
         resetField,
-      });
-      setResult(result);
+      }) as IUser[]
+
+      if(data.search === '') {
+        toast.error("Please enter a username or name of user");
+        return;
+      } else if(results.length === 0) {
+        toast.error("No user found");
+        return;
+      } else {
+        setResult(results);
+      }
+   
     } catch (error: any) {
       console.log(error.message);
     }
-  };
+  }
+
 
   const startNewMessage = async () => {
     try {
