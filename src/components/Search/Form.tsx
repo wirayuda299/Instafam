@@ -10,6 +10,8 @@ import { useStore } from "zustand";
 import { FieldValues, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { IUser } from "@/types/user";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/router";
 const FormResult = dynamic(() => import("./Results"), { ssr: true });
 
 const defaultValues = {
@@ -27,6 +29,8 @@ export default function Form({ height, children }: Props) {
   const { setDrawer } = useStore(useDrawerStore);
   const { darkMode } = useStore(useDarkModeStore);
   const { setResultDrawer } = useStore(useResultDrawerStore);
+  const router = useRouter();
+  const { data: session } = useSession();
 
   const handleDrawerToggler = () => {
     setResult([]);
@@ -36,6 +40,15 @@ export default function Form({ height, children }: Props) {
 
   const searchUser = async (data: FieldValues) => {
     try {
+      if (data.search === '') {
+        toast.error("Please enter a username or name of user");
+        return;
+      }
+      if (!session) {
+        toast.error("Please login to search user");
+        router.push("/auth/signin");
+        return;
+      }
       const res = await fetch(`/api/search-user?search=${data.search}`, {
         method: "GET",
         headers: {
@@ -43,10 +56,7 @@ export default function Form({ height, children }: Props) {
         },
       });
       const result: IUser[] = await res.json();
-      if (data.search === "") {
-        toast.error("Please enter a username or name of user");
-        return;
-      } else if (result.length === 0) {
+      if (result.length === 0) {
         toast.error("No user found");
         return;
       }
@@ -61,20 +71,17 @@ export default function Form({ height, children }: Props) {
   return (
     <>
       <form
-        className={`mt-5 rounded-sm  ${height} ${
-          darkMode ? "bg-black text-white" : "bg-white text-black"
-        }`}
+        className={`mt-5 rounded-sm  ${height} ${darkMode ? "bg-black text-white" : "bg-white text-black"
+          }`}
         onSubmit={handleSubmit(searchUser)}
       >
         <div
-          className={`w-full pb-5  ${
-            darkMode ? "bg-black text-white" : "bg-white text-black"
-          } `}
+          className={`w-full pb-5  ${darkMode ? "bg-black text-white" : "bg-white text-black"
+            } `}
         >
           <div
-            className={`${
-              darkMode ? "bg-black text-white" : "bg-white text-black"
-            }`}
+            className={`${darkMode ? "bg-black text-white" : "bg-white text-black"
+              }`}
           >
             <div className="flex w-full items-center justify-between rounded-md bg-[#b9b9b917] px-3">
               <input
@@ -94,9 +101,8 @@ export default function Form({ height, children }: Props) {
               handleDrawerToggler={handleDrawerToggler}
               results={result}
               setResults={setResult}
-              customs={`h-screen fixed z-50 top-0 md: h-full  md:left-0 md:w-full md:z-0  md:transition-all md:duration-300 md:ease-in-out md:static ${
-                darkMode ? "bg-black text-white" : "bg-white text-black"
-              }`}
+              customs={`h-screen fixed z-50 top-0 md: h-full  md:left-0 md:w-full md:z-0  md:transition-all md:duration-300 md:ease-in-out md:static ${darkMode ? "bg-black text-white" : "bg-white text-black"
+                }`}
             />
           </div>
         </div>

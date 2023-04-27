@@ -10,23 +10,30 @@ import { FieldValues, useForm } from "react-hook-form";
 import { AiOutlineClose } from "react-icons/ai";
 import { useStore } from "zustand";
 import Image from "next/image";
-import { addDoc, collection } from "firebase/firestore";
-import { db } from "@/config/firebase";
 import { useSession } from "next-auth/react";
 import toast from "react-hot-toast";
+import { useRouter } from "next/router";
 
 export default function MessagesModal() {
   const { messageModal, setMessageModal } = useStore(useMessageModalStore);
   const { handleSubmit, resetField, register } = useForm();
   const [result, setResult] = useState<IUser[] | undefined>([]);
   const { darkMode } = useStore(useDarkModeStore);
-  const { chatRoomSelected, setChatRoomSelected } = useStore(
-    useChatRoomSelectedStore
-  );
+  const { chatRoomSelected, setChatRoomSelected } = useStore(useChatRoomSelectedStore);
+  const router = useRouter();
   const { data: session } = useSession();
 
   const searchUser = async (data: FieldValues) => {
     try {
+      if (data.search === '') {
+        toast.error("Please enter a username or name of user");
+        return;
+      }
+      if (!session) {
+        toast.error("Please login to search user");
+        router.push("/auth/signin");
+        return;
+      }
       const res = await fetch(`/api/search-user?search=${data.search}`, {
         method: "GET",
         headers: {
@@ -34,46 +41,18 @@ export default function MessagesModal() {
         },
       });
       const result: IUser[] = await res.json();
-      if (data.search === "") {
-        toast.error("Please enter a username or name of user");
-        return;
-      } else if (result.length === 0) {
+      if (result.length === 0) {
         toast.error("No user found");
         return;
       }
       setResult(result);
       resetField("search");
+
     } catch (error: any) {
       toast.error(error.message);
     }
   };
 
-  const startNewMessage = async () => {
-    try {
-      await addDoc(collection(db, "messages"), {
-        room: {
-          id: [session?.user.uid, chatRoomSelected?.uid],
-          receiver: {
-            id: chatRoomSelected?.uid,
-            image: chatRoomSelected?.image,
-            name: chatRoomSelected?.username,
-          },
-          sender: {
-            id: session?.user.uid,
-            image: session?.user.image,
-            name: session?.user.username,
-          },
-          chats: [],
-        },
-      }).then(() => {
-        setMessageModal(false);
-        setChatRoomSelected(null);
-        setResult([]);
-      });
-    } catch (error: any) {
-      console.log(error.message);
-    }
-  };
   const defaultValues = {
     search: "",
   };
@@ -81,9 +60,8 @@ export default function MessagesModal() {
 
   return createPortal(
     <div
-      className={` fixed left-0 top-0 z-[99999999] h-screen w-full  select-none !overflow-x-hidden !overflow-y-hidden  shadow-sm  ${
-        messageModal ? "animate-fadeIn" : "animate-fadeOut"
-      } ${darkMode ? "bg-black text-white" : "bg-white text-black"}`}
+      className={` fixed left-0 top-0 z-[99999999] h-screen w-full  select-none !overflow-x-hidden !overflow-y-hidden  shadow-sm  ${messageModal ? "animate-fadeIn" : "animate-fadeOut"
+        } ${darkMode ? "bg-black text-white" : "bg-white text-black"}`}
       aria-modal="true"
       role="dialog"
     >
@@ -126,14 +104,18 @@ export default function MessagesModal() {
           </form>
           {result?.map((user) => (
             <div
-              onClick={() => {
+              onClick={async () => {
                 setChatRoomSelected(user);
-                startNewMessage();
+                const { startNewMessage } = await import('@/helper/startNewMessage')
+                await startNewMessage(session, chatRoomSelected).then(() => {
+                  setMessageModal(false);
+                  setChatRoomSelected(null);
+                  setResult([]);
+                });
               }}
               key={user.uid}
-              className={`relative flex items-center space-x-2  px-4 py-3 ${
-                darkMode ? "bg-black text-white" : "bg-white text-black"
-              }`}
+              className={`relative flex items-center space-x-2  px-4 py-3 ${darkMode ? "bg-black text-white" : "bg-white text-black"
+                }`}
             >
               <Image
                 className="h-8 w-8 rounded-full object-cover "
