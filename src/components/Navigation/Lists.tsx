@@ -130,7 +130,7 @@ export default function NavbarLists(props: Props) {
   return (
     <>
       {session ? (
-        <ul className="flex w-full flex-row items-center justify-around sm:items-start md:flex-col  md:space-y-2 lg:space-y-4">
+        <ul className="flex w-full items-center justify-around sm:items-start md:flex-col  md:space-y-2 lg:space-y-4">
           {navList.map((list) => (
             <ListItem
               key={list.id}

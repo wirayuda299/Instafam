@@ -47,6 +47,11 @@ export default function MessagesModal() {
             image: chatRoomSelected?.image,
             name: chatRoomSelected?.username,
           },
+          sender: {
+            id: session?.user.uid,
+            image: session?.user.image,
+            name: session?.user.username,
+          },
           chats: [],
         },
       }).then(() => {

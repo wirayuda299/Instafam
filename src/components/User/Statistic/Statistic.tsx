@@ -5,6 +5,7 @@ import dynamic from "next/dynamic";
 import { memo } from "react";
 import { useStore } from "zustand";
 import { useDarkModeStore } from "@/stores/stores";
+import Buttons from "@/components/Buttons/Buttons";
 const UserInfo = dynamic(() => import("../Info/Info"));
 const DesktopStatistic = dynamic(() => import("./Desktop"));
 const StatisticMobile = dynamic(() => import("./Mobile"));
@@ -17,6 +18,7 @@ type Props = {
 };
 
 function Statistic({ session, users, posts, refreshData }: Props) {
+
   const data = [
     {
       id: 1,
@@ -62,6 +64,24 @@ function Statistic({ session, users, posts, refreshData }: Props) {
                       session={session}
                       users={users}
                     />
+
+                    {users?.uid === session?.user?.uid ? (
+                      <Buttons
+                        name="sign out"
+                        type="button"
+                        title="sign out"
+                        className="bg-blue-500 w-full text-white rounded-md mt-2 py-1 md:hidden"
+                        onClick={async () => {
+                          const { signOut } = await import("next-auth/react");
+                          signOut({
+                            callbackUrl: `${process.env.NEXTAUTH_URL}/auth/signin`,
+                            redirect: true,
+                          });
+                        }}
+                      >
+                        Log Out
+                      </Buttons>
+                    ) : null}
                     <DesktopStatistic data={data} />
                   </div>
                 </div>

@@ -8,37 +8,31 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
+  const data = [{}]
   const session = await getServerSession(req, res, authOptions);
   if (!session) return res.status(401).end("Unauthorized");
   const { search } = req.query;
   if (req.method !== "GET") {
+    res.json(data)
     return res.status(405).end(`Method ${req.method} Not Allowed`);
   }
   if (!search) {
+    res.json(data)
     return res.status(400).end("No search query provided");
   }
   if (search.length < 3) {
-    return res
-      .status(400)
-      .end("Search query must be at least 3 characters long");
+     res.status(400)
+     res.json(data)
+      res.end("Search query must be at least 3 characters long");
   }
   if (req.cookies) {
-    const queryUsername = query(
+    const q = query(
       collection(db, "users"),
-      where("username", "==", search)
     );
-    const queryName = query(
-      collection(db, "users"),
-      where("name", "==", search)
-    );
-    const resQUsername = await getDocs(queryUsername);
-    const data = resQUsername.docs.map((doc) => doc.data());
-    const resQName = await getDocs(queryName);
-    const data2 = resQName.docs.map((doc) => doc.data());
-    const data3 = data.concat(data2);
-    if (data3.length === 0) {
-      return res.status(404).end("No users found");
-    }
-    return res.status(200).json(data3);
+    const response = await getDocs(q);
+    const result = response.docs.map((doc) => doc.data());
+    const regex = new RegExp(`${search}`, "gi")
+    const filtered = result.filter((user) => regex.test(user.name) || regex.test(user.username));
+    return res.status(200).json(filtered || []);
   }
 }

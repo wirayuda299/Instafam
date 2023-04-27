@@ -8,6 +8,8 @@ import {
 } from "@/stores/stores";
 import { useStore } from "zustand";
 import { FieldValues, useForm } from "react-hook-form";
+import toast from "react-hot-toast";
+import { IUser } from "@/types/user";
 const FormResult = dynamic(() => import("./Results"), { ssr: true });
 
 const defaultValues = {
@@ -34,15 +36,27 @@ export default function Form({ height, children }: Props) {
 
   const searchUser = async (data: FieldValues) => {
     try {
-      const { onSubmit } = await import("@/helper/searchUser");
-      const result = await onSubmit({
-        data,
-        resetField,
+      const res = await fetch(`/api/search-user?search=${data.search}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        }
       });
+      const result: IUser[] = await res.json();
+      if(data.search === '') {
+        toast.error("Please enter a username or name of user");
+        return;
+      } else if(result.length === 0) {
+        toast.error("No user found");
+        return;
+      }
       setResult(result);
+      resetField("search");
+      
+      
       setResultDrawer(true);
     } catch (error: any) {
-      console.log(error.message);
+      toast.error(error.message);
     }
   };
   return (

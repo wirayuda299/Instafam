@@ -8,20 +8,38 @@ type Chats = {
   };
 };
 import { getCreatedDate } from "@/util/postDate";
-import { Session } from "next-auth";
+import type { Session } from "next-auth";
 import Image from "next/image";
 import ChatForm from "../Form/ChatForm";
-import { FieldValues } from "react-hook-form";
+import { db } from "@/config/firebase";
+import { onSnapshot, doc } from "firebase/firestore";
+import { useEffect, useState } from "react";
+type Receiver = {
+  id: string;
+  image: string;
+  name: string;
+  docId: string;
+};
 
 type Props = {
-  chats: Chats[];
   session: Session | null;
-  sendMessage: (e: FieldValues) => Promise<void>
+  selectedChat: Receiver | null
 };
-export default function Chats({ chats, session, sendMessage }: Props) {
+export default function Chats({ session, selectedChat }: Props) {
+  const [chats, setChats] = useState<Chats[]>([]);
+  useEffect(() => {
+    const unsub = onSnapshot(doc(db, "messages", `${selectedChat?.docId}`), (snapshot) => {
+      if(snapshot.exists()) {
+        setChats(snapshot.data().room.chats);
+      }
+    });
+    return () => unsub();
+  }, [selectedChat, db]);
+  
+
   return (
     <div className="h-full w-full max-h-screen pb-44 md:pb-12">
-      <div className="h-full w-full overflow-y-auto ">
+      <div className="h-full w-full overflow-y-auto md:pt-20">
         {chats?.map((item) => (
           <div
             key={item.createdAt}
@@ -57,7 +75,7 @@ export default function Chats({ chats, session, sendMessage }: Props) {
             </div>
           </div>
         ))}
-        <ChatForm sendMessage={sendMessage} />
+        <ChatForm selectedChat={selectedChat} session={session}/>
       </div>
       <br />
       <br />

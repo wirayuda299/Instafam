@@ -29,11 +29,13 @@ export default function Trending({ posts }: Props) {
 
   return (
     <div className="h-screen w-full overflow-y-auto">
-      <Form height="h-min">
-        <button type="submit" name="Search" title="search">
-          <AiOutlineSearch size={20} />
-        </button>
-      </Form>
+      <div className="md:hidden">
+        <Form height="h-min">
+          <button type="submit" name="Search" title="search">
+            <AiOutlineSearch size={20} />
+          </button>
+        </Form>
+      </div>
       <div className="m-0 columns-3 gap-0">
         {posts?.map((post, i) => (
           <div key={`${post.postId}`}>
