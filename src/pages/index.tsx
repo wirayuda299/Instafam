@@ -42,7 +42,7 @@ export default function Home({ posts, users }: Props) {
 
   return (
     <div className="h-full w-full">
-      <div className="container mx-auto flex h-screen w-full items-start justify-between">
+      <div className="flex h-screen w-full items-start justify-between">
         <div className="w-full p-5">
           {posts.length === 0 ? (
             <Postloader />
