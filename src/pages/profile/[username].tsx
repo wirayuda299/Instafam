@@ -136,7 +136,7 @@ function UserProfile({ posts, user, query, savedPosts }: Props) {
 
                 {savedPosts?.map((post) => (
                   <div key={post.postId} className="group relative">
-                    <PostImage post={post} />
+                    <PostImage post={post} classNames="w-full h-full object-cover rounded-lg" />
                     <PostInfo post={post} />
                   </div>
                 ))}

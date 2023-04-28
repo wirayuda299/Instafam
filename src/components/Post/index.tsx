@@ -56,7 +56,7 @@ function PostCard({ post }: Props) {
             <BsThreeDots className="text-gray-500" size={20} />
           </Buttons>
         </PostHeader>
-        <PostImage post={post} />
+        <PostImage post={post} classNames="post h-auto w-full rounded-lg object-cover" />
         <ActionButton
           setPostCommentModal={setPostCommentModal}
           setPostPreviewModal={setPostPreviewModal}

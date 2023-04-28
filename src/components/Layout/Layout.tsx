@@ -1,7 +1,6 @@
 import { useDarkModeStore } from "@/stores/stores";
 import dynamic from "next/dynamic";
 import Head from "next/head";
-import { useState, useLayoutEffect } from "react";
 import { useStore } from "zustand";
 const Menu = dynamic(() => import("@/components/Modal/Menu"));
 const Report = dynamic(() => import("@/components/Modal/Report"));
@@ -15,7 +14,6 @@ const MainHeader = dynamic(() => import("../Header/MainHeader"), {
   ssr: true,
 });
 const MessagesModal = dynamic(() => import("../Modal/Messages/Messages"));
-const Entrance = dynamic(() => import("../Loader/Main"));
 const ImageCropperModal = dynamic(
   () => import("@/components/Modal/Cropper/Cropper"),
   {
@@ -25,17 +23,6 @@ const ImageCropperModal = dynamic(
 
 export default function Layout({ children }: { children: any }) {
   const { darkMode } = useStore(useDarkModeStore);
-  const [mounted, setMounted] = useState(false);
-
-  useLayoutEffect(() => {
-    setTimeout(() => {
-      setMounted(true);
-    }, 1000);
-
-    return () => {
-      setMounted(false);
-    };
-  }, []);
 
   return (
     <>
@@ -77,14 +64,6 @@ export default function Layout({ children }: { children: any }) {
       <PostPreview />
       <ImageCropperModal />
       <MessagesModal />
-
-      <div
-        className={`fixed top-0 z-50 h-screen w-full bg-white ${
-          mounted ? "hidden animate-fadeOut" : "animate-fadeIn"
-        }`}
-      >
-        <Entrance />
-      </div>
     </>
   );
 }
