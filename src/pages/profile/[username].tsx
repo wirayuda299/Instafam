@@ -72,26 +72,6 @@ function UserProfile({ posts, user, query, savedPosts }: Props) {
     );
   }, [activeTab]);
 
-  const Feeds = useMemo(() => {
-    return (
-      <>
-        {postTab && (
-          <>
-            {posts && posts.length < 1 ? (
-              <div className="col-span-3 mx-auto h-full w-full">
-                <h1 className="w-full text-center text-2xl font-semibold text-gray-500 dark:text-gray-400">
-                  No posts
-                </h1>
-              </div>
-            ) : (
-              posts?.map((post) => <PostImage key={post.postId} post={post} />)
-            )}
-          </>
-        )}
-      </>
-    );
-  }, [postTab, posts]);
-
   const Statistics = useMemo(() => {
     return (
       <>
@@ -105,33 +85,7 @@ function UserProfile({ posts, user, query, savedPosts }: Props) {
     );
   }, [session, user, posts]);
 
-  const SavedPosts = useMemo(() => {
-    return (
-      <>
-        {savedPostTab && (
-          <>
-            {savedPosts && savedPosts.length < 1 ? (
-              <div className="col-span-3 mx-auto h-full w-full">
-                <h1 className="w-full text-center text-2xl font-semibold text-gray-500 dark:text-gray-400">
-                  No saved posts
-                </h1>
-              </div>
-            ) : (
-              <>
 
-                {savedPosts?.map((post) => (
-                  <div key={post.postId} className="group relative">
-                    <PostImage post={post} />
-                    <PostInfo post={post} />
-                  </div>
-                ))}
-              </>
-            )}
-          </>
-        )}
-      </>
-    );
-  }, [savedPostTab]);
 
   return (
     <>
@@ -153,8 +107,43 @@ function UserProfile({ posts, user, query, savedPosts }: Props) {
 
           {session?.user?.username === query?.username ? <>{Tabs}</> : null}
           <div className="grid w-full grid-cols-1 items-center justify-center gap-5 p-5 sm:grid-cols-2 md:grid-cols-3 ">
-            {Feeds}
-            {SavedPosts}
+            <>
+              {postTab && (
+                <>
+                  {posts && posts.length < 1 ? (
+                    <div className="col-span-3 mx-auto h-full w-full ">
+                      <h1 className="w-full text-center text-2xl font-semibold text-gray-500 dark:text-gray-400">
+                        No posts
+                      </h1>
+                    </div>
+                  ) : (
+                    posts?.map((post) => <PostImage key={post.postId} post={post} />
+                    )
+                  )}
+                </>
+              )}
+            </>
+            {savedPostTab && (
+          <>
+            {savedPosts && savedPosts.length < 1 ? (
+              <div className="col-span-3 mx-auto h-full w-full">
+                <h1 className="w-full text-center text-2xl font-semibold text-gray-500 dark:text-gray-400">
+                  No saved posts
+                </h1>
+              </div>
+            ) : (
+              <>
+
+                {savedPosts?.map((post) => (
+                  <div key={post.postId} className="group relative">
+                    <PostImage post={post} />
+                    <PostInfo post={post} />
+                  </div>
+                ))}
+              </>
+            )}
+          </>
+        )}
           </div>
           <br className="md:hidden" />
           <br className="md:hidden" />

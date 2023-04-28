@@ -1,21 +1,13 @@
-import { Chats } from "@/pages/messages";
 import { useDarkModeStore } from "@/stores/stores";
+import { DataMessage } from "@/types/DataMessage";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
 import { useStore } from "zustand";
 
-type Receiver = {
-  id: string;
-  image: string;
-  name: string;
-  docId: string;
-  message: Chats[];
-};
-
 type Props = {
-  receiver: Receiver[];
-  selectUser: (user: Receiver) => void;
-  sender: Receiver[];
+  receiver: DataMessage[];
+  selectUser: (user: DataMessage) => void;
+  sender: DataMessage[];
   setUserReceiverDrawer: (userReceiverDrawer: boolean) => void;
 };
 
@@ -28,12 +20,14 @@ export default function UsersChat({
   const { darkMode } = useStore(useDarkModeStore);
   const { data: session } = useSession();
   const receiverId = receiver.map((item) => item.id);
+
   if (!session) return null;
+
   const messagesReceiver = receiver.map((item) => item.message);
   const messagesSender = sender.map((item) => item.message);
   if (messagesReceiver.length === 0 && messagesSender.length === 0) return null;
 
-  const handleClick = (user: Receiver | null) => {
+  const handleClick = (user: DataMessage | null) => {
     if (user) {
       selectUser(user);
       setUserReceiverDrawer(false);

@@ -42,8 +42,8 @@ export default function Home({ posts, users }: Props) {
 
   return (
     <div className="h-full w-full">
-      <div className="flex h-screen w-full items-start justify-between">
-        <div className="w-full p-5 ">
+      <div className="container mx-auto flex h-screen w-full items-start justify-between">
+        <div className="w-full p-5">
           {posts.length === 0 ? (
             <Postloader />
           ) : (
@@ -78,7 +78,7 @@ export async function getServerSideProps({ req, res }: any) {
   }
   const users = await getUserRecommendation(session?.user.uid);
   const posts = await getPosts(3);
-  res.setHeader("Cache-Control", "maxage=60, stale-while-revalidate");
+  res.setHeader("Cache-Control", "public, maxage=60, stale-while-revalidate");
 
   return {
     props: {

@@ -9,7 +9,7 @@ type Props = {
 };
 
 export default function UserHeader({ setMessageModal }: Props) {
-  const { setUserReceiverDrawer, userReceiverDrawer } = useStore(
+  const { setUserReceiverDrawer } = useStore(
     useUserReceiverDrawerStore
   );
   return (

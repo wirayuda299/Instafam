@@ -25,6 +25,7 @@ export default function Tab({ activeTab, handleTabChange }: Props) {
         />
       ),
       ref: btn1,
+      title: "Posts",
     },
     {
       id: 2,
@@ -35,6 +36,7 @@ export default function Tab({ activeTab, handleTabChange }: Props) {
         />
       ),
       ref: btn2,
+      title: "Saved Posts",
     },
     {
       id: 3,
@@ -45,6 +47,7 @@ export default function Tab({ activeTab, handleTabChange }: Props) {
         />
       ),
       ref: btn3,
+      title: "Tagged Posts",
     },
   ];
   const [position, setPosition] = useState<number>(
@@ -80,7 +83,7 @@ export default function Tab({ activeTab, handleTabChange }: Props) {
             name="tab"
             ref={tab.ref}
             role="tab"
-            title={tab.id.toString()}
+            title={tab.title}
             onClick={() => handleTabChange(tab.id)}
             className={`tab-${tab.id}`}
           >

@@ -9,6 +9,7 @@ import { RiMessengerLine } from "react-icons/ri";
 import Image from "next/image";
 import dynamic from "next/dynamic";
 import type { Session } from "next-auth";
+import { BsPersonCircle } from "react-icons/bs";
 
 const ListItem = dynamic(() => import("./ListItem"), { ssr: true });
 
@@ -102,19 +103,22 @@ export default function NavbarLists(props: Props) {
       title: "Profile",
       path: `/profile/${session?.user.username}`,
       icon: (
-        <Image
-          className={`h-7 w-7 border object-cover sm:h-8 sm:w-8 md:border-0 ${
-            drawer ? "!w-full" : ""
-          } rounded-full`}
-          src={session?.user?.image || ""}
-          width={50}
-          height={50}
-          priority
-          placeholder="blur"
-          blurDataURL={session?.user?.image || ""}
-          quality={40}
-          alt={session?.user?.name || "user profile"}
-        />
+        <>
+
+          <Image
+            className={`hidden md:block  object-cover h-8 w-8 ${drawer ? "!w-full" : ""
+              } rounded-full`}
+            src={session?.user?.image || ""}
+            width={50}
+            height={50}
+            priority
+            placeholder="blur"
+            blurDataURL={session?.user?.image || ""}
+            quality={40}
+            alt={session?.user?.name || "user"}
+          />
+          <BsPersonCircle className={`${darkMode ? "text-white" : "text-black "} text-3xl  md:hidden md:pointer-events-none`} />
+        </>
       ),
     },
   ];
@@ -122,7 +126,7 @@ export default function NavbarLists(props: Props) {
   return (
     <>
       {session ? (
-        <ul className="flex w-full items-center justify-around sm:items-start md:flex-col  md:space-y-2 lg:space-y-4">
+        <ul className="flex w-full items-center justify-around md:justify-around md:px-3 lg:px-0 md:flex-col  md:space-y-2 lg:space-y-4">
           {navList.map((list) => (
             <ListItem
               key={list.id}

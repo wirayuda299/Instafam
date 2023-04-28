@@ -1,12 +1,4 @@
-type Chats = {
-  createdAt: number;
-  message: string;
-  sender: {
-    id: string;
-    image: string;
-    name: string;
-  };
-};
+
 import { getCreatedDate } from "@/util/postDate";
 import type { Session } from "next-auth";
 import Image from "next/image";
@@ -14,19 +6,15 @@ import ChatForm from "../Form/ChatForm";
 import { db } from "@/config/firebase";
 import { onSnapshot, doc } from "firebase/firestore";
 import { useEffect, useState } from "react";
-type Receiver = {
-  id: string;
-  image: string;
-  name: string;
-  docId: string;
-};
+import { DataMessage } from "@/types/DataMessage";
+import { Chats as ChatsType } from "@/types/Chats";
 
 type Props = {
   session: Session | null;
-  selectedChat: Receiver | null;
+  selectedChat: DataMessage | null;
 };
 export default function Chats({ session, selectedChat }: Props) {
-  const [chats, setChats] = useState<Chats[]>([]);
+  const [chats, setChats] = useState<ChatsType[]>([]);
 
   useEffect(() => {
     const unsub = onSnapshot(

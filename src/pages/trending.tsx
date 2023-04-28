@@ -1,4 +1,3 @@
-import Form from "@/components/Search/Form";
 import {
   useFeedModalStore,
   usePostModalStore,
@@ -21,15 +20,18 @@ const FeedModal = dynamic(() => import("@/components/Modal/Feed"), {
 const PostModal = dynamic(() => import("@/components/Modal/Post/Post"), {
   ssr: true,
 });
+const Form = dynamic(() => import("@/components/Search/Form"), {
+  ssr: true,
+});
 
 export default function Trending({ posts }: Props) {
   const { setSelectedPost } = useStore(useSelectedPostStore);
   const { setPostModal } = useStore(usePostModalStore);
   const { setFeedModal } = useStore(useFeedModalStore);
-
+ 
   return (
     <div className="h-screen w-full overflow-y-auto">
-      <div className="md:hidden">
+      <div className="md:hidden p-3">
         <Form height="h-min">
           <button type="submit" name="Search" title="search">
             <AiOutlineSearch size={20} />
@@ -57,8 +59,9 @@ export default function Trending({ posts }: Props) {
                 height={1200}
                 placeholder="blur"
                 blurDataURL={post.image}
-                className={`h-full w-full border object-cover object-top `}
-                priority
+                className={`h-full w-full border border-gray-400 border-opacity-40 object-cover object-top `}
+                loading="lazy"
+                
               />
             </button>
             <div
@@ -75,10 +78,10 @@ export default function Trending({ posts }: Props) {
                 height={1200}
                 placeholder="blur"
                 blurDataURL={post.image}
-                className={`h-auto w-full border object-cover ${
+                className={`h-full w-full border border-gray-400 border-opacity-40 object-cover object-top ${
                   i % 2 === 0 ? "aspect-video" : "aspect-square"
                 }`}
-                priority
+                loading="lazy"
               />
             </div>
           </div>
@@ -95,7 +98,9 @@ export default function Trending({ posts }: Props) {
 
 export async function getServerSideProps({ res }: any) {
   const { getAllPosts } = await import("@/helper/getPosts");
-  const posts = await getAllPosts();
+  const response = await getAllPosts();
+  const posts = response.sort((a, b) => b.likedBy.length - a.likedBy.length);
+
   res.setHeader("Cache-Control", "public, maxage=60, stale-while-revalidate");
   return {
     props: {

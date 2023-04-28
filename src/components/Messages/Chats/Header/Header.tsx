@@ -1,20 +1,17 @@
 import { useDarkModeStore } from "@/stores/stores";
+import { DataMessage } from "@/types/DataMessage";
 import Image from "next/image";
 import { useStore } from "zustand";
-type Receiver = {
-  id: string;
-  image: string;
-  name: string;
-  docId: string;
-};
+
+
 type Props = {
-  selectedChat: Receiver | null;
+  selectedChat: DataMessage | null;
 };
 export default function ChatHeader({ selectedChat }: Props) {
   const { darkMode } = useStore(useDarkModeStore);
   return (
     <header
-      className={`absolute left-0 top-0 hidden w-full items-center justify-between border-b-2 border-gray-400 border-opacity-50 p-4 md:flex ${
+      className={`absolute left-0 pt-5 top-0 hidden w-full items-center justify-between border-b-2 border-gray-400 border-opacity-50 p-4 md:flex ${
         darkMode ? "bg-black text-white" : "bg-white text-black"
       }`}
     >

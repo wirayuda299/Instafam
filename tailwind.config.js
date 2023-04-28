@@ -84,6 +84,7 @@ module.exports = {
         "0%": { display: "block" },
         "100%": { display: "none" },
       },
+     
 
       animation: {
         slideIn: "slideIn 0.4s ease forwards",
@@ -93,7 +94,6 @@ module.exports = {
         fadeIn: "fadeIn 1s ease-in forwards",
         fadeOut: "fadeOut 1s ease-in-out forwards",
         popUp: "popUp 0.3s",
-        slide: "slide 0.5s ease forwards",
         commentSlideIn: "commentSlideIn 0.3s ease forwards",
         commentSlideOut: "commentSlideOut 0.3s ease forwards",
         rotateOnView: "rootateOnView 0.3s ease forwards",

@@ -42,13 +42,13 @@ export default function Feed() {
           aria-modal="true"
           role="dialog"
         >
-          <div className="mx-auto h-full max-w-[500px] text-center ">
+          <div className="mx-auto h-full max-w-[500px] text-center">
             <div
-              className="flex h-full flex-col items-center justify-center "
+              className="flex h-full flex-col items-center justify-center cursor-pointer"
               onClick={() => setSelectedPost(null)}
             >
               <div
-                className={`flex min-w-[300px] flex-col rounded-lg ${
+                className={`flex min-w-[300px] flex-col rounded-lg p-2 ${
                   darkMode ? "!bg-black text-white" : "!bg-white text-black"
                 } `}
               >

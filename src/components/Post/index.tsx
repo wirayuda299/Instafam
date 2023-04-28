@@ -17,7 +17,9 @@ const ActionButton = dynamic(() => import("./ActionButton"));
 const PostHeader = dynamic(() => import("../Header/PostHeader"));
 const Author = dynamic(() => import("./Author"));
 const Comments = dynamic(() => import("../Comments/Forms"));
-const PostImage = dynamic(() => import("./Image"));
+const PostImage = dynamic(() => import("./Image"), {
+  ssr:true
+});
 const Buttons = dynamic(() => import("../Buttons/Buttons"));
 
 type Props = {
@@ -39,23 +41,20 @@ function PostCard({ post }: Props) {
   };
 
   return (
-    <div className={`relative mb-5 w-full`}>
+    <div className={`relative mb-5 w-full max-w-2xl`}>
       <div
-        className={`rounded-sm shadow-lg  ${
-          darkMode ? "bg-black text-white" : "bg-white text-black"
-        }`}
+        className={`rounded-sm shadow-lg p-4 ${darkMode ? "bg-black text-white" : "bg-white text-black"
+          }`}
       >
         <PostHeader post={post}>
-          <>
-            <Buttons
-              type="button"
-              name="menu"
-              title="menu"
-              onClick={handleClick}
-            >
-              <BsThreeDots className="text-gray-500" size={20} />
-            </Buttons>
-          </>
+          <Buttons
+            type="button"
+            name="menu"
+            title="menu"
+            onClick={handleClick}
+          >
+            <BsThreeDots className="text-gray-500" size={20} />
+          </Buttons>
         </PostHeader>
         <PostImage post={post} />
         <ActionButton

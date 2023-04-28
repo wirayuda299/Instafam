@@ -1,18 +1,12 @@
 import { db } from "@/config/firebase";
 import { useDarkModeStore } from "@/stores/stores";
+import { DataMessage } from "@/types/DataMessage";
 import type { Session } from "next-auth";
 import { FieldValues, useForm } from "react-hook-form";
 import { SlPaperPlane } from "react-icons/sl";
 import { useStore } from "zustand";
-
-type Receiver = {
-  id: string;
-  image: string;
-  name: string;
-  docId: string;
-};
 type Props = {
-  selectedChat: Receiver | null;
+  selectedChat: DataMessage | null;
   session: Session | null;
 };
 

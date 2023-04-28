@@ -13,8 +13,8 @@ export default function Postheader({ post, children }: Props) {
   const { darkMode } = useStore(useDarkModeStore);
 
   return (
-    <div
-      className={`relative flex h-fit items-center  px-4 py-3 ${
+    <header
+      className={`relative flex h-fit items-center py-3 ${
         darkMode ? "bg-black text-white" : "bg-white text-black"
       }`}
     >
@@ -33,6 +33,6 @@ export default function Postheader({ post, children }: Props) {
       />
       <CreatedTime post={post} />
       {children}
-    </div>
+    </header>
   );
 }
