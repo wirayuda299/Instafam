@@ -58,7 +58,7 @@ export default function Trending({ posts }: Props) {
                 width={1200}
                 height={1200}
                 placeholder="blur"
-                blurDataURL={post.image}
+                blurDataURL={post.blurDataUrl}
                 className={`h-full w-full border border-gray-400 border-opacity-40 object-cover object-top `}
                 loading="lazy"
                 
@@ -77,7 +77,7 @@ export default function Trending({ posts }: Props) {
                 width={1200}
                 height={1200}
                 placeholder="blur"
-                blurDataURL={post.image}
+                blurDataURL={post.blurDataUrl}
                 className={`h-full w-full border border-gray-400 border-opacity-40 object-cover object-top ${
                   i % 2 === 0 ? "aspect-video" : "aspect-square"
                 }`}

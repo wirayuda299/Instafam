@@ -1,18 +1,14 @@
 import { ChangeEvent } from "react";
 import toast from "react-hot-toast";
-import { z } from "zod";
+import { encode } from "blurhash";
 
-const imageInputSchema = z.object({
-  setPreviewUrl: z.function().args(z.any()).returns(z.any()),
-  img: z.string(),
-});
 
 type Params = {
   e: ChangeEvent<HTMLInputElement>;
   setPreviewUrl: (postImageModal: string) => void;
-  img: string | undefined;
-};
-type UploadFile = ({ e, img, setPreviewUrl }: Params) => Promise<void>;
+  setBlurhash: (blurhash: string) => void;
+}
+type UploadFile = ({ e, setPreviewUrl }: Params) => Promise<void>;
 type FilterImage = (file: File | Blob | undefined) => Promise<any>;
 
 const filterImage: FilterImage = async (file) => {
@@ -39,28 +35,51 @@ const filterImage: FilterImage = async (file) => {
     console.log(error.message);
   }
 };
+const loadImage = async (src: any) =>
+  new Promise((resolve, reject) => {
+    const img = new Image();
+    img.onload = () => resolve(img);
+    img.onerror = (...args) => reject(args);
+    img.src = src;
+  });
+
+const getImageData = (image: any) => {
+  const canvas = document.createElement("canvas");
+  canvas.width = image.width;
+  canvas.height = image.height;
+  const context = canvas.getContext("2d");
+  context?.drawImage(image, 0, 0);
+  return context?.getImageData(0, 0, image.width, image.height);
+};
+
+const encodeImageToBlurhash = async (imageUrl: any) => {
+  const image = await loadImage(imageUrl);
+  const imageData = getImageData(image);
+  if (!imageData) return;
+  return encode(imageData?.data, imageData?.width, imageData?.height, 4, 4);
+};
 
 export const handleInputImage: UploadFile = async (args) => {
-  const { e, img, setPreviewUrl } = args;
+  const { e, setPreviewUrl, setBlurhash } = args;
   try {
-    const isValid = imageInputSchema.parse({ setPreviewUrl, img });
-    if (!isValid)
-      throw new Error(
-        "Invalid data passed to ImageInput, please pass valid data such as string for image and function for setPreviewUrl"
-      );
     let selectedFile = e.target.files?.[0];
     if (!selectedFile) return;
     const result = await filterImage(selectedFile);
-
+    if (result?.unsafe) {
+      toast.error("Image is not allowed");
+      return;
+    }
+    const data = await loadImage(URL.createObjectURL(selectedFile));
+    const imageData = getImageData(data);
+    if (!imageData) return;
+    
+    
     const reader = new FileReader();
     reader.onload = async (event) => {
       if (event.target) {
-        if (result.unsafe) {
-          toast.error(
-            "Your uploaded file is contain NSFW content, please upload file that safe for everyone"
-          );
-          return;
-        }
+        const blurhash = await encodeImageToBlurhash(event.target.result);
+        if (!blurhash) return;
+        setBlurhash(blurhash);
         return setPreviewUrl(event.target.result as string);
       }
     };

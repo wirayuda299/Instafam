@@ -52,7 +52,14 @@ type postCommentModalStore = {
   postCommentModal: boolean;
   setPostCommentModal: (postCommentModal: boolean) => void;
 };
-
+type blurhashStore = {
+  blurhash: string;
+  setBlurhash: (blurhash: string) => void;
+}
+export const useBlurhashStore = create<blurhashStore>((set) => ({
+  blurhash: "",
+  setBlurhash: (blurhash: string) => set({ blurhash }),
+}));
 type postCreateModalStore = {
   postCreateModal: boolean;
   setPostCreateModal: (postCreateModal: boolean) => void;

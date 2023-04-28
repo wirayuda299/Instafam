@@ -1,9 +1,10 @@
 import { storage, db } from "@/config/firebase";
 import { setDoc, doc } from "firebase/firestore";
 import { ref, uploadString, getDownloadURL } from "firebase/storage";
-import { Session } from "next-auth";
+import type { Session } from "next-auth";
 import { Dispatch, SetStateAction } from "react";
 import toast from "react-hot-toast";
+
 
 type TMakePost = {
   captions: string;
@@ -13,6 +14,7 @@ type TMakePost = {
   setImg: (postImageModal: string) => void;
   setLoading: Dispatch<SetStateAction<boolean>>;
   img: string;
+  blurDataUrl: string;
 };
 
 type ParseCaptions = (captions: string) => string[] | undefined;
@@ -24,6 +26,7 @@ const parseHashtags: ParseCaptions = (captions) => {
     .split(" ");
 };
 
+
 export const makePost = async <T extends TMakePost>(params: T) => {
   const {
     captions,
@@ -33,6 +36,7 @@ export const makePost = async <T extends TMakePost>(params: T) => {
     setImg,
     setLoading,
     img,
+    blurDataUrl
   } = params;
 
   if (!img) return;
@@ -64,6 +68,7 @@ export const makePost = async <T extends TMakePost>(params: T) => {
           hashtags: hashtags ?? [],
           tags: [],
           postId: uuid,
+          blurDataUrl
         }).then(() => {
           setCaptions("");
           setImg("");

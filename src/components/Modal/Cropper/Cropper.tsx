@@ -1,4 +1,5 @@
 import {
+  useBlurhashStore,
   useCroppedImgStore,
   useDarkModeStore,
   usePostCreateModalStore,
@@ -36,6 +37,7 @@ export default function Cropper() {
   const [zoom, setZoom] = useState(1);
   const { setCroppedImg } = useStore(useCroppedImgStore);
   const router = useRouter();
+  const {  setBlurhash } = useStore(useBlurhashStore)
 
   async function onCropComplete(croppedArea: Area) {
     if (!postImageModal) return;
@@ -65,9 +67,8 @@ export default function Cropper() {
 
   return createPortal(
     <div
-      className={` ${
-        darkMode ? " text-white" : " text-black"
-      } fixed left-0 top-0  z-50 h-screen w-full select-none !overflow-hidden bg-black  bg-opacity-50 shadow-sm `}
+      className={` ${darkMode ? " text-white" : " text-black"
+        } fixed left-0 top-0  z-50 h-screen w-full select-none !overflow-hidden bg-black  bg-opacity-50 shadow-sm `}
       aria-modal="true"
       role="dialog"
     >
@@ -96,6 +97,7 @@ export default function Cropper() {
         ) : (
           <div className="flex h-full  w-full items-center justify-center">
             <FileUpload
+              setBlurhash={setBlurhash}
               img={postImageModal}
               setPreviewUrl={setPostImageModal}
             />

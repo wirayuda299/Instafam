@@ -5,9 +5,10 @@ import { useStore } from "zustand";
 type Props = {
   setPreviewUrl: (postImageModal: string) => void;
   img: string | undefined;
+  setBlurhash: (blurhash: string) => void;
 };
 
-export default function FileUpload({ img, setPreviewUrl }: Props) {
+export default function FileUpload({ img, setPreviewUrl,setBlurhash }: Props) {
   const { darkMode } = useStore(useDarkModeStore);
   return (
     <>
@@ -48,7 +49,7 @@ export default function FileUpload({ img, setPreviewUrl }: Props) {
                   const args = {
                     e,
                     setPreviewUrl,
-                    img,
+                    setBlurhash,
                   };
                   await handleInputImage(args);
                 }}

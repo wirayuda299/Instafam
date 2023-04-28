@@ -19,4 +19,5 @@ export interface IUserPostProps {
   postId: string;
   tagged: [];
   savedBy: string[];
+  blurDataUrl: string;
 }

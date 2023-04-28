@@ -1,6 +1,6 @@
 import dynamic from "next/dynamic";
 import { useStore } from "zustand";
-import { useCroppedImgStore, useDarkModeStore } from "@/stores/stores";
+import { useBlurhashStore, useCroppedImgStore, useDarkModeStore } from "@/stores/stores";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
@@ -17,6 +17,8 @@ export default function CreatePost() {
   const [loading, setLoading] = useState(false);
   const { data: session } = useSession();
   const router = useRouter();
+  const { blurhash } = useStore(useBlurhashStore)
+  
 
   useEffect(() => {
     if (!session) router.push("/auth/signin");
@@ -32,6 +34,7 @@ export default function CreatePost() {
       setImg: setCroppedImg,
       setLoading,
       img: croppedImg,
+      blurDataUrl: blurhash
     };
     await makePost(args);
   };
