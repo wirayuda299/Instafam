@@ -9,7 +9,7 @@ export default function PostImage({ post }: { post: IUserPostProps }) {
       height={1300}
       sizes="(max-width: 1300px) 100vw, 500px"
       placeholder="blur"
-      blurDataURL={`data:image/svg+xml;base64,${post?.blurDataUrl}`}
+      blurDataURL={post.blurDataUrl}
       quality={60}
       priority
       className="post h-auto w-full rounded-lg object-cover"
