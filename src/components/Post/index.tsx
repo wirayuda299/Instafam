@@ -41,7 +41,7 @@ function PostCard({ post }: Props) {
   };
 
   return (
-    <div className={`relative mb-5 w-full max-w-2xl`}>
+    <div className={`relative mb-5 w-full`}>
       <div
         className={`rounded-sm shadow-lg p-4 ${darkMode ? "bg-black text-white" : "bg-white text-black"
           }`}
