@@ -3,15 +3,17 @@ import { getCsrfToken } from "next-auth/react";
 import { db } from "@/config/firebase";
 import { doc, setDoc } from "firebase/firestore";
 import { IUserPostProps } from "@/types/post";
+import type { Session } from "next-auth";
 import toast from "react-hot-toast";
 
 export const handleReport = async (
   e: FieldValues,
   selectedPost: IUserPostProps | null,
-  session: any,
+  session:  Session | null,
   setReportModal: any,
   resetField: any
 ) => {
+
   try {
     const token = await getCsrfToken();
     if (!token) throw new Error("CSRF Token not found");

@@ -1,5 +1,5 @@
 import { IUserPostProps } from "@/types/post";
-import { ReactNode } from "react";
+import type { ReactNode } from "react";
 import dynamic from "next/dynamic";
 import { useSession } from "next-auth/react";
 import { useStore } from "zustand";
@@ -38,14 +38,26 @@ export default function PostDetailComment(props: Props) {
   const { data: session } = useSession();
   const { darkMode } = useStore(useDarkModeStore);
 
+
+  const clickLgScreen = () => {
+    setPostPreviewModal(true);
+    setPostCommentModal(false);
+    setSelectedPost(post);
+  };
+
+  const clickMobileScreen = () => {
+    setSelectedPost(post);
+    setPostCommentModal(true);
+    setPostPreviewModal(false);
+  };
+
   return (
     <div
-      className={`relative hidden md:block ${
-        darkMode ? "bg-black text-white" : "bg-white text-black"
-      }`}
+      className={`relative hidden md:block ${darkMode ? "bg-black text-white" : "bg-white text-black"
+        }`}
     >
       <div className="hidden h-full max-h-[400px] overflow-y-auto  overflow-x-hidden py-3 lg:block ">
-        <div className="absolute top-0 w-full border-b border-gray-500 border-opacity-50">
+        <div className="absolute top-0 w-full border-b border-gray-500 border-opacity-50 px-2">
           <PostHeader post={post}>{children}</PostHeader>
         </div>
         <div className="px-2">
@@ -55,14 +67,12 @@ export default function PostDetailComment(props: Props) {
           <Comment comments={comments} />
         </div>
         <div
-          className={`absolute bottom-0 hidden w-full border-t border-gray-500 border-opacity-50 px-2 lg:block ${
-            darkMode ? "bg-black" : "bg-white"
-          }`}
+          className={`absolute bottom-0 hidden w-full border-t border-gray-500 border-opacity-50 px-2 lg:block ${darkMode ? "bg-black" : "bg-white"
+            }`}
         >
           <ActionButton
-            setPostCommentModal={setPostCommentModal}
-            setPostPreviewModal={setPostPreviewModal}
-            setSelectedPost={setSelectedPost}
+            clickLgScreen={clickLgScreen}
+            clickMobileScreen={clickMobileScreen}
             likes={likes}
             post={post ?? []}
             savedBy={savedBy}

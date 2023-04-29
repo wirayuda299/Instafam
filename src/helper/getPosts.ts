@@ -15,9 +15,6 @@ const GetPostsSchema = z.object({
   num: z.number().positive().int(),
 });
 
-const getPostByCurrentUserSchema = z.object({
-  uid: z.string().nonempty(),
-});
 const getPostByIdSchema = z.object({
   id: z.string().nonempty(),
 });
@@ -88,22 +85,30 @@ export async function fetchNextPosts(
 }
 
 export async function getPostByCurrentUser(
-  uid: string = ""
+  uid: string | string[] = ""
 ): Promise<IUserPostProps[] | undefined> {
   try {
-    const isValid = getPostByCurrentUserSchema.parse({ uid });
-    if (!isValid)
-      throw new Error(
-        "Invalid data passed to function. uid must be a string passed to the function and cannot be empty."
-      );
-    const q = query(
-      collection(db, "posts"),
-      where("postedById", "==", `${uid}`),
-      orderBy("createdAt", "desc")
-    );
-    const res = await getDocs(q);
-    const posts = res.docs.map((data) => data.data()) as IUserPostProps[];
-    return posts;
+      const matchpattern = /^\d+$/
+      
+      if (matchpattern.test(uid[0])) {
+        const q = query(
+          collection(db, "posts"),
+          where("postedById", "==", `${uid}`),
+          orderBy("createdAt", "desc")
+        );
+        const res = await getDocs(q);
+        const posts = res.docs.map((data) => data.data()) as IUserPostProps[];
+        return posts;
+      } else {
+        const q = query(
+          collection(db, "posts"),
+          where("author", "==", `${uid}`),
+          orderBy("createdAt", "desc")
+        );
+        const res = await getDocs(q);
+        const posts = res.docs.map((data) => data.data()) as IUserPostProps[];
+        return posts;
+      }
   } catch (error: any) {
     console.log(error.message);
   }

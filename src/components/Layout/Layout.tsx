@@ -10,6 +10,12 @@ const SearchForm = dynamic(() => import("@/components/Search"));
 const Sidebar = dynamic(() => import("../Navigation/Sidebar"), {
   ssr: true,
 });
+const FeedModal = dynamic(() => import("@/components/Modal/Feed"), {
+  ssr: true,
+});
+const PostModal = dynamic(() => import("@/components/Modal/Post/Post"), {
+  ssr: true,
+});
 const MainHeader = dynamic(() => import("../Header/MainHeader"), {
   ssr: true,
 });
@@ -64,6 +70,8 @@ export default function Layout({ children }: { children: any }) {
       <PostPreview />
       <ImageCropperModal />
       <MessagesModal />
+      <FeedModal />
+      <PostModal />
     </>
   );
 }

@@ -7,6 +7,7 @@ import { useStore } from "zustand";
 type Props = {
   selectedChat: DataMessage | null;
 };
+
 export default function ChatHeader({ selectedChat }: Props) {
   const { darkMode } = useStore(useDarkModeStore);
   return (
@@ -19,6 +20,7 @@ export default function ChatHeader({ selectedChat }: Props) {
         <Image
           src={selectedChat?.image as string}
           width={40}
+          priority
           height={40}
           className="rounded-full"
           alt={selectedChat?.name ?? "user"}

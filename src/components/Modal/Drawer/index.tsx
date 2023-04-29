@@ -12,7 +12,6 @@ import { createPortal } from "react-dom";
 import { IUserPostProps } from "@/types/post";
 const CommentsForm = dynamic(() => import("../../Comments/Forms"));
 const Postheader = dynamic(() => import("@/components/Header/PostHeader"));
-const Buttons = dynamic(() => import("@/components/Buttons/Buttons"));
 const Comment = dynamic(() => import("@/components/Comments/Comment"));
 const EmptyComment = dynamic(() => import("@/components/Comments/Empty"));
 
@@ -52,14 +51,14 @@ export default function PostComment() {
           }`}
         >
           <div>
-            <Buttons
+            <button
               className="text-left"
               onClick={() => {
                 setPostCommentModal(false);
               }}
             >
               <AiOutlineArrowLeft size={25} />
-            </Buttons>
+            </button>
           </div>
           <div className=" flex-grow">
             <h2 className="text-center font-semibold">Comments</h2>

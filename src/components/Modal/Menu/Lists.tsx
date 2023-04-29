@@ -1,7 +1,7 @@
-import Buttons from "@/components/Buttons/Buttons";
 import { IUserPostProps } from "@/types/post";
 import Link from "next/link";
 import { useRouter } from "next/router";
+
 type Props = {
   buttonLists: {
     id: number;
@@ -50,7 +50,7 @@ export default function Lists(props: Props) {
                   ) : null}
                 </>
               ) : (
-                <Buttons
+                <button
                   type="button"
                   name={button.name}
                   title={button.name}
@@ -58,7 +58,7 @@ export default function Lists(props: Props) {
                   onClick={button.event}
                 >
                   {button.name}
-                </Buttons>
+                </button>
               )}
             </>
           )}

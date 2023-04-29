@@ -1,9 +1,11 @@
 import { IUserPostProps } from "@/types/post";
 import { AiOutlineComment } from "react-icons/ai";
+
 type Comments = Pick<IUserPostProps, "comments">;
 type Props = {
   comments: Comments["comments"];
 };
+
 export default function Empty({ comments }: Props) {
   return (
     <>

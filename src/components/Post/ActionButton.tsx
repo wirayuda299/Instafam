@@ -5,41 +5,26 @@ import { RiBookmarkFill } from "react-icons/ri";
 import { BiBookmark } from "react-icons/bi";
 import { IoPaperPlaneOutline } from "react-icons/io5";
 import { TbMessageCircle2 } from "react-icons/tb";
-import { memo } from "react";
-import Buttons from "../Buttons/Buttons";
 
 type Props = {
   post: IUserPostProps;
   uid: string;
   likes: string[];
   savedBy: string[];
-  setPostPreviewModal: (postPreviewModal: boolean) => void;
-  setSelectedPost: (selectedPost: IUserPostProps | null) => void;
-  setPostCommentModal: (postCommentModal: boolean) => void;
+  clickLgScreen: () => void
+  clickMobileScreen: () => void
 };
 
-function ActionButton(props: Props) {
+export default function ActionButton(props: Props) {
   const {
     post,
     uid,
     likes,
     savedBy,
-    setPostCommentModal,
-    setPostPreviewModal,
-    setSelectedPost,
+    clickLgScreen,
+    clickMobileScreen
   } = props;
 
-  const clickLgScreen = () => {
-    setPostPreviewModal(true);
-    setPostCommentModal(false);
-    setSelectedPost(post);
-  };
-
-  const clickMobileScreen = () => {
-    setSelectedPost(post);
-    setPostCommentModal(true);
-    setPostPreviewModal(false);
-  };
 
   const BUTTON_LISTS = [
     {
@@ -90,7 +75,7 @@ function ActionButton(props: Props) {
     <div className=" mb-2 mt-3 flex items-center justify-between p-1">
       <div className="flex gap-x-5">
         {BUTTON_LISTS.map((btn) => (
-          <Buttons
+          <button
             key={btn.id}
             onClick={btn.onClick}
             name="action button"
@@ -98,10 +83,10 @@ function ActionButton(props: Props) {
             title="action button"
           >
             {btn.icon}
-          </Buttons>
+          </button>
         ))}
       </div>
-      <Buttons
+      <button
         onClick={async () => {
           const savedPostArgs = {
             post,
@@ -119,9 +104,8 @@ function ActionButton(props: Props) {
         ) : (
           <BiBookmark className="text-2xl hover:text-gray-500 sm:text-3xl" />
         )}
-      </Buttons>
+      </button>
     </div>
   );
 }
 
-export default memo(ActionButton);

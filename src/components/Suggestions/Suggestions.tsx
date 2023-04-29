@@ -8,7 +8,6 @@ const Footer = dynamic(() => import("@/components/Footer"));
 const UserRecommendation = dynamic(() => import("./User"), {
   ssr: true,
 });
-const Buttons = dynamic(() => import("../Buttons/Buttons"));
 
 type Props = {
   reccomend: IUser[];
@@ -41,14 +40,14 @@ function Suggestions({ reccomend }: Props) {
             </span>
           </div>
           <div>
-            <Buttons
+            <button
               type="button"
               name="switch accounts"
               title="switch accounts"
               className="text-xs font-semibold text-blue-600"
             >
               Switch
-            </Buttons>
+            </button>
           </div>
         </div>
         <div className="flex justify-between">
@@ -66,7 +65,17 @@ function Suggestions({ reccomend }: Props) {
         </div>
         <UserRecommendation reccomend={reccomend} />
       </div>
-      <Footer />
+      <Footer classNames="flex flex-wrap gap-3 text-xs  text-gray-500 transition-all ease  justify-start">
+        <p
+          className='mt-5 w-full text-xs text-gray-500'
+        >
+          © 2023 INSTAFAM by{" "}
+          <a href="https://instafam.vercel.app" className="pr-1">
+            Instafam
+          </a>
+          from <a href="https://instafam.vercel.app">INSTAFAM</a>
+        </p>
+      </Footer>
     </section>
   );
 }

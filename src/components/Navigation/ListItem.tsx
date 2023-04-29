@@ -1,5 +1,4 @@
 import Link from "next/link";
-import Buttons from "../Buttons/Buttons";
 import { IUser } from "@/types/user";
 
 type ListItemProps = {
@@ -45,7 +44,7 @@ export default function ListItem(props: ListItemProps) {
       }`}
     >
       {list.id === 2 ? (
-        <Buttons
+        <button
           role="button"
           type="button"
           name="search"
@@ -60,9 +59,9 @@ export default function ListItem(props: ListItemProps) {
           <span className={`${drawer ? "hidden" : "hidden lg:block"}`}>
             {list.title}
           </span>
-        </Buttons>
+        </button>
       ) : list.id === 6 ? (
-        <Buttons
+        <button
           role="button"
           type="button"
           name="search"
@@ -74,9 +73,9 @@ export default function ListItem(props: ListItemProps) {
           <span className={`${drawer ? "hidden" : "hidden lg:block"}`}>
             {list.title}
           </span>
-        </Buttons>
+        </button>
       ) : (
-        <Buttons
+        <button
           disabled={session ? false : true}
           name={list.title}
           title={list.title}
@@ -95,7 +94,7 @@ export default function ListItem(props: ListItemProps) {
               {list.title}
             </span>
           </Link>
-        </Buttons>
+        </button>
       )}
     </li>
   );

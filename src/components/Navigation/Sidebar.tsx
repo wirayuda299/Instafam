@@ -39,6 +39,7 @@ export default function Sidebar() {
       });
     };
   }, []);
+  
   if (!session) return null;
 
   const handleClick = () => {

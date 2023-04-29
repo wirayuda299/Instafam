@@ -9,7 +9,6 @@ import { FieldValues, useForm } from "react-hook-form";
 import { useStore } from "zustand";
 import { createPortal } from "react-dom";
 import dynamic from "next/dynamic";
-const Buttons = dynamic(() => import("../Buttons/Buttons"));
 
 export default function Report() {
   const { data: session } = useSession();
@@ -82,16 +81,16 @@ export default function Report() {
                     />
                   </form>
                   <div className="mt-3 flex">
-                    <Buttons
+                    <button
                       className="ml-5 rounded bg-red-700 px-5 py-1 text-white"
                       name="report"
                       title="report"
                       onClick={reportPost}
                     >
                       Submit
-                    </Buttons>
+                    </button>
 
-                    <Buttons
+                    <button
                       name="cancel"
                       title="cancel"
                       type="button"
@@ -99,7 +98,7 @@ export default function Report() {
                       onClick={() => setReportModal(false)}
                     >
                       Cancel
-                    </Buttons>
+                    </button>
                   </div>
                 </div>
               </div>

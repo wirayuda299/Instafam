@@ -1,4 +1,3 @@
-import Buttons from "@/components/Buttons/Buttons";
 import { IUser } from "@/types/user";
 import type { Session } from "next-auth";
 
@@ -14,7 +13,7 @@ export default function Info({ users, session, refreshData }: Props) {
         {users ? users?.username : ""}
       </h1>
       {session?.user.uid !== users?.uid ? (
-        <Buttons
+        <button
           name="Follow unfollow"
           title="follow unfollow"
           className="w-full truncate rounded bg-blue-600 px-5 py-1 text-xs text-white md:py-2"
@@ -36,7 +35,7 @@ export default function Info({ users, session, refreshData }: Props) {
           )
             ? "Unfollow"
             : "Follow"}
-        </Buttons>
+        </button>
       ) : null}
     </div>
   );

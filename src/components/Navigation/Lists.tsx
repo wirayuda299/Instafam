@@ -43,6 +43,7 @@ export default function NavbarLists(props: Props) {
       path: "/",
       icon: (
         <AiOutlineHome
+        fill="black"
           className={`${darkMode ? "text-white" : "text-black "} text-3xl`}
         />
       ),
@@ -104,7 +105,6 @@ export default function NavbarLists(props: Props) {
       path: `/profile/${session?.user.username}`,
       icon: (
         <>
-
           <Image
             className={`hidden md:block  object-cover h-8 w-8 ${drawer ? "!w-full" : ""
               } rounded-full`}
@@ -123,27 +123,24 @@ export default function NavbarLists(props: Props) {
     },
   ];
 
+  if (!session) return null
   return (
-    <>
-      {session ? (
-        <ul className="flex w-full items-center justify-around md:justify-around md:px-3 lg:px-0 md:flex-col  md:space-y-2 lg:space-y-4">
-          {navList.map((list) => (
-            <ListItem
-              key={list.id}
-              list={list}
-              path={list.path}
-              pathname={pathname}
-              session={session}
-              darkMode={darkMode}
-              toggler={handleClick}
-              drawer={drawer}
-              setDrawer={setDrawer}
-              setPostCreateModal={setPostCreateModal}
-              setResult={setResult}
-            />
-          ))}
-        </ul>
-      ) : null}
-    </>
+    <ul className="flex w-full items-center justify-around md:justify-around md:px-0 md:flex-col  md:space-y-2 lg:space-y-4">
+      {navList.map((list) => (
+        <ListItem
+          key={list.id}
+          list={list}
+          path={list.path}
+          pathname={pathname}
+          session={session}
+          darkMode={darkMode}
+          toggler={handleClick}
+          drawer={drawer}
+          setDrawer={setDrawer}
+          setPostCreateModal={setPostCreateModal}
+          setResult={setResult}
+        />
+      ))}
+    </ul>
   );
 }

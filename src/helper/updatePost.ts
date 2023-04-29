@@ -18,6 +18,7 @@ export async function updatePost(e: Values, post: IUserPostProps) {
           ?.join(" ")
           .split(" ") || [],
     });
+    toast.success("Post updated!");
   } catch (error: any) {
     console.log(error.message);
   }

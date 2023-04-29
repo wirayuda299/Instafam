@@ -1,8 +1,9 @@
 import { useFeedModalStore, useSelectedPostStore } from "@/stores/stores";
 import { useStore } from "zustand";
-import PostInfo from "./PostInfo";
-import Image from "next/image";
 import { IUserPostProps } from "@/types/post";
+import dynamic from "next/dynamic";
+const PostImage = dynamic(() => import("../Post/Image"), { ssr: true });
+const PostInfo = dynamic(() => import("./PostInfo"), { ssr: true });
 
 type Props = {
   post: IUserPostProps;
@@ -21,18 +22,10 @@ export default function Feeds({ post, index }: Props) {
         setFeedModal(true);
       }}
     >
-      <Image
-        className={` h-full w-full object-cover object-center xs:object-top ${
-          index % 2 === 0 ? "aspect-video md:aspect-square" : "aspect-square "
-        }`}
-        src={post.image}
-        width={1000}
-        height={500}
-        priority
-        placeholder="blur"
-        blurDataURL={post.image}
-        alt={post.captions ?? post.author}
-      />
+      <PostImage
+        post={post}
+        classNames={` h-full w-full object-cover object-center xs:object-top ${index % 2 === 0 ? "aspect-video md:aspect-square" : "aspect-square "
+          }`} />
       <div className="hidden md:block">
         <PostInfo post={post} />
       </div>

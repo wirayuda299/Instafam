@@ -11,12 +11,12 @@ type Props = {
 
 export default function Postheader({ post, children }: Props) {
   const { darkMode } = useStore(useDarkModeStore);
+ 
 
   return (
     <header
-      className={`relative flex h-fit items-center py-3 ${
-        darkMode ? "bg-black text-white" : "bg-white text-black"
-      }`}
+      className={`relative flex h-fit items-center py-3 ${darkMode ? "bg-black text-white" : "bg-white text-black"
+        }`}
     >
       <Image
         className="h-8 w-8 rounded-full object-cover "

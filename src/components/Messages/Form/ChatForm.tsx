@@ -5,13 +5,14 @@ import type { Session } from "next-auth";
 import { FieldValues, useForm } from "react-hook-form";
 import { SlPaperPlane } from "react-icons/sl";
 import { useStore } from "zustand";
+
 type Props = {
   selectedChat: DataMessage | null;
   session: Session | null;
 };
 
 export default function ChatForm({ selectedChat, session }: Props) {
-  const { register, handleSubmit, resetField } = useForm();
+  const { register, handleSubmit, resetField, formState: { errors } } = useForm();
   const sendMessage = async (e: FieldValues) => {
     const message = e.message;
     const { doc, setDoc, arrayUnion } = await import("firebase/firestore");
@@ -40,11 +41,11 @@ export default function ChatForm({ selectedChat, session }: Props) {
     }
   };
   const { darkMode } = useStore(useDarkModeStore);
+  
   return (
     <div
-      className={`fixed bottom-16 left-0 right-0 w-full rounded-full border-2 border-gray-500 border-opacity-40 md:absolute md:bottom-0  ${
-        darkMode ? "bg-black" : "bg-white "
-      }`}
+      className={`fixed bottom-16 left-0 right-0 w-full rounded-full border-2 border-gray-500 border-opacity-40 md:absolute md:bottom-0  ${darkMode ? "bg-black" : "bg-white "
+        }`}
     >
       <form
         className="flex items-center justify-between px-5 py-4"
@@ -56,8 +57,9 @@ export default function ChatForm({ selectedChat, session }: Props) {
           className="flex-1 bg-transparent outline-none"
           placeholder="Type a message"
           {...register("message", { required: true, min: 1, max: 200 })}
+          {...errors.root?.type === "required" && <span>This field is required</span>}
         />
-        <button>
+        <button name="send" title="send">
           <SlPaperPlane className="text-2xl" />
         </button>
       </form>

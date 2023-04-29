@@ -1,5 +1,4 @@
 import { Dispatch, SetStateAction } from "react";
-import Buttons from "../Buttons/Buttons";
 import { useDarkModeStore } from "@/stores/stores";
 import { useStore } from "zustand";
 
@@ -27,7 +26,7 @@ export default function TextArea(props: Props) {
         cols={60}
         rows={10}
       ></textarea>
-      <Buttons
+      <button
         disabled={loading}
         onClick={handlePost}
         name="post"
@@ -46,7 +45,7 @@ export default function TextArea(props: Props) {
         ) : (
           "Post"
         )}
-      </Buttons>
+      </button>
     </div>
   );
 }

@@ -11,9 +11,7 @@ import { useStore } from "zustand";
 const PostDetailComment = dynamic(() => import("./Preview"), {
   ssr: true,
 });
-const Buttons = dynamic(() => import("@/components/Buttons/Buttons"), {
-  ssr: true,
-});
+
 const PostImage = dynamic(() => import("./Image"), {
   ssr: true,
 });
@@ -48,9 +46,9 @@ export default function PreviewLargeScreen(props: props) {
         savedBy={savedBy}
         post={post}
       >
-        <Buttons onClick={handleClick} name="menu" title="menu">
+        <button onClick={handleClick} name="menu" title="menu">
           <BsThreeDots size={20} />
-        </Buttons>
+        </button>
       </PostDetailComment>
     </>
   );

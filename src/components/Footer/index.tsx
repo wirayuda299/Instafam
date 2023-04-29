@@ -1,11 +1,16 @@
 import Link from "next/link";
-import { useRouter } from "next/router";
 type FooterProps = {
   name: string;
   link: string;
 };
-export default function Footer() {
-  const { pathname } = useRouter();
+
+type Props ={
+  children?: React.ReactNode;
+  classNames?: string;
+}
+
+
+export default function Footer({ children, classNames }: Props) {
   const footerlists: FooterProps[] = [
     {
       name: "About",
@@ -43,15 +48,12 @@ export default function Footer() {
   return (
     <footer className="w-full px-5 ">
       <ul
-        className={`flex flex-wrap gap-3 text-xs  text-gray-500 ${
-          pathname === "/explore" ? "justify-center" : "justify-start"
-        }`}
-      >
+        className={classNames}>
         {footerlists.map((list) => (
           <li
             title={list.name}
             key={list.name}
-            className="border-black hover:border-b dark:border-white"
+            className="cursor-pointer underline-offset-0 hover:underline hover:underline-offset-2"
           >
             <Link href={list.link} title={list.name} as={list.link}>
               {list.name}
@@ -59,17 +61,7 @@ export default function Footer() {
           </li>
         ))}
       </ul>
-      <p
-        className={`mt-5 w-full text-xs text-gray-500 ${
-          pathname === "/explore" ? "text-center" : ""
-        }`}
-      >
-        © 2023 INSTAFAM by{" "}
-        <a href="https://instafam.vercel.app" className="pr-1">
-          Instafam
-        </a>
-        from <a href="https://instafam.vercel.app">INSTAFAM</a>
-      </p>
+      {children}
     </footer>
   );
 }

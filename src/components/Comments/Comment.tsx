@@ -11,6 +11,7 @@ type Props = {
     createdAt: string | number;
   }[];
 };
+
 export default function Comment({ comments }: Props) {
   return (
     <>

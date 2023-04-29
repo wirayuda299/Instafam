@@ -16,7 +16,6 @@ const PostImage = dynamic(() => import("@/components/Post/Image"), {
 const Postheader = dynamic(() => import("@/components/Header/PostHeader"), {
   ssr: true,
 });
-const Buttons = dynamic(() => import("../Buttons/Buttons"), { ssr: false });
 
 export default function Feed() {
   const { darkMode } = useStore(useDarkModeStore);
@@ -53,22 +52,22 @@ export default function Feed() {
                 } `}
               >
                 <Postheader post={selectedPost as IUserPostProps}>
-                  <Buttons
+                  <button
                     onClick={() => {
                       setFeedModal(false);
                       setSelectedPost(null);
                     }}
                   >
                     <AiOutlineClose size={20} />
-                  </Buttons>
+                  </button>
                 </Postheader>
-                <Buttons
+                <button
                   onClick={handleClick}
                   title={`/post/${selectedPost?.postId}`}
                   name={`/post/${selectedPost?.postId}`}
                 >
                   <PostImage post={selectedPost as IUserPostProps} />
-                </Buttons>
+                </button>
               </div>
             </div>
           </div>

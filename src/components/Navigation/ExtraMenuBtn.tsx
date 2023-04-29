@@ -1,7 +1,5 @@
-import dynamic from "next/dynamic";
 import { AiOutlineClose } from "react-icons/ai";
 import { RxHamburgerMenu } from "react-icons/rx";
-const Buttons = dynamic(() => import("../Buttons/Buttons"), { ssr: false });
 
 type Props = {
   extraList: boolean;
@@ -14,7 +12,7 @@ export default function ExtraMenuBtn(props: Props) {
   const { darkMode, extraList, handleClick, drawer } = props;
 
   return (
-    <Buttons
+    <button
       type="button"
       className="hidden md:block"
       name="extra menu"
@@ -39,6 +37,6 @@ export default function ExtraMenuBtn(props: Props) {
         )}
         <span className={`${drawer ? "hidden" : "hidden lg:block"}`}>More</span>
       </div>
-    </Buttons>
+    </button>
   );
 }

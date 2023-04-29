@@ -1,11 +1,10 @@
 import { IUserPostProps } from "@/types/post";
 import { AiFillHeart, AiTwotoneMessage } from "react-icons/ai";
-import Buttons from "../Buttons/Buttons";
 
 export default function PostInfo({ post }: { post: IUserPostProps }) {
   return (
     <div className="absolute inset-0 flex items-center justify-around bg-black bg-opacity-0 transition-opacity duration-300 ease-in-out md:hover:bg-opacity-30">
-      <Buttons
+      <button
         type="button"
         name="likes count "
         title="likes count "
@@ -17,8 +16,8 @@ export default function PostInfo({ post }: { post: IUserPostProps }) {
             {post?.likedBy.length}
           </small>
         </p>
-      </Buttons>
-      <Buttons
+      </button>
+      <button
         type="button"
         title="comments count "
         name="posts comment count "
@@ -30,7 +29,7 @@ export default function PostInfo({ post }: { post: IUserPostProps }) {
             {post?.comments.length}
           </small>
         </p>
-      </Buttons>
+      </button>
     </div>
   );
 }

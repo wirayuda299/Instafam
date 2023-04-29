@@ -5,8 +5,8 @@ import dynamic from "next/dynamic";
 import { memo } from "react";
 import { useStore } from "zustand";
 import { useDarkModeStore } from "@/stores/stores";
-import Buttons from "@/components/Buttons/Buttons";
 import type { Session } from "next-auth";
+import { AiOutlinePlus } from "react-icons/ai";
 const UserInfo = dynamic(() => import("../Info/Info"));
 const DesktopStatistic = dynamic(() => import("./Desktop"));
 const StatisticMobile = dynamic(() => import("./Mobile"));
@@ -64,14 +64,14 @@ function Statistic({ session, users, posts, refreshData }: Props) {
                       session={session}
                       users={users}
                     />
-                    <div className="flex flex-col sm:flex-col-reverse">
+                    <div className="flex sm:flex-col-reverse">
                       <div>
                         {users?.uid === session?.user?.uid ? (
-                          <Buttons
+                          <button
                             name="sign out"
                             type="button"
                             title="sign out"
-                            className="mt-2 w-full rounded-md bg-blue-500 py-1 text-white md:hidden"
+                            className="mt-2 w-full text-center  rounded-md bg-blue-500 py-1 text-white md:hidden"
                             onClick={async () => {
                               const { signOut } = await import("next-auth/react");
                               signOut({
@@ -81,12 +81,11 @@ function Statistic({ session, users, posts, refreshData }: Props) {
                             }}
                           >
                             Log Out
-                          </Buttons>
-                        ) : null}
+                          </button>
+                        ) :null}
                       </div>
                       <DesktopStatistic data={data} />
                     </div>
-
                   </div>
                 </div>
               </div>

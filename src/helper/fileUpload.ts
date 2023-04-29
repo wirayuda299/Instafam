@@ -2,7 +2,6 @@ import { ChangeEvent } from "react";
 import toast from "react-hot-toast";
 import { encode } from "blurhash";
 
-
 type Params = {
   e: ChangeEvent<HTMLInputElement>;
   setPreviewUrl: (postImageModal: string) => void;
@@ -35,6 +34,8 @@ const filterImage: FilterImage = async (file) => {
     console.log(error.message);
   }
 };
+
+
 const loadImage = async (src: any) =>
   new Promise((resolve, reject) => {
     const img = new Image();

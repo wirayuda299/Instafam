@@ -1,8 +1,7 @@
+import "react-cropper-custom/dist/index.css";
 import { AiOutlineClose } from "react-icons/ai";
-import Buttons from "../Buttons/Buttons";
 import { Dispatch, SetStateAction } from "react";
 import { Cropper } from "react-cropper-custom";
-import "react-cropper-custom/dist/index.css";
 
 export type Area = {
   width: number;
@@ -47,29 +46,27 @@ export default function ImageCropper(props: Props) {
               onZoomChange={setZoom}
               onCropComplete={onCropComplete}
             />
-            <Buttons
+            <button
               name="delete"
               title="delete"
               type="button"
-              className={`absolute -right-3 -top-3 rounded-md border-2  ${
-                darkMode ? "bg-white text-black" : "bg-black text-white"
-              }`}
+              className={`absolute -right-3 -top-3 rounded-md border-2  ${darkMode ? "bg-white text-black" : "bg-black text-white"
+                }`}
               onClick={() => {
                 setPostImageModal("");
                 setCroppedImg("");
               }}
             >
               <AiOutlineClose size={25} />
-            </Buttons>
+            </button>
           </div>
-          <Buttons
-            className={`mt-3 w-full  rounded-md py-2 text-center ${
-              darkMode ? "bg-black text-white" : "bg-gray-200 text-black"
-            }`}
+          <button
+            className={`mt-3 w-full  rounded-md py-2 text-center ${darkMode ? "bg-black text-white" : "bg-gray-200 text-black"
+              }`}
             onClick={handleClick}
           >
             Done
-          </Buttons>
+          </button>
         </div>
       </div>
     </div>

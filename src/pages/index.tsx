@@ -39,6 +39,7 @@ export default function Home({ posts, users }: Props) {
       }
     };
   }, []);
+  
 
   return (
     <div className="h-full w-full">
@@ -76,7 +77,7 @@ export async function getServerSideProps({ req, res }: any) {
       },
     };
   }
-  const users = await getUserRecommendation(session?.user.uid);
+  const users = await getUserRecommendation(session?.user.uid, 5);
   const posts = await getPosts(3);
   res.setHeader("Cache-Control", "public, maxage=60, stale-while-revalidate");
 

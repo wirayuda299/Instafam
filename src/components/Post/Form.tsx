@@ -1,6 +1,5 @@
 import { useDarkModeStore } from "@/stores/stores";
 import { useStore } from "zustand";
-import Buttons from "../Buttons/Buttons";
 
 type Props = {
   defaultValues: {
@@ -26,7 +25,7 @@ export default function PostForm(props: Props) {
         defaultValue={defaultValues.captions}
         {...register("updated", { required: true })}
       />
-      <Buttons
+      <button
         className={`p-2 ${darkMode ? " text-white" : " text-black"}`}
         type="submit"
         name="update"
@@ -34,7 +33,7 @@ export default function PostForm(props: Props) {
         onClick={() => handleSubmit(updatePost)}
       >
         <span>Update</span>
-      </Buttons>
+      </button>
     </form>
   );
 }

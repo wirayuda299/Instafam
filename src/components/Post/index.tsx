@@ -18,9 +18,8 @@ const PostHeader = dynamic(() => import("../Header/PostHeader"));
 const Author = dynamic(() => import("./Author"));
 const Comments = dynamic(() => import("../Comments/Forms"));
 const PostImage = dynamic(() => import("./Image"), {
-  ssr:true
+  ssr: true
 });
-const Buttons = dynamic(() => import("../Buttons/Buttons"));
 
 type Props = {
   post: IUserPostProps;
@@ -35,6 +34,19 @@ function PostCard({ post }: Props) {
   const { setPostCommentModal } = useStore(usePostCommentModalStore);
   const { setPostPreviewModal } = useStore(usePostPreviewModalStore);
 
+  const clickLgScreen = () => {
+    setPostPreviewModal(true);
+    setPostCommentModal(false);
+    setSelectedPost(post);
+  };
+
+  const clickMobileScreen = () => {
+    setSelectedPost(post);
+    setPostCommentModal(true);
+    setPostPreviewModal(false);
+  };
+
+
   const handleClick = () => {
     setMenuModal(!menuModal);
     setSelectedPost(post);
@@ -47,23 +59,22 @@ function PostCard({ post }: Props) {
           }`}
       >
         <PostHeader post={post}>
-          <Buttons
+          <button
             type="button"
             name="menu"
             title="menu"
             onClick={handleClick}
           >
             <BsThreeDots className="text-gray-500" size={20} />
-          </Buttons>
+          </button>
         </PostHeader>
         <PostImage post={post} classNames="post h-auto w-full rounded-lg object-cover" />
         <ActionButton
-          setPostCommentModal={setPostCommentModal}
-          setPostPreviewModal={setPostPreviewModal}
-          setSelectedPost={setSelectedPost}
           savedBy={savedBy}
           likes={likes}
           post={post}
+          clickLgScreen={clickLgScreen}
+          clickMobileScreen={clickMobileScreen}
           uid={session?.user?.uid as string}
         />
         <Likes likesCount={likes} session={session} />

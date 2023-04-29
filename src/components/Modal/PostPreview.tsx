@@ -13,9 +13,7 @@ import { createPortal } from "react-dom";
 const PostCommentDesktop = dynamic(() => import("../Post/Preview"), {
   ssr: false,
 });
-const Buttons = dynamic(() => import("../Buttons/Buttons"), {
-  ssr: false,
-});
+
 const PostImage = dynamic(() => import("../Post/Image"), {
   ssr: true,
 });
@@ -57,15 +55,17 @@ export default function PostPreview() {
                   setPostPreviewModal={setPostPreviewModal}
                   setSelectedPost={setSelectedPost}
                 >
-                  <Buttons
+                  <button
                     onClick={() => {
                       setPostPreviewModal(false);
                       setPostCommentModal(false);
                       setSelectedPost(null);
                     }}
+                    name="close"
+                    title="close"
                   >
                     <AiOutlineClose size={25} />
-                  </Buttons>
+                  </button>
                 </PostCommentDesktop>
               </div>
             </div>

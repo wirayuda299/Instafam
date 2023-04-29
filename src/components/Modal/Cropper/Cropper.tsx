@@ -16,9 +16,7 @@ import { getCroppedImg } from "react-cropper-custom";
 const FileUpload = dynamic(() => import("@/components/FileUpload/FileUpload"), {
   ssr: false,
 });
-const Buttons = dynamic(() => import("@/components/Buttons/Buttons"), {
-  ssr: false,
-});
+
 const ImageCropper = dynamic(
   () => import("@/components/ImageCropper/ImageCropper"),
   {
@@ -72,7 +70,7 @@ export default function Cropper() {
       aria-modal="true"
       role="dialog"
     >
-      <Buttons
+      <button
         className="absolute right-3 top-32 rounded-lg border-2  bg-white font-semibold text-black sm:top-3 "
         onClick={() => {
           setPostCreateModal(false);
@@ -81,7 +79,7 @@ export default function Cropper() {
         }}
       >
         <AiOutlineClose size={30} className="font-semibold" />
-      </Buttons>
+      </button>
       <div className="mx-auto h-full max-w-lg sm:w-full ">
         {postImageModal ? (
           <ImageCropper

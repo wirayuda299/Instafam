@@ -1,8 +1,7 @@
 import { IUserPostProps } from "@/types/post";
-import { memo, useMemo, useState } from "react";
-import Buttons from "../Buttons/Buttons";
+import {  useMemo, useState } from "react";
 
-function Author({ post }: { post: IUserPostProps }) {
+export default function Author({ post }: { post: IUserPostProps }) {
   const [show, setShow] = useState(false);
   const posthastag = useMemo<string[]>(() => post?.hashtags, [post]);
   const captions = useMemo<string>(() => post?.captions[0], [post]);
@@ -24,7 +23,7 @@ function Author({ post }: { post: IUserPostProps }) {
         >
           {post.captions}
         </p>
-        <Buttons
+        <button
           className="!ml-0 text-sm text-gray-400"
           onClick={() => setShow(!show)}
           type="button"
@@ -42,7 +41,7 @@ function Author({ post }: { post: IUserPostProps }) {
               hide
             </span>
           )}
-        </Buttons>
+        </button>
       </div>
       <div className="flex flex-wrap">
         {posthastag.map((hashtag) => (
@@ -57,4 +56,3 @@ function Author({ post }: { post: IUserPostProps }) {
     </div>
   );
 }
-export default memo(Author);

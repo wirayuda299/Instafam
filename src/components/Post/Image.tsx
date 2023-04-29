@@ -10,25 +10,19 @@ type Props = {
 export default function PostImage({ post, classNames }: Props) {
 
   const [blurHash, setBlurHash] = useState<string | undefined>(undefined);
+  
   useEffect(() => {
     if (post?.blurDataUrl) {
       const canvas = document.createElement("canvas");
       const blurHash = post.blurDataUrl
-      if (!blurHash) {
-        return;
-      }
       const pixels = decode(blurHash, 32, 32, 1);
       const imageData = new ImageData(pixels, 32, 32);
       canvas.width = 32;
       canvas.height = 32;
       const ctx = canvas.getContext("2d");
-      if (!ctx) {
-        return;
-      }
+      if (!ctx) return;
       ctx.putImageData(imageData, 0, 0);
       const dataUrl = canvas.toDataURL();
-
-
       setBlurHash(dataUrl);
 
     }
