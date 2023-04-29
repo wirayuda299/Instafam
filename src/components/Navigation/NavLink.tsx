@@ -11,7 +11,7 @@ import dynamic from "next/dynamic";
 import type { Session } from "next-auth";
 import { BsPersonCircle } from "react-icons/bs";
 
-const ListItem = dynamic(() => import("./ListItem"), { ssr: true });
+const NavItem = dynamic(() => import("./NavItem"), { ssr: true });
 
 type Props = {
   session: Session | null;
@@ -24,7 +24,7 @@ type Props = {
   drawer: boolean;
 };
 
-export default function NavbarLists(props: Props) {
+export default function NavLink(props: Props) {
   const {
     session,
     setPostCreateModal,
@@ -122,16 +122,14 @@ export default function NavbarLists(props: Props) {
     },
   ];
 
-  if (!session) return null
   return (
     <ul className="flex w-full items-center justify-around md:justify-around md:px-0 md:flex-col  md:space-y-2 lg:space-y-4">
       {navList.map((list) => (
-        <ListItem
+        <NavItem
           key={list.id}
           list={list}
           path={list.path}
           pathname={pathname}
-          session={session}
           darkMode={darkMode}
           toggler={handleClick}
           drawer={drawer}

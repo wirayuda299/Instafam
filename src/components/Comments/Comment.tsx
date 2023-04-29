@@ -35,7 +35,7 @@ export default function Comment({ comments }: Props) {
               className="text-sm font-semibold"
             >
               {comment?.commentByName}
-              <small className="block text-left text-xs font-semibold text-gray-500">
+              <small className="block text-left text-[10px] font-semibold text-gray-500">
                 {getCreatedDate(comment.createdAt)}
               </small>
             </Link>

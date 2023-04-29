@@ -60,8 +60,8 @@ export default function PostDetailComment(props: Props) {
         <div className="absolute top-0 w-full border-b border-gray-500 border-opacity-50 px-2">
           <PostHeader post={post}>{children}</PostHeader>
         </div>
-        <div className="px-2">
-          <div className="pt-24">
+        <div className={comments.length < 1 ? 'mt-32' : ''}>
+          <div className="pt-11 ">
             <Empty comments={comments} />
           </div>
           <Comment comments={comments} />

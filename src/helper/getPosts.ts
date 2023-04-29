@@ -59,6 +59,7 @@ export const getPostByLikes = async (num: number) => {
       orderBy("likedBy", "desc"),
       limit(num)
     );
+    
     const res = await getDocs(q);
     const userPosts = res.docs.map((data) => data.data()) as IUserPostProps[];
     return userPosts;

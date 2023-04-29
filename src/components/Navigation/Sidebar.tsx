@@ -11,7 +11,7 @@ import { useStore } from "zustand";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 const ExtraMenus = dynamic(() => import("./ExtraMenus"));
-const NavbarList = dynamic(() => import("./Lists"));
+const NavLink = dynamic(() => import("./NavLink"));
 const ExtraMenuBtn = dynamic(() => import("./ExtraMenuBtn"));
 const NavHeader = dynamic(() => import("../Header/NavHeader"));
 
@@ -58,7 +58,7 @@ export default function Sidebar() {
       <nav className="rel flex w-full flex-col justify-between p-1 md:h-full md:p-3 lg:justify-between">
         <NavHeader />
         <div>
-          <NavbarList
+          <NavLink
             session={session}
             darkMode={darkMode}
             drawer={drawer}

@@ -72,6 +72,7 @@ export const handleInputImage: UploadFile = async (args) => {
     }
     const data = await loadImage(URL.createObjectURL(selectedFile));
     const imageData = getImageData(data);
+    
     if (!imageData) return;
     
     

@@ -10,7 +10,6 @@ type ListItemProps = {
     path: string;
     icon: JSX.Element;
   };
-  session: any;
   drawer: boolean;
   setDrawer: (value: boolean) => void;
   darkMode: boolean;
@@ -19,12 +18,11 @@ type ListItemProps = {
   setPostCreateModal: (value: boolean) => void;
 };
 
-export default function ListItem(props: ListItemProps) {
+export default function NavItem(props: ListItemProps) {
   const {
     path,
     pathname,
     list,
-    session,
     darkMode,
     drawer,
     setDrawer,
@@ -49,7 +47,6 @@ export default function ListItem(props: ListItemProps) {
           type="button"
           name="search"
           className="flex space-x-2"
-          disabled={session ? false : true}
           onClick={() => {
             setDrawer(!drawer);
             setResult([]);
@@ -66,7 +63,6 @@ export default function ListItem(props: ListItemProps) {
           type="button"
           name="search"
           className="flex space-x-2"
-          disabled={session ? false : true}
           onClick={() => setPostCreateModal(true)}
         >
           <div>{list.icon}</div>
@@ -76,7 +72,6 @@ export default function ListItem(props: ListItemProps) {
         </button>
       ) : (
         <button
-          disabled={session ? false : true}
           name={list.title}
           title={list.title}
           type="button"
@@ -85,6 +80,7 @@ export default function ListItem(props: ListItemProps) {
             onClick={toggler}
             className="flex cursor-pointer space-x-2"
             role="link"
+            as={path}
             shallow
             href={path}
             title={list.title}

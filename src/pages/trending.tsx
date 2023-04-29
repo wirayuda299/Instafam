@@ -1,4 +1,3 @@
-import Footer from "@/components/Footer";
 import {
   useFeedModalStore,
   usePostModalStore,
@@ -21,6 +20,12 @@ const PostImage = dynamic(() => import("@/components/Post/Image"), {
 const Form = dynamic(() => import("@/components/Search/Form"), {
   ssr: true,
 });
+const Footer = dynamic(() => import("@/components/Footer"), {
+  ssr: true,
+});
+const PostInfo = dynamic(() => import("@/components/Feeds/PostInfo"), {
+  ssr: true,
+});
 
 export default function Trending({ posts }: Props) {
   const { setSelectedPost } = useStore(useSelectedPostStore);
@@ -28,20 +33,20 @@ export default function Trending({ posts }: Props) {
   const { setFeedModal } = useStore(useFeedModalStore);
   return (
     <div className="h-screen w-full overflow-y-auto">
-      <div className="md:hidden p-3">
+      <div className="md:hidden p-3 md:pointer-events-none">
         <Form height="h-min">
           <button type="submit" name="Search" title="search">
             <AiOutlineSearch size={20} />
           </button>
         </Form>
       </div>
-      <div className="m-0 columns-3 gap-0">
+      <div className="columns-3xs m-0">
         {posts?.map((post, i) => (
           <div key={`${post.postId}`}>
             <button
               name="click to view the post"
               title="click to view the post"
-              className={`hidden  h-max md:block ${i % 2 === 0 ? "aspect-square" : "aspect-video"
+              className={`hidden relative mb-5 w-full h-full  group md:block ${ Number(post.createdAt) % 2 === 0 ? "aspect-square" : "aspect-[9/16]"
                 }`}
               onClick={() => {
                 setSelectedPost(post);
@@ -50,15 +55,16 @@ export default function Trending({ posts }: Props) {
             >
               <PostImage
                 post={post}
-                classNames="h-full w-full border border-gray-400 border-opacity-40 object-cover object-top "
+                classNames="h-full w-full object-cover object-top rounded-md"
               />
+              <PostInfo post={post}/>
             </button>
             <div
               onClick={() => {
                 setSelectedPost(post);
                 setPostModal(true);
               }}
-              className={`block w-full cursor-pointer md:hidden`}
+              className={`block w-full cursor-pointer md:hidden md:pointer-events-none`}
             >
               <PostImage
                 post={post}
