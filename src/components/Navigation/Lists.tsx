@@ -43,7 +43,6 @@ export default function NavbarLists(props: Props) {
       path: "/",
       icon: (
         <AiOutlineHome
-        fill="black"
           className={`${darkMode ? "text-white" : "text-black "} text-3xl`}
         />
       ),
