@@ -65,7 +65,7 @@ function Statistic({ session, users, posts, refreshData }: Props) {
                       users={users}
                     />
                     <div className="flex sm:flex-col-reverse">
-                      <div>
+                      <div className="w-full">
                         {users?.uid === session?.user?.uid ? (
                           <button
                             name="sign out"
