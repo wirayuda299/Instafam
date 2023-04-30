@@ -1,38 +1,21 @@
 import { IUser } from "@/types/user";
-import { z } from "zod";
-const FollowSchema = z.object({
-  id: z.string(),
-  uid: z.string(),
-  followedByName: z.string(),
-  refreshData: z.function().args(z.void()).returns(z.void()),
-  ssr: z.boolean(),
-});
+
 type FollowerProps = Pick<IUser, "followers">;
 
 type HandleFollowProps = {
   id: string;
   uid: string;
   followedByName: string;
-  refreshData: () => void;
-  ssr: boolean;
 };
 export const handleFollow = async <T extends HandleFollowProps>(props: T) => {
-  const { id, uid, followedByName, refreshData, ssr } = props;
+  const { id, uid, followedByName } = props;
   try {
-    const isValidArgs = FollowSchema.parse({
-      id,
-      uid,
-      followedByName,
-      refreshData,
-      ssr,
-    });
-    if (!isValidArgs) {
-      throw new Error("Invalid data passed to handleFollow function.");
-    }
+
     const { doc, getDoc, arrayRemove, arrayUnion, updateDoc } = await import(
       "firebase/firestore"
     );
     const { db } = await import("@/config/firebase");
+    if(!uid || !id || !followedByName) throw new Error("uid, id, followedByName is required")
 
     const userRef = doc(db, "users", id);
     const currentUserRef = doc(db, "users", `${uid}`);
@@ -49,30 +32,28 @@ export const handleFollow = async <T extends HandleFollowProps>(props: T) => {
       );
       const updateAuthorFollowersLists = hasFollow
         ? {
-            followers: arrayRemove({
-              followedBy: uid,
-              followedByName: followedByName,
-            }),
-          }
+          followers: arrayRemove({
+            followedBy: uid,
+            followedByName: followedByName,
+          }),
+        }
         : {
-            followers: arrayUnion({
-              followedBy: uid,
-              followedByName: followedByName,
-            }),
-          };
+          followers: arrayUnion({
+            followedBy: uid,
+            followedByName: followedByName,
+          }),
+        };
 
       const updateCurrentUserFollowingLists = hasFollow
         ? {
-            following: arrayRemove({ userId: id }),
-          }
+          following: arrayRemove({ userId: id }),
+        }
         : { following: arrayUnion({ userId: id }) };
 
       await Promise.all([
         updateDoc(userRef, updateAuthorFollowersLists),
         updateDoc(currentUserRef, updateCurrentUserFollowingLists),
-      ]).then(() => {
-        ssr ? refreshData() : null;
-      });
+      ])
     }
   } catch (error: any) {
     console.log(error.message);

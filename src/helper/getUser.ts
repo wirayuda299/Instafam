@@ -7,10 +7,6 @@ const getUserRecommendationSchema = z.object({
   uid: z.string().nonempty(),
 });
 
-const getCurrentUserDataSchema = z.object({
-  username: z.string().nonempty(),
-});
-
 export async function getUserRecommendation(uid: string, amount?:number | undefined) {
   try {
     const isValid = getUserRecommendationSchema.parse({ uid });
@@ -37,8 +33,7 @@ export async function getUserRecommendation(uid: string, amount?:number | undefi
 
 export async function getCurrentUserData(username: string = "") {
   try {
-    const isValid = getCurrentUserDataSchema.parse({ username });
-    if (!isValid) throw new Error("username was not provided");
+   if(!username) throw new Error("Please add username")
 
     const q = query(collection(db, "users"), where("username", "==", username));
     const res = await getDocs(q);

@@ -4,7 +4,6 @@ import { useBlurhashStore, useCroppedImgStore, useDarkModeStore } from "@/stores
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
-import { makePost } from "@/helper/makePost";
 import { useRouter } from "next/router";
 const Captions = dynamic(() => import("@/components/Captions/Captions"), {
   ssr: false,
@@ -18,7 +17,7 @@ export default function CreatePost() {
   const { data: session } = useSession();
   const router = useRouter();
   const { blurhash } = useStore(useBlurhashStore)
-  
+
 
   useEffect(() => {
     if (!session) router.push("/auth/signin");
@@ -26,23 +25,36 @@ export default function CreatePost() {
   }, [croppedImg, session]);
 
   const makePosts = async () => {
-    const args = {
-      captions,
-      croppedImg: croppedImg,
-      session,
-      setCaptions,
-      setImg: setCroppedImg,
-      setLoading,
-      img: croppedImg,
-      blurDataUrl: blurhash
-    };
-    await makePost(args);
+    try {
+      const args = {
+        captions,
+        croppedImg: croppedImg,
+        session,
+        setLoading,
+        img: croppedImg,
+        blurDataUrl: blurhash
+      };
+  
+      const { toast } = await import("react-hot-toast")
+      const { makePost } = await import("@/helper/makePost")
+  
+      await makePost(args).then(() => {
+        setCaptions("");
+        setCroppedImg("");
+        setLoading(false);
+        toast.success("Post created successfully");
+      });
+      
+    } catch (error) {
+      setLoading(false);
+      
+    }
+  
   };
   return (
     <div
-      className={`mb-5 h-screen w-full !overflow-y-auto ${
-        darkMode ? "bg-black" : "bg-white"
-      }`}
+      className={`mb-5 h-screen w-full !overflow-y-auto ${darkMode ? "bg-black" : "bg-white"
+        }`}
     >
       <div className=" mx-auto grid h-full place-items-center !overflow-y-auto lg:grid-cols-2">
         <Image

@@ -1,7 +1,7 @@
 import { db } from "@/config/firebase";
 import { collection, getDocs, query, where } from "firebase/firestore";
 import { getCsrfToken } from "next-auth/react";
-import { FieldValues, UseFormResetField } from "react-hook-form";
+import type { FieldValues, UseFormResetField } from "react-hook-form";
 import toast from "react-hot-toast";
 
 type Args = {

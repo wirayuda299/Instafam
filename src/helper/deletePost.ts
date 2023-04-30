@@ -1,18 +1,21 @@
 import { storage, db } from "@/config/firebase";
 import { IUserPostProps } from "@/types/post";
+import type { Session } from "next-auth";
 import toast from "react-hot-toast";
 
 type DeletePostProps = {
   post: IUserPostProps | null;
-  refreshData: () => void;
-  ssr: boolean;
-  session: any;
+  session: Session | null;
 };
 
 export const deletePost = async <T extends DeletePostProps>(props: T) => {
   if (typeof window === "undefined") return;
-  const { post, refreshData, ssr, session } = props;
-  if (!session || !session.user) return;
+  const { post, session } = props;
+  
+  if (!session || !session.user) throw new Error("Please login to delete post");
+  const uidNotMatch = session.user.uid !== post?.postedById;
+
+  if(uidNotMatch) throw new Error("You can't delete this post")
 
   try {
     const { deleteDoc, doc } = await import("firebase/firestore");
@@ -24,11 +27,8 @@ export const deletePost = async <T extends DeletePostProps>(props: T) => {
     );
     const deleteFromStorage = await deleteObject(postRef);
 
-    await Promise.all([deleteFromFirestore, deleteFromStorage]).then(() => {
-      ssr ? refreshData() : null;
-      toast.success("Post deleted successfully.");
-    });
+    await Promise.all([deleteFromFirestore, deleteFromStorage])
   } catch (error: any) {
-    console.log(error.message);
+    toast.error(error.message);
   }
 };

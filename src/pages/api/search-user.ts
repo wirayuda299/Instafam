@@ -1,5 +1,5 @@
 import { db } from "@/config/firebase";
-import { query, collection, where, getDocs } from "firebase/firestore";
+import { query, collection, getDocs } from "firebase/firestore";
 import { NextApiRequest, NextApiResponse } from "next";
 import { getServerSession } from "next-auth";
 import { authOptions } from "./auth/[...nextauth]";

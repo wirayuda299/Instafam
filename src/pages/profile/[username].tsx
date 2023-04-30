@@ -39,7 +39,7 @@ function UserProfile({ posts, user, query, savedPosts, reccomendations }: Props)
   const { session } = useAuth();
   const { replace, asPath } = useRouter();
   const [activeTab, setActiveTab] = useState<number>(1);
-  const [isPending, startTransition] = useTransition();
+  const [, startTransition] = useTransition();
   const { setSelectedPost } = useStore(useSelectedPostStore);
   const { setPostCommentModal } = useStore(usePostCommentModalStore);
   const { setPostPreviewModal } = useStore(usePostPreviewModalStore);

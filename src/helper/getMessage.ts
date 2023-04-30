@@ -4,6 +4,8 @@ import type { Session } from "next-auth";
 
 export async function getMessage(session: Session | null) {
   try {
+    if(!session) throw new Error("Please login to get message") 
+
     const q = query(
       collection(db, "messages"),
       where("room.id", "array-contains", `${session?.user.uid}`)
@@ -35,9 +37,5 @@ export async function getMessage(session: Session | null) {
 
   } catch (error: any) {
     console.log(error.message);
-
-
   }
-
-
 }

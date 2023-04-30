@@ -1,7 +1,7 @@
 import {
   useChatRoomSelectedStore,
   useDarkModeStore,
-  useMessageModalStore, 
+  useMessageModalStore,
 } from "@/stores/stores";
 import { IUser } from "@/types/user";
 import { useState } from "react";
@@ -16,7 +16,7 @@ import { useRouter } from "next/router";
 
 export default function MessagesModal() {
   const { messageModal, setMessageModal } = useStore(useMessageModalStore);
-  const { handleSubmit, resetField, register, formState:{errors}} = useForm();
+  const { handleSubmit, resetField, register } = useForm();
   const [result, setResult] = useState<IUser[] | undefined>([]);
   const { darkMode } = useStore(useDarkModeStore);
   const { chatRoomSelected, setChatRoomSelected } = useStore(useChatRoomSelectedStore);

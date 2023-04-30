@@ -1,10 +1,12 @@
 import { db } from "@/config/firebase";
 import { IUser } from "@/types/user";
-import { addDoc, collection } from "firebase/firestore";
 import type { Session } from "next-auth";
 
 export async function startNewMessage(session:Session | null, chatRoomSelected:IUser | null) {
   try {
+    if(!session ) return 
+
+    const { addDoc, collection }  = await import("firebase/firestore")
     await addDoc(collection(db, "messages"), {
       room: {
         id: [session?.user.uid, chatRoomSelected?.uid],

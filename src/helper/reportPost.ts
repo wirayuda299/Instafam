@@ -1,4 +1,4 @@
-import { FieldValues } from "react-hook-form";
+import type { FieldValues } from "react-hook-form";
 import { getCsrfToken } from "next-auth/react";
 import { db } from "@/config/firebase";
 import { doc, setDoc } from "firebase/firestore";
@@ -9,14 +9,16 @@ import toast from "react-hot-toast";
 export const handleReport = async (
   e: FieldValues,
   selectedPost: IUserPostProps | null,
-  session:  Session | null,
+  session: Session | null,
   setReportModal: any,
   resetField: any
 ) => {
 
   try {
+    if(!session) throw new Error("You must be logged in to report a post");
     const token = await getCsrfToken();
     if (!token) throw new Error("CSRF Token not found");
+
     const reportRef = doc(db, "reports", `${selectedPost?.postId}`);
     const reportData = {
       postId: selectedPost?.postId,

@@ -10,6 +10,8 @@ export const handleLikes = async <T extends LikesProps>(params: T) => {
   if (typeof window === "undefined") return;
   try {
     const { post, uid, likes } = params;
+    if(!uid) return
+    
     const { doc, updateDoc, arrayRemove, arrayUnion } = await import(
       "firebase/firestore"
     );

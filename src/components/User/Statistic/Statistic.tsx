@@ -6,7 +6,6 @@ import { memo } from "react";
 import { useStore } from "zustand";
 import { useDarkModeStore } from "@/stores/stores";
 import type { Session } from "next-auth";
-import { AiOutlinePlus } from "react-icons/ai";
 const UserInfo = dynamic(() => import("../Info/Info"));
 const DesktopStatistic = dynamic(() => import("./Desktop"));
 const StatisticMobile = dynamic(() => import("./Mobile"));

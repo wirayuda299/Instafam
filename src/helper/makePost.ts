@@ -10,8 +10,6 @@ type TMakePost = {
   captions: string;
   croppedImg: string;
   session: Session | null;
-  setCaptions: Dispatch<SetStateAction<string>>;
-  setImg: (postImageModal: string) => void;
   setLoading: Dispatch<SetStateAction<boolean>>;
   img: string;
   blurDataUrl: string;
@@ -32,18 +30,13 @@ export const makePost = async <T extends TMakePost>(params: T) => {
     captions,
     croppedImg,
     session,
-    setCaptions,
-    setImg,
     setLoading,
     img,
     blurDataUrl
   } = params;
 
-  if (!img) return;
-  if (!session || !session.user) {
-    return toast.error("You must be logged in to make a post.");
-  }
-
+  if (!img || !session || !session.user) throw new Error("No image found or user not logged in");
+ 
   setLoading(true);
   const hashtags = parseHashtags(captions);
   const uuid = crypto.randomUUID();
@@ -69,12 +62,7 @@ export const makePost = async <T extends TMakePost>(params: T) => {
           tags: [],
           postId: uuid,
           blurDataUrl
-        }).then(() => {
-          setCaptions("");
-          setImg("");
-          setLoading(false);
-          toast.success("Post created successfully");
-        });
+        })
       }
     );
   } catch (error: any) {

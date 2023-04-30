@@ -23,10 +23,9 @@ export default function Info({ users, session, refreshData }: Props) {
               id: users?.uid as string,
               uid: session?.user.uid as string,
               followedByName: session?.user.username as string,
-              refreshData,
-              ssr: true,
             };
-            handleFollow(followArgs);
+            await handleFollow(followArgs)
+              .then(() => refreshData())
           }}
         >
           {users?.followers.find(

@@ -8,7 +8,6 @@ import Image from "next/image";
 import { FieldValues, useForm } from "react-hook-form";
 import { useStore } from "zustand";
 import { createPortal } from "react-dom";
-import dynamic from "next/dynamic";
 
 export default function Report() {
   const { data: session } = useSession();
