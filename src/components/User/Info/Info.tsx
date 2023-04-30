@@ -23,6 +23,7 @@ export default function Info({ users, session, refreshData }: Props) {
               id: users?.uid as string,
               uid: session?.user.uid as string,
               followedByName: session?.user.username as string,
+              followedImage: session?.user.image as string,
             };
             await handleFollow(followArgs)
               .then(() => refreshData())

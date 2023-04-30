@@ -3,11 +3,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 
 type Props = {
-  buttonLists: {
-    id: number;
-    name: string;
-    event: () => void;
-  }[];
+  buttonLists:any[]
   selectedPost: IUserPostProps | null;
   session: any;
   darkMode: boolean;

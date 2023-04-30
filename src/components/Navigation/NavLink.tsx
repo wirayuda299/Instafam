@@ -22,6 +22,8 @@ type Props = {
   pathname: string;
   setResult: (result: any) => void;
   drawer: boolean;
+  setNotificationDrawer: (notificationDrawer: boolean) => void;
+  notificationdrawer: boolean;
 };
 
 export default function NavLink(props: Props) {
@@ -34,6 +36,8 @@ export default function NavLink(props: Props) {
     pathname,
     setResult,
     drawer,
+    setNotificationDrawer,
+    notificationdrawer
   } = props;
 
   const navList = [
@@ -80,7 +84,7 @@ export default function NavLink(props: Props) {
     {
       id: 5,
       title: "Notifications",
-      path: "/notifications",
+      path: "",
       icon: (
         <AiOutlineHeart
           className={`${darkMode ? "text-white" : "text-black "} text-3xl`}
@@ -126,6 +130,8 @@ export default function NavLink(props: Props) {
     <ul className="flex w-full items-center justify-around md:justify-around md:px-0 md:flex-col  md:space-y-2 lg:space-y-4">
       {navList.map((list) => (
         <NavItem
+          notificationdrawer={notificationdrawer}
+          setNotificationDrawer={setNotificationDrawer}
           key={list.id}
           list={list}
           path={list.path}

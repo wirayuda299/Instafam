@@ -40,6 +40,24 @@ type postModalStore = {
   setPostModal: (postModal: boolean) => void;
 };
 
+type notificationDrawerStore = {
+  notificationDrawer: boolean;
+  setNotificationDrawer: (notificationDrawer: boolean) => void;
+}
+
+type notificationModal = {
+  notificationModal: boolean;
+  setNotificationModal: (notificationModal: boolean) => void;
+}
+export const useNotificationModalStore = create<notificationModal>((set) => ({
+  notificationModal: false,
+  setNotificationModal: (notificationModal: boolean) => set({ notificationModal }),
+}));
+export const useNotificationDrawerStore = create<notificationDrawerStore>((set) => ({
+  notificationDrawer: false,
+  setNotificationDrawer: (notificationDrawer: boolean) => set({ notificationDrawer }),
+}));
+
 export const usePostModalStore = create<postModalStore>((set) => ({
   postModal: false,
   setPostModal: (postModal: boolean) => set({ postModal }),

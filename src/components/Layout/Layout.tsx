@@ -5,9 +5,15 @@ import { useStore } from "zustand";
 const Menu = dynamic(() => import("@/components/Modal/Menu"));
 const Report = dynamic(() => import("@/components/Modal/Report"));
 const PostPreview = dynamic(() => import("@/components/Modal/PostPreview"));
-const PostComment = dynamic(() => import("@/components/Modal/Drawer"));
-const SearchForm = dynamic(() => import("@/components/Search"));
+const PostComment = dynamic(() => import("@/components/Modal/Drawer/drawerComment"));
+const SearchForm = dynamic(() => import("@/components/Modal/Drawer/Search"));
 const Sidebar = dynamic(() => import("../Navigation/Sidebar"), {
+  ssr: true,
+});
+const NotificationsModal = dynamic(() => import("@/components/Modal/Notifications/Notifications"), {
+  ssr: true,
+});
+const NotificationsDrawer = dynamic(() => import("@/components/Modal/Drawer/Notifications/NotificationsDrawer"), {
   ssr: true,
 });
 const FeedModal = dynamic(() => import("@/components/Modal/Feed"), {
@@ -20,11 +26,9 @@ const MainHeader = dynamic(() => import("../Header/MainHeader"), {
   ssr: true,
 });
 const MessagesModal = dynamic(() => import("../Modal/Messages/Messages"));
-const ImageCropperModal = dynamic(
-  () => import("@/components/Modal/Cropper/Cropper"),
-  {
-    ssr: false,
-  }
+const ImageCropperModal = dynamic(() => import("@/components/Modal/Cropper/Cropper"), {
+  ssr: false,
+}
 );
 
 export default function Layout({ children }: { children: any }) {
@@ -51,13 +55,13 @@ export default function Layout({ children }: { children: any }) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <div
-        className={`mx-auto h-screen max-w-screen-3xl !select-none  ${
-          darkMode ? "!bg-black text-white" : "!bg-white text-black"
-        } `}
+        className={`mx-auto h-screen max-w-screen-3xl !select-none  ${darkMode ? "!bg-black text-white" : "!bg-white text-black"
+          } `}
       >
         <div className="flex">
           <Sidebar />
           <SearchForm />
+          <NotificationsDrawer />
           <main className="h-full w-full overflow-y-auto transition-width">
             <MainHeader />
             {children}
@@ -72,6 +76,7 @@ export default function Layout({ children }: { children: any }) {
       <MessagesModal />
       <FeedModal />
       <PostModal />
+      <NotificationsModal/>
     </>
   );
 }

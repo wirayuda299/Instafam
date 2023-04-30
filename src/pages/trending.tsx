@@ -17,7 +17,7 @@ const PostImage = dynamic(() => import("@/components/Post/Image"), {
   ssr: true,
 });
 
-const Form = dynamic(() => import("@/components/Search/Form"), {
+const Form = dynamic(() => import("@/components/Modal/Drawer/Search/Form"), {
   ssr: true,
 });
 const Footer = dynamic(() => import("@/components/Footer"), {

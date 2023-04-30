@@ -2,10 +2,12 @@ import Link from "next/link";
 import { AiOutlineClose, AiOutlineHeart } from "react-icons/ai";
 import { Playfair_Display } from "next/font/google";
 import { useStore } from "zustand";
-import { useDarkModeStore, useUserReceiverDrawerStore } from "@/stores/stores";
+import { useDarkModeStore, useNotificationModalStore, useUserReceiverDrawerStore } from "@/stores/stores";
 import { useSession } from "next-auth/react";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { useRouter } from "next/router";
+import { BiSun } from "react-icons/bi";
+import { BsMoonFill } from "react-icons/bs";
 
 const playfair = Playfair_Display({
   fallback: ["sans-serif"],
@@ -16,19 +18,20 @@ const playfair = Playfair_Display({
   adjustFontFallback: true,
 });
 export default function Header() {
-  const { darkMode } = useStore(useDarkModeStore);
+  const { darkMode, setDarkMode } = useStore(useDarkModeStore);
   const { data: session } = useSession();
   const { setUserReceiverDrawer, userReceiverDrawer } = useStore(
     useUserReceiverDrawerStore
   );
+  const {  setNotificationModal } = useStore(useNotificationModalStore)
   const { pathname } = useRouter();
-  if (!session) return null
+  if(!session) return null
   return (
     <header
       className={`relative h-14 w-full border-b border-gray-500 border-opacity-50 px-5 md:hidden ${darkMode ? "bg-black text-white" : "bg-white text-black"
         }`}
     >
-      <div className="flex h-full w-full items-center justify-between space-x-2">
+      <div className="flex h-full w-full items-center justify-between space-x-5">
         <div className="w-full">
           <Link
             href="/"
@@ -38,9 +41,27 @@ export default function Header() {
           </Link>
         </div>
         <button
+          name={`switch to ${darkMode ? 'light' : 'dark'}`}
+          title={`switch to ${darkMode ? 'light' : 'dark'}`}
+          onClick={() => setDarkMode(!darkMode)}
+        >
+          {darkMode ? (
+            <BsMoonFill
+              className={`animate-rotateOnView text-2xl ${darkMode ? "text-white" : "text-black"
+                }`}
+            />
+          ) : (
+            <BiSun
+              className={`animate-rotateOnView text-2xl ${darkMode ? "text-white" : "text-black"
+                }`}
+            />
+          )}
+        </button>
+        <button
           className="relative"
           name="notifications"
           title="notifications"
+          onClick={() => setNotificationModal(true)}
         >
           <span className="absolute right-0 top-0 h-2 w-2 rounded-full bg-red-500"></span>
           <AiOutlineHeart size={25} />

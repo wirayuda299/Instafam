@@ -11,7 +11,6 @@ import dynamic from "next/dynamic";
 import { createPortal } from "react-dom";
 import { useRouter } from "next/router";
 import { useSession } from "next-auth/react";
-import { ParsedUrlQuery } from "querystring";
 
 const PostLoader = dynamic(() => import("@/components/Loader/Post"), {
   ssr: true,
@@ -19,10 +18,6 @@ const PostLoader = dynamic(() => import("@/components/Loader/Post"), {
 const PostCard = dynamic(() => import("@/components/Post"), {
   ssr: true,
 });
-
-interface queries extends ParsedUrlQuery {
-  username: string;
-}
 
 
 export default function PostModal() {
@@ -40,6 +35,7 @@ export default function PostModal() {
     setReqParams(session?.user.username === query.username ? session?.user.uid : query.username);
 
   }, [pathname]);
+
   useEffect(() => {
     try {
       const getPosts = async () => {
@@ -76,7 +72,7 @@ export default function PostModal() {
         }
       });
     };
-  }, [postModal]);
+  }, []);
 
   if (!selectedPost && !postModal) return null;
 
@@ -94,6 +90,9 @@ export default function PostModal() {
         >
           <div>
             <button
+              type="button"
+              name="back"
+              title="back"
               className="text-left"
               onClick={() => {
                 setPostModal(false);

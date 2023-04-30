@@ -35,51 +35,47 @@ export default function Menu() {
     setMenuModal(false);
   };
 
+  const postActions = async () => {
+    if (selectedPost?.postedById === session?.user.uid) {
+      const { deletePost } = await import("@/helper/deletePost");
+      const deletePostsArgs = {
+        post: selectedPost,
+        refreshData,
+        session,
+      };
+      deletePost(deletePostsArgs)
+        .then(() => {
+          setMenuModal(false);
+          refreshData()
+          toast.success("Post deleted successfully.");
+        });
+    } else {
+      const { handleFollow } = await import("@/helper/follow");
+      const followArgs = {
+        id: selectedPost?.postedById as string,
+        uid: session?.user.uid as string,
+        followedByName: session?.user.username as string,
+        followedDate: Date.now(),
+        followedImage: session?.user.image as string,
+      };
+      await handleFollow(followArgs)
+    }
+
+  }
+
   const buttonLists = [
     {
       id: 1,
       name: selectedPost?.postedById === session?.user.uid ? "Edit" : "Report",
-      event: () => {
-        selectedPost?.postedById === session?.user?.uid
-          ? undefined
-          : handleCLose();
-        openReportModal();
-      },
+      event: () => selectedPost?.postedById === session?.user?.uid ? undefined : openReportModal()
     },
     {
       id: 2,
       name:
         selectedPost?.postedById === session?.user.uid
           ? "Delete"
-          : user?.following.find(
-            (user: { userId: string }) =>
-              user.userId === selectedPost?.postedById
-          )
-            ? "Unfollow"
-            : "Follow",
-      event: async () => {
-        if (selectedPost?.postedById === session?.user.uid) {
-          const { deletePost } = await import("@/helper/deletePost");
-          const deletePostsArgs = {
-            post: selectedPost,
-            refreshData,
-            session,
-          };
-          deletePost(deletePostsArgs).then(() => {
-            setMenuModal(false);
-            refreshData()
-            toast.success("Post deleted successfully.");
-          });
-        } else {
-          const { handleFollow } = await import("@/helper/follow");
-          const followArgs = {
-            id: selectedPost?.postedById as string,
-            uid: session?.user.uid as string,
-            followedByName: session?.user.username as string,
-          };
-          await handleFollow(followArgs)
-        }
-      },
+          : user?.following.find((user) => user.userId === selectedPost?.postedById) ? "UnFollow" : "Follow",
+      event: async () => postActions(),
     },
     {
       id: 3,

@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { AiOutlineInstagram } from "react-icons/ai";
 import { Playfair_Display } from "next/font/google";
-import { useDrawerStore } from "@/stores/stores";
+import { useDrawerStore, useNotificationDrawerStore } from "@/stores/stores";
 import { useStore } from "zustand";
 
 const playfair = Playfair_Display({
@@ -14,6 +14,7 @@ const playfair = Playfair_Display({
 
 export default function NavHeader() {
   const { drawer } = useStore(useDrawerStore);
+  const {notificationDrawer, setNotificationDrawer} = useStore(useNotificationDrawerStore)
   return (
     <header
       className={`hidden w-full flex-col pl-6 md:flex md:pl-2.5 ${playfair.className}`}
@@ -22,7 +23,7 @@ export default function NavHeader() {
         href="/"
         className={`text-3xl font-semibold transition-transform lg:pt-5`}
       >
-        {drawer ? (
+        {drawer || notificationDrawer ? (
           <AiOutlineInstagram size={35} className="animate-scaleUp" />
         ) : (
           <>

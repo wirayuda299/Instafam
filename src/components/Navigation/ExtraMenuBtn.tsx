@@ -6,10 +6,11 @@ type Props = {
   darkMode: boolean;
   handleClick: () => void;
   drawer: boolean;
+  notificationdrawer: boolean;
 };
 
 export default function ExtraMenuBtn(props: Props) {
-  const { darkMode, extraList, handleClick, drawer } = props;
+  const { darkMode, extraList, handleClick, drawer, notificationdrawer } = props;
 
   return (
     <button
@@ -35,7 +36,7 @@ export default function ExtraMenuBtn(props: Props) {
             size={30}
           />
         )}
-        <span className={`${drawer ? "hidden" : "hidden lg:block"}`}>More</span>
+        <span className={`${drawer || notificationdrawer ? "hidden" : "hidden lg:block"}`}>More</span>
       </div>
     </button>
   );

@@ -6,9 +6,10 @@ type HandleFollowProps = {
   id: string;
   uid: string;
   followedByName: string;
+  followedImage: string;
 };
 export const handleFollow = async <T extends HandleFollowProps>(props: T) => {
-  const { id, uid, followedByName } = props;
+  const { id, uid, followedByName, followedImage } = props;
   try {
 
     const { doc, getDoc, arrayRemove, arrayUnion, updateDoc } = await import(
@@ -35,12 +36,14 @@ export const handleFollow = async <T extends HandleFollowProps>(props: T) => {
           followers: arrayRemove({
             followedBy: uid,
             followedByName: followedByName,
+            followedImage: followedImage,
           }),
         }
         : {
           followers: arrayUnion({
             followedBy: uid,
             followedByName: followedByName,
+            followedImage: followedImage,
           }),
         };
 
