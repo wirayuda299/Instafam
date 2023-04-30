@@ -46,12 +46,12 @@ export default function Header() {
           onClick={() => setDarkMode(!darkMode)}
         >
           {darkMode ? (
-            <BsMoonFill
+            <BiSun
               className={`animate-rotateOnView text-2xl ${darkMode ? "text-white" : "text-black"
                 }`}
             />
           ) : (
-            <BiSun
+            <BsMoonFill
               className={`animate-rotateOnView text-2xl ${darkMode ? "text-white" : "text-black"
                 }`}
             />

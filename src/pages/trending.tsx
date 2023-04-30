@@ -68,8 +68,7 @@ export default function Trending({ posts }: Props) {
             >
               <PostImage
                 post={post}
-                classNames={`h-full w-full border border-gray-400 border-opacity-40 object-cover object-top ${i % 2 === 0 ? "aspect-video" : "aspect-square"
-                  }`} />
+                classNames={`h-full w-full border border-gray-400 border-opacity-40 object-cover `} />
             </div>
           </div>
         ))}

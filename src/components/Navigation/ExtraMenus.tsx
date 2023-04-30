@@ -27,13 +27,13 @@ export default function ExtraMenus() {
     {
       id: 2,
       icon: darkMode ? (
-        <BsMoonFill
+        <BiSun
           className={`animate-rotateOnView text-2xl ${
             darkMode ? "text-white" : "text-black"
           }`}
         />
       ) : (
-        <BiSun
+        <BsMoonFill
           className={`animate-rotateOnView text-2xl ${
             darkMode ? "text-white" : "text-black"
           }`}
