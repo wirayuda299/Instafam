@@ -17,6 +17,7 @@ type Props = {
 export default function NotificationUser({ follower, darkMode, session, user }: Props) {
   const { setNotificationModal } = useStore(useNotificationModalStore);
   return (
+    
     <div className="flex items-center space-x-2 mt-4 px-4">
       <Image
         src={follower.followedImage}

@@ -1,16 +1,30 @@
 import Empty from "@/components/Notifications/Empty";
 import NotificationUser from "@/components/Notifications/NotificationUser";
+import { db } from "@/config/firebase";
 import useUser from "@/hooks/useUser";
 import { useDarkModeStore, useNotificationDrawerStore } from "@/stores/stores";
+import { IUser } from "@/types/user";
+import { onSnapshot, doc } from "firebase/firestore";
 import { useSession } from "next-auth/react";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useStore } from "zustand";
 
 export default function NotificationsDrawer() {
   const { darkMode } = useStore(useDarkModeStore);
   const { notificationDrawer, setNotificationDrawer } = useStore(useNotificationDrawerStore)
   const { data: session } = useSession()
-  const { user } = useUser(session?.user?.uid as string)
+  const [user, setUser] = useState<IUser | null>(null);
+  useEffect(() => {
+    const unsub = onSnapshot(
+      doc(db, "users", `${session?.user?.uid}`),
+      (docs) => {
+        if (docs.exists()) {
+          setUser(docs.data() as IUser);
+        }
+      }
+    );
+    return () => unsub();
+  }, [db, notificationDrawer]);
 
 
   useEffect(() => {
@@ -39,7 +53,7 @@ export default function NotificationsDrawer() {
             <div className="w-[400px]">
               <h1 className="py-5 text-2xl font-semibold border-b border-gray-400 border-opacity-40 p-5 ">Notifications</h1>
               <div className={`h-screen w-full px-3 py-5 ${darkMode ? 'bg-black text-white' : 'bg-white text-black'}`}>
-                <Empty user={user} />
+                {user?.followers?.length === 0 && <Empty />}
                 {user?.followers?.map((follower) => (
                   <NotificationUser
                     user={user}

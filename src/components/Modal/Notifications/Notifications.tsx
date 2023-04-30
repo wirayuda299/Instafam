@@ -1,9 +1,12 @@
 import Empty from "@/components/Notifications/Empty";
 import NotificationUser from "@/components/Notifications/NotificationUser";
+import { db } from "@/config/firebase";
 import useUser from "@/hooks/useUser";
 import { useDarkModeStore, useNotificationModalStore } from "@/stores/stores";
+import { IUser } from "@/types/user";
+import { onSnapshot, doc } from "firebase/firestore";
 import { useSession } from "next-auth/react";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import { AiOutlineArrowLeft } from "react-icons/ai";
 import { useStore } from "zustand";
@@ -12,7 +15,19 @@ export default function NotificationsModal() {
   const { darkMode } = useStore(useDarkModeStore);
   const { notificationModal, setNotificationModal } = useStore(useNotificationModalStore);
   const { data: session } = useSession()
-  const { user } = useUser(session?.user?.uid as string)
+
+  const [user, setUser] = useState<IUser | null>(null);
+  useEffect(() => {
+    const unsub = onSnapshot(
+      doc(db, "users", `${session?.user?.uid}`),
+      (docs) => {
+        if (docs.exists()) {
+          setUser(docs.data() as IUser);
+        }
+      }
+    );
+    return () => unsub();
+  }, [db, notificationModal]);
 
   useEffect(() => {
     window.addEventListener("resize", () => {
@@ -24,6 +39,8 @@ export default function NotificationsModal() {
       });
     };
   }, []);
+  console.log(user?.followers);
+  
 
   if (!notificationModal) return null;
 
@@ -55,7 +72,11 @@ export default function NotificationsModal() {
           </div>
         </div>
         <div>
-          <Empty user={user} />
+         {user?.followers?.length === 0 && (
+          <div className="flex w-full h-screen place-content-center">
+            <Empty />
+          </div>
+         ) }
           {user?.followers?.map((follower) => (
             <NotificationUser
               user={user}

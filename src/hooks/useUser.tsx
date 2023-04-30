@@ -18,7 +18,7 @@ export default function useUser(uid: string) {
       }
     );
     return () => unsub();
-  }, [db, selectedPost]);
+  }, [db, selectedPost, uid]);
 
   return { user };
 }
