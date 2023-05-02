@@ -52,13 +52,26 @@ export default function PostModal() {
       setLoading(true);
     }
   }, [selectedPost, postModal, pathname]);
+  const closeModal = () => {
+    Dispatch({
+      type: "TOGGLE_POST_MODAL",
+      payload: {
+        postModal: false
+      }
+    })
+    Dispatch({
+      type: "SELECT_POST",
+      payload: {
+        post: null
+      }
+    })
+  }
 
-
-  if (!selectedPost && !postModal) return null;
+  if ( !postModal) return null;
 
   return createPortal(
     <div
-      className={` fixed left-0 top-0 z-[99] h-screen w-full select-none  !overflow-y-auto !overflow-x-hidden  shadow-sm lg:hidden  ${postModal ? "animate-scaleUp" : "animate-scaleDown"
+      className={` fixed left-0 top-0 z-[99] h-screen w-full select-none  !overflow-y-auto !overflow-x-hidden  shadow-sm lg:hidden  ${postModal ? "animate-scaleUp" : "animate-fadeOut"
         } ${darkMode ? "bg-black" : "bg-white"}`}
       aria-modal="true"
       role="dialog"
@@ -74,20 +87,7 @@ export default function PostModal() {
               name="back"
               title="back"
               className="text-left"
-              onClick={() => {
-                Dispatch({
-                  type: "TOGGLE_POST_MODAL",
-                  payload: {
-                    postModal: false
-                  }
-                })
-                Dispatch({
-                  type: "SELECT_POST",
-                  payload: {
-                    post: null
-                  }
-                })
-              }}
+              onClick={closeModal}
             >
               <AiOutlineArrowLeft size={25} />
             </button>
