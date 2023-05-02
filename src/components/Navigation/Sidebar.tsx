@@ -1,16 +1,10 @@
 import dynamic from "next/dynamic";
 import { useSession } from "next-auth/react";
-import {
-  useDarkModeStore,
-  useDrawerStore,
-  useExtraListStore,
-  useNotificationDrawerStore,
-  usePostCreateModalStore,
-  useResultStore,
-} from "@/stores/stores";
+import { useDarkModeStore } from "@/stores/stores";
 import { useStore } from "zustand";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
+import { useStateContext } from "@/stores/StateContext";
 const ExtraMenus = dynamic(() => import("./ExtraMenus"));
 const NavLink = dynamic(() => import("./NavLink"));
 const ExtraMenuBtn = dynamic(() => import("./ExtraMenuBtn"));
@@ -18,65 +12,132 @@ const NavHeader = dynamic(() => import("../Header/NavHeader"));
 
 export default function Sidebar() {
   const { data: session } = useSession();
-  const { darkMode } = useStore(useDarkModeStore);
-  const { setExtraList, extraList } = useStore(useExtraListStore);
-  const { drawer, setDrawer } = useStore(useDrawerStore);
+  const { state: { isExtraListOpen, isSearchDrawerOpen, notificationDrawer }, Dispatch } = useStateContext();
   const { pathname } = useRouter();
-  const { setPostCreateModal } = useStore(usePostCreateModalStore);
-  const { setResult } = useStore(useResultStore);
-  const { notificationDrawer, setNotificationDrawer } = useStore(useNotificationDrawerStore)
-
-  const toggler = () => {
-    setResult([]);
-    setDrawer(false);
-  };
+  const { darkMode } = useStore(useDarkModeStore);
+  const closeExtraList = () => {
+    Dispatch({
+      type: "TOGGLE_EXTRA_LIST", payload: {
+        extraList: false
+      }
+    });
+  }
 
   useEffect(() => {
     window.addEventListener("resize", () => {
-      setExtraList(false);
+      closeExtraList()
     });
     return () => {
       window.removeEventListener("resize", () => {
-        setExtraList(false);
+        closeExtraList()
       });
     };
   }, []);
-
   if (!session) return null;
 
-  const handleClick = () => {
-    setExtraList(!extraList);
-    setDrawer(false);
+
+  const toggler = () => {
+    Dispatch({
+      type: 'SET_RESULT',
+      payload: {
+        result: []
+      }
+    })
+    Dispatch({
+      type: 'TOGGLE_SEARCH_DRAWER',
+      payload: {
+        searchDrawer: false
+      }
+    })
+
   };
+  
+  const handleClick = () => {
+    Dispatch({
+      type: "TOGGLE_EXTRA_LIST", payload: {
+        extraList: !isExtraListOpen
+      }
+    });
+    Dispatch({
+      type: 'TOGGLE_SEARCH_DRAWER',
+      payload: {
+        searchDrawer: false
+      }
+    })
+  };
+
+  const handleNotificationDrawer = () => {
+    Dispatch({
+      type: 'TOGGLE_SEARCH_DRAWER',
+      payload: {
+        searchDrawer: !isSearchDrawerOpen
+      }
+    });
+    Dispatch({
+      type: 'TOGGLE_NOTIFICATION_DRAWER',
+      payload: {
+        notificationDrawer: !notificationDrawer
+      }
+    })
+  }
+
+  const handleSearchDrawer = () => {
+    Dispatch({
+      type: 'TOGGLE_SEARCH_DRAWER',
+      payload: {
+        searchDrawer: !isSearchDrawerOpen
+      }
+    });
+    Dispatch({
+      type: 'SET_RESULT',
+      payload: {
+        result: []
+      }
+    })
+    Dispatch({
+      type: 'TOGGLE_NOTIFICATION_DRAWER',
+      payload: {
+        notificationDrawer: false
+      }
+    })
+  }
+
+  const openCreateModal = () => {
+    Dispatch({
+      type: 'TOGGLE_POST_CREATE_MODAL',
+      payload: {
+        postCreateModal: true
+      }
+    })
+  }
 
   return (
     <aside
-      className={`${darkMode ? "border-r-gray-600 bg-black" : "bg-white"
-        } ease fixed bottom-0 left-0 z-50 flex h-14 w-full items-center transition-width duration-300 md:static md:z-10 md:h-screen md:w-fit md:border-r md:border-opacity-50   ${drawer || notificationDrawer ? "!w-20" : " lg:w-64 "
-        }`}
+      className={`
+         ease fixed bottom-0 left-0 z-50 flex h-14 w-full items-center transition-width duration-300 md:static md:z-10 md:h-screen md:w-fit md:border-r md:border-opacity-50   ${isSearchDrawerOpen || notificationDrawer ? "!w-20" : " lg:w-64 " 
+        } ${darkMode ?' bg-black text-white border-t border-gray-400 border-opacity-40' : 'bg-white text-black'}`}
     >
-      <nav className="rel flex w-full flex-col justify-between p-1 md:h-full md:p-3 lg:justify-between">
+      <nav className=" flex w-full flex-col justify-between p-1 md:h-full md:p-3 lg:justify-between">
         <NavHeader />
         <div>
           <NavLink
-            notificationdrawer={notificationDrawer}
-            session={session}
             darkMode={darkMode}
-            drawer={drawer}
+            handleNotificationDrawer={handleNotificationDrawer}
+            handleSearchDrawer={handleSearchDrawer}
+            notificationDrawer={notificationDrawer}
+            session={session}
+            drawer={isSearchDrawerOpen}
             handleClick={toggler}
             pathname={pathname}
-            setDrawer={setDrawer}
-            setNotificationDrawer={setNotificationDrawer}
-            setPostCreateModal={setPostCreateModal}
-            setResult={setResult}
+            openCreateModal={openCreateModal}
           />
           <ExtraMenus />
         </div>
         <ExtraMenuBtn
+
           notificationdrawer={notificationDrawer}
-          darkMode={darkMode}
-          drawer={drawer}
-          extraList={extraList}
+          drawer={isSearchDrawerOpen}
+          extraList={isExtraListOpen}
           handleClick={handleClick}
         />
       </nav>

@@ -1,12 +1,7 @@
-import {
-  useSelectedPostStore,
-  usePostCommentModalStore,
-  usePostPreviewModalStore,
-} from "@/stores/stores";
+
 import { IUserPostProps } from "@/types/post";
 import dynamic from "next/dynamic";
 import { BsThreeDots } from "react-icons/bs";
-import { useStore } from "zustand";
 
 const PostDetailComment = dynamic(() => import("./Preview"), {
   ssr: true,
@@ -28,9 +23,6 @@ type props = {
 
 export default function PreviewLargeScreen(props: props) {
   const { post, comments, likes, savedBy, handleClick } = props;
-  const { setSelectedPost } = useStore(useSelectedPostStore);
-  const { setPostCommentModal } = useStore(usePostCommentModalStore);
-  const { setPostPreviewModal } = useStore(usePostPreviewModalStore);
 
   return (
     <>
@@ -38,9 +30,6 @@ export default function PreviewLargeScreen(props: props) {
         <PostImage post={post} classNames="w-full h-full object-cover"/>
       </div>
       <PostDetailComment
-        setPostCommentModal={setPostCommentModal}
-        setPostPreviewModal={setPostPreviewModal}
-        setSelectedPost={setSelectedPost}
         comments={comments}
         likes={likes}
         savedBy={savedBy}

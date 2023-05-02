@@ -1,17 +1,18 @@
 import { IUserPostProps } from "@/types/post";
+import type { Session } from "next-auth";
 import Link from "next/link";
 import { useRouter } from "next/router";
 
 type Props = {
   buttonLists:any[]
   selectedPost: IUserPostProps | null;
-  session: any;
+  session: Session | null;
   darkMode: boolean;
-  setMenuModal: (menuModal: boolean) => void;
+  closeMenuModal: () => void;
 };
 
 export default function Lists(props: Props) {
-  const { buttonLists, selectedPost, session, darkMode, setMenuModal } = props;
+  const { buttonLists, selectedPost, session, darkMode, closeMenuModal } = props;
   const { pathname } = useRouter();
 
   return (
@@ -28,7 +29,7 @@ export default function Lists(props: Props) {
           {selectedPost?.postedById === session?.user.uid && button.id === 1 ? (
             <Link
               href={`/post/${selectedPost?.postId}/edit`}
-              onClick={() => setMenuModal(false)}
+              onClick={() => closeMenuModal()}
             >
               {button.name}
             </Link>

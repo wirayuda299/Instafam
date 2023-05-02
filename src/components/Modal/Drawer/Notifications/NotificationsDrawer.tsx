@@ -1,8 +1,8 @@
 import Empty from "@/components/Notifications/Empty";
 import NotificationUser from "@/components/Notifications/NotificationUser";
 import { db } from "@/config/firebase";
-import useUser from "@/hooks/useUser";
-import { useDarkModeStore, useNotificationDrawerStore } from "@/stores/stores";
+import { useStateContext } from "@/stores/StateContext";
+import { useDarkModeStore } from "@/stores/stores";
 import { IUser } from "@/types/user";
 import { onSnapshot, doc } from "firebase/firestore";
 import { useSession } from "next-auth/react";
@@ -11,9 +11,10 @@ import { useStore } from "zustand";
 
 export default function NotificationsDrawer() {
   const { darkMode } = useStore(useDarkModeStore);
-  const { notificationDrawer, setNotificationDrawer } = useStore(useNotificationDrawerStore)
+  const { state: { notificationDrawer }, Dispatch } = useStateContext()
   const { data: session } = useSession()
   const [user, setUser] = useState<IUser | null>(null);
+
   useEffect(() => {
     const unsub = onSnapshot(
       doc(db, "users", `${session?.user?.uid}`),
@@ -29,11 +30,21 @@ export default function NotificationsDrawer() {
 
   useEffect(() => {
     window.addEventListener("resize", () => {
-      setNotificationDrawer(false);
+      Dispatch({
+        type: 'TOGGLE_NOTIFICATION_DRAWER',
+        payload: {
+          notificationDrawer: false
+        }
+      })
     });
     return () => {
       window.removeEventListener("resize", () => {
-        setNotificationDrawer(false);
+        Dispatch({
+          type: 'TOGGLE_NOTIFICATION_DRAWER',
+          payload: {
+            notificationDrawer: false
+          }
+        })
       });
     };
   }, []);

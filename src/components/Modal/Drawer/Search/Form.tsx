@@ -2,16 +2,14 @@ import type { ReactNode } from "react";
 import dynamic from "next/dynamic";
 import {
   useDarkModeStore,
-  useDrawerStore,
-  useResultDrawerStore,
-  useResultStore,
 } from "@/stores/stores";
 import { useStore } from "zustand";
 import { FieldValues, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { IUser } from "@/types/user";
-import { useSession } from "next-auth/react";
+import { getCsrfToken, useSession } from "next-auth/react";
 import { useRouter } from "next/router";
+import { useStateContext } from "@/stores/StateContext";
 const FormResult = dynamic(() => import("./Results"), { ssr: true });
 
 const defaultValues = {
@@ -25,17 +23,30 @@ type Props = {
 
 export default function Form({ height, children }: Props) {
   const { handleSubmit, resetField, register } = useForm();
-  const { result, setResult } = useStore(useResultStore);
-  const { setDrawer } = useStore(useDrawerStore);
+  const { state: { result }, Dispatch } = useStateContext();
   const { darkMode } = useStore(useDarkModeStore);
-  const { setResultDrawer } = useStore(useResultDrawerStore);
   const router = useRouter();
   const { data: session } = useSession();
 
   const handleDrawerToggler = () => {
-    setResult([]);
-    setDrawer(false);
-    setResultDrawer(false);
+    Dispatch({
+      type: 'SET_RESULT',
+      payload: {
+        result: []
+      }
+    });
+    Dispatch({
+      type: 'TOGGLE_SEARCH_DRAWER',
+      payload: {
+        searchDrawer: false
+      }
+    })
+    Dispatch({
+      type: 'TOGGLE_RESULT_DRAWER',
+      payload: {
+        resultDrawer: false
+      }
+    })
   };
 
   const searchUser = async (data: FieldValues) => {
@@ -44,9 +55,15 @@ export default function Form({ height, children }: Props) {
         toast.error("Please enter a username or name of user");
         return;
       }
-      if (!session) {
+      const token = await getCsrfToken()
+
+      if (!session || !token) {
         toast.error("Please login to search user");
         router.push("/auth/signin");
+        return;
+      }
+      if (data.search.length < 4) {
+        toast.error("Please enter at least 4 characters");
         return;
       }
       const res = await fetch(`/api/search-user?search=${data.search}`, {
@@ -60,10 +77,20 @@ export default function Form({ height, children }: Props) {
         toast.error("No user found");
         return;
       }
-      setResult(result);
+      Dispatch({
+        type: 'SET_RESULT',
+        payload: {
+          result
+        }
+      });
       resetField("search");
 
-      setResultDrawer(true);
+      Dispatch({
+        type: 'TOGGLE_RESULT_DRAWER',
+        payload: {
+          resultDrawer: true
+        }
+      })
     } catch (error: any) {
       toast.error(error.message);
     }
@@ -100,7 +127,6 @@ export default function Form({ height, children }: Props) {
             <FormResult
               handleDrawerToggler={handleDrawerToggler}
               results={result}
-              setResults={setResult}
               customs={`h-screen fixed z-50 top-0 md: h-full  md:left-0 md:w-full md:z-0  md:transition-all md:duration-300 md:ease-in-out md:static ${darkMode ? "bg-black text-white" : "bg-white text-black"
                 }`}
             />

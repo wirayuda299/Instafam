@@ -1,9 +1,5 @@
 import {
-  useBlurhashStore,
-  useCroppedImgStore,
   useDarkModeStore,
-  usePostCreateModalStore,
-  usePostImageModalStore,
 } from "@/stores/stores";
 import { useState } from "react";
 import { createPortal } from "react-dom";
@@ -13,6 +9,7 @@ import { useRouter } from "next/router";
 import dynamic from "next/dynamic";
 import { Area } from "@/components/ImageCropper/ImageCropper";
 import { getCroppedImg } from "react-cropper-custom";
+import { useStateContext } from "@/stores/StateContext";
 const FileUpload = dynamic(() => import("@/components/FileUpload/FileUpload"), {
   ssr: false,
 });
@@ -26,30 +23,28 @@ const ImageCropper = dynamic(
 
 export default function Cropper() {
   const { darkMode } = useStore(useDarkModeStore);
-  const { postCreateModal, setPostCreateModal } = useStore(
-    usePostCreateModalStore
-  );
-  const { postImageModal, setPostImageModal } = useStore(
-    usePostImageModalStore
-  );
+  const { Dispatch, state: { postCreateModal, previewUrl } } = useStateContext()
   const [zoom, setZoom] = useState(1);
-  const { setCroppedImg } = useStore(useCroppedImgStore);
   const router = useRouter();
-  const {  setBlurhash } = useStore(useBlurhashStore)
 
   async function onCropComplete(croppedArea: Area) {
-    if (!postImageModal) return;
+    if (!previewUrl) return;
     try {
       const canvasSize = {
         width: 1200,
         height: 1200 * 1,
       };
       const image = await getCroppedImg(
-        postImageModal,
+        previewUrl,
         croppedArea,
         canvasSize
       );
-      setCroppedImg(image);
+      Dispatch({
+        type: 'SET_CROPPED_IMAGE',
+        payload: {
+          croppedImage: image
+        }
+      })
       return;
     } catch (e: any) {
       console.error(e.message);
@@ -57,9 +52,19 @@ export default function Cropper() {
   }
 
   const handleClick = () => {
-    setPostCreateModal(false);
+    Dispatch({
+      type: 'TOGGLE_POST_CREATE_MODAL',
+      payload: {
+        postCreateModal: false
+      }
+    })
     router.push("/create");
-    setPostImageModal("");
+    Dispatch({
+      type: 'SET_PREVIEW_URL',
+      payload: {
+        previewUrl: ''
+      }
+    })
   };
   if (!postCreateModal) return null;
 
@@ -73,32 +78,41 @@ export default function Cropper() {
       <button
         className="absolute right-3 top-32 rounded-lg border-2  bg-white font-semibold text-black sm:top-3 "
         onClick={() => {
-          setPostCreateModal(false);
-          setPostImageModal("");
-          setCroppedImg("");
+          Dispatch({
+            type: 'TOGGLE_POST_CREATE_MODAL',
+            payload: {
+              postCreateModal: false
+            }
+          })
+          Dispatch({
+            type: 'SET_PREVIEW_URL',
+            payload: {
+              previewUrl: ''
+            }
+          })
+          Dispatch({
+            type: 'SET_CROPPED_IMAGE',
+            payload: {
+              croppedImage: ''
+            }
+          })
         }}
       >
         <AiOutlineClose size={30} className="font-semibold" />
       </button>
       <div className="mx-auto h-full max-w-lg sm:w-full ">
-        {postImageModal ? (
+        {previewUrl ? (
           <ImageCropper
             darkMode={darkMode}
             handleClick={handleClick}
-            img={postImageModal}
+            img={previewUrl}
             onCropComplete={onCropComplete}
-            setCroppedImg={setCroppedImg}
-            setPostImageModal={setPostImageModal}
             setZoom={setZoom}
             zoom={zoom}
           />
         ) : (
           <div className="flex h-full  w-full items-center justify-center">
-            <FileUpload
-              setBlurhash={setBlurhash}
-              img={postImageModal}
-              setPreviewUrl={setPostImageModal}
-            />
+            <FileUpload img={previewUrl} />
           </div>
         )}
       </div>

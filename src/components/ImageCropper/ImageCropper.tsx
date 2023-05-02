@@ -2,6 +2,7 @@ import "react-cropper-custom/dist/index.css";
 import { AiOutlineClose } from "react-icons/ai";
 import { Dispatch, SetStateAction } from "react";
 import { Cropper } from "react-cropper-custom";
+import { useStateContext } from "@/stores/StateContext";
 
 export type Area = {
   width: number;
@@ -16,8 +17,6 @@ type Props = {
   setZoom: Dispatch<SetStateAction<number>>;
   onCropComplete: (area: Area) => void;
   darkMode: boolean;
-  setPostImageModal: (postImageModal: string) => void;
-  setCroppedImg: (croppedImg: string) => void;
   handleClick: () => void;
 };
 export default function ImageCropper(props: Props) {
@@ -27,10 +26,9 @@ export default function ImageCropper(props: Props) {
     setZoom,
     onCropComplete,
     darkMode,
-    setPostImageModal,
-    setCroppedImg,
     handleClick,
   } = props;
+  const {  Dispatch } = useStateContext()
 
   return (
     <div className="flex h-full  !w-full items-center justify-center">
@@ -53,8 +51,12 @@ export default function ImageCropper(props: Props) {
               className={`absolute -right-3 -top-3 rounded-md border-2  ${darkMode ? "bg-white text-black" : "bg-black text-white"
                 }`}
               onClick={() => {
-                setPostImageModal("");
-                setCroppedImg("");
+                Dispatch({
+                  type: 'SET_CROPPED_IMAGE',
+                  payload: {
+                    croppedImage: ''
+                  }
+                })
               }}
             >
               <AiOutlineClose size={25} />

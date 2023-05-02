@@ -3,11 +3,9 @@ import { DataMessage } from "@/types/DataMessage";
 import Image from "next/image";
 import { useStore } from "zustand";
 
-
 type Props = {
   selectedChat: DataMessage | null;
 };
-
 export default function ChatHeader({ selectedChat }: Props) {
   const { darkMode } = useStore(useDarkModeStore);
   return (

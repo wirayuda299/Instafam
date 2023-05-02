@@ -1,10 +1,10 @@
 import { signIn } from "next-auth/react";
 import { FcGoogle } from "react-icons/fc";
-import { AiOutlineInstagram } from "react-icons/ai";
 import { GetServerSidePropsContext } from "next";
 import Head from "next/head";
 import { useStore } from "zustand";
 import { useDarkModeStore } from "@/stores/stores";
+import Logo from "@/components/Logo/Logo";
 
 interface Providers {
   id: string;
@@ -35,26 +35,13 @@ export default function SignIn({ providers }: { providers: Providers }) {
         <meta name="google" content="notranslate" />
       </Head>
       <div
-        className={`grid h-screen w-full place-items-center p-5 ${
-          darkMode ? "text-white" : "text-black"
-        }`}
+        className={`grid h-screen w-full place-items-center p-5 ${darkMode ? "text-white" : "text-black"
+          }`}
       >
         <div className="flex items-center justify-between gap-4 overflow-hidden">
           <div className="flex aspect-square max-h-[512px] max-w-lg flex-col items-center justify-center text-center">
             <div className="text-9xl  ">
-              <svg width="1em" height="1em">
-                <linearGradient
-                  id="blue-gradient"
-                  x1="100%"
-                  y1="100%"
-                  x2="0%"
-                  y2="0%"
-                >
-                  <stop stopColor="#db2777" offset="0%" />
-                  <stop stopColor="#fb923c" offset="100%" />
-                </linearGradient>
-                <AiOutlineInstagram style={{ fill: "url(#blue-gradient)" }} />
-              </svg>
+              <Logo />
             </div>
             <h1 className=" bg-gradient-to-r from-pink-600 from-50% to-orange-400 bg-clip-text text-3xl font-bold text-transparent  sm:text-4xl md:text-5xl ">
               Welcome Back to Instafam

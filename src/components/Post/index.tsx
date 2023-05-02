@@ -2,58 +2,42 @@ import { IUserPostProps } from "@/types/post";
 import dynamic from "next/dynamic";
 import usePost from "@/hooks/usePost";
 import { useSession } from "next-auth/react";
-import {
-  useDarkModeStore,
-  useMenuModalStore,
-  usePostCommentModalStore,
-  usePostPreviewModalStore,
-  useSelectedPostStore,
-} from "@/stores/stores";
 import { memo } from "react";
-import { useStore } from "zustand";
 import { BsThreeDots } from "react-icons/bs";
+import { useStateContext } from "@/stores/StateContext";
+import { useStore } from "zustand";
+import { useDarkModeStore } from "@/stores/stores";
+import { largeScreenClickEvent } from "@/utils/largeScreenClickEvent";
+import { mobileClickEvents } from "@/utils/mobileScreenClickEvent";
 const Likes = dynamic(() => import("./Likes"));
 const ActionButton = dynamic(() => import("./ActionButton"));
 const PostHeader = dynamic(() => import("../Header/PostHeader"));
 const Author = dynamic(() => import("./Author"));
 const Comments = dynamic(() => import("../Comments/Forms"));
-const PostImage = dynamic(() => import("./Image"), {
-  ssr: true
-});
+const PostImage = dynamic(() => import("./Image"), { ssr: true });
 
-type Props = {
-  post: IUserPostProps;
-};
 
-function PostCard({ post }: Props) {
+function PostCard({ post }: { post: IUserPostProps}) {
   const { likes, comments, savedBy } = usePost(post);
   const { data: session } = useSession();
+  const { Dispatch } = useStateContext();
   const { darkMode } = useStore(useDarkModeStore);
-  const { menuModal, setMenuModal } = useStore(useMenuModalStore);
-  const { setSelectedPost } = useStore(useSelectedPostStore);
-  const { setPostCommentModal } = useStore(usePostCommentModalStore);
-  const { setPostPreviewModal } = useStore(usePostPreviewModalStore);
-
-  const clickLgScreen = () => {
-    setPostPreviewModal(true);
-    setPostCommentModal(false);
-    setSelectedPost(post);
-  };
-
-  const clickMobileScreen = () => {
-    setSelectedPost(post);
-    setPostCommentModal(true);
-    setPostPreviewModal(false);
-  };
-
 
   const handleClick = () => {
-    setMenuModal(!menuModal);
-    setSelectedPost(post);
+    Dispatch({
+      type: "TOGGLE_MENU_MODAL", payload: {
+        menuModal: true
+      }
+    })
+    Dispatch({
+      type: "SELECT_POST", payload: {
+        post
+      }
+    })
   };
 
   return (
-    <div className={`relative mb-5 w-full`}>
+    <div className=''>
       <div
         className={`rounded-sm shadow-lg p-4 ${darkMode ? "bg-black text-white" : "bg-white text-black"
           }`}
@@ -73,8 +57,8 @@ function PostCard({ post }: Props) {
           savedBy={savedBy}
           likes={likes}
           post={post}
-          clickLgScreen={clickLgScreen}
-          clickMobileScreen={clickMobileScreen}
+          clickLgScreen={() => largeScreenClickEvent(Dispatch, post)}
+          clickMobileScreen={() => mobileClickEvents(Dispatch, post)}
           uid={session?.user?.uid as string}
         />
         <Likes likesCount={likes} session={session} />

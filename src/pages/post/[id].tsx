@@ -4,8 +4,7 @@ import dynamic from "next/dynamic";
 import Head from "next/head";
 import { GetServerSidePropsContext } from "next";
 import usePost from "@/hooks/usePost";
-import { useSelectedPostStore, useMenuModalStore } from "@/stores/stores";
-import { useStore } from "zustand";
+import { useStateContext } from "@/stores/StateContext";
 
 const PostCard = dynamic(() => import("@/components/Post"), {
   ssr: true,
@@ -23,8 +22,7 @@ const PreviewLargeScreen = dynamic(
 
 export default function PostDetail({ post }: { post: IUserPostProps }) {
   const { likes, comments, savedBy } = usePost(post);
-  const { setSelectedPost } = useStore(useSelectedPostStore);
-  const { menuModal, setMenuModal } = useStore(useMenuModalStore);
+  const { Dispatch, state:{menuModal} } = useStateContext();
   const [loading, setLoading] = useState(true);
   const ref = useRef<HTMLDivElement>(null);
   const [nextPosts, setNextPosts] = useState<IUserPostProps[] | null>(null);
@@ -49,8 +47,18 @@ export default function PostDetail({ post }: { post: IUserPostProps }) {
   }, [post]);
 
   const handleClick = () => {
-    setMenuModal(!menuModal);
-    setSelectedPost(post);
+    Dispatch({
+      type: 'TOGGLE_MENU_MODAL',
+      payload: {
+        menuModal: !menuModal
+      }
+    })
+    Dispatch({
+      type: "SELECT_POST",
+      payload: {
+        post,
+      },
+    });
   };
 
   return (

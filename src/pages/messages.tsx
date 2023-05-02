@@ -1,7 +1,5 @@
 import {
   useDarkModeStore,
-  useMessageModalStore,
-  useUserReceiverDrawerStore,
 } from "@/stores/stores";
 import { useState } from "react";
 import { useStore } from "zustand";
@@ -11,6 +9,7 @@ import { getServerSession } from "next-auth";
 import type { GetServerSidePropsContext } from "next";
 import { authOptions } from "./api/auth/[...nextauth]";
 import { DataMessage } from "@/types/DataMessage";
+import { useStateContext } from "@/stores/StateContext";
 
 const UsersChat = dynamic(
   () => import("@/components/Messages/Users/UsersChat"),
@@ -48,32 +47,47 @@ type Props = {
 }
 
 export default function Messages({ sessions, receiver, sender }: Props) {
-  const { setMessageModal } = useStore(useMessageModalStore);
   const [selectedChat, setSelectedChat] = useState<DataMessage | null>(null);
-
-  const { userReceiverDrawer, setUserReceiverDrawer } = useStore(useUserReceiverDrawerStore);
+  const { state: { receiverDrawer }, Dispatch } = useStateContext()
   const { darkMode } = useStore(useDarkModeStore);
-  const selectUser = (user: DataMessage) => {
-    setSelectedChat(user);
-  };
+  const selectUser = (user: DataMessage) => setSelectedChat(user);
 
   return (
     <div className="h-screen w-full overflow-y-auto">
       <div className="mx-auto flex h-screen items-center justify-between overflow-hidden">
+        <div className=" md:hidden w-full flex justify-center items-center">
+          {!receiverDrawer ? (
+            <button
+              name="close receiver drawer"
+              title="close receiver drawer"
+              onClick={() => {
+                Dispatch({
+                  type: 'TOGGLE_RECEIVER_DRAWER',
+                  payload: {
+                    receiverDrawer: true
+                  }
+                })
+              }}
+              className="bg-blue-600 text-white px-5 rounded-md py-2 font-semibold"
+              >
+              Open Drawer
+            </button>
+          ) : null}
+
+        </div>
         {receiver.length === 0 ? (
           <EmptyMessages />
         ) : (
           <>
             <aside
-              className={`ease fixed top-0 z-50 h-full w-full max-w-sm border-r border-gray-400 border-opacity-50 transition-all  duration-300 lg:static lg:z-0 ${userReceiverDrawer ? "left-0" : "-left-full"
+              className={`ease fixed top-0 z-50 h-full w-full max-w-sm border-r border-gray-400 border-opacity-50 transition-all  duration-300 lg:static lg:z-0 ${receiverDrawer ? "left-0" : "-left-full"
                 } ${darkMode ? "bg-black text-white" : "bg-white text-black"}`}
             >
-              <UserHeader setMessageModal={setMessageModal} />
+              <UserHeader />
               <UsersChat
                 receiver={receiver}
                 selectUser={selectUser}
                 sender={sender}
-                setUserReceiverDrawer={setUserReceiverDrawer}
               />
             </aside>
             <div

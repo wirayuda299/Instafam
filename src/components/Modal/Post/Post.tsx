@@ -1,7 +1,5 @@
 import {
   useDarkModeStore,
-  usePostModalStore,
-  useSelectedPostStore,
 } from "@/stores/stores";
 import { useStore } from "zustand";
 import { useEffect, useState } from "react";
@@ -11,6 +9,7 @@ import dynamic from "next/dynamic";
 import { createPortal } from "react-dom";
 import { useRouter } from "next/router";
 import { useSession } from "next-auth/react";
+import { useStateContext } from "@/stores/StateContext";
 
 const PostLoader = dynamic(() => import("@/components/Loader/Post"), {
   ssr: true,
@@ -21,8 +20,7 @@ const PostCard = dynamic(() => import("@/components/Post"), {
 
 
 export default function PostModal() {
-  const { postModal, setPostModal } = useStore(usePostModalStore);
-  const { selectedPost, setSelectedPost } = useStore(useSelectedPostStore);
+  const { state: { selectedPost, postModal }, Dispatch } = useStateContext();
   const [reqParams, setReqParams] = useState<string | string[] | undefined>('');
   const [posts, setPosts] = useState<IUserPostProps[]>([]);
   const [loading, setLoading] = useState(true);
@@ -59,16 +57,36 @@ export default function PostModal() {
   useEffect(() => {
     window.addEventListener("resize", () => {
       if (window.innerWidth >= 768) {
-        setPostModal(false);
-        setSelectedPost(null);
+        Dispatch({
+          type: "TOGGLE_POST_MODAL",
+          payload: {
+            postModal: false
+          }
+        })
+        Dispatch({
+          type: "SELECT_POST",
+          payload: {
+            post: null
+          }
+        })
       }
     });
 
     return () => {
       window.removeEventListener("resize", () => {
         if (window.innerWidth >= 768) {
-          setPostModal(false);
-          setSelectedPost(null);
+          Dispatch({
+            type: "TOGGLE_POST_MODAL",
+            payload: {
+              postModal: false
+            }
+          })
+          Dispatch({
+            type: "SELECT_POST",
+            payload: {
+              post: null
+            }
+          })
         }
       });
     };
@@ -95,8 +113,18 @@ export default function PostModal() {
               title="back"
               className="text-left"
               onClick={() => {
-                setPostModal(false);
-                setSelectedPost(null);
+                Dispatch({
+                  type: "TOGGLE_POST_MODAL",
+                  payload: {
+                    postModal: false
+                  }
+                })
+                Dispatch({
+                  type: "SELECT_POST",
+                  payload: {
+                    post: null
+                  }
+                })
               }}
             >
               <AiOutlineArrowLeft size={25} />

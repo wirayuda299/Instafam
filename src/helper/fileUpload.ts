@@ -1,13 +1,11 @@
-import { ChangeEvent } from "react";
+import type { ChangeEvent } from "react";
 import toast from "react-hot-toast";
 import { encode } from "blurhash";
 
 type Params = {
   e: ChangeEvent<HTMLInputElement>;
-  setPreviewUrl: (postImageModal: string) => void;
-  setBlurhash: (blurhash: string) => void;
 }
-type UploadFile = ({ e, setPreviewUrl }: Params) => Promise<void>;
+type UploadFile = ({ e }: Params) => Promise<{ blurhash: string, previewUrl: string } | undefined>;
 type FilterImage = (file: File | Blob | undefined) => Promise<any>;
 
 const filterImage: FilterImage = async (file) => {
@@ -55,37 +53,41 @@ const getImageData = (image: any) => {
 
 const encodeImageToBlurhash = async (imageUrl: any) => {
   const image = await loadImage(imageUrl);
-  const imageData = getImageData(image);
-  if (!imageData) return;
+  const imageData = getImageData(image) as any;
   return encode(imageData?.data, imageData?.width, imageData?.height, 4, 4);
 };
 
-export const handleInputImage: UploadFile = async (args) => {
-  const { e, setPreviewUrl, setBlurhash } = args;
+export const handleInputImage: UploadFile = async ({ e }) => {
   try {
     let selectedFile = e.target.files?.[0];
     if (!selectedFile) return;
-    const result = await filterImage(selectedFile);
-    if (result?.unsafe) {
-      toast.error("Image is not allowed");
-      return;
-    }
+    // const result = await filterImage(selectedFile);
+    // if (result?.unsafe) {
+    //   toast.error("Image is not allowed");
+    //   return;
+    // }
+    let blurHash = "";
+    let previewUrl = "";
     const data = await loadImage(URL.createObjectURL(selectedFile));
     const imageData = getImageData(data);
-    
+
     if (!imageData) return;
-    
-    
+
+
     const reader = new FileReader();
     reader.onload = async (event) => {
       if (event.target) {
         const blurhash = await encodeImageToBlurhash(event.target.result);
         if (!blurhash) return;
-        setBlurhash(blurhash);
-        return setPreviewUrl(event.target.result as string);
+        blurHash = blurhash;
+        previewUrl = event.target.result as string;
       }
     };
     reader.readAsDataURL(selectedFile);
+    return {
+      blurhash: blurHash,
+      previewUrl: previewUrl,
+    }
   } catch (error: any) {
     console.log(error.message);
   }

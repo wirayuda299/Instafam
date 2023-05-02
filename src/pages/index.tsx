@@ -2,6 +2,8 @@ import dynamic from "next/dynamic";
 import { IUser } from "@/types/user";
 import { IUserPostProps } from "@/types/post";
 import { useEffect, useState } from "react";
+import { GetServerSidePropsContext } from "next";
+
 const Suggestions = dynamic(
   () => import("@/components/Suggestions/Suggestions"),
   { ssr: true }
@@ -22,13 +24,15 @@ export default function Home({ posts, users }: Props) {
   const [newPosts, setNewPosts] = useState<IUserPostProps[]>([]);
 
   useEffect(() => {
-    const observer = new IntersectionObserver(async (entries) => {
+    const handleIntersection = async (entries: IntersectionObserverEntry[]) => {
       if (entries[0].isIntersecting) {
         const { fetchNextPosts } = await import("@/helper/getPosts");
         const newPosts = await fetchNextPosts(posts[posts.length - 1]);
         setNewPosts(newPosts ?? []);
       }
-    });
+    };
+
+    const observer = new IntersectionObserver(handleIntersection);
     const entry = document.getElementById("entry");
     if (entry) {
       observer.observe(entry);
@@ -36,20 +40,21 @@ export default function Home({ posts, users }: Props) {
     return () => {
       if (entry) {
         observer.unobserve(entry);
+        observer.disconnect();
+        setNewPosts([]);
       }
     };
   }, []);
-  
 
   return (
-    <div className="h-full w-full">
-      <div className="flex h-screen w-full items-start justify-between">
-        <div className="w-full p-5">
-          {posts.length === 0 ? (
-            <Postloader />
-          ) : (
-            posts?.map((post) => <PostCard post={post} key={post.postId} />)
-          )}
+    <div className="h-screen ">
+      <div className="flex w-full items-start h-screen overflow-y-auto justify-between">
+        <div className="w-full">
+          {posts?.map((post) => (
+            <div key={post.postId}>
+              <PostCard post={post} />
+            </div>
+          ))}
           <div id="entry"></div>
           {newPosts.length === 0 ? (
             <Postloader />
@@ -57,13 +62,16 @@ export default function Home({ posts, users }: Props) {
             newPosts?.map((post) => <PostCard post={post} key={post.postId} />)
           )}
         </div>
-        <Suggestions reccomend={users as IUser[]} />
+        <div className="sticky top-0 h-screen">
+          <Suggestions reccomend={users} />
+        </div>
       </div>
     </div>
+
   );
 }
 
-export async function getServerSideProps({ req, res }: any) {
+export async function getServerSideProps({ req, res }: GetServerSidePropsContext) {
   const { getPosts } = await import("@/helper/getPosts");
   const { getUserRecommendation } = await import("@/helper/getUser");
   const { getSession } = await import("next-auth/react");
@@ -79,12 +87,14 @@ export async function getServerSideProps({ req, res }: any) {
   }
   const users = await getUserRecommendation(session?.user.uid, 5);
   const posts = await getPosts(3);
+  
   res.setHeader("Cache-Control", "public, maxage=60, stale-while-revalidate");
 
   return {
     props: {
       users,
       posts,
+      session
     },
   };
 }

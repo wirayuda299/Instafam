@@ -1,15 +1,14 @@
 import { db } from "@/config/firebase";
-import { useSelectedPostStore } from "@/stores/stores";
+import { useStateContext } from "@/stores/StateContext";
 import { IUserPostProps } from "@/types/post";
 import { onSnapshot, doc } from "firebase/firestore";
 import { useState, useEffect, useMemo } from "react";
-import { useStore } from "zustand";
 type IComment = Pick<IUserPostProps, "comments">;
 
 export default function usePost(post: IUserPostProps | null) {
   const [likesCount, setLikesCount] = useState<string[]>([]);
   const [comment, setComment] = useState<IComment["comments"]>([]);
-  const { selectedPost } = useStore(useSelectedPostStore);
+  const { state: { selectedPost } } = useStateContext();
   const [savedBy, setSavedBy] = useState<string[]>([]);
   useEffect(() => {
     const unsub = onSnapshot(

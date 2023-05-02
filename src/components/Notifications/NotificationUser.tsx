@@ -1,4 +1,4 @@
-import { useNotificationModalStore } from '@/stores/stores';
+import { useStateContext } from '@/stores/StateContext';
 import { IUser } from '@/types/user';
 import type { Session } from 'next-auth';
 import Image from 'next/image'
@@ -15,7 +15,7 @@ type Props = {
   user: IUser
 }
 export default function NotificationUser({ follower, darkMode, session, user }: Props) {
-  const { setNotificationModal } = useStore(useNotificationModalStore);
+  const {Dispatch} = useStateContext()
   return (
     
     <div className="flex items-center space-x-2 mt-4 px-4">
@@ -29,7 +29,14 @@ export default function NotificationUser({ follower, darkMode, session, user }: 
       <div className="text-sm ">
         <div>
           <div className="flex space-x-3 flex-wrap place-items-center">
-            <Link href={`/profile/${follower.followedByName}`} onClick={() => setNotificationModal(false)}>
+            <Link href={`/profile/${follower.followedByName}`} onClick={() => {
+              Dispatch({
+                type: 'TOGGLE_NOTIFICATION_DRAWER',
+                payload: {
+                  notificationDrawer: false
+                }
+              })
+            }}>
               <h1 className={darkMode ? 'text-white' : 'text-black'}>
                 {follower.followedByName}
               </h1>

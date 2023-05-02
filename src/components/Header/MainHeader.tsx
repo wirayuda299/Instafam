@@ -2,12 +2,13 @@ import Link from "next/link";
 import { AiOutlineClose, AiOutlineHeart } from "react-icons/ai";
 import { Playfair_Display } from "next/font/google";
 import { useStore } from "zustand";
-import { useDarkModeStore, useNotificationModalStore, useUserReceiverDrawerStore } from "@/stores/stores";
+import { useDarkModeStore } from "@/stores/stores";
 import { useSession } from "next-auth/react";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { useRouter } from "next/router";
 import { BiSun } from "react-icons/bi";
 import { BsMoonFill } from "react-icons/bs";
+import { useStateContext } from "@/stores/StateContext";
 
 const playfair = Playfair_Display({
   fallback: ["sans-serif"],
@@ -20,12 +21,12 @@ const playfair = Playfair_Display({
 export default function Header() {
   const { darkMode, setDarkMode } = useStore(useDarkModeStore);
   const { data: session } = useSession();
-  const { setUserReceiverDrawer, userReceiverDrawer } = useStore(
-    useUserReceiverDrawerStore
-  );
-  const {  setNotificationModal } = useStore(useNotificationModalStore)
-  const { pathname } = useRouter();
-  if(!session) return null
+  const { Dispatch} = useStateContext()
+  const changeTheme = () => {
+    localStorage.setItem('theme', darkMode ? 'light' : 'dark')
+    setDarkMode(!darkMode)
+  }
+  if (!session) return null
   return (
     <header
       className={`relative h-14 w-full border-b border-gray-500 border-opacity-50 px-5 md:hidden ${darkMode ? "bg-black text-white" : "bg-white text-black"
@@ -43,7 +44,7 @@ export default function Header() {
         <button
           name={`switch to ${darkMode ? 'light' : 'dark'}`}
           title={`switch to ${darkMode ? 'light' : 'dark'}`}
-          onClick={() => setDarkMode(!darkMode)}
+          onClick={() => changeTheme()}
         >
           {darkMode ? (
             <BiSun
@@ -61,21 +62,18 @@ export default function Header() {
           className="relative"
           name="notifications"
           title="notifications"
-          onClick={() => setNotificationModal(true)}
+          onClick={() => {
+            Dispatch({
+              type: 'TOGGLE_NOTIFICATION_MODAL',
+              payload: {
+                notificationModal: true
+              }
+            })
+          }}
         >
           <span className="absolute right-0 top-0 h-2 w-2 rounded-full bg-red-500"></span>
           <AiOutlineHeart size={25} />
         </button>
-
-        {pathname === "/messages" ? (
-          <button onClick={() => setUserReceiverDrawer(true)}>
-            {userReceiverDrawer ? (
-              <AiOutlineClose size={20} />
-            ) : (
-              <RxHamburgerMenu size={20} />
-            )}
-          </button>
-        ) : null}
       </div>
     </header>
   );

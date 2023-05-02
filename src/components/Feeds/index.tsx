@@ -1,7 +1,6 @@
-import { useFeedModalStore, useSelectedPostStore } from "@/stores/stores";
-import { useStore } from "zustand";
 import { IUserPostProps } from "@/types/post";
 import dynamic from "next/dynamic";
+import { useStateContext } from "@/stores/StateContext";
 const PostImage = dynamic(() => import("../Post/Image"), { ssr: true });
 const PostInfo = dynamic(() => import("./PostInfo"), { ssr: true });
 
@@ -11,15 +10,25 @@ type Props = {
 };
 
 export default function Feeds({ post, index }: Props) {
-  const { setFeedModal } = useStore(useFeedModalStore);
-  const { setSelectedPost } = useStore(useSelectedPostStore);
+  const { Dispatch } = useStateContext();
   return (
     <div
       key={post.postId}
       className={`group relative`}
       onClick={() => {
-        setSelectedPost(post);
-        setFeedModal(true);
+        Dispatch({
+          type: "SELECT_POST",
+          payload: {
+            post,
+          }
+        })
+
+       Dispatch({
+        type: 'TOGGLE_FEED_MODAL',
+        payload: {
+          feedModal: true
+        }
+       })
       }}
     >
       <PostImage

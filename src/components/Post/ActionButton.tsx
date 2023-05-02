@@ -5,6 +5,7 @@ import { RiBookmarkFill } from "react-icons/ri";
 import { BiBookmark } from "react-icons/bi";
 import { IoPaperPlaneOutline } from "react-icons/io5";
 import { TbMessageCircle2 } from "react-icons/tb";
+import { memo } from "react";
 
 type Props = {
   post: IUserPostProps;
@@ -15,7 +16,7 @@ type Props = {
   clickMobileScreen: () => void
 };
 
-export default function ActionButton(props: Props) {
+ function ActionButton(props: Props) {
   const {
     post,
     uid,
@@ -24,7 +25,7 @@ export default function ActionButton(props: Props) {
     clickLgScreen,
     clickMobileScreen
   } = props;
-
+  
 
   const BUTTON_LISTS = [
     {
@@ -41,7 +42,7 @@ export default function ActionButton(props: Props) {
           uid,
           likes,
         };
-        handleLikes(Likes);
+        await handleLikes(Likes);
       },
     },
     {
@@ -65,7 +66,7 @@ export default function ActionButton(props: Props) {
         <IoPaperPlaneOutline className="text-2xl hover:text-gray-500 sm:text-3xl" />
       ),
       onClick: async () => {
-        const { share } = await import("@/util/share");
+        const { share } = await import("@/utils/share");
         share(post, `${process.env.NEXTAUTH_URL}/post/${post.postId}`);
       },
     },
@@ -108,4 +109,5 @@ export default function ActionButton(props: Props) {
     </div>
   );
 }
+export default memo(ActionButton);
 

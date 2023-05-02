@@ -1,6 +1,6 @@
 import { db } from "@/config/firebase";
-import { urlNormalize } from "@/util/urlNormalize";
-import { getUsernameFromEmail } from "@/util/usernameGenerator";
+import { urlNormalize } from "@/utils/urlNormalize";
+import { getUsernameFromEmail } from "@/utils/usernameGenerator";
 import { setDoc, doc } from "firebase/firestore";
 import NextAuth, { NextAuthOptions } from "next-auth";
 import { JWT } from "next-auth/jwt";

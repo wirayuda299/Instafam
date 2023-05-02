@@ -1,36 +1,45 @@
 import { AiOutlineSearch } from "react-icons/ai";
 import { memo, useEffect } from "react";
-import { useDarkModeStore, useDrawerStore } from "@/stores/stores";
+import { useDarkModeStore } from "@/stores/stores";
 import { useStore } from "zustand";
 import dynamic from "next/dynamic";
+import { useStateContext } from "@/stores/StateContext";
 const Form = dynamic(() => import("./Form"), { ssr: false });
 
 function SearchDrawer() {
-  const { drawer, setDrawer } = useStore(useDrawerStore);
+  const { state: { isSearchDrawerOpen }, Dispatch } = useStateContext();
   const { darkMode } = useStore(useDarkModeStore);
 
   useEffect(() => {
     window.addEventListener("resize", () => {
-      setDrawer(false);
+      Dispatch({
+        type: 'TOGGLE_SEARCH_DRAWER',
+        payload: {
+          searchDrawer: false
+        }
+      });
     });
     return () => {
       window.removeEventListener("resize", () => {
-        setDrawer(false);
+        Dispatch({
+          type: 'TOGGLE_SEARCH_DRAWER',
+          payload: {
+            searchDrawer: false
+          }
+        });
       });
     };
   }, []);
 
   return (
     <>
-      {drawer ? (
+      {isSearchDrawerOpen ? (
         <section
-          className={`fixed z-50  transition-all duration-300 ease-out ${
-            darkMode ? "bg-black" : "bg-white"
-          } ${
-            drawer
+          className={`fixed z-50  transition-all duration-300 ease-out ${darkMode ? "bg-black" : "bg-white"
+            } ${isSearchDrawerOpen
               ? "animate-slideIn lg:animate-slideIn"
               : "animate-slideOut lg:animate-slideOutWidth"
-          }`}
+            }`}
         >
           <div className=" h-full w-full ">
             <div className="w-64 border-b p-5">

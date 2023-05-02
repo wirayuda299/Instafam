@@ -7,15 +7,14 @@ import useAuth from "@/hooks/useAuth";
 import { GetServerSidePropsContext } from "next";
 import { memo, useMemo, useState, useTransition } from "react";
 import type { Session } from "next-auth";
-import { usePostCommentModalStore, usePostModalStore, usePostPreviewModalStore, useSelectedPostStore } from "@/stores/stores";
-import { useStore } from "zustand";
-import SuggestionMobile from "@/components/Suggestions/SuggestionMobile";
+import { useStateContext } from "@/stores/StateContext";
 const Statistic = dynamic(
   () => import("@/components/User/Statistic/Statistic"),
   {
     ssr: true,
   }
 );
+const SuggestionMobile = dynamic(() => import("@/components/Suggestions/SuggestionMobile"));
 const PostInfo = dynamic(() => import("@/components/Feeds/PostInfo"));
 const Tab = dynamic(() => import("@/components/User/Tab/Tab"));
 const PostImage = dynamic(() => import("@/components/Post/Image"), {
@@ -40,16 +39,9 @@ function UserProfile({ posts, user, query, savedPosts, reccomendations }: Props)
   const { replace, asPath } = useRouter();
   const [activeTab, setActiveTab] = useState<number>(1);
   const [, startTransition] = useTransition();
-  const { setSelectedPost } = useStore(useSelectedPostStore);
-  const { setPostCommentModal } = useStore(usePostCommentModalStore);
-  const { setPostPreviewModal } = useStore(usePostPreviewModalStore);
-  const { setPostModal } = useStore(usePostModalStore);
+  const { Dispatch } = useStateContext();
 
-  const clickLgScreen = (post: IUserPostProps | null) => {
-    setPostPreviewModal(true);
-    setPostCommentModal(false);
-    setSelectedPost(post);
-  };
+
   const refreshData = () => {
     replace(asPath);
   };
@@ -146,13 +138,25 @@ function UserProfile({ posts, user, query, savedPosts, reccomendations }: Props)
                     posts?.map((post, i) => (
                       <>
 
-                        <div key={post.postId} onClick={() => clickLgScreen(post)} className="cursor-pointer hidden md:block">
+                        <div key={post.postId} onClick={async () => {
+                          const { largeScreenClickEvent } = await import('@/utils/largeScreenClickEvent')
+                          largeScreenClickEvent(Dispatch, post)
+                        }} className="cursor-pointer hidden md:block">
                           <PostImage post={post} />
                         </div>
                         <div
                           onClick={() => {
-                            setSelectedPost(post);
-                            setPostModal(true);
+                            Dispatch({
+                              type: "SELECT_POST", payload: {
+                                post
+                              }
+                            })
+                            Dispatch({
+                              type: 'TOGGLE_POST_MODAL',
+                              payload: {
+                                postModal: true
+                              }
+                            })
                           }}
                           className={`block w-full cursor-pointer md:hidden`}
                         >

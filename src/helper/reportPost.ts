@@ -10,7 +10,6 @@ export const handleReport = async (
   e: FieldValues,
   selectedPost: IUserPostProps | null,
   session: Session | null,
-  setReportModal: any,
   resetField: any
 ) => {
 
@@ -31,7 +30,6 @@ export const handleReport = async (
       reason: e.reason,
     };
     await setDoc(reportRef, reportData).then(() => {
-      setReportModal(false);
       resetField("reason");
       toast.success("Reported Successfully");
     });

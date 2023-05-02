@@ -15,29 +15,28 @@ const NavItem = dynamic(() => import("./NavItem"), { ssr: true });
 
 type Props = {
   session: Session | null;
-  setPostCreateModal: (postCreateModal: boolean) => void;
-  setDrawer: (drawer: boolean) => void;
-  darkMode: boolean;
   handleClick: () => void;
   pathname: string;
-  setResult: (result: any) => void;
   drawer: boolean;
-  setNotificationDrawer: (notificationDrawer: boolean) => void;
-  notificationdrawer: boolean;
+  notificationDrawer: boolean;
+  handleSearchDrawer: () => void
+  handleNotificationDrawer: () => void
+  openCreateModal: () => void
+  darkMode: boolean
+
 };
 
 export default function NavLink(props: Props) {
   const {
     session,
-    setPostCreateModal,
-    setDrawer,
-    darkMode,
     handleClick,
     pathname,
-    setResult,
     drawer,
-    setNotificationDrawer,
-    notificationdrawer
+    handleNotificationDrawer,
+    handleSearchDrawer,
+    notificationDrawer,
+    openCreateModal,
+    darkMode
   } = props;
 
   const navList = [
@@ -47,7 +46,7 @@ export default function NavLink(props: Props) {
       path: "/",
       icon: (
         <AiOutlineHome
-          className={`${darkMode ? "text-white" : "text-black "} text-3xl`}
+          className={` text-3xl`}
         />
       ),
     },
@@ -57,7 +56,7 @@ export default function NavLink(props: Props) {
       path: "",
       icon: (
         <AiOutlineSearch
-          className={`${darkMode ? "text-white" : "text-black "} text-3xl`}
+          className={` text-3xl`}
         />
       ),
     },
@@ -67,7 +66,7 @@ export default function NavLink(props: Props) {
       path: "/trending",
       icon: (
         <MdOutlineExplore
-          className={`${darkMode ? "text-white" : "text-black "} text-3xl`}
+          className={` text-3xl`}
         />
       ),
     },
@@ -77,7 +76,7 @@ export default function NavLink(props: Props) {
       path: "/messages",
       icon: (
         <RiMessengerLine
-          className={`${darkMode ? "text-white" : "text-black "} text-3xl`}
+          className={` text-3xl`}
         />
       ),
     },
@@ -87,7 +86,7 @@ export default function NavLink(props: Props) {
       path: "",
       icon: (
         <AiOutlineHeart
-          className={`${darkMode ? "text-white" : "text-black "} text-3xl`}
+          className={` text-3xl`}
         />
       ),
     },
@@ -97,10 +96,10 @@ export default function NavLink(props: Props) {
       path: "",
       icon: (
         <AiOutlinePlusSquare
-          className={`${darkMode ? "text-white" : "text-black "} text-3xl`}
+          className={` text-3xl`}
         />
       ),
-      event: () => setPostCreateModal(true),
+      event: () => openCreateModal(),
     },
     {
       id: 7,
@@ -120,7 +119,7 @@ export default function NavLink(props: Props) {
             quality={40}
             alt={session?.user?.name || "user"}
           />
-          <BsPersonCircle className={`${darkMode ? "text-white" : "text-black "} text-3xl  md:hidden md:pointer-events-none`} />
+          <BsPersonCircle className={` text-3xl  md:hidden md:pointer-events-none`} />
         </>
       ),
     },
@@ -130,18 +129,17 @@ export default function NavLink(props: Props) {
     <ul className="flex w-full items-center justify-around md:justify-around md:px-0 md:flex-col  md:space-y-2 lg:space-y-4">
       {navList.map((list) => (
         <NavItem
-          notificationdrawer={notificationdrawer}
-          setNotificationDrawer={setNotificationDrawer}
+        openCreateModal={openCreateModal}
+          handleNotificationDrawer={handleNotificationDrawer}
+          handleSearchDrawer={handleSearchDrawer}
+          notificationDrawer={notificationDrawer}
           key={list.id}
+          darkMode={darkMode}
           list={list}
           path={list.path}
           pathname={pathname}
-          darkMode={darkMode}
           toggler={handleClick}
           drawer={drawer}
-          setDrawer={setDrawer}
-          setPostCreateModal={setPostCreateModal}
-          setResult={setResult}
         />
       ))}
     </ul>

@@ -1,12 +1,7 @@
-import {
-  useFeedModalStore,
-  usePostModalStore,
-  useSelectedPostStore,
-} from "@/stores/stores";
+import { useStateContext } from "@/stores/StateContext";
 import { IUserPostProps } from "@/types/post";
 import dynamic from "next/dynamic";
 import { AiOutlineSearch } from "react-icons/ai";
-import { useStore } from "zustand";
 
 type Props = {
   posts: IUserPostProps[];
@@ -28,12 +23,10 @@ const PostInfo = dynamic(() => import("@/components/Feeds/PostInfo"), {
 });
 
 export default function Trending({ posts }: Props) {
-  const { setSelectedPost } = useStore(useSelectedPostStore);
-  const { setPostModal } = useStore(usePostModalStore);
-  const { setFeedModal } = useStore(useFeedModalStore);
+  const { Dispatch } = useStateContext();
   return (
-    <div className="h-screen w-full overflow-y-auto">
-      <div className="md:hidden p-3 md:pointer-events-none">
+    <div className="h-screen w-full overflow-y-auto p-5">
+      <div className="md:hidden  md:pointer-events-none ">
         <Form height="h-min">
           <button type="submit" name="Search" title="search">
             <AiOutlineSearch size={20} />
@@ -46,23 +39,43 @@ export default function Trending({ posts }: Props) {
             <button
               name="click to view the post"
               title="click to view the post"
-              className={`hidden relative mb-5 w-full h-full  group md:block ${ Number(post.createdAt) % 2 === 0 ? "aspect-square" : "aspect-[9/16]"
+              className={`hidden relative mb-5 w-full h-auto group md:block ${Number(post.createdAt) % 2 === 0 ? "aspect-square" : "aspect-[9/16]"
                 }`}
               onClick={() => {
-                setSelectedPost(post);
-                setFeedModal(true);
+                Dispatch({
+                  type: "SELECT_POST",
+                  payload: {
+                    post,
+                  }
+                });
+                Dispatch({
+                  type: "TOGGLE_FEED_MODAL",
+                  payload: {
+                    feedModal: true,
+                  }
+               })
               }}
             >
               <PostImage
                 post={post}
-                classNames="h-full w-full object-cover object-top rounded-md"
+                classNames="h-full w-full object-cover rounded-md"
               />
-              <PostInfo post={post}/>
+              <PostInfo post={post} />
             </button>
             <div
               onClick={() => {
-                setSelectedPost(post);
-                setPostModal(true);
+                Dispatch({
+                  type: "SELECT_POST",
+                  payload: {
+                    post,
+                  }
+                });
+                Dispatch({
+                  type: "TOGGLE_POST_MODAL",
+                  payload: {
+                    postModal: true,
+                  }
+               })
               }}
               className={`block w-full cursor-pointer md:hidden md:pointer-events-none`}
             >
@@ -74,7 +87,7 @@ export default function Trending({ posts }: Props) {
         ))}
       </div>
 
-     
+
       <Footer classNames="flex flex-wrap gap-3 text-xs  text-gray-500 transition-all ease mt-10 justify-center">
         <p
           className='mt-5 w-full text-xs text-center text-gray-500'

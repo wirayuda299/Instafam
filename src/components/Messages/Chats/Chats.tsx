@@ -1,5 +1,5 @@
 
-import { getCreatedDate } from "@/util/postDate";
+import { getCreatedDate } from "@/utils/postDate";
 import type { Session } from "next-auth";
 import Image from "next/image";
 import ChatForm from "../Form/ChatForm";

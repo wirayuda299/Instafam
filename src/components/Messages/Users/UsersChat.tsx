@@ -1,3 +1,4 @@
+import { useStateContext } from "@/stores/StateContext";
 import { useDarkModeStore } from "@/stores/stores";
 import { DataMessage } from "@/types/DataMessage";
 import { useSession } from "next-auth/react";
@@ -8,18 +9,17 @@ type Props = {
   receiver: DataMessage[];
   selectUser: (user: DataMessage) => void;
   sender: DataMessage[];
-  setUserReceiverDrawer: (userReceiverDrawer: boolean) => void;
 };
 
 export default function UsersChat({
   receiver,
   selectUser,
   sender,
-  setUserReceiverDrawer,
 }: Props) {
   const { darkMode } = useStore(useDarkModeStore);
   const { data: session } = useSession();
   const receiverId = receiver.map((item) => item.id);
+  const { Dispatch} = useStateContext()
 
   if (!session) return null;
 
@@ -30,7 +30,12 @@ export default function UsersChat({
   const handleClick = (user: DataMessage | null) => {
     if (user) {
       selectUser(user);
-      setUserReceiverDrawer(false);
+      Dispatch({
+        type: 'TOGGLE_RECEIVER_DRAWER',
+        payload: {
+          receiverDrawer: false
+        }
+      })
     }
   };
 

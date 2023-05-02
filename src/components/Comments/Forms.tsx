@@ -1,6 +1,7 @@
 import { IUserPostProps } from "@/types/post";
 import { useRouter } from "next/router";
-import { FieldValues, useForm } from "react-hook-form";
+import type  {  FieldValues } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { AiOutlineSend } from "react-icons/ai";
 export type IComment = Pick<IUserPostProps, "comments">;
 import type { Session } from "next-auth";
@@ -46,7 +47,6 @@ export default function Comments({ post, session }: Props) {
           type="text"
           placeholder="Add a comment..."
           autoComplete="off"
-          autoFocus={false}
           defaultValue={defaultValues.comments}
           {...register("comments")}
           className="w-full bg-transparent text-xs focus:outline-none"

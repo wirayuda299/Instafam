@@ -32,6 +32,7 @@ const nextConfig = {
       },
     ];
   },
+
   compress: true,
   reactStrictMode: true,
   images: {

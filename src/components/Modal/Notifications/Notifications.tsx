@@ -1,22 +1,22 @@
 import Empty from "@/components/Notifications/Empty";
 import NotificationUser from "@/components/Notifications/NotificationUser";
 import { db } from "@/config/firebase";
-import useUser from "@/hooks/useUser";
-import { useDarkModeStore, useNotificationModalStore } from "@/stores/stores";
+import { useStateContext } from "@/stores/StateContext";
+import { useDarkModeStore } from "@/stores/stores";
 import { IUser } from "@/types/user";
 import { onSnapshot, doc } from "firebase/firestore";
 import { useSession } from "next-auth/react";
-import { useEffect, useState } from "react";
+import { memo, useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import { AiOutlineArrowLeft } from "react-icons/ai";
 import { useStore } from "zustand";
 
-export default function NotificationsModal() {
+function NotificationsModal() {
   const { darkMode } = useStore(useDarkModeStore);
-  const { notificationModal, setNotificationModal } = useStore(useNotificationModalStore);
+  const { state: { notificationModal }, Dispatch } = useStateContext()
   const { data: session } = useSession()
-
   const [user, setUser] = useState<IUser | null>(null);
+  
   useEffect(() => {
     const unsub = onSnapshot(
       doc(db, "users", `${session?.user?.uid}`),
@@ -26,21 +26,32 @@ export default function NotificationsModal() {
         }
       }
     );
-    return () => unsub();
+    return () => {
+      unsub();
+      setUser(null);
+    }
   }, [db, notificationModal]);
 
   useEffect(() => {
     window.addEventListener("resize", () => {
-      setNotificationModal(false);
+      Dispatch({
+        type: 'TOGGLE_NOTIFICATION_MODAL',
+        payload: {
+          notificationModal: false
+        }
+      })
     });
     return () => {
       window.removeEventListener("resize", () => {
-        setNotificationModal(false);
+        Dispatch({
+          type: 'TOGGLE_NOTIFICATION_MODAL',
+          payload: {
+            notificationModal: false
+          }
+        })
       });
     };
   }, []);
-  console.log(user?.followers);
-  
 
   if (!notificationModal) return null;
 
@@ -62,7 +73,14 @@ export default function NotificationsModal() {
               name="back"
               title="back"
               className="text-left "
-              onClick={() => setNotificationModal(false)}
+              onClick={() => {
+                Dispatch({
+                  type:'TOGGLE_NOTIFICATION_MODAL',
+                  payload:{
+                    notificationModal:false
+                  }
+                })
+              }}
             >
               <AiOutlineArrowLeft size={25} />
             </button>
@@ -72,11 +90,11 @@ export default function NotificationsModal() {
           </div>
         </div>
         <div>
-         {user?.followers?.length === 0 && (
-          <div className="flex w-full h-screen place-content-center">
-            <Empty />
-          </div>
-         ) }
+          {user?.followers?.length === 0 && (
+            <div className="flex w-full h-screen place-content-center">
+              <Empty />
+            </div>
+          )}
           {user?.followers?.map((follower) => (
             <NotificationUser
               user={user}
@@ -91,3 +109,4 @@ export default function NotificationsModal() {
     document.getElementById("modal") as Element
   )
 }
+export default memo(NotificationsModal);

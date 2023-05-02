@@ -1,8 +1,4 @@
-import {
-  useChatRoomSelectedStore,
-  useDarkModeStore,
-  useMessageModalStore,
-} from "@/stores/stores";
+import { useDarkModeStore } from "@/stores/stores";
 import { IUser } from "@/types/user";
 import { useState } from "react";
 import { createPortal } from "react-dom";
@@ -13,13 +9,13 @@ import Image from "next/image";
 import { useSession } from "next-auth/react";
 import toast from "react-hot-toast";
 import { useRouter } from "next/router";
+import { useStateContext } from "@/stores/StateContext";
 
 export default function MessagesModal() {
-  const { messageModal, setMessageModal } = useStore(useMessageModalStore);
+  const { Dispatch, state: { messageModal, chatRoomSelected } } = useStateContext()
   const { handleSubmit, resetField, register } = useForm();
   const [result, setResult] = useState<IUser[] | undefined>([]);
   const { darkMode } = useStore(useDarkModeStore);
-  const { chatRoomSelected, setChatRoomSelected } = useStore(useChatRoomSelectedStore);
   const router = useRouter();
   const { data: session } = useSession();
 
@@ -72,7 +68,12 @@ export default function MessagesModal() {
           </div>
           <button
             onClick={async () => {
-              setMessageModal(false);
+              Dispatch({
+                type: 'TOGGLE_MESSAGE_MODAL',
+                payload: {
+                  messageModal: false
+                }
+              })
               setResult([]);
             }}
           >
@@ -105,13 +106,29 @@ export default function MessagesModal() {
           {result?.map((user) => (
             <div
               onClick={async () => {
-                setChatRoomSelected(user);
+                Dispatch({
+                  type: 'SET_CHAT_ROOM_SELECTED',
+                  payload: {
+                    chatRoomSelected: user
+                  }
+                })
                 const { startNewMessage } = await import('@/helper/startNewMessage')
-                await startNewMessage(session, chatRoomSelected).then(() => {
-                  setMessageModal(false);
-                  setChatRoomSelected(null);
-                  setResult([]);
-                });
+                await startNewMessage(session, chatRoomSelected)
+                  .then(() => {
+                    Dispatch({
+                      type: 'TOGGLE_MESSAGE_MODAL',
+                      payload: {
+                        messageModal: false
+                      }
+                    })
+                    Dispatch({
+                      type: 'SET_CHAT_ROOM_SELECTED',
+                      payload: {
+                        chatRoomSelected: null
+                      }
+                    })
+                    setResult([]);
+                  });
               }}
               key={user.uid}
               className={`relative flex items-center space-x-2  px-4 py-3 ${darkMode ? "bg-black text-white" : "bg-white text-black"

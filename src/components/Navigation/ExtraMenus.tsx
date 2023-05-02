@@ -1,21 +1,105 @@
 import { AiOutlineWarning } from "react-icons/ai";
 import { BsFillGearFill, BsMoonFill } from "react-icons/bs";
 import { RxCountdownTimer } from "react-icons/rx";
-import { useStore } from "zustand";
-import { useDarkModeStore, useExtraListStore } from "@/stores/stores";
 import { BiSun } from "react-icons/bi";
+import { useStateContext } from "@/stores/StateContext";
+import { useStore } from "zustand";
+import { useDarkModeStore } from "@/stores/stores";
 
 export default function ExtraMenus() {
-  const { extraList } = useStore(useExtraListStore);
-  const { setDarkMode, darkMode } = useStore(useDarkModeStore);
+  const { state: { isExtraListOpen } } = useStateContext()
+  const { darkMode, setDarkMode } = useStore(useDarkModeStore)
 
-  const extraLists = [
+  const changeTheme = () => {
+    localStorage.setItem('theme', darkMode ? 'light' : 'dark')
+    setDarkMode(!darkMode)
+  }
+
+  //   {
+  //     id: 1,
+  //     icon: (
+  //       <BsFillGearFill
+  //         className={`text-2xl ${darkMode  ? "text-white" : "text-black"}`}
+  //       />
+  //     ),
+  //     path: "/settings",
+  //     title: "Settings",
+  //     event: () => {
+  //       console.log("Settings");
+  //     },
+  //   },
+
+  //   {
+  //     id: 2,
+  //     icon: darkMode  ? (
+  //       <BiSun
+  //         className={`animate-rotateOnView text-2xl ${darkMode  ? "text-white" : "text-black"
+  //           }`}
+  //       />
+  //     ) : (
+  //       <BsMoonFill
+  //         className={`animate-rotateOnView text-2xl ${darkMode  ? "text-white" : "text-black"
+  //           }`}
+  //       />
+  //     ),
+  //     path: "/switch-appearance",
+  //     title: "Switch Appearance",
+  //     event: () => changeTheme()
+  //   },
+  //   {
+  //     id: 3,
+  //     icon: (
+  //       <RxCountdownTimer
+  //         className={`text-2xl ${darkMode ? "text-white" : "text-black"}`}
+  //       />
+  //     ),
+  //     path: "/activity",
+  //     title: "Activity",
+  //     event: () => {
+  //       console.log("Activity");
+  //     },
+  //   },
+  //   {
+  //     id: 4,
+  //     icon: (
+  //       <AiOutlineWarning
+  //         className={`text-2xl ${darkMode ? "text-white" : "text-black"}`}
+  //       />
+  //     ),
+  //     path: "/report",
+  //     title: "Report",
+  //     event: () => {
+  //       console.log("Report");
+  //     },
+  //   },
+  //   {
+  //     id: 5,
+  //     icon: "",
+  //     path: "/switch-account",
+  //     title: "Switch Account",
+  //     event: () => {
+  //       console.log("Switch Account");
+  //     },
+  //   },
+  //   {
+  //     id: 6,
+  //     icon: "",
+  //     path: "",
+  //     title: "Log Out",
+  //     event: async () => {
+  //       const { signOut } = await import("next-auth/react");
+  //       signOut({
+  //         callbackUrl: "/auth/signin",
+  //         redirect: true,
+  //       });
+  //     },
+  //   },
+  // ];
+  const ExtraMenusLists = [
     {
       id: 1,
       icon: (
-        <BsFillGearFill
-          className={`text-2xl ${darkMode ? "text-white" : "text-black"}`}
-        />
+        <BsFillGearFill />
       ),
       path: "/settings",
       title: "Settings",
@@ -23,53 +107,32 @@ export default function ExtraMenus() {
         console.log("Settings");
       },
     },
-
     {
       id: 2,
-      icon: darkMode ? (
-        <BiSun
-          className={`animate-rotateOnView text-2xl ${
-            darkMode ? "text-white" : "text-black"
-          }`}
-        />
-      ) : (
-        <BsMoonFill
-          className={`animate-rotateOnView text-2xl ${
-            darkMode ? "text-white" : "text-black"
-          }`}
-        />
-      ),
+      icon: darkMode ? <BiSun /> : <BsMoonFill />,
       path: "/switch-appearance",
       title: "Switch Appearance",
-      event: () => setDarkMode(!darkMode),
+      event: () => changeTheme()
     },
     {
       id: 3,
-      icon: (
-        <RxCountdownTimer
-          className={`text-2xl ${darkMode ? "text-white" : "text-black"}`}
-        />
-      ),
+      icon: <RxCountdownTimer />,
       path: "/activity",
       title: "Activity",
       event: () => {
         console.log("Activity");
       },
     },
-    {
+      {
       id: 4,
-      icon: (
-        <AiOutlineWarning
-          className={`text-2xl ${darkMode ? "text-white" : "text-black"}`}
-        />
-      ),
+      icon: <AiOutlineWarning />,
       path: "/report",
       title: "Report",
       event: () => {
         console.log("Report");
       },
     },
-    {
+       {
       id: 5,
       icon: "",
       path: "/switch-account",
@@ -78,7 +141,7 @@ export default function ExtraMenus() {
         console.log("Switch Account");
       },
     },
-    {
+       {
       id: 6,
       icon: "",
       path: "",
@@ -91,32 +154,28 @@ export default function ExtraMenus() {
         });
       },
     },
-  ];
 
+  ]
   return (
     <>
-      {extraList ? (
+      {isExtraListOpen ? (
         <div
-          className={` relative w-full flex-col justify-center space-y-1 lg:space-y-3  ${
-            extraList ? "flex animate-fadeIn" : "hidden animate-fadeOut"
-          }`}
+          className={` relative w-full flex-col justify-center space-y-1 lg:space-y-3  ${isExtraListOpen ? "flex animate-fadeIn" : "hidden animate-fadeOut"
+            }`}
         >
           <div
-            className={`md:bg-opacity-85  ${
-              darkMode ? "!bg-black text-white" : "!bg-white text-black"
-            }  -left-0 w-full rounded-md py-4 dark:bg-opacity-95  sm:w-44 md:-top-[330px] md:w-60 lg:-top-[300px]  ${
-              extraList ? " absolute  z-[999] block " : "hidden"
-            }`}
+            className={`md:bg-opacity-85  ${darkMode ? "!bg-black text-white" : "!bg-white text-black"
+              }  -left-0 w-full rounded-md py-4 dark:bg-opacity-95  sm:w-44 md:-top-[330px] md:w-60 lg:-top-[300px]  ${isExtraListOpen ? " absolute  z-[999] block " : "hidden"
+              }`}
           >
             <ul className="w-full px-2">
-              {extraLists.map((list) => (
+              {ExtraMenusLists.map((list) => (
                 <li
                   key={list.id}
-                  className={`ease w-fit truncate rounded-full  border-b  px-5 py-2 transition-all duration-300  hover:bg-[#a8a8a817] dark:border-b-0 dark:hover:bg-[#b9b9b917] md:w-full md:py-3 ${
-                    darkMode
-                      ? "border-none text-white hover:bg-[#b9b9b917]"
-                      : "hover:bg-gray-200"
-                  } `}
+                  className={`ease w-fit truncate rounded-full  border-b  px-5 py-2 transition-all duration-300   dark:border-b-0  md:w-full md:py-3 ${darkMode
+                    ? "border-none text-white hover:bg-[#b9b9b917]"
+                    : "hover:bg-gray-200"
+                    } ${darkMode ? "text-white bg-black" : "bg-white text-black"}`}
                   title={list.title}
                   onClick={list.event}
                 >
@@ -129,7 +188,7 @@ export default function ExtraMenus() {
                     <span className="text-sm font-semibold md:text-base md:font-medium">
                       {list.title}
                     </span>
-                    <span>{list.icon}</span>
+                    <span  className={`text-2xl ${darkMode  ? "text-white" : "text-black"}`}>{list.icon}</span>
                   </button>
                 </li>
               ))}

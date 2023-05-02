@@ -1,9 +1,12 @@
 import { IUserPostProps } from "@/types/post";
-import type { ReactNode } from "react";
+import { useEffect, type ReactNode } from "react";
 import dynamic from "next/dynamic";
 import { useSession } from "next-auth/react";
 import { useStore } from "zustand";
 import { useDarkModeStore } from "@/stores/stores";
+import { useStateContext } from "@/stores/StateContext";
+import { largeScreenClickEvent } from "@/utils/largeScreenClickEvent";
+import { mobileClickEvents } from "@/utils/mobileScreenClickEvent";
 const Likes = dynamic(() => import("./Likes"));
 const CommentsForm = dynamic(() => import("@/components/Comments/Forms"));
 const ActionButton = dynamic(() => import("@/components/Post/ActionButton"));
@@ -19,9 +22,6 @@ type Props = {
   comments: CommentsProps["comments"];
   likes: string[];
   savedBy: string[];
-  setSelectedPost: (post: IUserPostProps | null) => void;
-  setPostCommentModal: (postCommentModal: boolean) => void;
-  setPostPreviewModal: (postPreviewModal: boolean) => void;
 };
 
 export default function PostDetailComment(props: Props) {
@@ -31,25 +31,37 @@ export default function PostDetailComment(props: Props) {
     comments,
     likes,
     savedBy,
-    setSelectedPost,
-    setPostCommentModal,
-    setPostPreviewModal,
   } = props;
   const { data: session } = useSession();
-  const { darkMode } = useStore(useDarkModeStore);
+  const { Dispatch } = useStateContext()
+  const { darkMode } = useStore(useDarkModeStore)
+  
+  const closeOnresize = () => {
+    Dispatch({
+      type: 'TOGGLE_POST_PREVIEW_MODAL',
+      payload: {
+        postPreviewModal: false
+      }
+    })
+    Dispatch({
+      type: 'SELECT_POST',
+      payload: {
+        post: null
+      }
+    })
+  }
+  useEffect(() => {
+    window.addEventListener("resize", () => {
+      closeOnresize()
+    });
+    return () => {
+      window.removeEventListener("resize", () => {
+        closeOnresize()
+      });
+    };
+  }, [])
 
 
-  const clickLgScreen = () => {
-    setPostPreviewModal(true);
-    setPostCommentModal(false);
-    setSelectedPost(post);
-  };
-
-  const clickMobileScreen = () => {
-    setSelectedPost(post);
-    setPostCommentModal(true);
-    setPostPreviewModal(false);
-  };
 
   return (
     <div
@@ -71,8 +83,8 @@ export default function PostDetailComment(props: Props) {
             }`}
         >
           <ActionButton
-            clickLgScreen={clickLgScreen}
-            clickMobileScreen={clickMobileScreen}
+            clickLgScreen={() => largeScreenClickEvent(Dispatch, post)}
+            clickMobileScreen={() => mobileClickEvents(Dispatch, post)}
             likes={likes}
             post={post ?? []}
             savedBy={savedBy}

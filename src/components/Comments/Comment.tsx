@@ -1,4 +1,4 @@
-import { getCreatedDate } from "@/util/postDate";
+import { getCreatedDate } from "@/utils/postDate";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -16,7 +16,7 @@ export default function Comment({ comments }: Props) {
   return (
     <>
       {comments?.map((comment) => (
-        <div className="mb-5 flex w-full space-x-10 " key={comment?.createdAt}>
+        <div className="mb-5 flex w-full space-x-10  " key={comment?.createdAt}>
           <div className="flex items-center space-x-2 px-2 py-2 ">
             <Image
               src={comment?.commentByPhoto}

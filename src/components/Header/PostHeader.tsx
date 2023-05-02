@@ -3,16 +3,16 @@ import { IUserPostProps } from "@/types/post";
 import { useStore } from "zustand";
 import { useDarkModeStore } from "@/stores/stores";
 import CreatedTime from "@/components/Post/CreatedTime";
+import { memo } from "react";
 
 type Props = {
   post: IUserPostProps;
   children?: React.ReactNode;
 };
 
-export default function Postheader({ post, children }: Props) {
+ function Postheader({ post, children }: Props) {
   const { darkMode } = useStore(useDarkModeStore);
- 
-
+  
   return (
     <header
       className={`relative flex h-fit items-center py-3 ${darkMode ? "bg-black text-white" : "bg-white text-black"
@@ -36,3 +36,4 @@ export default function Postheader({ post, children }: Props) {
     </header>
   );
 }
+export default memo(Postheader)

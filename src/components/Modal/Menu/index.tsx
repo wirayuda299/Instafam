@@ -1,67 +1,58 @@
 import useUser from "@/hooks/useUser";
-import {
-  useDarkModeStore,
-  useMenuModalStore,
-  usePostModalStore,
-  useReportModalStore,
-  useSelectedPostStore,
-} from "@/stores/stores";
+import { useDarkModeStore } from "@/stores/stores";
 import { IUserPostProps } from "@/types/post";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import { useStore } from "zustand";
 import Lists from "./Lists";
 import { createPortal } from "react-dom";
-import toast from "react-hot-toast";
+import { memo, useEffect } from "react";
+import { useStateContext } from "@/stores/StateContext";
 
-export default function Menu() {
-  const { setReportModal } = useStore(useReportModalStore);
-  const { selectedPost } = useStore(useSelectedPostStore);
-  const { setMenuModal } = useStore(useMenuModalStore);
+function Menu() {
+  const { state: { selectedPost } } = useStateContext();
   const { replace, asPath } = useRouter();
   const refreshData = () => replace(asPath);
-  const { setPostModal } = useStore(usePostModalStore);
-  const { menuModal } = useStore(useMenuModalStore);
+  const { state: { menuModal }, Dispatch } = useStateContext();
   const { darkMode } = useStore(useDarkModeStore);
   const { data: session } = useSession();
   const { user } = useUser(session?.user?.uid as string);
 
-  const handleCLose = () => {
-    setMenuModal(false);
-    setPostModal(false);
-  };
   const openReportModal = () => {
-    setReportModal(true);
-    setMenuModal(false);
+    Dispatch({
+      type: 'TOGGLE_POST_REPORT_MODAL',
+      payload: {
+        postReportModal: true
+      }
+    })
+    Dispatch({
+      type: 'TOGGLE_MENU_MODAL',
+      payload: {
+        menuModal: false
+      }
+    })
   };
-
-  const postActions = async () => {
-    if (selectedPost?.postedById === session?.user.uid) {
-      const { deletePost } = await import("@/helper/deletePost");
-      const deletePostsArgs = {
-        post: selectedPost,
-        refreshData,
-        session,
-      };
-      deletePost(deletePostsArgs)
-        .then(() => {
-          setMenuModal(false);
-          refreshData()
-          toast.success("Post deleted successfully.");
-        });
-    } else {
-      const { handleFollow } = await import("@/helper/follow");
-      const followArgs = {
-        id: selectedPost?.postedById as string,
-        uid: session?.user.uid as string,
-        followedByName: session?.user.username as string,
-        followedDate: Date.now(),
-        followedImage: session?.user.image as string,
-      };
-      await handleFollow(followArgs)
-    }
-
+ 
+  const closeMenuModal = () => {
+    Dispatch({
+      type: 'TOGGLE_MENU_MODAL',
+      payload: {
+        menuModal: false
+      }
+    })
   }
+  useEffect(() => {
+    window.addEventListener("resize", () => {
+      closeMenuModal()
+    });
+    return () => {
+      window.removeEventListener("resize", () => {
+        closeMenuModal()
+      });
+    };
+  }, [])
+  
+
 
   const buttonLists = [
     {
@@ -75,31 +66,34 @@ export default function Menu() {
         selectedPost?.postedById === session?.user.uid
           ? "Delete"
           : user?.following.find((user) => user.userId === selectedPost?.postedById) ? "UnFollow" : "Follow",
-      event: async () => postActions(),
+      event: async () => {
+        const { postActions } = await import("@/helper/postActions")
+        await postActions(selectedPost as IUserPostProps, session, refreshData, closeMenuModal)
+      },
     },
     {
       id: 3,
       name: "Copy Link",
       event: async () => {
-        const { copyLink } = await import("@/util/copyLink");
+        const { copyLink } = await import("@/utils/copyLink");
         copyLink(`${process.env.NEXTAUTH_URL}/post/${selectedPost?.postId}`);
-        setMenuModal(false);
+        closeMenuModal()
       },
     },
     {
       id: 4,
       name: "Go to post",
       event: () => {
-        handleCLose();
+        closeMenuModal()
         replace(`/post/${selectedPost?.postId}`);
-      },
+      }
     },
 
     {
       id: 5,
       name: "Share to",
       event: async () => {
-        const { share } = await import("@/util/share");
+        const { share } = await import("@/utils/share");
         share(
           selectedPost as IUserPostProps,
           `${process.env.NEXTAUTH_URL}/post/${selectedPost?.postId}`
@@ -109,7 +103,14 @@ export default function Menu() {
     {
       id: 6,
       name: "Cancel",
-      event: handleCLose,
+      event: () => {
+        Dispatch({
+          type: 'TOGGLE_MENU_MODAL',
+          payload: {
+            menuModal: false
+          }
+        })
+      }
     },
   ];
   if (!menuModal) return null;
@@ -131,8 +132,8 @@ export default function Menu() {
               buttonLists={buttonLists}
               darkMode={darkMode}
               selectedPost={selectedPost}
+              closeMenuModal={closeMenuModal}
               session={session}
-              setMenuModal={setMenuModal}
             />
           </ul>
         </div>
@@ -141,3 +142,4 @@ export default function Menu() {
     document.getElementById("modal") as Element
   );
 }
+export default memo(Menu);

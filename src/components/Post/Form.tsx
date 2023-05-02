@@ -16,9 +16,8 @@ export default function PostForm(props: Props) {
     <form className="flex w-full p-3" onSubmit={handleSubmit(updatePost)}>
       <input
         type="text"
-        className={`w-full rounded-lg bg-[#a8a8a817] px-3 py-2 ${
-          darkMode ? "text-white" : "text-black"
-        }`}
+        className={`w-full rounded-lg bg-[#a8a8a817] px-3 py-2 ${!darkMode ? "text-black" : "text-white"
+          }`}
         placeholder="Edit post"
         spellCheck="false"
         role="search"
@@ -26,7 +25,8 @@ export default function PostForm(props: Props) {
         {...register("updated", { required: true })}
       />
       <button
-        className={`p-2 ${darkMode ? " text-white" : " text-black"}`}
+        className={`p-2 ${!darkMode ? "text-black" : "text-white"
+          }`}
         type="submit"
         name="update"
         title="update"
