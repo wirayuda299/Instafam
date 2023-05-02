@@ -6,7 +6,7 @@ import { useRouter } from "next/router";
 import { useStore } from "zustand";
 import Lists from "./Lists";
 import { createPortal } from "react-dom";
-import { memo, useEffect } from "react";
+import { memo } from "react";
 import { useStateContext } from "@/stores/StateContext";
 
 function Menu() {
@@ -41,19 +41,7 @@ function Menu() {
       }
     })
   }
-  useEffect(() => {
-    window.addEventListener("resize", () => {
-      closeMenuModal()
-    });
-    return () => {
-      window.removeEventListener("resize", () => {
-        closeMenuModal()
-      });
-    };
-  }, [])
-  
-
-
+ 
   const buttonLists = [
     {
       id: 1,

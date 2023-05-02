@@ -3,12 +3,13 @@ import dynamic from "next/dynamic";
 import { Dispatch, SetStateAction } from "react";
 import { useDarkModeStore } from "@/stores/stores";
 import { useStore } from "zustand";
+import type { Session } from "next-auth";
 const TextArea = dynamic(() => import("./TextArea"));
 
 interface Props {
   handlePost: () => Promise<void>;
   loading: boolean;
-  session: any;
+  session: Session | null;
   img: string;
   setCaptions: Dispatch<SetStateAction<string>>;
   captions: string;

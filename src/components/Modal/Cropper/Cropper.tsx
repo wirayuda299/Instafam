@@ -1,6 +1,4 @@
-import {
-  useDarkModeStore,
-} from "@/stores/stores";
+import { useDarkModeStore} from "@/stores/stores";
 import { useState } from "react";
 import { createPortal } from "react-dom";
 import { AiOutlineClose } from "react-icons/ai";

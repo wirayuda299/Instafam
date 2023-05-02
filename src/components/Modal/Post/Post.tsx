@@ -28,7 +28,6 @@ export default function PostModal() {
   const { pathname, query } = useRouter();
   const { data: session } = useSession()
 
-
   useEffect(() => {
     setReqParams(session?.user.username === query.username ? session?.user.uid : query.username);
 
@@ -54,43 +53,6 @@ export default function PostModal() {
     }
   }, [selectedPost, postModal, pathname]);
 
-  useEffect(() => {
-    window.addEventListener("resize", () => {
-      if (window.innerWidth >= 768) {
-        Dispatch({
-          type: "TOGGLE_POST_MODAL",
-          payload: {
-            postModal: false
-          }
-        })
-        Dispatch({
-          type: "SELECT_POST",
-          payload: {
-            post: null
-          }
-        })
-      }
-    });
-
-    return () => {
-      window.removeEventListener("resize", () => {
-        if (window.innerWidth >= 768) {
-          Dispatch({
-            type: "TOGGLE_POST_MODAL",
-            payload: {
-              postModal: false
-            }
-          })
-          Dispatch({
-            type: "SELECT_POST",
-            payload: {
-              post: null
-            }
-          })
-        }
-      });
-    };
-  }, []);
 
   if (!selectedPost && !postModal) return null;
 

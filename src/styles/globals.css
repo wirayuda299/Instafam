@@ -6,7 +6,6 @@
     font-size: 16px !important;
   }
 }
-
 body {
   overflow: hidden !important;
   font-size: 16px !important;
@@ -16,12 +15,6 @@ body {
   content: "";
   padding-bottom: 100%;
 }
-.croppedImg {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
 #nprogress .bar {
   background: linear-gradient(90deg, #db2777 0%, #ea580c 100%) !important;
   height: 4px !important;

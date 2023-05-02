@@ -5,7 +5,6 @@ import {
 } from "@/stores/stores";
 import { useStore } from "zustand";
 import { FieldValues, useForm } from "react-hook-form";
-import toast from "react-hot-toast";
 import { IUser } from "@/types/user";
 import { getCsrfToken, useSession } from "next-auth/react";
 import { useRouter } from "next/router";
@@ -50,6 +49,7 @@ export default function Form({ height, children }: Props) {
   };
 
   const searchUser = async (data: FieldValues) => {
+    const { toast } = await import("react-hot-toast");
     try {
       if (data.search === '') {
         toast.error("Please enter a username or name of user");

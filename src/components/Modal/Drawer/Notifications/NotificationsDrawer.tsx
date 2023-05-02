@@ -1,17 +1,23 @@
-import Empty from "@/components/Notifications/Empty";
-import NotificationUser from "@/components/Notifications/NotificationUser";
 import { db } from "@/config/firebase";
 import { useStateContext } from "@/stores/StateContext";
 import { useDarkModeStore } from "@/stores/stores";
 import { IUser } from "@/types/user";
 import { onSnapshot, doc } from "firebase/firestore";
 import { useSession } from "next-auth/react";
+import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
 import { useStore } from "zustand";
+const Empty = dynamic(() => import("@/components/Notifications/Empty"), {
+  ssr: false,
+})
+
+const NotificationUser = dynamic(() => import("@/components/Notifications/NotificationUser"), {
+  ssr: false,
+});
 
 export default function NotificationsDrawer() {
   const { darkMode } = useStore(useDarkModeStore);
-  const { state: { notificationDrawer }, Dispatch } = useStateContext()
+  const { state: { notificationDrawer } } = useStateContext()
   const { data: session } = useSession()
   const [user, setUser] = useState<IUser | null>(null);
 
@@ -24,31 +30,11 @@ export default function NotificationsDrawer() {
         }
       }
     );
-    return () => unsub();
-  }, [db, notificationDrawer]);
-
-
-  useEffect(() => {
-    window.addEventListener("resize", () => {
-      Dispatch({
-        type: 'TOGGLE_NOTIFICATION_DRAWER',
-        payload: {
-          notificationDrawer: false
-        }
-      })
-    });
     return () => {
-      window.removeEventListener("resize", () => {
-        Dispatch({
-          type: 'TOGGLE_NOTIFICATION_DRAWER',
-          payload: {
-            notificationDrawer: false
-          }
-        })
-      });
-    };
-  }, []);
-
+      unsub();
+      setUser(null);
+    }
+  }, [db, notificationDrawer]);
 
   return (
     <>

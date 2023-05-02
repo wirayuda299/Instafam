@@ -33,6 +33,7 @@ export default function Feeds({ post, index }: Props) {
     >
       <PostImage
         post={post}
+        priority={true}
         classNames={` h-full w-full object-cover object-center xs:object-top ${index % 2 === 0 ? "aspect-video md:aspect-square" : "aspect-square "
           }`} />
       <div className="hidden md:block">

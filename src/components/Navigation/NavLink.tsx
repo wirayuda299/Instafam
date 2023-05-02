@@ -124,22 +124,26 @@ export default function NavLink(props: Props) {
       ),
     },
   ];
+  const navItemProps = {
+    openCreateModal,
+    handleNotificationDrawer,
+    handleSearchDrawer,
+    notificationDrawer,
+    darkMode,
+    pathname,
+    toggler: handleClick,
+    drawer
+
+  }
 
   return (
     <ul className="flex w-full items-center justify-around md:justify-around md:px-0 md:flex-col  md:space-y-2 lg:space-y-4">
       {navList.map((list) => (
         <NavItem
-        openCreateModal={openCreateModal}
-          handleNotificationDrawer={handleNotificationDrawer}
-          handleSearchDrawer={handleSearchDrawer}
-          notificationDrawer={notificationDrawer}
+          {...navItemProps}
           key={list.id}
-          darkMode={darkMode}
           list={list}
           path={list.path}
-          pathname={pathname}
-          toggler={handleClick}
-          drawer={drawer}
         />
       ))}
     </ul>

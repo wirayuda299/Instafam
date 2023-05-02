@@ -1,3 +1,5 @@
+import useWindowResize from "@/hooks/useWindowResize";
+import { useStateContext } from "@/stores/StateContext";
 import { useDarkModeStore } from "@/stores/stores";
 import dynamic from "next/dynamic";
 import { useEffect } from "react";
@@ -32,17 +34,21 @@ const ImageCropperModal = dynamic(() => import("@/components/Modal/Cropper/Cropp
 );
 
 export default function Layout({ children }: { children: any }) {
-  const {darkMode, setDarkMode} = useStore(useDarkModeStore)
+  const { darkMode, setDarkMode } = useStore(useDarkModeStore)
+  const { Dispatch } = useStateContext()
+  
+  useWindowResize(Dispatch)
+
   useEffect(() => {
     const theme = localStorage.getItem('theme')
-    if(theme !== null) {
-      if(theme === 'dark') {
+    if (theme !== null) {
+      if (theme === 'dark') {
         setDarkMode(true)
       } else {
         setDarkMode(false)
       }
     }
-  },[darkMode])
+  }, [darkMode])
 
   return (
     <div className={`w-full h-screen ${darkMode ? 'bg-black text-white' : 'bg-white text-black'}`}>

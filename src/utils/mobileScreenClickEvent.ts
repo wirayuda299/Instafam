@@ -16,10 +16,4 @@ export const mobileClickEvents: MobileClickEventsType = (Dispatch, post) => {
       postCommentModal: true
     }
   })
-  Dispatch({
-    type: 'TOGGLE_POST_PREVIEW_MODAL',
-    payload: {
-      postPreviewModal: false
-    }
-  })
 }

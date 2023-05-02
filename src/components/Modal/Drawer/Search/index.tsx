@@ -1,5 +1,5 @@
 import { AiOutlineSearch } from "react-icons/ai";
-import { memo, useEffect } from "react";
+import { memo } from "react";
 import { useDarkModeStore } from "@/stores/stores";
 import { useStore } from "zustand";
 import dynamic from "next/dynamic";
@@ -7,29 +7,8 @@ import { useStateContext } from "@/stores/StateContext";
 const Form = dynamic(() => import("./Form"), { ssr: false });
 
 function SearchDrawer() {
-  const { state: { isSearchDrawerOpen }, Dispatch } = useStateContext();
+  const { state: { isSearchDrawerOpen } } = useStateContext();
   const { darkMode } = useStore(useDarkModeStore);
-
-  useEffect(() => {
-    window.addEventListener("resize", () => {
-      Dispatch({
-        type: 'TOGGLE_SEARCH_DRAWER',
-        payload: {
-          searchDrawer: false
-        }
-      });
-    });
-    return () => {
-      window.removeEventListener("resize", () => {
-        Dispatch({
-          type: 'TOGGLE_SEARCH_DRAWER',
-          payload: {
-            searchDrawer: false
-          }
-        });
-      });
-    };
-  }, []);
 
   return (
     <>

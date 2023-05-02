@@ -22,7 +22,7 @@ const PreviewLargeScreen = dynamic(
 
 export default function PostDetail({ post }: { post: IUserPostProps }) {
   const { likes, comments, savedBy } = usePost(post);
-  const { Dispatch, state:{menuModal} } = useStateContext();
+  const { Dispatch, state: { menuModal } } = useStateContext();
   const [loading, setLoading] = useState(true);
   const ref = useRef<HTMLDivElement>(null);
   const [nextPosts, setNextPosts] = useState<IUserPostProps[] | null>(null);

@@ -37,7 +37,7 @@ export default function PostPreview() {
                 className={`relative grid h-full w-full grid-cols-1 justify-between  rounded-xl p-5 shadow-2xl  lg:max-h-[500px] lg:grid-cols-2 lg:p-0 ${darkMode ? "bg-black" : "bg-white"
                   } `}
               >
-                <PostImage post={selectedPost as IUserPostProps} />
+                <PostImage priority={true} post={selectedPost as IUserPostProps} />
                 <PostCommentDesktop
                   post={selectedPost as IUserPostProps}
                   comments={comments}

@@ -7,7 +7,6 @@ import { AiOutlineClose } from "react-icons/ai";
 import { useStore } from "zustand";
 import Image from "next/image";
 import { useSession } from "next-auth/react";
-import toast from "react-hot-toast";
 import { useRouter } from "next/router";
 import { useStateContext } from "@/stores/StateContext";
 
@@ -20,6 +19,7 @@ export default function MessagesModal() {
   const { data: session } = useSession();
 
   const searchUser = async (data: FieldValues) => {
+    const { toast } = await import("react-hot-toast");
     try {
       if (data.search === '') {
         toast.error("Please enter a username or name of user");

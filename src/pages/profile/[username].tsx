@@ -3,14 +3,12 @@ import Head from "next/head";
 import { IUserPostProps } from "@/types/post";
 import { IUser } from "@/types/user";
 import { useRouter } from "next/router";
-import useAuth from "@/hooks/useAuth";
 import { GetServerSidePropsContext } from "next";
 import { memo, useMemo, useState, useTransition } from "react";
 import type { Session } from "next-auth";
 import { useStateContext } from "@/stores/StateContext";
-const Statistic = dynamic(
-  () => import("@/components/User/Statistic/Statistic"),
-  {
+import { useSession } from "next-auth/react";
+const Statistic = dynamic(() => import("@/components/User/Statistic/Statistic"),{
     ssr: true,
   }
 );
@@ -35,16 +33,14 @@ type Props = {
 function UserProfile({ posts, user, query, savedPosts, reccomendations }: Props) {
   const [postTab, setPostTab] = useState(true);
   const [savedPostTab, setSavedPosts] = useState(false);
-  const { session } = useAuth();
+  const { data:session } = useSession();
   const { replace, asPath } = useRouter();
   const [activeTab, setActiveTab] = useState<number>(1);
   const [, startTransition] = useTransition();
   const { Dispatch } = useStateContext();
 
 
-  const refreshData = () => {
-    replace(asPath);
-  };
+  const refreshData = () => replace(asPath);
 
   const handleTabClick = (tabId: number) => {
     startTransition(() => {
@@ -137,12 +133,14 @@ function UserProfile({ posts, user, query, savedPosts, reccomendations }: Props)
                   ) : (
                     posts?.map((post, i) => (
                       <>
-
                         <div key={post.postId} onClick={async () => {
                           const { largeScreenClickEvent } = await import('@/utils/largeScreenClickEvent')
                           largeScreenClickEvent(Dispatch, post)
                         }} className="cursor-pointer hidden md:block">
-                          <PostImage post={post} />
+                          <PostImage
+                            post={post}
+                            loading="lazy"
+                            classNames="post h-full w-full rounded-lg object-cover" />
                         </div>
                         <div
                           onClick={() => {
@@ -162,6 +160,7 @@ function UserProfile({ posts, user, query, savedPosts, reccomendations }: Props)
                         >
                           <PostImage
                             post={post}
+                            loading="lazy"
                             classNames={`h-full w-full  object-cover `} />
                         </div>
                       </>
@@ -184,7 +183,10 @@ function UserProfile({ posts, user, query, savedPosts, reccomendations }: Props)
 
                     {savedPosts?.map((post) => (
                       <div key={post.postId} className="group relative">
-                        <PostImage post={post} classNames="w-full h-full object-cover rounded-lg" />
+                        <PostImage
+                          priority={true}
+                          post={post}
+                          classNames="w-full h-full object-cover rounded-lg" />
                         <PostInfo post={post} />
                       </div>
                     ))}

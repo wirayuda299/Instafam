@@ -17,7 +17,7 @@ const Comments = dynamic(() => import("../Comments/Forms"));
 const PostImage = dynamic(() => import("./Image"), { ssr: true });
 
 
-function PostCard({ post }: { post: IUserPostProps}) {
+function PostCard({ post }: { post: IUserPostProps }) {
   const { likes, comments, savedBy } = usePost(post);
   const { data: session } = useSession();
   const { Dispatch } = useStateContext();
@@ -52,7 +52,10 @@ function PostCard({ post }: { post: IUserPostProps}) {
             <BsThreeDots className="text-gray-500" size={20} />
           </button>
         </PostHeader>
-        <PostImage post={post} classNames="post h-auto w-full rounded-lg object-cover" />
+        <PostImage
+          priority={true}
+          post={post}
+          classNames="post h-auto w-full rounded-lg object-cover" />
         <ActionButton
           savedBy={savedBy}
           likes={likes}

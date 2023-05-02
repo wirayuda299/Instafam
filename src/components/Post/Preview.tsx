@@ -1,5 +1,5 @@
 import { IUserPostProps } from "@/types/post";
-import { useEffect, type ReactNode } from "react";
+import type { ReactNode } from "react";
 import dynamic from "next/dynamic";
 import { useSession } from "next-auth/react";
 import { useStore } from "zustand";
@@ -36,32 +36,6 @@ export default function PostDetailComment(props: Props) {
   const { Dispatch } = useStateContext()
   const { darkMode } = useStore(useDarkModeStore)
   
-  const closeOnresize = () => {
-    Dispatch({
-      type: 'TOGGLE_POST_PREVIEW_MODAL',
-      payload: {
-        postPreviewModal: false
-      }
-    })
-    Dispatch({
-      type: 'SELECT_POST',
-      payload: {
-        post: null
-      }
-    })
-  }
-  useEffect(() => {
-    window.addEventListener("resize", () => {
-      closeOnresize()
-    });
-    return () => {
-      window.removeEventListener("resize", () => {
-        closeOnresize()
-      });
-    };
-  }, [])
-
-
 
   return (
     <div

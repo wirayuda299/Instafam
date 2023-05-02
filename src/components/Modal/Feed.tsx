@@ -89,7 +89,9 @@ export default function Feed() {
                   title={`/post/${selectedPost?.postId}`}
                   name={`/post/${selectedPost?.postId}`}
                 >
-                  <PostImage post={selectedPost as IUserPostProps} />
+                  <PostImage
+                    priority={true}
+                    post={selectedPost as IUserPostProps} />
                 </button>
               </div>
             </div>

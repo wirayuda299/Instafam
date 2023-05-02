@@ -13,12 +13,6 @@ export const largeScreenClickEvent: LargeScreenClickEvent = (Dispatch, post) => 
     }
   })
   Dispatch({
-    type: 'TOGGLE_POST_COMMENT_MODAL',
-    payload: {
-      postCommentModal: false
-    }
-  })
-  Dispatch({
     type: "SELECT_POST", payload: {
       post
     }

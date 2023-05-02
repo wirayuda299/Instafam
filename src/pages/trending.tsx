@@ -53,12 +53,13 @@ export default function Trending({ posts }: Props) {
                   payload: {
                     feedModal: true,
                   }
-               })
+                })
               }}
             >
               <PostImage
                 post={post}
-                classNames="h-full w-full object-cover rounded-md"
+                loading='lazy'
+                classNames="post h-full w-full rounded-lg object-cover"
               />
               <PostInfo post={post} />
             </button>
@@ -75,12 +76,13 @@ export default function Trending({ posts }: Props) {
                   payload: {
                     postModal: true,
                   }
-               })
+                })
               }}
               className={`block w-full cursor-pointer md:hidden md:pointer-events-none`}
             >
               <PostImage
                 post={post}
+                loading='lazy'
                 classNames={`h-full w-full border border-gray-400 border-opacity-40 object-cover `} />
             </div>
           </div>

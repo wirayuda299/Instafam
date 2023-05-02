@@ -32,27 +32,7 @@ function NotificationsModal() {
     }
   }, [db, notificationModal]);
 
-  useEffect(() => {
-    window.addEventListener("resize", () => {
-      Dispatch({
-        type: 'TOGGLE_NOTIFICATION_MODAL',
-        payload: {
-          notificationModal: false
-        }
-      })
-    });
-    return () => {
-      window.removeEventListener("resize", () => {
-        Dispatch({
-          type: 'TOGGLE_NOTIFICATION_MODAL',
-          payload: {
-            notificationModal: false
-          }
-        })
-      });
-    };
-  }, []);
-
+  
   if (!notificationModal) return null;
 
 

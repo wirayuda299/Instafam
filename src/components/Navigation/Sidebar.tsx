@@ -3,7 +3,6 @@ import { useSession } from "next-auth/react";
 import { useDarkModeStore } from "@/stores/stores";
 import { useStore } from "zustand";
 import { useRouter } from "next/router";
-import { useEffect } from "react";
 import { useStateContext } from "@/stores/StateContext";
 const ExtraMenus = dynamic(() => import("./ExtraMenus"));
 const NavLink = dynamic(() => import("./NavLink"));
@@ -15,24 +14,7 @@ export default function Sidebar() {
   const { state: { isExtraListOpen, isSearchDrawerOpen, notificationDrawer }, Dispatch } = useStateContext();
   const { pathname } = useRouter();
   const { darkMode } = useStore(useDarkModeStore);
-  const closeExtraList = () => {
-    Dispatch({
-      type: "TOGGLE_EXTRA_LIST", payload: {
-        extraList: false
-      }
-    });
-  }
-
-  useEffect(() => {
-    window.addEventListener("resize", () => {
-      closeExtraList()
-    });
-    return () => {
-      window.removeEventListener("resize", () => {
-        closeExtraList()
-      });
-    };
-  }, []);
+  
   if (!session) return null;
 
 
@@ -115,7 +97,7 @@ export default function Sidebar() {
     <aside
       className={`
          ease fixed bottom-0 left-0 z-50 flex h-14 w-full items-center transition-width duration-300 md:static md:z-10 md:h-screen md:w-fit md:border-r md:border-opacity-50   ${isSearchDrawerOpen || notificationDrawer ? "!w-20" : " lg:w-64 " 
-        } ${darkMode ?' bg-black text-white border-t border-gray-400 border-opacity-40' : 'bg-white text-black'}`}
+        } ${darkMode ?' bg-black text-white border-t md:border-t-0 border-gray-400 border-opacity-40' : 'bg-white text-black'}`}
     >
       <nav className=" flex w-full flex-col justify-between p-1 md:h-full md:p-3 lg:justify-between">
         <NavHeader />

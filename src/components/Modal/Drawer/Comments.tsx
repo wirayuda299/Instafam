@@ -6,13 +6,13 @@ import usePost from "@/hooks/usePost";
 import dynamic from "next/dynamic";
 import { createPortal } from "react-dom";
 import { IUserPostProps } from "@/types/post";
+import { useId } from "react";
+import { useStateContext } from "@/stores/StateContext";
 const CommentsForm = dynamic(() => import("../../Comments/Forms"));
 const Postheader = dynamic(() => import("@/components/Header/PostHeader"));
 const Comment = dynamic(() => import("@/components/Comments/Comment"));
 const EmptyComment = dynamic(() => import("@/components/Comments/Empty"));
 
-import { useEffect, useId } from "react";
-import { useStateContext } from "@/stores/StateContext";
 
 export default function PostComment() {
 
@@ -22,33 +22,7 @@ export default function PostComment() {
   const { comments } = usePost(selectedPost);
   const id = useId();
 
-  const closeCommentDrawer = () => {
-    Dispatch({
-      type: 'TOGGLE_POST_COMMENT_MODAL',
-      payload: {
-        postCommentModal: false,
-      }
-    })
-    Dispatch({
-      type: 'SELECT_POST',
-      payload: {
-        post: null
-      }
-    })
-  }
 
-  useEffect(() => {
-    window.addEventListener('resize', () => {
-      closeCommentDrawer()
-    })
-    return () => {
-      window.removeEventListener('resize', () => {
-        closeCommentDrawer()
-      })
-    }
-    
-  }, [])
-  
   if (!session) return null;
 
   if (!postCommentModal) return null;
