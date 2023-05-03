@@ -1,5 +1,6 @@
 import { IUserPostProps } from "./post";
 import { IUser } from "./user";
+import { DataMessage } from "@/types/DataMessage";
 export type State = {
   selectedPost: IUserPostProps | null;
   isExtraListOpen: boolean;
@@ -22,4 +23,5 @@ export type State = {
   messageModal: boolean;
   chatRoomSelected: IUser | null;
   selectedActivity: string;
+  selectedChat: DataMessage | null;
 };

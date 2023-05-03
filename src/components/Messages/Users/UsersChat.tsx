@@ -7,11 +7,10 @@ import { useStore } from "zustand";
 
 type Props = {
   receiver: DataMessage[];
-  selectUser: (user: DataMessage) => void;
   sender: DataMessage[];
 };
 
-export default function UsersChat({ receiver, selectUser, sender }: Props) {
+export default function UsersChat({ receiver, sender }: Props) {
   const { darkMode } = useStore(useDarkModeStore);
   const { data: session } = useSession();
   const receiverId = receiver.map((item) => item.id);
@@ -24,7 +23,13 @@ export default function UsersChat({ receiver, selectUser, sender }: Props) {
   if (messagesReceiver.length === 0 && messagesSender.length === 0) return null;
 
   const handleClick = (user: DataMessage | null) => {
-    user && selectUser(user);
+    user &&
+      Dispatch({
+        type: "SET_SELECTED_CHAT",
+        payload: {
+          selectedChat: user,
+        },
+      });
     Dispatch({
       type: "TOGGLE_RECEIVER_DRAWER",
       payload: {
@@ -71,7 +76,14 @@ export default function UsersChat({ receiver, selectUser, sender }: Props) {
           <>
             <div
               key={receive.id}
-              onClick={() => selectUser(receive)}
+              onClick={() => {
+                Dispatch({
+                  type: "SET_SELECTED_CHAT",
+                  payload: {
+                    selectedChat: receive,
+                  },
+                });
+              }}
               className={`ease flex cursor-pointer items-center justify-between border-b-2 border-gray-400 border-opacity-50 transition-all duration-500   ${
                 darkMode
                   ? "from-gray-700 p-3 hover:bg-gradient-to-r"

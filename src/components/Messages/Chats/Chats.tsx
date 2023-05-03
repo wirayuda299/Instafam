@@ -72,7 +72,11 @@ export default function Chats({ session, selectedChat }: Props) {
                 </div>
               </div>
             ))}
-            <div className={"absolute bottom-28 left-0 z-0 w-full md:bottom-0"}>
+            <div
+              className={
+                "md: left-0 z-0 hidden w-full md:absolute md:bottom-0 md:block"
+              }
+            >
               <ChatForm selectedChat={selectedChat} session={session} />
             </div>
           </div>

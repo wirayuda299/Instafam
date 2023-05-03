@@ -31,6 +31,7 @@ const initialState: State = {
   messageModal: false,
   chatRoomSelected: null,
   selectedActivity: "interactions",
+  selectedChat: null,
 };
 
 type StateProviderProps = {

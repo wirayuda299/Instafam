@@ -1,5 +1,6 @@
 import { IUserPostProps } from "./post";
 import { IUser } from "./user";
+import { DataMessage } from "@/types/DataMessage";
 
 export type PostModalAction = {
   type: "TOGGLE_POST_MODAL";
@@ -132,6 +133,13 @@ type SelectedActivityActions = {
   };
 };
 
+type SelectedChatAction = {
+  type: "SET_SELECTED_CHAT";
+  payload: {
+    selectedChat: DataMessage | null;
+  };
+};
+
 export type ActionsType =
   | TogglePostPreviewModalAction
   | ToggleMenuModalAction
@@ -153,4 +161,5 @@ export type ActionsType =
   | ReceiverDrawerAction
   | MessageModalAction
   | chatRoomSelectedAction
-  | SelectedActivityActions;
+  | SelectedActivityActions
+  | SelectedChatAction;

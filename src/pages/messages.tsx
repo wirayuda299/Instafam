@@ -1,5 +1,5 @@
 import { useDarkModeStore } from "@/stores/stores";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useStore } from "zustand";
 import dynamic from "next/dynamic";
 import type { Session } from "next-auth";
@@ -45,13 +45,12 @@ type Props = {
 };
 
 export default function Messages({ sessions, receiver, sender }: Props) {
-  const [selectedChat, setSelectedChat] = useState<DataMessage | null>(null);
   const {
-    state: { receiverDrawer },
+    state: { receiverDrawer, selectedChat },
     Dispatch,
   } = useStateContext();
   const { darkMode } = useStore(useDarkModeStore);
-  const selectUser = (user: DataMessage) => setSelectedChat(user);
+
   const closeReceiverDrawer = () => {
     Dispatch({
       type: "TOGGLE_RECEIVER_DRAWER",
@@ -61,7 +60,12 @@ export default function Messages({ sessions, receiver, sender }: Props) {
     });
   };
   const clearSelectedChat = () => {
-    setSelectedChat(null);
+    Dispatch({
+      type: "SET_SELECTED_CHAT",
+      payload: {
+        selectedChat: null,
+      },
+    });
   };
 
   useEffect(() => {
@@ -98,11 +102,7 @@ export default function Messages({ sessions, receiver, sender }: Props) {
                   }`}
                 >
                   <UserHeader />
-                  <UsersChat
-                    receiver={receiver}
-                    selectUser={selectUser}
-                    sender={sender}
-                  />
+                  <UsersChat receiver={receiver} sender={sender} />
                 </aside>
                 <div className={`relative h-screen  w-full`}>
                   <div className=" h-full w-full  overflow-y-auto">
