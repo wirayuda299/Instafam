@@ -1,6 +1,4 @@
-import {
-  useDarkModeStore,
-} from "@/stores/stores";
+import { useDarkModeStore } from "@/stores/stores";
 import { useStore } from "zustand";
 import { useEffect, useState } from "react";
 import { IUserPostProps } from "@/types/post";
@@ -18,26 +16,35 @@ const PostCard = dynamic(() => import("@/components/Post"), {
   ssr: true,
 });
 
-
 export default function PostModal() {
-  const { state: { selectedPost, postModal }, Dispatch } = useStateContext();
-  const [reqParams, setReqParams] = useState<string | string[] | undefined>('');
+  const {
+    state: { selectedPost, postModal },
+    Dispatch,
+  } = useStateContext();
+  const [reqParams, setReqParams] = useState<string | string[] | undefined>("");
   const [posts, setPosts] = useState<IUserPostProps[]>([]);
   const [loading, setLoading] = useState(true);
   const { darkMode } = useStore(useDarkModeStore);
   const { pathname, query } = useRouter();
-  const { data: session } = useSession()
+  const { data: session } = useSession();
 
   useEffect(() => {
-    setReqParams(session?.user.username === query.username ? session?.user.uid : query.username);
-
+    setReqParams(
+      session?.user.username === query.username
+        ? session?.user.uid
+        : query.username
+    );
   }, [pathname]);
 
   useEffect(() => {
     try {
       const getPosts = async () => {
-        const { getAllPosts, getPostByCurrentUser } = await import("@/helper/getPosts");
-        const res = pathname.startsWith('/profile') ? await getPostByCurrentUser(reqParams) : await getAllPosts();
+        const { getAllPosts, getPostByCurrentUser } = await import(
+          "@/helper/getPosts"
+        );
+        const res = pathname.startsWith("/profile")
+          ? await getPostByCurrentUser(reqParams)
+          : await getAllPosts();
         if (!res) return;
         setPosts(res.filter((p) => p.postId !== selectedPost?.postId));
         setLoading(false);
@@ -50,36 +57,38 @@ export default function PostModal() {
     return () => {
       setPosts([]);
       setLoading(true);
-    }
+    };
   }, [selectedPost, postModal, pathname]);
   const closeModal = () => {
     Dispatch({
       type: "TOGGLE_POST_MODAL",
       payload: {
-        postModal: false
-      }
-    })
+        postModal: false,
+      },
+    });
     Dispatch({
       type: "SELECT_POST",
       payload: {
-        post: null
-      }
-    })
-  }
+        post: null,
+      },
+    });
+  };
 
-  if ( !postModal) return null;
+  if (!postModal) return null;
 
   return createPortal(
     <div
-      className={` fixed left-0 top-0 z-[99] h-screen w-full select-none  !overflow-y-auto !overflow-x-hidden  shadow-sm lg:hidden  ${postModal ? "animate-scaleUp" : "animate-fadeOut"
-        } ${darkMode ? "bg-black" : "bg-white"}`}
+      className={` fixed left-0 top-0 z-[99] h-screen w-full select-none  !overflow-y-auto !overflow-x-hidden  shadow-sm lg:hidden  ${
+        postModal ? "animate-scaleUp" : "animate-fadeOut"
+      } ${darkMode ? "bg-black" : "bg-white"}`}
       aria-modal="true"
       role="dialog"
     >
       <div className="relative w-full">
         <div
-          className={`sticky top-0 z-30 flex w-full items-center border-b border-gray-500 border-opacity-50 px-3 py-3 ${darkMode ? "bg-black text-white" : "bg-white text-black"
-            }`}
+          className={`sticky top-0 z-30 flex w-full items-center border-b border-gray-500 border-opacity-50 px-3 py-3 ${
+            darkMode ? "bg-black text-white" : "bg-white text-black"
+          }`}
         >
           <div>
             <button

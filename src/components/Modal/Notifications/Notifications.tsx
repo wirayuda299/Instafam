@@ -13,10 +13,13 @@ import { useStore } from "zustand";
 
 function NotificationsModal() {
   const { darkMode } = useStore(useDarkModeStore);
-  const { state: { notificationModal }, Dispatch } = useStateContext()
-  const { data: session } = useSession()
+  const {
+    state: { notificationModal },
+    Dispatch,
+  } = useStateContext();
+  const { data: session } = useSession();
   const [user, setUser] = useState<IUser | null>(null);
-  
+
   useEffect(() => {
     const unsub = onSnapshot(
       doc(db, "users", `${session?.user?.uid}`),
@@ -29,25 +32,26 @@ function NotificationsModal() {
     return () => {
       unsub();
       setUser(null);
-    }
+    };
   }, [db, notificationModal]);
 
-  
   if (!notificationModal) return null;
 
-
   return createPortal(
-    <div className={` fixed md:hidden left-0 top-0 z-[99] h-screen w-full select-none  !overflow-y-auto !overflow-x-hidden  shadow-sm lg:hidden  ${notificationModal ? "animate-fadeIn" : "animate-fadeOut hidden"
+    <div
+      className={` fixed left-0 top-0 z-[99] h-screen w-full select-none !overflow-y-auto  !overflow-x-hidden shadow-sm  md:hidden lg:hidden  ${
+        notificationModal ? "animate-fadeIn" : "hidden animate-fadeOut"
       } ${darkMode ? "bg-black" : "bg-white"}`}
       aria-modal="true"
       role="dialog"
     >
-      <div className="relative w-full h-full">
+      <div className="relative h-full w-full">
         <div
-          className={`sticky top-0 z-30 flex w-full items-center border-b border-gray-500 border-opacity-50 px-3 py-3 ${darkMode ? "bg-black text-white" : "bg-white text-black"
-            }`}
+          className={`sticky top-0 z-30 flex w-full items-center border-b border-gray-500 border-opacity-50 px-3 py-3 ${
+            darkMode ? "bg-black text-white" : "bg-white text-black"
+          }`}
         >
-          <div className="flex place-items-center w-full ">
+          <div className="flex w-full place-items-center ">
             <button
               type="button"
               name="back"
@@ -55,23 +59,21 @@ function NotificationsModal() {
               className="text-left "
               onClick={() => {
                 Dispatch({
-                  type:'TOGGLE_NOTIFICATION_MODAL',
-                  payload:{
-                    notificationModal:false
-                  }
-                })
+                  type: "TOGGLE_NOTIFICATION_MODAL",
+                  payload: {
+                    notificationModal: false,
+                  },
+                });
               }}
             >
               <AiOutlineArrowLeft size={25} />
             </button>
-            <h1 className="text-center w-full font-semibold">
-              Notifications
-            </h1>
+            <h1 className="w-full text-center font-semibold">Notifications</h1>
           </div>
         </div>
         <div>
           {user?.followers?.length === 0 && (
-            <div className="flex w-full h-screen place-content-center">
+            <div className="flex h-screen w-full place-content-center">
               <Empty />
             </div>
           )}
@@ -80,13 +82,14 @@ function NotificationsModal() {
               user={user}
               key={follower.followedByName}
               darkMode={darkMode}
-              follower={follower} session={session} />
+              follower={follower}
+              session={session}
+            />
           ))}
         </div>
       </div>
-
     </div>,
     document.getElementById("modal") as Element
-  )
+  );
 }
 export default memo(NotificationsModal);

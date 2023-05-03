@@ -5,11 +5,11 @@ import useBlurhash from "@/hooks/useBlurhash";
 type Props = {
   post: IUserPostProps;
   classNames?: string;
-  loading?: string | undefined
+  loading?: string | undefined;
   priority?: boolean;
-}
+};
 export default function PostImage({ post, classNames, loading }: Props) {
-  const { blurHash } = useBlurhash(post)
+  const { blurHash } = useBlurhash(post);
   return (
     <>
       <Image
@@ -20,7 +20,7 @@ export default function PostImage({ post, classNames, loading }: Props) {
         placeholder="blur"
         blurDataURL={`${blurHash}`}
         quality={70}
-        loading={loading === 'lazy' ? "lazy" : 'eager'}
+        loading={loading === "lazy" ? "lazy" : "eager"}
         priority={loading === undefined ? true : false}
         className={classNames}
         alt={post?.author ?? "user post image"}

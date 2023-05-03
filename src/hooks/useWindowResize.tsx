@@ -4,83 +4,83 @@ import { useEffect } from "react";
 export default function useWindowResize(Dispatch: React.Dispatch<ActionsType>) {
   const closeNotificationDrawer = () => {
     Dispatch({
-      type: 'TOGGLE_NOTIFICATION_DRAWER',
+      type: "TOGGLE_NOTIFICATION_DRAWER",
       payload: {
-        notificationDrawer: false
-      }
-    })
-  }
+        notificationDrawer: false,
+      },
+    });
+  };
   const closeOnresize = () => {
     Dispatch({
-      type: 'TOGGLE_POST_PREVIEW_MODAL',
+      type: "TOGGLE_POST_PREVIEW_MODAL",
       payload: {
-        postPreviewModal: false
-      }
-    })
+        postPreviewModal: false,
+      },
+    });
     Dispatch({
-      type: 'SELECT_POST',
+      type: "SELECT_POST",
       payload: {
-        post: null
-      }
-    })
-  }
+        post: null,
+      },
+    });
+  };
   const closeExtraList = () => {
     Dispatch({
-      type: "TOGGLE_EXTRA_LIST", payload: {
-        extraList: false
-      }
+      type: "TOGGLE_EXTRA_LIST",
+      payload: {
+        extraList: false,
+      },
     });
-  }
+  };
   const closeCommentDrawer = () => {
     Dispatch({
-      type: 'TOGGLE_POST_COMMENT_MODAL',
+      type: "TOGGLE_POST_COMMENT_MODAL",
       payload: {
         postCommentModal: false,
-      }
-    })
+      },
+    });
     Dispatch({
-      type: 'SELECT_POST',
+      type: "SELECT_POST",
       payload: {
-        post: null
-      }
-    })
-  }
+        post: null,
+      },
+    });
+  };
   const closeSearchdrawer = () => {
     Dispatch({
-      type: 'TOGGLE_SEARCH_DRAWER',
+      type: "TOGGLE_SEARCH_DRAWER",
       payload: {
-        searchDrawer: false
-      }
+        searchDrawer: false,
+      },
     });
-  }
+  };
   const closeMenuModal = () => {
     Dispatch({
-      type: 'TOGGLE_MENU_MODAL',
+      type: "TOGGLE_MENU_MODAL",
       payload: {
-        menuModal: false
-      }
-    })
-  }
+        menuModal: false,
+      },
+    });
+  };
 
- useEffect(() => {
-  window.addEventListener('resize', () => {
-    closeOnresize()
-    closeNotificationDrawer()
-    closeExtraList()
-    closeCommentDrawer()
-    closeSearchdrawer()
-    closeMenuModal()
-  })
-  return () => {
-    window.removeEventListener('resize', () => {
-      closeOnresize()
-      closeNotificationDrawer()
-      closeExtraList()
-      closeCommentDrawer()
-      closeSearchdrawer()
-      closeMenuModal()
-    })
-  }
-
- }, []);
+  useEffect(() => {
+    window.addEventListener("resize", () => {
+      closeOnresize();
+      closeNotificationDrawer();
+      closeExtraList();
+      closeCommentDrawer();
+      closeSearchdrawer();
+      closeMenuModal();
+    });
+    return () => {
+      window.removeEventListener("resize", () => {
+        closeOnresize();
+        closeNotificationDrawer();
+        closeExtraList();
+        closeCommentDrawer();
+        closeSearchdrawer();
+        closeMenuModal();
+      });
+    };
+  }, []);
 }

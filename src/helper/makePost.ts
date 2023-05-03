@@ -5,7 +5,6 @@ import type { Session } from "next-auth";
 import { Dispatch, SetStateAction } from "react";
 import toast from "react-hot-toast";
 
-
 type TMakePost = {
   captions: string;
   croppedImg: string;
@@ -24,19 +23,13 @@ const parseHashtags: ParseCaptions = (captions) => {
     .split(" ");
 };
 
-
 export const makePost = async <T extends TMakePost>(params: T) => {
-  const {
-    captions,
-    croppedImg,
-    session,
-    setLoading,
-    img,
-    blurDataUrl
-  } = params;
+  const { captions, croppedImg, session, setLoading, img, blurDataUrl } =
+    params;
 
-  if (!img || !session || !session.user) throw new Error("No image found or user not logged in");
- 
+  if (!img || !session || !session.user)
+    throw new Error("No image found or user not logged in");
+
   setLoading(true);
   const hashtags = parseHashtags(captions);
   const uuid = crypto.randomUUID();
@@ -61,8 +54,8 @@ export const makePost = async <T extends TMakePost>(params: T) => {
           hashtags: hashtags ?? [],
           tags: [],
           postId: uuid,
-          blurDataUrl
-        })
+          blurDataUrl,
+        });
       }
     );
   } catch (error: any) {

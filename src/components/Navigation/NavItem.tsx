@@ -10,11 +10,11 @@ type ListItemProps = {
   };
   drawer: boolean;
   toggler: () => void;
-  handleSearchDrawer: () => void
-  handleNotificationDrawer: () => void
+  handleSearchDrawer: () => void;
+  handleNotificationDrawer: () => void;
   notificationDrawer: boolean;
-  openCreateModal: () => void
-  darkMode: boolean
+  openCreateModal: () => void;
+  darkMode: boolean;
 };
 
 export default function NavItem(props: ListItemProps) {
@@ -28,16 +28,17 @@ export default function NavItem(props: ListItemProps) {
     darkMode,
     notificationDrawer,
     handleNotificationDrawer,
-    openCreateModal
+    openCreateModal,
   } = props;
 
   return (
     <li
       role="listitem"
       key={list.id}
-      className={` flex items-center md:p-2.5  h-full w-fit rounded-full text-base font-light transition-colors duration-700 ease-out md:w-full  ${list.id === 2 || list.id === 5 ? "hidden md:block" : ""
-        }  ${pathname === list.path ? "font-semibold" : ""} 
-        } ${darkMode ? 'hover:bg-[#b9b9b917]' : 'hover:bg-gray-200'}`}
+      className={` flex h-full w-fit items-center rounded-full text-base font-light transition-colors duration-700 ease-out md:w-full md:p-2.5  ${
+        list.id === 2 || list.id === 5 ? "hidden md:block" : ""
+      }  ${pathname === list.path ? "font-semibold" : ""} 
+        } ${darkMode ? "hover:bg-[#b9b9b917]" : "hover:bg-gray-200"}`}
     >
       {list.id === 2 ? (
         <button
@@ -48,7 +49,11 @@ export default function NavItem(props: ListItemProps) {
           onClick={() => handleSearchDrawer()}
         >
           {list.icon}
-          <span className={`${drawer || notificationDrawer ? "hidden" : "hidden lg:block"}`}>
+          <span
+            className={`${
+              drawer || notificationDrawer ? "hidden" : "hidden lg:block"
+            }`}
+          >
             {list.title}
           </span>
         </button>
@@ -58,9 +63,14 @@ export default function NavItem(props: ListItemProps) {
           type="button"
           name="search"
           className="flex space-x-2"
-          onClick={openCreateModal}>
+          onClick={openCreateModal}
+        >
           <div>{list.icon}</div>
-          <span className={`${drawer || notificationDrawer ? "hidden" : "hidden lg:block"}`}>
+          <span
+            className={`${
+              drawer || notificationDrawer ? "hidden" : "hidden lg:block"
+            }`}
+          >
             {list.title}
           </span>
         </button>
@@ -73,16 +83,16 @@ export default function NavItem(props: ListItemProps) {
           onClick={() => handleNotificationDrawer()}
         >
           <div>{list.icon}</div>
-          <span className={`${drawer || notificationDrawer ? "hidden" : "hidden lg:block"}`}>
+          <span
+            className={`${
+              drawer || notificationDrawer ? "hidden" : "hidden lg:block"
+            }`}
+          >
             {list.title}
           </span>
         </button>
       ) : (
-        <button
-          name={list.title}
-          title={list.title}
-          type="button"
-        >
+        <button name={list.title} title={list.title} type="button">
           <Link
             onClick={toggler}
             className="flex cursor-pointer space-x-2"
@@ -90,14 +100,16 @@ export default function NavItem(props: ListItemProps) {
             title={list.title}
           >
             {list.icon}
-            <span className={`${drawer || notificationDrawer ? "hidden" : "hidden lg:block"}`}>
+            <span
+              className={`${
+                drawer || notificationDrawer ? "hidden" : "hidden lg:block"
+              }`}
+            >
               {list.title}
             </span>
           </Link>
         </button>
       )}
-
-
     </li>
   );
 }

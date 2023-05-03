@@ -31,9 +31,9 @@ export const postComments = async (args: Props) => {
     const postRef = doc(db, "posts", `post-${post.postId}`);
     await updateDoc(postRef, {
       comments: arrayUnion({
-        commentByUid: session?.user.uid ,
+        commentByUid: session?.user.uid,
         comment: e.comments,
-        commentByName: session?.user.username ,
+        commentByName: session?.user.username,
         commentByPhoto: session?.user.image,
         createdAt: Date.now(),
       }),

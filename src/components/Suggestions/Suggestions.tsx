@@ -19,7 +19,7 @@ function Suggestions({ reccomend }: Props) {
   return (
     <section className=" hidden h-screen min-w-[384px] lg:block">
       <div className=" w-full max-w-sm p-5">
-        <div className="mb-2 flex items-center justify-around space-x-2 md:justify-between">
+        <div className="mb-2 flex items-center  justify-around space-x-2 md:justify-between">
           <div className="mb-2 flex items-center space-x-3">
             <Image
               className=" rounded-full"
@@ -39,14 +39,20 @@ function Suggestions({ reccomend }: Props) {
               {session?.user?.username}
             </span>
           </div>
-          <div>
+          <div className={"flex items-center justify-center space-x-2"}>
             <button
-              type="button"
-              name="switch accounts"
-              title="switch accounts"
-              className="text-xs font-semibold text-blue-600"
+              title="Log Out"
+              name={"log out"}
+              className="mb-4 text-center text-xs font-semibold text-blue-600"
+              onClick={async () => {
+                const { signOut } = await import("next-auth/react");
+                await signOut({
+                  callbackUrl: "/auth/signin",
+                  redirect: true,
+                });
+              }}
             >
-              Switch
+              Log Out
             </button>
           </div>
         </div>
@@ -66,9 +72,7 @@ function Suggestions({ reccomend }: Props) {
         <UserRecommendation reccomend={reccomend} />
       </div>
       <Footer classNames="flex flex-wrap gap-3 text-xs  text-gray-500 transition-all ease  justify-start">
-        <p
-          className='mt-5 w-full text-xs text-gray-500'
-        >
+        <p className="mt-5 w-full text-xs text-gray-500">
           © 2023 INSTAFAM by{" "}
           <a href="https://instafam.vercel.app" className="pr-1">
             Instafam

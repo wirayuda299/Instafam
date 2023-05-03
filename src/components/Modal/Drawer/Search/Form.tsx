@@ -1,8 +1,6 @@
 import type { ReactNode } from "react";
 import dynamic from "next/dynamic";
-import {
-  useDarkModeStore,
-} from "@/stores/stores";
+import { useDarkModeStore } from "@/stores/stores";
 import { useStore } from "zustand";
 import { FieldValues, useForm } from "react-hook-form";
 import { IUser } from "@/types/user";
@@ -22,40 +20,43 @@ type Props = {
 
 export default function Form({ height, children }: Props) {
   const { handleSubmit, resetField, register } = useForm();
-  const { state: { result }, Dispatch } = useStateContext();
+  const {
+    state: { result },
+    Dispatch,
+  } = useStateContext();
   const { darkMode } = useStore(useDarkModeStore);
   const router = useRouter();
   const { data: session } = useSession();
 
   const handleDrawerToggler = () => {
     Dispatch({
-      type: 'SET_RESULT',
+      type: "SET_RESULT",
       payload: {
-        result: []
-      }
+        result: [],
+      },
     });
     Dispatch({
-      type: 'TOGGLE_SEARCH_DRAWER',
+      type: "TOGGLE_SEARCH_DRAWER",
       payload: {
-        searchDrawer: false
-      }
-    })
+        searchDrawer: false,
+      },
+    });
     Dispatch({
-      type: 'TOGGLE_RESULT_DRAWER',
+      type: "TOGGLE_RESULT_DRAWER",
       payload: {
-        resultDrawer: false
-      }
-    })
+        resultDrawer: false,
+      },
+    });
   };
 
   const searchUser = async (data: FieldValues) => {
     const { toast } = await import("react-hot-toast");
     try {
-      if (data.search === '') {
+      if (data.search === "") {
         toast.error("Please enter a username or name of user");
         return;
       }
-      const token = await getCsrfToken()
+      const token = await getCsrfToken();
 
       if (!session || !token) {
         toast.error("Please login to search user");
@@ -78,19 +79,19 @@ export default function Form({ height, children }: Props) {
         return;
       }
       Dispatch({
-        type: 'SET_RESULT',
+        type: "SET_RESULT",
         payload: {
-          result
-        }
+          result,
+        },
       });
       resetField("search");
 
       Dispatch({
-        type: 'TOGGLE_RESULT_DRAWER',
+        type: "TOGGLE_RESULT_DRAWER",
         payload: {
-          resultDrawer: true
-        }
-      })
+          resultDrawer: true,
+        },
+      });
     } catch (error: any) {
       toast.error(error.message);
     }
@@ -98,17 +99,20 @@ export default function Form({ height, children }: Props) {
   return (
     <>
       <form
-        className={`mt-5 rounded-sm  ${height} ${darkMode ? "bg-black text-white" : "bg-white text-black"
-          }`}
+        className={`mt-5 rounded-sm  ${height} ${
+          darkMode ? "bg-black text-white" : "bg-white text-black"
+        }`}
         onSubmit={handleSubmit(searchUser)}
       >
         <div
-          className={`w-full pb-5  ${darkMode ? "bg-black text-white" : "bg-white text-black"
-            } `}
+          className={`w-full pb-5  ${
+            darkMode ? "bg-black text-white" : "bg-white text-black"
+          } `}
         >
           <div
-            className={`${darkMode ? "bg-black text-white" : "bg-white text-black"
-              }`}
+            className={`${
+              darkMode ? "bg-black text-white" : "bg-white text-black"
+            }`}
           >
             <div className="flex w-full items-center justify-between rounded-md bg-[#b9b9b917] px-3">
               <input
@@ -127,8 +131,9 @@ export default function Form({ height, children }: Props) {
             <FormResult
               handleDrawerToggler={handleDrawerToggler}
               results={result}
-              customs={`h-screen fixed z-50 top-0 md: h-full  md:left-0 md:w-full md:z-0  md:transition-all md:duration-300 md:ease-in-out md:static ${darkMode ? "bg-black text-white" : "bg-white text-black"
-                }`}
+              customs={`h-screen fixed z-50 top-0 md: h-full  md:left-0 md:w-full md:z-0  md:transition-all md:duration-300 md:ease-in-out md:static ${
+                darkMode ? "bg-black text-white" : "bg-white text-black"
+              }`}
             />
           </div>
         </div>

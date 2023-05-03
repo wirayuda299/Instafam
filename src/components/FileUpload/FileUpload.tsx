@@ -12,7 +12,7 @@ type Props = {
 
 export default function FileUpload({ img }: Props) {
   const { darkMode } = useStore(useDarkModeStore);
-  const {  Dispatch } = useStateContext()
+  const { Dispatch } = useStateContext();
 
   const loadImage = async (src: any) =>
     new Promise((resolve, reject) => {
@@ -36,12 +36,12 @@ export default function FileUpload({ img }: Props) {
     const imageData = getImageData(image) as any;
     return encode(imageData?.data, imageData?.width, imageData?.height, 4, 4);
   };
-  const filterImage = async (file:any) => {
+  const filterImage = async (file: any) => {
     try {
       const data = new FormData();
       if (!file) return;
       data.append("image", file, file.name);
-  
+
       const options = {
         method: "POST",
         headers: {
@@ -54,8 +54,7 @@ export default function FileUpload({ img }: Props) {
         "https://nsfw-images-detection-and-classification.p.rapidapi.com/adult-content-file",
         options
       );
-      const result = await getResult.json();
-      return result;
+      return await getResult.json();
     } catch (error: any) {
       console.log(error.message);
     }
@@ -75,27 +74,26 @@ export default function FileUpload({ img }: Props) {
 
       if (!imageData) return;
 
-
       const reader = new FileReader();
       reader.onload = async (event) => {
         if (event.target) {
           const blurhash = await encodeImageToBlurhash(event.target.result);
           if (!blurhash) return;
           Dispatch({
-            type: 'SET_BLUR_HASH', payload: {
-              blurhash: blurhash
-            }
-          })
-          Dispatch({
-            type: 'SET_PREVIEW_URL',
+            type: "SET_BLUR_HASH",
             payload: {
-              previewUrl: event.target.result as string
-            }
-          })
+              blurhash: blurhash,
+            },
+          });
+          Dispatch({
+            type: "SET_PREVIEW_URL",
+            payload: {
+              previewUrl: event.target.result as string,
+            },
+          });
         }
       };
       reader.readAsDataURL(selectedFile);
-
     } catch (error: any) {
       console.log(error.message);
     }
@@ -110,10 +108,11 @@ export default function FileUpload({ img }: Props) {
           <div className="mx-auto flex w-full max-w-xl justify-center">
             <label
               htmlFor="dropzone-file"
-              className={`flex h-80 w-full cursor-pointer flex-col items-center justify-center rounded-lg  shadow-2xl ${darkMode
-                ? "border border-gray-500 border-opacity-30 bg-black bg-opacity-95"
-                : "bg-gray-200"
-                }`}
+              className={`flex h-80 w-full cursor-pointer flex-col items-center justify-center rounded-lg  shadow-2xl ${
+                darkMode
+                  ? "border border-gray-500 border-opacity-30 bg-black bg-opacity-95"
+                  : "bg-gray-200"
+              }`}
             >
               <div className="flex flex-col items-center justify-center pb-6 pt-5">
                 <AiOutlineCloudUpload className="h-12 w-12 text-gray-400" />
@@ -129,10 +128,10 @@ export default function FileUpload({ img }: Props) {
               <input
                 id="dropzone-file"
                 type="file"
-                accept="image/*, .png, .jpg, .jpeg, .gif, .mp4, .mov, .webm"
+                accept="image/*, .png, .jpg, .jpeg, .gif"
                 required
                 className="hidden "
-                onChange={e => handleInputImage(e)}
+                onChange={(e) => handleInputImage(e)}
               />
             </label>
           </div>

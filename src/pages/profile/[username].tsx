@@ -8,11 +8,15 @@ import { memo, useMemo, useState, useTransition } from "react";
 import type { Session } from "next-auth";
 import { useStateContext } from "@/stores/StateContext";
 import { useSession } from "next-auth/react";
-const Statistic = dynamic(() => import("@/components/User/Statistic/Statistic"),{
+const Statistic = dynamic(
+  () => import("@/components/User/Statistic/Statistic"),
+  {
     ssr: true,
   }
 );
-const SuggestionMobile = dynamic(() => import("@/components/Suggestions/SuggestionMobile"));
+const SuggestionMobile = dynamic(
+  () => import("@/components/Suggestions/SuggestionMobile")
+);
 const PostInfo = dynamic(() => import("@/components/Feeds/PostInfo"));
 const Tab = dynamic(() => import("@/components/User/Tab/Tab"));
 const PostImage = dynamic(() => import("@/components/Post/Image"), {
@@ -30,15 +34,20 @@ type Props = {
   reccomendations: IUser[] | [];
 };
 
-function UserProfile({ posts, user, query, savedPosts, reccomendations }: Props) {
+function UserProfile({
+  posts,
+  user,
+  query,
+  savedPosts,
+  reccomendations,
+}: Props) {
   const [postTab, setPostTab] = useState(true);
   const [savedPostTab, setSavedPosts] = useState(false);
-  const { data:session } = useSession();
+  const { data: session } = useSession();
   const { replace, asPath } = useRouter();
   const [activeTab, setActiveTab] = useState<number>(1);
   const [, startTransition] = useTransition();
   const { Dispatch } = useStateContext();
-
 
   const refreshData = () => replace(asPath);
 
@@ -64,7 +73,6 @@ function UserProfile({ posts, user, query, savedPosts, reccomendations }: Props)
     }
   };
 
-
   const Tabs = useMemo(() => {
     return (
       <>
@@ -86,8 +94,6 @@ function UserProfile({ posts, user, query, savedPosts, reccomendations }: Props)
     );
   }, [session, user, posts]);
 
-
-
   return (
     <>
       <Head>
@@ -101,21 +107,21 @@ function UserProfile({ posts, user, query, savedPosts, reccomendations }: Props)
         />
       </Head>
       {session ? (
-        <div className="mx-auto h-screen w-full overflow-y-auto overflow-x-auto">
+        <div className="mx-auto h-screen w-full overflow-x-auto overflow-y-auto">
           <div className="flex w-full items-center space-x-3 border-b border-gray-500 border-opacity-50 md:justify-center md:space-x-10">
             {Statistics}
           </div>
 
           {session?.user?.username === query?.username ? <>{Tabs}</> : null}
-          <div className="max-w-4xl md:max-w-5xl lg:hidden mx-auto">
-            <h1 className="font-bold text-xl p-5">
-              Suggestion
-            </h1>
-            <div className="flex justify-center mt-5">
-              <div className="overflow-x-scroll snap-center flex snap-mandatory gap-5">
-                {reccomendations.filter(user => user.username !== session?.user?.username).map((user, i) => (
-                  <SuggestionMobile user={user} key={user.uid} />
-                ))}
+          <div className="mx-auto max-w-4xl md:max-w-5xl lg:hidden">
+            <h1 className="p-5 text-xl font-bold">Suggestion</h1>
+            <div className="mt-5 flex justify-center">
+              <div className="flex snap-mandatory snap-center gap-5 overflow-x-scroll">
+                {reccomendations
+                  .filter((user) => user.username !== session?.user?.username)
+                  .map((user) => (
+                    <SuggestionMobile user={user} key={user.uid} />
+                  ))}
               </div>
             </div>
           </div>
@@ -131,41 +137,49 @@ function UserProfile({ posts, user, query, savedPosts, reccomendations }: Props)
                       </h1>
                     </div>
                   ) : (
-                    posts?.map((post, i) => (
+                    posts?.map((post) => (
                       <>
-                        <div key={post.postId} onClick={async () => {
-                          const { largeScreenClickEvent } = await import('@/utils/largeScreenClickEvent')
-                          largeScreenClickEvent(Dispatch, post)
-                        }} className="cursor-pointer hidden md:block">
+                        <div
+                          key={post.postId}
+                          onClick={async () => {
+                            const { largeScreenClickEvent } = await import(
+                              "@/utils/largeScreenClickEvent"
+                            );
+                            largeScreenClickEvent(Dispatch, post);
+                          }}
+                          className="hidden cursor-pointer md:block"
+                        >
                           <PostImage
                             post={post}
                             loading="lazy"
-                            classNames="post h-full w-full rounded-lg object-cover" />
+                            classNames="post h-full w-full rounded-lg object-cover"
+                          />
                         </div>
                         <div
                           onClick={() => {
                             Dispatch({
-                              type: "SELECT_POST", payload: {
-                                post
-                              }
-                            })
-                            Dispatch({
-                              type: 'TOGGLE_POST_MODAL',
+                              type: "SELECT_POST",
                               payload: {
-                                postModal: true
-                              }
-                            })
+                                post,
+                              },
+                            });
+                            Dispatch({
+                              type: "TOGGLE_POST_MODAL",
+                              payload: {
+                                postModal: true,
+                              },
+                            });
                           }}
                           className={`block w-full cursor-pointer md:hidden`}
                         >
                           <PostImage
                             post={post}
                             loading="lazy"
-                            classNames={`h-full w-full  object-cover `} />
+                            classNames={`h-full w-full  object-cover `}
+                          />
                         </div>
                       </>
-                    )
-                    )
+                    ))
                   )}
                 </>
               )}
@@ -180,13 +194,13 @@ function UserProfile({ posts, user, query, savedPosts, reccomendations }: Props)
                   </div>
                 ) : (
                   <>
-
                     {savedPosts?.map((post) => (
                       <div key={post.postId} className="group relative">
                         <PostImage
                           priority={true}
                           post={post}
-                          classNames="w-full h-full object-cover rounded-lg" />
+                          classNames="w-full h-full object-cover rounded-lg"
+                        />
                         <PostInfo post={post} />
                       </div>
                     ))}
@@ -211,11 +225,16 @@ export async function getServerSideProps({ query }: GetServerSidePropsContext) {
   const { getPostByCurrentUser, getPostsSavedByUser } = await import(
     "@/helper/getPosts"
   );
-  const { getCurrentUserData, getUserRecommendation } = await import("@/helper/getUser");
+  const { getCurrentUserData, getUserRecommendation } = await import(
+    "@/helper/getUser"
+  );
   const user = (await getCurrentUserData(query?.username as string)) as IUser[];
   const posts = await getPostByCurrentUser(user ? user[0]?.uid : "");
   const savedPosts = await getPostsSavedByUser(user ? user[0]?.uid : "");
-  const reccomendations = await getUserRecommendation(user ? user[0]?.uid : "", undefined);
+  const reccomendations = await getUserRecommendation(
+    user ? user[0]?.uid : "",
+    undefined
+  );
   if (!user || !posts) {
     return {
       notFound: true,

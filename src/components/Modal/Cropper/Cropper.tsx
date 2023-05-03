@@ -1,4 +1,4 @@
-import { useDarkModeStore} from "@/stores/stores";
+import { useDarkModeStore } from "@/stores/stores";
 import { useState } from "react";
 import { createPortal } from "react-dom";
 import { AiOutlineClose } from "react-icons/ai";
@@ -21,7 +21,10 @@ const ImageCropper = dynamic(
 
 export default function Cropper() {
   const { darkMode } = useStore(useDarkModeStore);
-  const { Dispatch, state: { postCreateModal, previewUrl } } = useStateContext()
+  const {
+    Dispatch,
+    state: { postCreateModal, previewUrl },
+  } = useStateContext();
   const [zoom, setZoom] = useState(1);
   const router = useRouter();
 
@@ -32,17 +35,13 @@ export default function Cropper() {
         width: 1200,
         height: 1200 * 1,
       };
-      const image = await getCroppedImg(
-        previewUrl,
-        croppedArea,
-        canvasSize
-      );
+      const image = await getCroppedImg(previewUrl, croppedArea, canvasSize);
       Dispatch({
-        type: 'SET_CROPPED_IMAGE',
+        type: "SET_CROPPED_IMAGE",
         payload: {
-          croppedImage: image
-        }
-      })
+          croppedImage: image,
+        },
+      });
       return;
     } catch (e: any) {
       console.error(e.message);
@@ -51,25 +50,26 @@ export default function Cropper() {
 
   const handleClick = () => {
     Dispatch({
-      type: 'TOGGLE_POST_CREATE_MODAL',
+      type: "TOGGLE_POST_CREATE_MODAL",
       payload: {
-        postCreateModal: false
-      }
-    })
+        postCreateModal: false,
+      },
+    });
     router.push("/create");
     Dispatch({
-      type: 'SET_PREVIEW_URL',
+      type: "SET_PREVIEW_URL",
       payload: {
-        previewUrl: ''
-      }
-    })
+        previewUrl: "",
+      },
+    });
   };
   if (!postCreateModal) return null;
 
   return createPortal(
     <div
-      className={` ${darkMode ? " text-white" : " text-black"
-        } fixed left-0 top-0  z-50 h-screen w-full select-none !overflow-hidden bg-black  bg-opacity-50 shadow-sm `}
+      className={` ${
+        darkMode ? " text-white" : " text-black"
+      } fixed left-0 top-0  z-50 h-screen w-full select-none !overflow-hidden bg-black  bg-opacity-50 shadow-sm `}
       aria-modal="true"
       role="dialog"
     >
@@ -77,23 +77,23 @@ export default function Cropper() {
         className="absolute right-3 top-32 rounded-lg border-2  bg-white font-semibold text-black sm:top-3 "
         onClick={() => {
           Dispatch({
-            type: 'TOGGLE_POST_CREATE_MODAL',
+            type: "TOGGLE_POST_CREATE_MODAL",
             payload: {
-              postCreateModal: false
-            }
-          })
+              postCreateModal: false,
+            },
+          });
           Dispatch({
-            type: 'SET_PREVIEW_URL',
+            type: "SET_PREVIEW_URL",
             payload: {
-              previewUrl: ''
-            }
-          })
+              previewUrl: "",
+            },
+          });
           Dispatch({
-            type: 'SET_CROPPED_IMAGE',
+            type: "SET_CROPPED_IMAGE",
             payload: {
-              croppedImage: ''
-            }
-          })
+              croppedImage: "",
+            },
+          });
         }}
       >
         <AiOutlineClose size={30} className="font-semibold" />

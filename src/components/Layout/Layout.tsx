@@ -4,6 +4,7 @@ import { useDarkModeStore } from "@/stores/stores";
 import dynamic from "next/dynamic";
 import { useEffect } from "react";
 import { useStore } from "zustand";
+
 const Menu = dynamic(() => import("@/components/Modal/Menu"));
 const Report = dynamic(() => import("@/components/Modal/Report"));
 const PostPreview = dynamic(() => import("@/components/Modal/PostPreview"));
@@ -12,12 +13,18 @@ const SearchForm = dynamic(() => import("@/components/Modal/Drawer/Search"));
 const Sidebar = dynamic(() => import("../Navigation/Sidebar"), {
   ssr: true,
 });
-const NotificationsModal = dynamic(() => import("@/components/Modal/Notifications/Notifications"), {
-  ssr: true,
-});
-const NotificationsDrawer = dynamic(() => import("@/components/Modal/Drawer/Notifications/NotificationsDrawer"), {
-  ssr: true,
-});
+const NotificationsModal = dynamic(
+  () => import("@/components/Modal/Notifications/Notifications"),
+  {
+    ssr: true,
+  }
+);
+const NotificationsDrawer = dynamic(
+  () => import("@/components/Modal/Drawer/Notifications/NotificationsDrawer"),
+  {
+    ssr: true,
+  }
+);
 const FeedModal = dynamic(() => import("@/components/Modal/Feed"), {
   ssr: true,
 });
@@ -28,30 +35,36 @@ const MainHeader = dynamic(() => import("../Header/MainHeader"), {
   ssr: true,
 });
 const MessagesModal = dynamic(() => import("../Modal/Messages/Messages"));
-const ImageCropperModal = dynamic(() => import("@/components/Modal/Cropper/Cropper"), {
-  ssr: false,
-}
+const ImageCropperModal = dynamic(
+  () => import("@/components/Modal/Cropper/Cropper"),
+  {
+    ssr: false,
+  }
 );
 
 export default function Layout({ children }: { children: any }) {
-  const { darkMode, setDarkMode } = useStore(useDarkModeStore)
-  const { Dispatch } = useStateContext()
-  
-  useWindowResize(Dispatch)
+  const { darkMode, setDarkMode } = useStore(useDarkModeStore);
+  const { Dispatch } = useStateContext();
+
+  useWindowResize(Dispatch);
 
   useEffect(() => {
-    const theme = localStorage.getItem('theme')
+    const theme = localStorage.getItem("theme");
     if (theme !== null) {
-      if (theme === 'dark') {
-        setDarkMode(true)
+      if (theme === "dark") {
+        setDarkMode(true);
       } else {
-        setDarkMode(false)
+        setDarkMode(false);
       }
     }
-  }, [darkMode])
+  }, [darkMode]);
 
   return (
-    <div className={`w-full h-screen ${darkMode ? 'bg-black text-white' : 'bg-white text-black'}`}>
+    <div
+      className={`h-screen w-full ${
+        darkMode ? "bg-black text-white" : "bg-white text-black"
+      }`}
+    >
       <div className="flex h-full">
         <Sidebar />
         <SearchForm />

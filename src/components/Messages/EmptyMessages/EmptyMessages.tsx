@@ -2,7 +2,7 @@ import { useStateContext } from "@/stores/StateContext";
 import { RiMessengerLine } from "react-icons/ri";
 
 export default function EmptyMessages() {
-  const { Dispatch } = useStateContext()
+  const { Dispatch } = useStateContext();
   return (
     <div className="p-5 text-center ">
       <button className="rounded-full border-2 border-black p-6">
@@ -16,11 +16,11 @@ export default function EmptyMessages() {
         className="mt-3 rounded-md bg-blue-600 px-5 py-2 font-semibold text-white"
         onClick={() => {
           Dispatch({
-            type: 'TOGGLE_MESSAGE_MODAL',
+            type: "TOGGLE_MESSAGE_MODAL",
             payload: {
-              messageModal: true
-            }
-          })
+              messageModal: true,
+            },
+          });
         }}
       >
         Send Message

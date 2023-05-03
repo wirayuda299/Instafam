@@ -11,95 +11,102 @@ const NavHeader = dynamic(() => import("../Header/NavHeader"));
 
 export default function Sidebar() {
   const { data: session } = useSession();
-  const { state: { isExtraListOpen, isSearchDrawerOpen, notificationDrawer }, Dispatch } = useStateContext();
+  const {
+    state: { isExtraListOpen, isSearchDrawerOpen, notificationDrawer },
+    Dispatch,
+  } = useStateContext();
   const { pathname } = useRouter();
   const { darkMode } = useStore(useDarkModeStore);
-  
-  if (!session) return null;
 
+  if (!session) return null;
 
   const toggler = () => {
     Dispatch({
-      type: 'SET_RESULT',
+      type: "SET_RESULT",
       payload: {
-        result: []
-      }
-    })
-    Dispatch({
-      type: 'TOGGLE_SEARCH_DRAWER',
-      payload: {
-        searchDrawer: false
-      }
-    })
-
-  };
-  
-  const handleClick = () => {
-    Dispatch({
-      type: "TOGGLE_EXTRA_LIST", payload: {
-        extraList: !isExtraListOpen
-      }
+        result: [],
+      },
     });
     Dispatch({
-      type: 'TOGGLE_SEARCH_DRAWER',
+      type: "TOGGLE_SEARCH_DRAWER",
       payload: {
-        searchDrawer: false
-      }
-    })
+        searchDrawer: false,
+      },
+    });
+  };
+
+  const handleClick = () => {
+    Dispatch({
+      type: "TOGGLE_EXTRA_LIST",
+      payload: {
+        extraList: !isExtraListOpen,
+      },
+    });
+    Dispatch({
+      type: "TOGGLE_SEARCH_DRAWER",
+      payload: {
+        searchDrawer: false,
+      },
+    });
   };
 
   const handleNotificationDrawer = () => {
     Dispatch({
-      type: 'TOGGLE_SEARCH_DRAWER',
+      type: "TOGGLE_SEARCH_DRAWER",
       payload: {
-        searchDrawer: !isSearchDrawerOpen
-      }
+        searchDrawer: !isSearchDrawerOpen,
+      },
     });
     Dispatch({
-      type: 'TOGGLE_NOTIFICATION_DRAWER',
+      type: "TOGGLE_NOTIFICATION_DRAWER",
       payload: {
-        notificationDrawer: !notificationDrawer
-      }
-    })
-  }
+        notificationDrawer: !notificationDrawer,
+      },
+    });
+  };
 
   const handleSearchDrawer = () => {
     Dispatch({
-      type: 'TOGGLE_SEARCH_DRAWER',
+      type: "TOGGLE_SEARCH_DRAWER",
       payload: {
-        searchDrawer: !isSearchDrawerOpen
-      }
+        searchDrawer: !isSearchDrawerOpen,
+      },
     });
     Dispatch({
-      type: 'SET_RESULT',
+      type: "SET_RESULT",
       payload: {
-        result: []
-      }
-    })
+        result: [],
+      },
+    });
     Dispatch({
-      type: 'TOGGLE_NOTIFICATION_DRAWER',
+      type: "TOGGLE_NOTIFICATION_DRAWER",
       payload: {
-        notificationDrawer: false
-      }
-    })
-  }
+        notificationDrawer: false,
+      },
+    });
+  };
 
   const openCreateModal = () => {
     Dispatch({
-      type: 'TOGGLE_POST_CREATE_MODAL',
+      type: "TOGGLE_POST_CREATE_MODAL",
       payload: {
-        postCreateModal: true
-      }
-    })
-  }
+        postCreateModal: true,
+      },
+    });
+  };
 
   return (
     <aside
       className={`
-         ease fixed bottom-0 left-0 z-50 flex h-14 w-full items-center transition-width duration-300 md:static md:z-10 md:h-screen md:w-fit md:border-r md:border-opacity-50   ${isSearchDrawerOpen || notificationDrawer ? "!w-20" : " lg:w-64 " 
-        } ${darkMode ?' bg-black text-white border-t md:border-t-0 border-gray-400 border-opacity-40' : 'bg-white text-black'}`}
+         ease fixed bottom-0 left-0 z-50 flex h-14 w-full items-center transition-width duration-300 md:static md:z-10 md:h-screen md:w-fit md:border-r md:border-opacity-50   ${
+           isSearchDrawerOpen || notificationDrawer ? "!w-20" : " lg:w-64 "
+         } ${
+        darkMode
+          ? " border-t border-gray-400 border-opacity-40 bg-black text-white md:border-t-0"
+          : "bg-white text-black"
+      }`}
     >
-      <nav className=" flex w-full flex-col justify-between p-1 md:h-full md:p-3 lg:justify-between">
+      <nav className=" flex w-full flex-col justify-between p-1 md:h-full md:p-3 ">
         <NavHeader />
         <div>
           <NavLink
@@ -116,7 +123,6 @@ export default function Sidebar() {
           <ExtraMenus />
         </div>
         <ExtraMenuBtn
-
           notificationdrawer={notificationDrawer}
           drawer={isSearchDrawerOpen}
           extraList={isExtraListOpen}

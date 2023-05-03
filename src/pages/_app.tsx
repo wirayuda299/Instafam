@@ -5,13 +5,22 @@ import dynamic from "next/dynamic";
 import NextNProgress from "nextjs-progressbar";
 import { StateProvider } from "@/stores/StateContext";
 import Head from "next/head";
+import { AppProps } from "next/app";
+import type { Session } from "next-auth";
+import type { ComponentType } from "react";
 
 const Layout = dynamic(() => import("@/components/Layout/Layout"));
-
+type ComponentWithPageLayout = AppProps & {
+  Component: AppProps["Component"] & {
+    PageLayout?: ComponentType;
+    session: Session | null;
+  };
+};
 export default function App({
   Component,
   pageProps: { session, ...pageProps },
-}: any) {
+}: ComponentWithPageLayout) {
+  // @ts-ignore
   return (
     <>
       <Head>
@@ -23,7 +32,7 @@ export default function App({
         <meta name="robots" content="/robots.txt" />
         <meta
           name="keywords"
-          content="social media, instafam, nextjs, tailwindcss, reactjs, firebase, typescript, next-auth,  
+          content="social media, instafam, nextjs, tailwindcss, reactjs, firebase, typescript, next-auth,
          "
         />
         <meta
@@ -48,6 +57,7 @@ export default function App({
                 easing: "ease-out",
               }}
             />
+
             <Component {...pageProps} />
           </Layout>
         </StateProvider>

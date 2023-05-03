@@ -1,6 +1,4 @@
-import {
-  useDarkModeStore,
-} from "@/stores/stores";
+import { useDarkModeStore } from "@/stores/stores";
 import { useState } from "react";
 import { useStore } from "zustand";
 import dynamic from "next/dynamic";
@@ -42,46 +40,49 @@ const EmptyMessages = dynamic(
 
 type Props = {
   sessions: Session | null;
-  sender: DataMessage[]
+  sender: DataMessage[];
   receiver: DataMessage[];
-}
+};
 
 export default function Messages({ sessions, receiver, sender }: Props) {
   const [selectedChat, setSelectedChat] = useState<DataMessage | null>(null);
-  const { state: { receiverDrawer }, Dispatch } = useStateContext()
+  const {
+    state: { receiverDrawer },
+    Dispatch,
+  } = useStateContext();
   const { darkMode } = useStore(useDarkModeStore);
   const selectUser = (user: DataMessage) => setSelectedChat(user);
 
   return (
     <div className="h-screen w-full overflow-y-auto">
       <div className="mx-auto flex h-screen items-center justify-between overflow-hidden">
-        <div className=" md:hidden w-full flex justify-center items-center">
+        <div className=" flex w-full items-center justify-center md:hidden">
           {!receiverDrawer ? (
             <button
               name="close receiver drawer"
               title="close receiver drawer"
               onClick={() => {
                 Dispatch({
-                  type: 'TOGGLE_RECEIVER_DRAWER',
+                  type: "TOGGLE_RECEIVER_DRAWER",
                   payload: {
-                    receiverDrawer: true
-                  }
-                })
+                    receiverDrawer: true,
+                  },
+                });
               }}
-              className="bg-blue-600 text-white px-5 rounded-md py-2 font-semibold"
-              >
+              className="rounded-md bg-blue-600 px-5 py-2 font-semibold text-white"
+            >
               Open Drawer
             </button>
           ) : null}
-
         </div>
         {receiver.length === 0 ? (
           <EmptyMessages />
         ) : (
           <>
             <aside
-              className={`ease fixed top-0 z-50 h-full w-full max-w-sm border-r border-gray-400 border-opacity-50 transition-all  duration-300 lg:static lg:z-0 ${receiverDrawer ? "left-0" : "-left-full"
-                } ${darkMode ? "bg-black text-white" : "bg-white text-black"}`}
+              className={`ease fixed top-0 z-50 h-full w-full max-w-sm border-r border-gray-400 border-opacity-50 transition-all  duration-300 lg:static lg:z-0 ${
+                receiverDrawer ? "left-0" : "-left-full"
+              } ${darkMode ? "bg-black text-white" : "bg-white text-black"}`}
             >
               <UserHeader />
               <UsersChat
@@ -91,8 +92,9 @@ export default function Messages({ sessions, receiver, sender }: Props) {
               />
             </aside>
             <div
-              className={`h-full w-full  ${selectedChat === null ? "hidden" : "block"
-                }`}
+              className={`h-full w-full  ${
+                selectedChat === null ? "hidden" : "block"
+              }`}
             >
               <div className="relative h-full w-full">
                 <ChatHeader selectedChat={selectedChat} />
@@ -106,17 +108,20 @@ export default function Messages({ sessions, receiver, sender }: Props) {
   );
 }
 
-export async function getServerSideProps({ req, res }: GetServerSidePropsContext) {
-  const session = await getServerSession(req, res, authOptions)
+export async function getServerSideProps({
+  req,
+  res,
+}: GetServerSidePropsContext) {
+  const session = await getServerSession(req, res, authOptions);
   if (!session) {
     return {
       redirect: {
-        destination: '/auth/signin',
+        destination: "/auth/signin",
         permanent: false,
       },
-    }
+    };
   }
-  const { getMessage } = await import('@/helper/getMessage')
+  const { getMessage } = await import("@/helper/getMessage");
   const message = await getMessage(session);
 
   return {
@@ -124,7 +129,6 @@ export async function getServerSideProps({ req, res }: GetServerSidePropsContext
       sessions: session,
       receiver: JSON.parse(JSON.stringify(message?.receiver)) as DataMessage[],
       sender: JSON.parse(JSON.stringify(message?.senderData)) as DataMessage[],
-
     },
-  }
+  };
 }

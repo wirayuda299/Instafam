@@ -3,7 +3,7 @@ import { AiOutlineArrowLeft } from "react-icons/ai";
 import { BsChatText } from "react-icons/bs";
 
 export default function UserHeader() {
-  const {  Dispatch } = useStateContext()
+  const { Dispatch } = useStateContext();
   return (
     <header className="w-full border-b-2 border-gray-400 border-opacity-50 py-6">
       <div className="flex items-center justify-between">
@@ -11,28 +11,31 @@ export default function UserHeader() {
           <button
             onClick={() => {
               Dispatch({
-                type: 'TOGGLE_RECEIVER_DRAWER',
+                type: "TOGGLE_RECEIVER_DRAWER",
                 payload: {
-                  receiverDrawer: false
-                }
-              })
+                  receiverDrawer: false,
+                },
+              });
             }}
             className="md:hidden"
             name="back"
             title="back"
-
           >
             <AiOutlineArrowLeft size={20} />
           </button>
           <h2 className="flex-1 text-xl font-semibold">Message</h2>
-          <button name="open modal" title="open modal" onClick={() => {
-            Dispatch({
-              type: 'TOGGLE_MESSAGE_MODAL',
-              payload: {
-                messageModal: true
-              }
-            })
-          }}>
+          <button
+            name="open modal"
+            title="open modal"
+            onClick={() => {
+              Dispatch({
+                type: "TOGGLE_MESSAGE_MODAL",
+                payload: {
+                  messageModal: true,
+                },
+              });
+            }}
+          >
             <BsChatText className="text-2xl" />
           </button>
         </div>

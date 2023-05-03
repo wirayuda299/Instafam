@@ -42,6 +42,7 @@ Other features is comming soon.
 - Zustand
 
 ## Notes
+
 - This project is only for learning purposes.
 
 ## Contributing

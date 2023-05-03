@@ -16,7 +16,6 @@ const Author = dynamic(() => import("./Author"));
 const Comments = dynamic(() => import("../Comments/Forms"));
 const PostImage = dynamic(() => import("./Image"), { ssr: true });
 
-
 function PostCard({ post }: { post: IUserPostProps }) {
   const { likes, comments, savedBy } = usePost(post);
   const { data: session } = useSession();
@@ -25,37 +24,36 @@ function PostCard({ post }: { post: IUserPostProps }) {
 
   const handleClick = () => {
     Dispatch({
-      type: "TOGGLE_MENU_MODAL", payload: {
-        menuModal: true
-      }
-    })
+      type: "TOGGLE_MENU_MODAL",
+      payload: {
+        menuModal: true,
+      },
+    });
     Dispatch({
-      type: "SELECT_POST", payload: {
-        post
-      }
-    })
+      type: "SELECT_POST",
+      payload: {
+        post,
+      },
+    });
   };
 
   return (
-    <div className=''>
+    <div className="">
       <div
-        className={`rounded-sm shadow-lg p-4 ${darkMode ? "bg-black text-white" : "bg-white text-black"
-          }`}
+        className={`rounded-sm p-4 shadow-lg ${
+          darkMode ? "bg-black text-white" : "bg-white text-black"
+        }`}
       >
         <PostHeader post={post}>
-          <button
-            type="button"
-            name="menu"
-            title="menu"
-            onClick={handleClick}
-          >
+          <button type="button" name="menu" title="menu" onClick={handleClick}>
             <BsThreeDots className="text-gray-500" size={20} />
           </button>
         </PostHeader>
         <PostImage
           priority={true}
           post={post}
-          classNames="post h-auto w-full rounded-lg object-cover" />
+          classNames="post h-auto w-full rounded-lg object-cover"
+        />
         <ActionButton
           savedBy={savedBy}
           likes={likes}

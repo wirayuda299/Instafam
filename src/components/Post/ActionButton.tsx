@@ -12,20 +12,12 @@ type Props = {
   uid: string;
   likes: string[];
   savedBy: string[];
-  clickLgScreen: () => void
-  clickMobileScreen: () => void
+  clickLgScreen: () => void;
+  clickMobileScreen: () => void;
 };
 
- function ActionButton(props: Props) {
-  const {
-    post,
-    uid,
-    likes,
-    savedBy,
-    clickLgScreen,
-    clickMobileScreen
-  } = props;
-  
+function ActionButton(props: Props) {
+  const { post, uid, likes, savedBy, clickLgScreen, clickMobileScreen } = props;
 
   const BUTTON_LISTS = [
     {
@@ -110,4 +102,3 @@ type Props = {
   );
 }
 export default memo(ActionButton);
-

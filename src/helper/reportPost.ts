@@ -12,11 +12,9 @@ export const handleReport = async (
   session: Session | null,
   resetField: any
 ) => {
-
   try {
-    if(!session) throw new Error("You must be logged in to report a post");
     const token = await getCsrfToken();
-    if (!token) throw new Error("CSRF Token not found");
+    if (!session || !token) throw new Error("No Session or token found");
 
     const reportRef = doc(db, "reports", `${selectedPost?.postId}`);
     const reportData = {

@@ -25,8 +25,7 @@ export default function Info({ users, session, refreshData }: Props) {
               followedByName: session?.user.username as string,
               followedImage: session?.user.image as string,
             };
-            await handleFollow(followArgs)
-              .then(() => refreshData())
+            await handleFollow(followArgs).then(() => refreshData());
           }}
         >
           {users?.followers.find(

@@ -1,6 +1,6 @@
 import dynamic from "next/dynamic";
 import { useStore } from "zustand";
-import {  useDarkModeStore } from "@/stores/stores";
+import { useDarkModeStore } from "@/stores/stores";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
@@ -16,8 +16,10 @@ export default function CreatePost() {
   const [loading, setLoading] = useState(false);
   const { data: session } = useSession();
   const router = useRouter();
-  const { state: { croppedImage, blurhash }, Dispatch } = useStateContext()
-
+  const {
+    state: { croppedImage, blurhash },
+    Dispatch,
+  } = useStateContext();
 
   useEffect(() => {
     if (!session) router.push("/auth/signin");
@@ -26,40 +28,36 @@ export default function CreatePost() {
 
   const makePosts = async () => {
     try {
-      const args = {
+      const { toast } = await import("react-hot-toast");
+      const { makePost } = await import("@/helper/makePost");
+
+      await makePost({
         captions,
         croppedImg: croppedImage,
         session,
         setLoading,
         img: croppedImage,
-        blurDataUrl: blurhash
-      };
-
-      const { toast } = await import("react-hot-toast")
-      const { makePost } = await import("@/helper/makePost")
-
-      await makePost(args).then(() => {
+        blurDataUrl: blurhash,
+      }).then(() => {
         setCaptions("");
         Dispatch({
-          type: 'SET_CROPPED_IMAGE',
+          type: "SET_CROPPED_IMAGE",
           payload: {
-            croppedImage: ''
-          }
-        })
+            croppedImage: "",
+          },
+        });
         setLoading(false);
         toast.success("Post created successfully");
       });
-
     } catch (error) {
       setLoading(false);
-
     }
-
   };
   return (
     <div
-      className={`mb-5 h-screen w-full !overflow-y-auto ${darkMode ? "bg-black" : "bg-white"
-        }`}
+      className={`mb-5 h-screen w-full !overflow-y-auto ${
+        darkMode ? "bg-black" : "bg-white"
+      }`}
     >
       <div className=" mx-auto grid h-full place-items-center !overflow-y-auto lg:grid-cols-2">
         <Image

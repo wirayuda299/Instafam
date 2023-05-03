@@ -11,15 +11,11 @@ type Props = {
   sender: DataMessage[];
 };
 
-export default function UsersChat({
-  receiver,
-  selectUser,
-  sender,
-}: Props) {
+export default function UsersChat({ receiver, selectUser, sender }: Props) {
   const { darkMode } = useStore(useDarkModeStore);
   const { data: session } = useSession();
   const receiverId = receiver.map((item) => item.id);
-  const { Dispatch} = useStateContext()
+  const { Dispatch } = useStateContext();
 
   if (!session) return null;
 
@@ -31,11 +27,11 @@ export default function UsersChat({
     if (user) {
       selectUser(user);
       Dispatch({
-        type: 'TOGGLE_RECEIVER_DRAWER',
+        type: "TOGGLE_RECEIVER_DRAWER",
         payload: {
-          receiverDrawer: false
-        }
-      })
+          receiverDrawer: false,
+        },
+      });
     }
   };
 

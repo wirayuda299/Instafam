@@ -6,7 +6,9 @@ import { useEffect, useState } from "react";
 
 export default function useUser(uid: string) {
   const [user, setUser] = useState<IUser | null>(null);
-  const { state:{selectedPost} } = useStateContext();
+  const {
+    state: { selectedPost },
+  } = useStateContext();
   useEffect(() => {
     const unsub = onSnapshot(
       doc(db, "users", `${uid ? uid : selectedPost?.postedById}`),

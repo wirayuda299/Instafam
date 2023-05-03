@@ -1,6 +1,6 @@
 import { IUserPostProps } from "@/types/post";
 import { useRouter } from "next/router";
-import type  {  FieldValues } from "react-hook-form";
+import type { FieldValues } from "react-hook-form";
 import { useForm } from "react-hook-form";
 import { AiOutlineSend } from "react-icons/ai";
 export type IComment = Pick<IUserPostProps, "comments">;

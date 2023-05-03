@@ -11,7 +11,10 @@ import { useRouter } from "next/router";
 import { useStateContext } from "@/stores/StateContext";
 
 export default function MessagesModal() {
-  const { Dispatch, state: { messageModal, chatRoomSelected } } = useStateContext()
+  const {
+    Dispatch,
+    state: { messageModal, chatRoomSelected },
+  } = useStateContext();
   const { handleSubmit, resetField, register } = useForm();
   const [result, setResult] = useState<IUser[] | undefined>([]);
   const { darkMode } = useStore(useDarkModeStore);
@@ -21,7 +24,7 @@ export default function MessagesModal() {
   const searchUser = async (data: FieldValues) => {
     const { toast } = await import("react-hot-toast");
     try {
-      if (data.search === '') {
+      if (data.search === "") {
         toast.error("Please enter a username or name of user");
         return;
       }
@@ -43,7 +46,6 @@ export default function MessagesModal() {
       }
       setResult(result);
       resetField("search");
-
     } catch (error: any) {
       toast.error(error.message);
     }
@@ -56,8 +58,9 @@ export default function MessagesModal() {
 
   return createPortal(
     <div
-      className={` fixed left-0 top-0 z-[99999999] h-screen w-full  select-none !overflow-x-hidden !overflow-y-hidden  shadow-sm  ${messageModal ? "animate-fadeIn" : "animate-fadeOut"
-        } ${darkMode ? "bg-black text-white" : "bg-white text-black"}`}
+      className={` fixed left-0 top-0 z-[99999999] h-screen w-full  select-none !overflow-x-hidden !overflow-y-hidden  shadow-sm  ${
+        messageModal ? "animate-fadeIn" : "animate-fadeOut"
+      } ${darkMode ? "bg-black text-white" : "bg-white text-black"}`}
       aria-modal="true"
       role="dialog"
     >
@@ -69,11 +72,11 @@ export default function MessagesModal() {
           <button
             onClick={async () => {
               Dispatch({
-                type: 'TOGGLE_MESSAGE_MODAL',
+                type: "TOGGLE_MESSAGE_MODAL",
                 payload: {
-                  messageModal: false
-                }
-              })
+                  messageModal: false,
+                },
+              });
               setResult([]);
             }}
           >
@@ -107,32 +110,34 @@ export default function MessagesModal() {
             <div
               onClick={async () => {
                 Dispatch({
-                  type: 'SET_CHAT_ROOM_SELECTED',
+                  type: "SET_CHAT_ROOM_SELECTED",
                   payload: {
-                    chatRoomSelected: user
-                  }
-                })
-                const { startNewMessage } = await import('@/helper/startNewMessage')
-                await startNewMessage(session, chatRoomSelected)
-                  .then(() => {
-                    Dispatch({
-                      type: 'TOGGLE_MESSAGE_MODAL',
-                      payload: {
-                        messageModal: false
-                      }
-                    })
-                    Dispatch({
-                      type: 'SET_CHAT_ROOM_SELECTED',
-                      payload: {
-                        chatRoomSelected: null
-                      }
-                    })
-                    setResult([]);
+                    chatRoomSelected: user,
+                  },
+                });
+                const { startNewMessage } = await import(
+                  "@/helper/startNewMessage"
+                );
+                await startNewMessage(session, chatRoomSelected).then(() => {
+                  Dispatch({
+                    type: "TOGGLE_MESSAGE_MODAL",
+                    payload: {
+                      messageModal: false,
+                    },
                   });
+                  Dispatch({
+                    type: "SET_CHAT_ROOM_SELECTED",
+                    payload: {
+                      chatRoomSelected: null,
+                    },
+                  });
+                  setResult([]);
+                });
               }}
               key={user.uid}
-              className={`relative flex items-center space-x-2  px-4 py-3 ${darkMode ? "bg-black text-white" : "bg-white text-black"
-                }`}
+              className={`relative flex items-center space-x-2  px-4 py-3 ${
+                darkMode ? "bg-black text-white" : "bg-white text-black"
+              }`}
             >
               <Image
                 className="h-8 w-8 rounded-full object-cover "

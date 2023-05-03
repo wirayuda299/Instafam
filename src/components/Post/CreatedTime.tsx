@@ -5,19 +5,26 @@ import Link from "next/link";
 
 export default function CreatedTime({ post }: { post: IUserPostProps }) {
   const createdAt = getCreatedDate(post?.createdAt);
-  const { state: { postModal }, Dispatch } = useStateContext()
+  const {
+    state: { postModal },
+    Dispatch,
+  } = useStateContext();
   return (
     <div className={`ml-3 flex w-full items-center justify-between`}>
       <div>
         <div>
           <div>
             <Link
-              onClick={() => postModal ? Dispatch({
-                type: 'TOGGLE_POST_MODAL',
-                payload: {
-                  postModal: false
-                }
-              }) : null}
+              onClick={() =>
+                postModal
+                  ? Dispatch({
+                      type: "TOGGLE_POST_MODAL",
+                      payload: {
+                        postModal: false,
+                      },
+                    })
+                  : null
+              }
               href={`/profile/${post?.author}`}
               className="block text-sm font-semibold leading-tight antialiased"
             >

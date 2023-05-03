@@ -84,7 +84,6 @@ module.exports = {
         "0%": { display: "block" },
         "100%": { display: "none" },
       },
-     
 
       animation: {
         slideIn: "slideIn 0.4s ease forwards",

@@ -9,7 +9,10 @@ import { useStateContext } from "@/stores/StateContext";
 export default function Report() {
   const { data: session } = useSession();
   const { register, resetField, handleSubmit } = useForm();
-  const { state: { selectedPost, postReportModal }, Dispatch } = useStateContext();
+  const {
+    state: { selectedPost, postReportModal },
+    Dispatch,
+  } = useStateContext();
   const { darkMode } = useStore(useDarkModeStore);
 
   const defaultValues = {
@@ -20,28 +23,30 @@ export default function Report() {
     const { handleReport } = await import("@/helper/reportPost");
     handleReport(e, selectedPost, session, resetField).then(() => {
       Dispatch({
-        type: 'TOGGLE_POST_REPORT_MODAL',
+        type: "TOGGLE_POST_REPORT_MODAL",
         payload: {
-          postReportModal: false
-        }
-      })
-    })
+          postReportModal: false,
+        },
+      });
+    });
   };
 
   if (!postReportModal) return null;
 
   return createPortal(
     <div
-      className={` fixed left-0 top-0 z-[99999999] h-screen w-full  select-none !overflow-x-hidden !overflow-y-hidden  bg-black bg-opacity-60 shadow-sm  ${postReportModal ? "animate-fadeIn" : "animate-fadeOut"
-        }`}
+      className={` fixed left-0 top-0 z-[99999999] h-screen w-full  select-none !overflow-x-hidden !overflow-y-hidden  bg-black bg-opacity-60 shadow-sm  ${
+        postReportModal ? "animate-fadeIn" : "animate-fadeOut"
+      }`}
       aria-modal="true"
       role="dialog"
     >
       <div className="mx-auto h-full max-w-5xl text-center ">
         <div className="flex h-full flex-col items-center justify-center ">
           <div
-            className={`flex min-w-[400px] flex-col rounded-lg border-gray-500 p-5 py-10 ${darkMode ? "bg-black text-white" : "bg-white text-black"
-              }`}
+            className={`flex min-w-[400px] flex-col rounded-lg border-gray-500 p-5 py-10 ${
+              darkMode ? "bg-black text-white" : "bg-white text-black"
+            }`}
           >
             <div>
               <h1 className="text-2xl font-bold">Report</h1>
@@ -97,11 +102,11 @@ export default function Report() {
                       className="ml-5 rounded border bg-green-500 px-5 py-1 text-white"
                       onClick={() => {
                         Dispatch({
-                          type: 'TOGGLE_POST_REPORT_MODAL',
+                          type: "TOGGLE_POST_REPORT_MODAL",
                           payload: {
-                            postReportModal: false
-                          }
-                        })
+                            postReportModal: false,
+                          },
+                        });
                       }}
                     >
                       Cancel

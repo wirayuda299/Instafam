@@ -15,19 +15,25 @@ interface Props {
 export default function Results(props: Props) {
   const { results, handleDrawerToggler, customs } = props;
   const { darkMode } = useStore(useDarkModeStore);
-  const { state: { resultDrawer }, Dispatch } = useStateContext();
+  const {
+    state: { resultDrawer },
+    Dispatch,
+  } = useStateContext();
   if (!resultDrawer) return null;
 
   return (
     <>
       <div
-        className={`result flex h-full w-full justify-center  px-5 ${darkMode ? "bg-black text-white" : "bg-white text-black"
-          } transition-all md:px-0 ${results.length < 1 ? "hidden" : "block"} ${customs ? customs : ""
-          }`}
+        className={`result flex h-full w-full justify-center  px-5 ${
+          darkMode ? "bg-black text-white" : "bg-white text-black"
+        } transition-all md:px-0 ${results.length < 1 ? "hidden" : "block"} ${
+          customs ? customs : ""
+        }`}
       >
         <div
-          className={`w-full ${darkMode ? "bg-black text-white" : "bg-white text-black"
-            }`}
+          className={`w-full ${
+            darkMode ? "bg-black text-white" : "bg-white text-black"
+          }`}
         >
           {results?.length === 0 ? (
             <div className="flex items-center justify-center">
@@ -38,8 +44,9 @@ export default function Results(props: Props) {
               {results &&
                 results?.map((result) => (
                   <div
-                    className={`mb-3 flex w-full items-center justify-between border-b border-gray-500 border-opacity-50 py-2 pb-5 ${darkMode ? "bg-black text-white" : "bg-white text-black"
-                      }`}
+                    className={`mb-3 flex w-full items-center justify-between border-b border-gray-500 border-opacity-50 py-2 pb-5 ${
+                      darkMode ? "bg-black text-white" : "bg-white text-black"
+                    }`}
                     key={result.uid}
                   >
                     <Link
@@ -72,10 +79,12 @@ export default function Results(props: Props) {
                       title="close"
                       onClick={() =>
                         Dispatch({
-                          type: 'SET_RESULT',
+                          type: "SET_RESULT",
                           payload: {
-                            result: results.filter((user) => user.uid !== result.uid)
-                          }
+                            result: results.filter(
+                              (user) => user.uid !== result.uid
+                            ),
+                          },
                         })
                       }
                     >

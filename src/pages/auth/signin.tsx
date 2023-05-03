@@ -35,8 +35,9 @@ export default function SignIn({ providers }: { providers: Providers }) {
         <meta name="google" content="notranslate" />
       </Head>
       <div
-        className={`grid h-screen w-full place-items-center p-5 ${darkMode ? "text-white" : "text-black"
-          }`}
+        className={`grid h-screen w-full place-items-center p-5 ${
+          darkMode ? "text-white" : "text-black"
+        }`}
       >
         <div className="flex items-center justify-between gap-4 overflow-hidden">
           <div className="flex aspect-square max-h-[512px] max-w-lg flex-col items-center justify-center text-center">

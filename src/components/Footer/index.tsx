@@ -4,11 +4,10 @@ type FooterProps = {
   link: string;
 };
 
-type Props ={
+type Props = {
   children?: React.ReactNode;
   classNames?: string;
-}
-
+};
 
 export default function Footer({ children, classNames }: Props) {
   const footerlists: FooterProps[] = [
@@ -47,8 +46,7 @@ export default function Footer({ children, classNames }: Props) {
   ];
   return (
     <footer className="w-full px-5 ">
-      <ul
-        className={classNames}>
+      <ul className={classNames}>
         {footerlists.map((list) => (
           <li
             title={list.name}

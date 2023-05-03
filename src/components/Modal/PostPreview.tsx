@@ -1,7 +1,5 @@
 import { IUserPostProps } from "@/types/post";
-import {
-  useDarkModeStore,
-} from "@/stores/stores";
+import { useDarkModeStore } from "@/stores/stores";
 import { useStore } from "zustand";
 import usePost from "@/hooks/usePost";
 import dynamic from "next/dynamic";
@@ -17,15 +15,19 @@ const PostImage = dynamic(() => import("../Post/Image"), {
 });
 export default function PostPreview() {
   const { darkMode } = useStore(useDarkModeStore);
-  const { state: { postPreviewModal, selectedPost }, Dispatch } = useStateContext()
+  const {
+    state: { postPreviewModal, selectedPost },
+    Dispatch,
+  } = useStateContext();
   const { likes, comments, savedBy } = usePost(selectedPost ?? null);
 
   if (!postPreviewModal) return null;
 
   return createPortal(
     <div
-      className={` fixed left-0 top-0 z-50 h-screen w-full hidden lg:block select-none !overflow-hidden bg-black bg-opacity-60 shadow-sm  ${postPreviewModal ? "animate-fadeIn" : "animate-fadeOut"
-        }`}
+      className={` fixed left-0 top-0 z-50 hidden h-screen w-full select-none !overflow-hidden bg-black bg-opacity-60 shadow-sm lg:block  ${
+        postPreviewModal ? "animate-fadeIn" : "animate-fadeOut"
+      }`}
       aria-modal="true"
       role="dialog"
     >
@@ -34,10 +36,14 @@ export default function PostPreview() {
           <div className="h-full w-full">
             <div className="mx-auto grid h-screen w-full max-w-5xl place-items-center rounded-lg ">
               <div
-                className={`relative grid h-full w-full grid-cols-1 justify-between  rounded-xl p-5 shadow-2xl  lg:max-h-[500px] lg:grid-cols-2 lg:p-0 ${darkMode ? "bg-black" : "bg-white"
-                  } `}
+                className={`relative grid h-full w-full grid-cols-1 justify-between  rounded-xl p-5 shadow-2xl  lg:max-h-[500px] lg:grid-cols-2 lg:p-0 ${
+                  darkMode ? "bg-black" : "bg-white"
+                } `}
               >
-                <PostImage priority={true} post={selectedPost as IUserPostProps} />
+                <PostImage
+                  priority={true}
+                  post={selectedPost as IUserPostProps}
+                />
                 <PostCommentDesktop
                   post={selectedPost as IUserPostProps}
                   comments={comments}
@@ -47,22 +53,23 @@ export default function PostPreview() {
                   <button
                     onClick={() => {
                       Dispatch({
-                        type: 'TOGGLE_POST_PREVIEW_MODAL',
+                        type: "TOGGLE_POST_PREVIEW_MODAL",
                         payload: {
-                          postPreviewModal: false
-                        }
-                      })
+                          postPreviewModal: false,
+                        },
+                      });
                       Dispatch({
-                        type: 'TOGGLE_POST_COMMENT_MODAL',
+                        type: "TOGGLE_POST_COMMENT_MODAL",
                         payload: {
-                          postCommentModal: false
-                        }
-                      })
+                          postCommentModal: false,
+                        },
+                      });
                       Dispatch({
-                        type: "SELECT_POST", payload: {
-                          post: null
-                        }
-                      })
+                        type: "SELECT_POST",
+                        payload: {
+                          post: null,
+                        },
+                      });
                     }}
                     name="close"
                     title="close"

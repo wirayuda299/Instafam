@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 
 type Props = {
-  buttonLists:any[]
+  buttonLists: any[];
   selectedPost: IUserPostProps | null;
   session: Session | null;
   darkMode: boolean;
@@ -12,7 +12,8 @@ type Props = {
 };
 
 export default function Lists(props: Props) {
-  const { buttonLists, selectedPost, session, darkMode, closeMenuModal } = props;
+  const { buttonLists, selectedPost, session, darkMode, closeMenuModal } =
+    props;
   const { pathname } = useRouter();
 
   return (

@@ -19,11 +19,10 @@ type Props = {
   pathname: string;
   drawer: boolean;
   notificationDrawer: boolean;
-  handleSearchDrawer: () => void
-  handleNotificationDrawer: () => void
-  openCreateModal: () => void
-  darkMode: boolean
-
+  handleSearchDrawer: () => void;
+  handleNotificationDrawer: () => void;
+  openCreateModal: () => void;
+  darkMode: boolean;
 };
 
 export default function NavLink(props: Props) {
@@ -36,7 +35,7 @@ export default function NavLink(props: Props) {
     handleSearchDrawer,
     notificationDrawer,
     openCreateModal,
-    darkMode
+    darkMode,
   } = props;
 
   const navList = [
@@ -44,61 +43,37 @@ export default function NavLink(props: Props) {
       id: 1,
       title: "Home",
       path: "/",
-      icon: (
-        <AiOutlineHome
-          className={` text-3xl`}
-        />
-      ),
+      icon: <AiOutlineHome className={` text-3xl`} />,
     },
     {
       id: 2,
       title: "Search",
       path: "",
-      icon: (
-        <AiOutlineSearch
-          className={` text-3xl`}
-        />
-      ),
+      icon: <AiOutlineSearch className={` text-3xl`} />,
     },
     {
       id: 3,
       title: "Trending",
       path: "/trending",
-      icon: (
-        <MdOutlineExplore
-          className={` text-3xl`}
-        />
-      ),
+      icon: <MdOutlineExplore className={` text-3xl`} />,
     },
     {
       id: 4,
       title: "Messages",
       path: "/messages",
-      icon: (
-        <RiMessengerLine
-          className={` text-3xl`}
-        />
-      ),
+      icon: <RiMessengerLine className={` text-3xl`} />,
     },
     {
       id: 5,
       title: "Notifications",
       path: "",
-      icon: (
-        <AiOutlineHeart
-          className={` text-3xl`}
-        />
-      ),
+      icon: <AiOutlineHeart className={` text-3xl`} />,
     },
     {
       id: 6,
       title: "Create",
       path: "",
-      icon: (
-        <AiOutlinePlusSquare
-          className={` text-3xl`}
-        />
-      ),
+      icon: <AiOutlinePlusSquare className={` text-3xl`} />,
       event: () => openCreateModal(),
     },
     {
@@ -108,8 +83,9 @@ export default function NavLink(props: Props) {
       icon: (
         <>
           <Image
-            className={`hidden md:block  object-cover h-8 w-8 ${drawer ? "!w-full" : ""
-              } rounded-full`}
+            className={`hidden h-8  w-8 object-cover md:block ${
+              drawer ? "!w-full" : ""
+            } rounded-full`}
             src={session?.user?.image || ""}
             width={50}
             height={50}
@@ -119,7 +95,9 @@ export default function NavLink(props: Props) {
             quality={40}
             alt={session?.user?.name || "user"}
           />
-          <BsPersonCircle className={` text-3xl  md:hidden md:pointer-events-none`} />
+          <BsPersonCircle
+            className={` text-3xl  md:pointer-events-none md:hidden`}
+          />
         </>
       ),
     },
@@ -132,19 +110,13 @@ export default function NavLink(props: Props) {
     darkMode,
     pathname,
     toggler: handleClick,
-    drawer
-
-  }
+    drawer,
+  };
 
   return (
-    <ul className="flex w-full items-center justify-around md:justify-around md:px-0 md:flex-col  md:space-y-2 lg:space-y-4">
+    <ul className="flex w-full items-center justify-around md:flex-col md:justify-around md:space-y-2  md:px-0 lg:space-y-4">
       {navList.map((list) => (
-        <NavItem
-          {...navItemProps}
-          key={list.id}
-          list={list}
-          path={list.path}
-        />
+        <NavItem {...navItemProps} key={list.id} list={list} path={list.path} />
       ))}
     </ul>
   );

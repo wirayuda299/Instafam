@@ -7,18 +7,22 @@ import { useStateContext } from "@/stores/StateContext";
 const Form = dynamic(() => import("./Form"), { ssr: false });
 
 function SearchDrawer() {
-  const { state: { isSearchDrawerOpen } } = useStateContext();
+  const {
+    state: { isSearchDrawerOpen },
+  } = useStateContext();
   const { darkMode } = useStore(useDarkModeStore);
 
   return (
     <>
       {isSearchDrawerOpen ? (
         <section
-          className={`fixed z-50  transition-all duration-300 ease-out ${darkMode ? "bg-black" : "bg-white"
-            } ${isSearchDrawerOpen
+          className={`fixed z-50  transition-all duration-300 ease-out ${
+            darkMode ? "bg-black" : "bg-white"
+          } ${
+            isSearchDrawerOpen
               ? "animate-slideIn lg:animate-slideIn"
               : "animate-slideOut lg:animate-slideOutWidth"
-            }`}
+          }`}
         >
           <div className=" h-full w-full ">
             <div className="w-64 border-b p-5">

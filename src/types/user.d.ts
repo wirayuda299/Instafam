@@ -8,8 +8,7 @@ export interface IUser {
   followers: {
     followedBy: string;
     followedByName: string;
-    followedImage: string
-
+    followedImage: string;
   }[];
   email: string;
   savedPosts: IUserPostProps[];

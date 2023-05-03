@@ -3,12 +3,13 @@ import { IUser } from "@/types/user";
 import { IUserPostProps } from "@/types/post";
 import { useEffect, useState } from "react";
 import { GetServerSidePropsContext } from "next";
+import Layout from "@/components/Layout/Layout";
 
 const Suggestions = dynamic(
   () => import("@/components/Suggestions/Suggestions"),
   { ssr: true }
 );
-const Postloader = dynamic(() => import("@/components/Loader/Post"), {
+const PostLoader = dynamic(() => import("@/components/Loader/Post"), {
   ssr: true,
 });
 const PostCard = dynamic(() => import("@/components/Post"), {
@@ -20,9 +21,8 @@ type Props = {
   users: IUser[];
 };
 
-export default function Home({ posts, users }: Props) {
+function Home({ posts, users }: Props) {
   const [newPosts, setNewPosts] = useState<IUserPostProps[]>([]);
-
   useEffect(() => {
     const handleIntersection = async (entries: IntersectionObserverEntry[]) => {
       if (entries[0].isIntersecting) {
@@ -48,7 +48,7 @@ export default function Home({ posts, users }: Props) {
 
   return (
     <div className="h-screen ">
-      <div className="flex w-full items-start h-screen overflow-y-auto justify-between">
+      <div className="flex h-screen w-full items-start justify-between overflow-y-auto">
         <div className="w-full">
           {posts?.map((post) => (
             <div key={post.postId}>
@@ -57,7 +57,7 @@ export default function Home({ posts, users }: Props) {
           ))}
           <div id="entry"></div>
           {newPosts.length === 0 ? (
-            <Postloader />
+            <PostLoader />
           ) : (
             newPosts?.map((post) => <PostCard post={post} key={post.postId} />)
           )}
@@ -67,11 +67,14 @@ export default function Home({ posts, users }: Props) {
         </div>
       </div>
     </div>
-
   );
 }
+export default Home;
 
-export async function getServerSideProps({ req, res }: GetServerSidePropsContext) {
+export async function getServerSideProps({
+  req,
+  res,
+}: GetServerSidePropsContext) {
   const { getPosts } = await import("@/helper/getPosts");
   const { getUserRecommendation } = await import("@/helper/getUser");
   const { getSession } = await import("next-auth/react");
@@ -87,14 +90,14 @@ export async function getServerSideProps({ req, res }: GetServerSidePropsContext
   }
   const users = await getUserRecommendation(session?.user.uid, 5);
   const posts = await getPosts(3);
-  
+
   res.setHeader("Cache-Control", "public, maxage=60, stale-while-revalidate");
 
   return {
     props: {
       users,
       posts,
-      session
+      session,
     },
   };
 }

@@ -1,5 +1,5 @@
 import { IUserPostProps } from "@/types/post";
-import {  useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 
 export default function Author({ post }: { post: IUserPostProps }) {
   const [show, setShow] = useState(false);

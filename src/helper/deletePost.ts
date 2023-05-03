@@ -11,11 +11,11 @@ type DeletePostProps = {
 export const deletePost = async <T extends DeletePostProps>(props: T) => {
   if (typeof window === "undefined") return;
   const { post, session } = props;
-  
+
   if (!session || !session.user) throw new Error("Please login to delete post");
   const uidNotMatch = session.user.uid !== post?.postedById;
 
-  if(uidNotMatch) throw new Error("You can't delete this post")
+  if (uidNotMatch) throw new Error("You can't delete this post");
 
   try {
     const { deleteDoc, doc } = await import("firebase/firestore");
@@ -27,7 +27,7 @@ export const deletePost = async <T extends DeletePostProps>(props: T) => {
     );
     const deleteFromStorage = await deleteObject(postRef);
 
-    await Promise.all([deleteFromFirestore, deleteFromStorage])
+    await Promise.all([deleteFromFirestore, deleteFromStorage]);
   } catch (error: any) {
     toast.error(error.message);
   }

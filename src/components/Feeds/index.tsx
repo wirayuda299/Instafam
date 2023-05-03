@@ -20,22 +20,24 @@ export default function Feeds({ post, index }: Props) {
           type: "SELECT_POST",
           payload: {
             post,
-          }
-        })
+          },
+        });
 
-       Dispatch({
-        type: 'TOGGLE_FEED_MODAL',
-        payload: {
-          feedModal: true
-        }
-       })
+        Dispatch({
+          type: "TOGGLE_FEED_MODAL",
+          payload: {
+            feedModal: true,
+          },
+        });
       }}
     >
       <PostImage
         post={post}
         priority={true}
-        classNames={` h-full w-full object-cover object-center xs:object-top ${index % 2 === 0 ? "aspect-video md:aspect-square" : "aspect-square "
-          }`} />
+        classNames={` h-full w-full object-cover object-center xs:object-top ${
+          index % 2 === 0 ? "aspect-video md:aspect-square" : "aspect-square "
+        }`}
+      />
       <div className="hidden md:block">
         <PostInfo post={post} />
       </div>

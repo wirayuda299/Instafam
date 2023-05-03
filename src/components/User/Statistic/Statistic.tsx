@@ -70,9 +70,11 @@ function Statistic({ session, users, posts, refreshData }: Props) {
                             name="sign out"
                             type="button"
                             title="sign out"
-                            className="mt-2 w-full text-center  rounded-md bg-blue-500 py-1 text-white md:hidden"
+                            className="mt-2 w-full rounded-md  bg-blue-500 py-1 text-center text-white md:hidden"
                             onClick={async () => {
-                              const { signOut } = await import("next-auth/react");
+                              const { signOut } = await import(
+                                "next-auth/react"
+                              );
                               signOut({
                                 callbackUrl: `${process.env.NEXTAUTH_URL}/auth/signin`,
                                 redirect: true,
@@ -81,7 +83,7 @@ function Statistic({ session, users, posts, refreshData }: Props) {
                           >
                             Log Out
                           </button>
-                        ) :null}
+                        ) : null}
                       </div>
                       <DesktopStatistic data={data} />
                     </div>
