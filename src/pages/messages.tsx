@@ -64,7 +64,6 @@ export default function Messages({ sessions, receiver, sender }: Props) {
     setSelectedChat(null);
   };
 
-  console.log(selectedChat);
   useEffect(() => {
     window.addEventListener("resize", () => {
       closeReceiverDrawer();

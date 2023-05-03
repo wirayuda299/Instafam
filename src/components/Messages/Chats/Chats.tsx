@@ -30,7 +30,7 @@ export default function Chats({ session, selectedChat }: Props) {
   return (
     <>
       {selectedChat ? (
-        <div className=" h-screen w-full  ">
+        <div className=" h-screen w-full  pb-20 md:pb-10">
           <div className="h-full  w-full ">
             {chats?.map((item) => (
               <div
@@ -72,7 +72,7 @@ export default function Chats({ session, selectedChat }: Props) {
                 </div>
               </div>
             ))}
-            <div className={"absolute bottom-0 left-0 z-0 w-full"}>
+            <div className={"absolute bottom-28 left-0 z-0 w-full md:bottom-0"}>
               <ChatForm selectedChat={selectedChat} session={session} />
             </div>
           </div>
