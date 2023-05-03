@@ -24,15 +24,13 @@ export default function UsersChat({ receiver, selectUser, sender }: Props) {
   if (messagesReceiver.length === 0 && messagesSender.length === 0) return null;
 
   const handleClick = (user: DataMessage | null) => {
-    if (user) {
-      selectUser(user);
-      Dispatch({
-        type: "TOGGLE_RECEIVER_DRAWER",
-        payload: {
-          receiverDrawer: false,
-        },
-      });
-    }
+    user && selectUser(user);
+    Dispatch({
+      type: "TOGGLE_RECEIVER_DRAWER",
+      payload: {
+        receiverDrawer: false,
+      },
+    });
   };
 
   return (

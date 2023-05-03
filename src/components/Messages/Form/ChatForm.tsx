@@ -49,7 +49,7 @@ export default function ChatForm({ selectedChat, session }: Props) {
 
   return (
     <div
-      className={`fixed bottom-16 left-0 right-0 w-full rounded-full border-2 border-gray-500 border-opacity-40 md:absolute md:bottom-0  ${
+      className={` w-full rounded-full border-2 border-gray-500 border-opacity-40 md:absolute md:bottom-0  ${
         darkMode ? "bg-black" : "bg-white "
       }`}
     >

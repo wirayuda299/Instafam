@@ -1,6 +1,7 @@
 import { db } from "@/config/firebase";
 import { IUser } from "@/types/user";
 import type { Session } from "next-auth";
+import { toast } from "react-hot-toast";
 
 export async function startNewMessage(
   session: Session | null,
@@ -10,6 +11,9 @@ export async function startNewMessage(
     if (!session) return;
 
     const { addDoc, collection } = await import("firebase/firestore");
+    if (chatRoomSelected?.uid === session?.user.uid) {
+      throw new Error("Can not start message with your self");
+    }
     await addDoc(collection(db, "messages"), {
       room: {
         id: [session?.user.uid, chatRoomSelected?.uid],
@@ -27,6 +31,6 @@ export async function startNewMessage(
       },
     });
   } catch (error: any) {
-    console.log(error.message);
+    toast.error(error.message);
   }
 }

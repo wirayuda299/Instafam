@@ -9,6 +9,7 @@ import Image from "next/image";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import { useStateContext } from "@/stores/StateContext";
+import { toast } from "react-hot-toast";
 
 export default function MessagesModal() {
   const {
@@ -18,7 +19,7 @@ export default function MessagesModal() {
   const { handleSubmit, resetField, register } = useForm();
   const [result, setResult] = useState<IUser[] | undefined>([]);
   const { darkMode } = useStore(useDarkModeStore);
-  const router = useRouter();
+  const { replace, asPath, push } = useRouter();
   const { data: session } = useSession();
 
   const searchUser = async (data: FieldValues) => {
@@ -30,7 +31,7 @@ export default function MessagesModal() {
       }
       if (!session) {
         toast.error("Please login to search user");
-        router.push("/auth/signin");
+        push("/auth/signin");
         return;
       }
       const res = await fetch(`/api/search-user?search=${data.search}`, {
@@ -58,7 +59,7 @@ export default function MessagesModal() {
 
   return createPortal(
     <div
-      className={` fixed left-0 top-0 z-[99999999] h-screen w-full  select-none !overflow-x-hidden !overflow-y-hidden  shadow-sm  ${
+      className={` fixed left-0 top-0 z-[99999999] h-screen w-full  select-none !overflow-hidden   shadow-sm  ${
         messageModal ? "animate-fadeIn" : "animate-fadeOut"
       } ${darkMode ? "bg-black text-white" : "bg-white text-black"}`}
       aria-modal="true"
@@ -109,30 +110,29 @@ export default function MessagesModal() {
           {result?.map((user) => (
             <div
               onClick={async () => {
-                Dispatch({
-                  type: "SET_CHAT_ROOM_SELECTED",
-                  payload: {
-                    chatRoomSelected: user,
-                  },
-                });
-                const { startNewMessage } = await import(
-                  "@/helper/startNewMessage"
-                );
-                await startNewMessage(session, chatRoomSelected).then(() => {
-                  Dispatch({
-                    type: "TOGGLE_MESSAGE_MODAL",
-                    payload: {
-                      messageModal: false,
-                    },
-                  });
+                try {
                   Dispatch({
                     type: "SET_CHAT_ROOM_SELECTED",
                     payload: {
-                      chatRoomSelected: null,
+                      chatRoomSelected: user,
                     },
                   });
-                  setResult([]);
-                });
+                  const { startNewMessage } = await import(
+                    "@/helper/startNewMessage"
+                  );
+                  startNewMessage(session, chatRoomSelected).then(() => {
+                    Dispatch({
+                      type: "TOGGLE_MESSAGE_MODAL",
+                      payload: {
+                        messageModal: false,
+                      },
+                    });
+                    replace(asPath);
+                    setResult([]);
+                  });
+                } catch (e: any) {
+                  toast.error(e.message);
+                }
               }}
               key={user.uid}
               className={`relative flex items-center space-x-2  px-4 py-3 ${

@@ -1,5 +1,5 @@
 import { useDarkModeStore } from "@/stores/stores";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useStore } from "zustand";
 import dynamic from "next/dynamic";
 import type { Session } from "next-auth";
@@ -52,59 +52,71 @@ export default function Messages({ sessions, receiver, sender }: Props) {
   } = useStateContext();
   const { darkMode } = useStore(useDarkModeStore);
   const selectUser = (user: DataMessage) => setSelectedChat(user);
+  const closeReceiverDrawer = () => {
+    Dispatch({
+      type: "TOGGLE_RECEIVER_DRAWER",
+      payload: {
+        receiverDrawer: false,
+      },
+    });
+  };
+  const clearSelectedChat = () => {
+    setSelectedChat(null);
+  };
+
+  console.log(selectedChat);
+  useEffect(() => {
+    window.addEventListener("resize", () => {
+      closeReceiverDrawer();
+      clearSelectedChat();
+    });
+    return () => {
+      window.addEventListener("resize", () => {
+        closeReceiverDrawer();
+        clearSelectedChat();
+      });
+    };
+  }, []);
 
   return (
-    <div className="h-screen w-full overflow-y-auto">
+    <>
       <div className="mx-auto flex h-screen items-center justify-between overflow-hidden">
-        <div className=" flex w-full items-center justify-center md:hidden">
-          {!receiverDrawer ? (
-            <button
-              name="close receiver drawer"
-              title="close receiver drawer"
-              onClick={() => {
-                Dispatch({
-                  type: "TOGGLE_RECEIVER_DRAWER",
-                  payload: {
-                    receiverDrawer: true,
-                  },
-                });
-              }}
-              className="rounded-md bg-blue-600 px-5 py-2 font-semibold text-white"
-            >
-              Open Drawer
-            </button>
-          ) : null}
-        </div>
-        {receiver.length === 0 ? (
-          <EmptyMessages />
+        {receiver.length < 1 && !selectedChat ? (
+          <div className={"flex h-screen w-full items-center justify-center"}>
+            <EmptyMessages />
+          </div>
         ) : (
           <>
-            <aside
-              className={`ease fixed top-0 z-50 h-full w-full max-w-sm border-r border-gray-400 border-opacity-50 transition-all  duration-300 lg:static lg:z-0 ${
-                receiverDrawer ? "left-0" : "-left-full"
-              } ${darkMode ? "bg-black text-white" : "bg-white text-black"}`}
-            >
-              <UserHeader />
-              <UsersChat
-                receiver={receiver}
-                selectUser={selectUser}
-                sender={sender}
-              />
-            </aside>
-            <div
-              className={`h-full w-full  ${
-                selectedChat === null ? "hidden" : "block"
-              }`}
-            >
-              <div className="relative h-full w-full">
-                <ChatHeader selectedChat={selectedChat} />
-                <Chats session={sessions} selectedChat={selectedChat} />
+            {!selectedChat && receiver.length < 1 ? (
+              <button>Open</button>
+            ) : (
+              <div className={" flex h-screen w-full "}>
+                <aside
+                  className={`ease fixed top-0 z-50 h-full w-full max-w-sm border-r border-gray-400 border-opacity-50 transition-all  duration-300 lg:static lg:z-0  ${
+                    receiverDrawer ? "left-0 lg:static " : "-left-full"
+                  } ${
+                    darkMode ? "bg-black text-white" : "bg-white text-black"
+                  }`}
+                >
+                  <UserHeader />
+                  <UsersChat
+                    receiver={receiver}
+                    selectUser={selectUser}
+                    sender={sender}
+                  />
+                </aside>
+                <div className={`relative h-screen  w-full`}>
+                  <div className=" h-full w-full  overflow-y-auto">
+                    <ChatHeader selectedChat={selectedChat} />
+                    <Chats session={sessions} selectedChat={selectedChat} />
+                  </div>
+                </div>
               </div>
-            </div>
+            )}
           </>
         )}
       </div>
-    </div>
+    </>
   );
 }
 
