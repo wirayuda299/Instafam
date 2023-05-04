@@ -1,5 +1,5 @@
 import { IUserPostProps } from "@/types/post";
-import { FieldValues } from "react-hook-form";
+import type { FieldValues } from "react-hook-form";
 
 interface Values extends FieldValues {
   updated: string;

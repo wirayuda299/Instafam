@@ -5,7 +5,7 @@ import dynamic from "next/dynamic";
 import NextNProgress from "nextjs-progressbar";
 import { StateProvider } from "@/stores/StateContext";
 import Head from "next/head";
-import { AppProps } from "next/app";
+import type { AppProps } from "next/app";
 import type { Session } from "next-auth";
 import type { ComponentType } from "react";
 

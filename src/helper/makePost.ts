@@ -2,7 +2,7 @@ import { storage, db } from "@/config/firebase";
 import { setDoc, doc } from "firebase/firestore";
 import { ref, uploadString, getDownloadURL } from "firebase/storage";
 import type { Session } from "next-auth";
-import { Dispatch, SetStateAction } from "react";
+import type { Dispatch, SetStateAction } from "react";
 import toast from "react-hot-toast";
 
 type TMakePost = {

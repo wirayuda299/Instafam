@@ -1,11 +1,9 @@
 import { AiOutlineWarning } from "react-icons/ai";
-import { BsFillGearFill, BsMoonFill } from "react-icons/bs";
-import { RxCountdownTimer } from "react-icons/rx";
+import { BsMoonFill } from "react-icons/bs";
 import { BiSun } from "react-icons/bi";
 import { useStateContext } from "@/stores/StateContext";
 import { useStore } from "zustand";
 import { useDarkModeStore } from "@/stores/stores";
-import Link from "next/link";
 
 export default function ExtraMenus() {
   const {

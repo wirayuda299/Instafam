@@ -3,7 +3,7 @@ import Head from "next/head";
 import { IUserPostProps } from "@/types/post";
 import { IUser } from "@/types/user";
 import { useRouter } from "next/router";
-import { GetServerSidePropsContext } from "next";
+import type { GetServerSidePropsContext } from "next";
 import { memo, useMemo, useState, useTransition } from "react";
 import type { Session } from "next-auth";
 import { useStateContext } from "@/stores/StateContext";

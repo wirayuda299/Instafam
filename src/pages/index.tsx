@@ -3,7 +3,6 @@ import { IUser } from "@/types/user";
 import { IUserPostProps } from "@/types/post";
 import { useEffect, useState } from "react";
 import { GetServerSidePropsContext } from "next";
-import Layout from "@/components/Layout/Layout";
 
 const Suggestions = dynamic(
   () => import("@/components/Suggestions/Suggestions"),
