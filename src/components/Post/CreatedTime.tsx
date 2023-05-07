@@ -38,7 +38,7 @@ export default function CreatedTime({ createdAt, author }: Props) {
           <span
             className={`block text-left font-thin leading-tight text-gray-500 antialiased xs:text-[10px] sm:text-xs `}
           >
-            {createdAt}
+            {createdAtTime}
           </span>
         </div>
       </div>
