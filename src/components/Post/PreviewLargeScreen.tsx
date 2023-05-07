@@ -27,9 +27,7 @@ export default function PreviewLargeScreen(props: props) {
     <>
       <div className="hidden shadow-sm lg:block">
         <PostImage
-          priority={true}
           post={post}
-          classNames="w-full h-full object-cover"
         />
       </div>
       <PostDetailComment

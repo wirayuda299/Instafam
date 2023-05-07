@@ -36,10 +36,9 @@ export default function Trending({ posts }: Props) {
       <div className="m-0 columns-3xs">
         {posts?.map((post) => (
           <div key={`${post.postId}`}>
-            <button
-              name="click to view the post"
+            <div
               title="click to view the post"
-              className={`group relative mb-5 hidden h-auto w-full md:block ${
+              className={`group relative mb-5 hidden  h-max !w-full md:block ${
                 Number(post.createdAt) % 2 === 0
                   ? "aspect-square"
                   : "aspect-[9/16]"
@@ -61,11 +60,10 @@ export default function Trending({ posts }: Props) {
             >
               <PostImage
                 post={post}
-                loading="lazy"
-                classNames="post h-full w-full rounded-lg object-cover"
+                className="h-full min-h-full w-full rounded-lg object-cover"
               />
               <PostInfo post={post} />
-            </button>
+            </div>
             <div
               onClick={() => {
                 Dispatch({
@@ -85,8 +83,7 @@ export default function Trending({ posts }: Props) {
             >
               <PostImage
                 post={post}
-                loading="lazy"
-                classNames={`h-full w-full border border-gray-400 border-opacity-40 object-cover `}
+                className={`h-full w-full border border-gray-400 border-opacity-40 object-cover `}
               />
             </div>
           </div>

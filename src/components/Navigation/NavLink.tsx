@@ -89,7 +89,6 @@ export default function NavLink(props: Props) {
             src={session?.user?.image || ""}
             width={50}
             height={50}
-            priority
             placeholder="blur"
             blurDataURL={session?.user?.image || ""}
             quality={40}

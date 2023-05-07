@@ -2,13 +2,10 @@ import { IUserPostProps } from "@/types/post";
 import Image from "next/image";
 import useBlurhash from "@/hooks/useBlurhash";
 
-type Props = {
+interface Props extends React.HTMLAttributes<HTMLImageElement> {
   post: IUserPostProps;
-  classNames?: string;
-  loading?: string | undefined;
-  priority?: boolean;
 };
-export default function PostImage({ post, classNames, loading }: Props) {
+export default function PostImage({ post }: Props) {
   const { blurHash } = useBlurhash(post);
   return (
     <>
@@ -20,9 +17,7 @@ export default function PostImage({ post, classNames, loading }: Props) {
         placeholder="blur"
         blurDataURL={`${blurHash}`}
         quality={70}
-        loading={loading === "lazy" ? "lazy" : "eager"}
-        priority={loading === undefined ? true : false}
-        className={classNames}
+        className="post h-auto min-h-full w-full rounded-lg object-cover"
         alt={post?.author ?? "user post image"}
       />
     </>

@@ -4,16 +4,12 @@ import dynamic from "next/dynamic";
 import { useSession } from "next-auth/react";
 import { useStore } from "zustand";
 import { useDarkModeStore } from "@/stores/stores";
-import { useStateContext } from "@/stores/StateContext";
-import { largeScreenClickEvent } from "@/utils/largeScreenClickEvent";
-import { mobileClickEvents } from "@/utils/mobileScreenClickEvent";
 const Likes = dynamic(() => import("./Likes"));
 const CommentsForm = dynamic(() => import("@/components/Comments/Forms"));
 const ActionButton = dynamic(() => import("@/components/Post/ActionButton"));
 const Comment = dynamic(() => import("@/components/Comments/Comment"));
 const PostHeader = dynamic(() => import("@/components/Header/PostHeader"));
 const Empty = dynamic(() => import("../Comments/Empty"));
-
 type CommentsProps = Pick<IUserPostProps, "comments">;
 
 type Props = {
@@ -27,7 +23,6 @@ type Props = {
 export default function PostDetailComment(props: Props) {
   const { post, children, comments, likes, savedBy } = props;
   const { data: session } = useSession();
-  const { Dispatch } = useStateContext();
   const { darkMode } = useStore(useDarkModeStore);
 
   return (
@@ -52,14 +47,12 @@ export default function PostDetailComment(props: Props) {
           }`}
         >
           <ActionButton
-            clickLgScreen={() => largeScreenClickEvent(Dispatch, post)}
-            clickMobileScreen={() => mobileClickEvents(Dispatch, post)}
             likes={likes}
             post={post ?? []}
             savedBy={savedBy}
             uid={session?.user.uid as string}
           />
-          <Likes likesCount={likes} session={session} />
+          <Likes likesCount={likes} uid={session?.user.uid as string}/>
           <div className="py-2">
             <CommentsForm
               post={post ?? []}

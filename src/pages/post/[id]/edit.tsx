@@ -43,9 +43,7 @@ export default function EditPosts({ post }: { post: IUserPostProps }) {
           <div className="mx-auto grid h-screen w-full max-w-5xl place-items-center rounded-lg">
             <div className="relative grid h-full w-full grid-cols-1 rounded-lg border border-gray-500 border-opacity-50 p-5 lg:max-h-[550px] lg:grid-cols-2 lg:p-0">
               <PostImage
-                priority={true}
                 post={post}
-                classNames="w-full h-full object-cover"
               />
               <div>
                 <div className="border-b border-gray-500 border-opacity-50">

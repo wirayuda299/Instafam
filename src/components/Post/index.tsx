@@ -7,8 +7,6 @@ import { BsThreeDots } from "react-icons/bs";
 import { useStateContext } from "@/stores/StateContext";
 import { useStore } from "zustand";
 import { useDarkModeStore } from "@/stores/stores";
-import { largeScreenClickEvent } from "@/utils/largeScreenClickEvent";
-import { mobileClickEvents } from "@/utils/mobileScreenClickEvent";
 const Likes = dynamic(() => import("./Likes"));
 const ActionButton = dynamic(() => import("./ActionButton"));
 const PostHeader = dynamic(() => import("../Header/PostHeader"));
@@ -50,20 +48,16 @@ function PostCard({ post }: { post: IUserPostProps }) {
           </button>
         </PostHeader>
         <PostImage
-          priority={true}
           post={post}
-          classNames="post h-auto w-full rounded-lg object-cover"
         />
         <ActionButton
           savedBy={savedBy}
           likes={likes}
           post={post}
-          clickLgScreen={() => largeScreenClickEvent(Dispatch, post)}
-          clickMobileScreen={() => mobileClickEvents(Dispatch, post)}
           uid={session?.user?.uid as string}
         />
-        <Likes likesCount={likes} session={session} />
-        <Author post={post} />
+        <Likes likesCount={likes} uid={session?.user.uid as string} />
+        <Author author={post.author}  captions={post.captions} hashtags={post.hashtags} />
         <Comments comments={comments} post={post} session={session} />
       </div>
     </div>

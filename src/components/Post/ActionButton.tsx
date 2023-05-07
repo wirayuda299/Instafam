@@ -6,20 +6,50 @@ import { BiBookmark } from "react-icons/bi";
 import { IoPaperPlaneOutline } from "react-icons/io5";
 import { TbMessageCircle2 } from "react-icons/tb";
 import { memo } from "react";
+import { useStateContext } from "@/stores/StateContext";
 
 type Props = {
   post: IUserPostProps;
   uid: string;
   likes: string[];
   savedBy: string[];
-  clickLgScreen: () => void;
-  clickMobileScreen: () => void;
 };
 
 function ActionButton(props: Props) {
-  const { post, uid, likes, savedBy, clickLgScreen, clickMobileScreen } = props;
+  const { post, uid, likes, savedBy } = props;
+  const { Dispatch } = useStateContext();
 
-  const BUTTON_LISTS = [
+const mobileClickEvents = () => {
+    Dispatch({
+      type: "SELECT_POST",
+      payload: {
+        post,
+      },
+    });
+    Dispatch({
+      type: "TOGGLE_POST_COMMENT_MODAL",
+      payload: {
+        postCommentModal: true,
+      },
+    });
+  };
+
+const largeScreenClickEvent = () => {
+    Dispatch({
+      type: "TOGGLE_POST_PREVIEW_MODAL",
+      payload: {
+        postPreviewModal: true,
+      },
+    });
+    Dispatch({
+      type: "SELECT_POST",
+      payload: {
+        post,
+      },
+    });
+  };
+
+const BUTTON_LISTS = [
     {
       id: 1,
       icon: likes?.includes(uid) ? (
@@ -43,11 +73,11 @@ function ActionButton(props: Props) {
         <>
           <FaRegComment
             className="hidden text-2xl hover:text-gray-500 sm:text-3xl lg:block"
-            onClick={clickLgScreen}
+            onClick={largeScreenClickEvent}
           />
           <TbMessageCircle2
             className="block text-2xl hover:text-gray-500 sm:text-3xl lg:hidden"
-            onClick={clickMobileScreen}
+            onClick={mobileClickEvents}
           />
         </>
       ),

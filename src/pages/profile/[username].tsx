@@ -73,6 +73,21 @@ function UserProfile({
     }
   };
 
+  const largeScreenClickEvent = (post:IUserPostProps) => {
+    Dispatch({
+      type: "TOGGLE_POST_PREVIEW_MODAL",
+      payload: {
+        postPreviewModal: true,
+      },
+    });
+    Dispatch({
+      type: "SELECT_POST",
+      payload: {
+        post,
+      },
+    });
+  };
+
   const Tabs = useMemo(() => {
     return (
       <>
@@ -141,18 +156,11 @@ function UserProfile({
                       <>
                         <div
                           key={post.postId}
-                          onClick={async () => {
-                            const { largeScreenClickEvent } = await import(
-                              "@/utils/largeScreenClickEvent"
-                            );
-                            largeScreenClickEvent(Dispatch, post);
-                          }}
+                          onClick={ () => largeScreenClickEvent(post)}
                           className="hidden cursor-pointer md:block"
                         >
                           <PostImage
                             post={post}
-                            loading="lazy"
-                            classNames="post h-full w-full rounded-lg object-cover"
                           />
                         </div>
                         <div
@@ -174,8 +182,6 @@ function UserProfile({
                         >
                           <PostImage
                             post={post}
-                            loading="lazy"
-                            classNames={`h-full w-full  object-cover `}
                           />
                         </div>
                       </>
@@ -197,9 +203,7 @@ function UserProfile({
                     {savedPosts?.map((post) => (
                       <div key={post.postId} className="group relative">
                         <PostImage
-                          priority={true}
                           post={post}
-                          classNames="w-full h-full object-cover rounded-lg"
                         />
                         <PostInfo post={post} />
                       </div>

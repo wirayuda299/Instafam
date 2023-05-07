@@ -1,16 +1,15 @@
 import { memo } from "react";
-import type { Session } from "next-auth";
 
 type Props = {
   likesCount: string[];
-  session: Session | null;
+  uid: string;
 };
-function Likes({ likesCount, session }: Props) {
+function Likes({ likesCount, uid }: Props) {
   return (
     <>
       {likesCount && likesCount.length > 0 ? (
         <div className="mb-4 mt-1 flex px-1 text-xs font-light tracking-wider ">
-          {likesCount.includes(session?.user?.uid as string) ? (
+          {likesCount.includes(uid) ? (
             <p className="flex items-center gap-1 space-x-1">
               {likesCount.length > 1 ? "You  " : "liked by You "}
               <span

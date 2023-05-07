@@ -41,7 +41,6 @@ export default function PostPreview() {
                 } `}
               >
                 <PostImage
-                  priority={true}
                   post={selectedPost as IUserPostProps}
                 />
                 <PostCommentDesktop

@@ -1,10 +1,13 @@
 import { useStateContext } from "@/stores/StateContext";
-import { IUserPostProps } from "@/types/post";
 import { getCreatedDate } from "@/utils/postDate";
 import Link from "next/link";
+type Props ={
+  author: string;
+  createdAt: string | number;
+}
 
-export default function CreatedTime({ post }: { post: IUserPostProps }) {
-  const createdAt = getCreatedDate(post?.createdAt);
+export default function CreatedTime({ createdAt, author }: Props) {
+  const createdAtTime = getCreatedDate(createdAt);
   const {
     state: { postModal },
     Dispatch,
@@ -25,10 +28,11 @@ export default function CreatedTime({ post }: { post: IUserPostProps }) {
                     })
                   : null
               }
-              href={`/profile/${post?.author}`}
+              href={`/profile/${author}`}
+              prefetch={false}
               className="block text-sm font-semibold leading-tight antialiased"
             >
-              {post?.author}
+              {author}
             </Link>
           </div>
           <span

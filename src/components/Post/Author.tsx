@@ -1,10 +1,13 @@
-import { IUserPostProps } from "@/types/post";
-import { useMemo, useState } from "react";
+import {  useState } from "react";
 
-export default function Author({ post }: { post: IUserPostProps }) {
+type Props = {
+  hashtags: string[];
+  captions: string
+  author: string;
+}
+
+export default function Author({ author, captions, hashtags }: Props) {
   const [show, setShow] = useState(false);
-  const posthastag = useMemo<string[]>(() => post?.hashtags, [post]);
-  const captions = useMemo<string>(() => post?.captions[0], [post]);
 
   return (
     <div className="overflow-hidden">
@@ -14,14 +17,14 @@ export default function Author({ post }: { post: IUserPostProps }) {
         }`}
       >
         <h3 className="pb-2 text-sm font-medium sm:font-semibold">
-          {post?.author}
+          {author}
         </h3>
         <p
           className={` text-sm font-thin  ${
             captions.length >= 20 && !show ? "truncate" : ""
           }`}
         >
-          {post.captions}
+          {captions}
         </p>
         <button
           className="!ml-0 text-sm text-gray-400"
@@ -44,7 +47,7 @@ export default function Author({ post }: { post: IUserPostProps }) {
         </button>
       </div>
       <div className="flex flex-wrap">
-        {posthastag.map((hashtag) => (
+        {hashtags.map((hashtag) => (
           <span
             key={hashtag}
             className="pr-1 text-xs font-normal text-blue-500"
