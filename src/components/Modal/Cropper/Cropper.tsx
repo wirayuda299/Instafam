@@ -63,6 +63,28 @@ export default function Cropper() {
       },
     });
   };
+
+  const handleClose = () => {
+    Dispatch({
+      type: "TOGGLE_POST_CREATE_MODAL",
+      payload: {
+        postCreateModal: false,
+      },
+    });
+    Dispatch({
+      type: "SET_PREVIEW_URL",
+      payload: {
+        previewUrl: "",
+      },
+    });
+    Dispatch({
+      type: "SET_CROPPED_IMAGE",
+      payload: {
+        croppedImage: "",
+      },
+    });
+  }
+
   if (!postCreateModal) return null;
 
   return createPortal(

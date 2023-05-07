@@ -1,7 +1,7 @@
 import { useDarkModeStore } from "@/stores/stores";
 import { AiOutlineCloudUpload } from "react-icons/ai";
 import { useStore } from "zustand";
-import type { ChangeEvent } from "react";
+import { useState, type ChangeEvent } from "react";
 import toast from "react-hot-toast";
 import { encode } from "blurhash";
 import { useStateContext } from "@/stores/StateContext";
@@ -13,6 +13,7 @@ type Props = {
 export default function FileUpload({ img }: Props) {
   const { darkMode } = useStore(useDarkModeStore);
   const { Dispatch } = useStateContext();
+  const [isLoading, setIsLoading] = useState(false);
 
   const loadImage = async (src: any) =>
     new Promise((resolve, reject) => {
@@ -37,7 +38,10 @@ export default function FileUpload({ img }: Props) {
     return encode(imageData?.data, imageData?.width, imageData?.height, 4, 4);
   };
   const filterImage = async (file: any) => {
+    setIsLoading(true);
+
     try {
+      toast.loading("Checking image...");
       const data = new FormData();
       if (!file) return;
       data.append("image", file, file.name);
@@ -54,19 +58,23 @@ export default function FileUpload({ img }: Props) {
         "https://nsfw-images-detection-and-classification.p.rapidapi.com/adult-content-file",
         options
       );
-      return await getResult.json();
+      const result = await getResult.json();
+      return result;
     } catch (error: any) {
       console.log(error.message);
     }
   };
 
   const handleInputImage = async (e: ChangeEvent<HTMLInputElement>) => {
-    try {
+    
+    try { 
       let selectedFile = e.target.files?.[0];
       if (!selectedFile) return;
       const result = await filterImage(selectedFile);
       if (result?.unsafe) {
+        toast.dismiss();
         toast.error("Image is not allowed");
+        setIsLoading(false);
         return;
       }
       const data = await loadImage(URL.createObjectURL(selectedFile));
@@ -77,6 +85,7 @@ export default function FileUpload({ img }: Props) {
       const reader = new FileReader();
       reader.onload = async (event) => {
         if (event.target) {
+          toast.dismiss();
           const blurhash = await encodeImageToBlurhash(event.target.result);
           if (!blurhash) return;
           Dispatch({
@@ -91,6 +100,7 @@ export default function FileUpload({ img }: Props) {
               previewUrl: event.target.result as string,
             },
           });
+          setIsLoading(false);
         }
       };
       reader.readAsDataURL(selectedFile);
@@ -137,6 +147,7 @@ export default function FileUpload({ img }: Props) {
           </div>
         </div>
       ) : null}
+     
     </>
   );
 }
