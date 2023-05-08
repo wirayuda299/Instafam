@@ -73,7 +73,7 @@ function UserProfile({
     }
   };
 
-  const largeScreenClickEvent = (post:IUserPostProps) => {
+  const largeScreenClickEvent = (post: IUserPostProps) => {
     Dispatch({
       type: "TOGGLE_POST_PREVIEW_MODAL",
       payload: {
@@ -122,7 +122,7 @@ function UserProfile({
         />
       </Head>
       {session ? (
-        <div className="mx-auto h-screen w-full overflow-x-auto overflow-y-auto">
+        <div className="mx-auto h-screen w-full overflow-x-auto overflow-y-scroll">
           <div className="flex w-full items-center space-x-3 border-b border-gray-500 border-opacity-50 md:justify-center md:space-x-10">
             {Statistics}
           </div>
@@ -156,12 +156,10 @@ function UserProfile({
                       <>
                         <div
                           key={post.postId}
-                          onClick={ () => largeScreenClickEvent(post)}
+                          onClick={() => largeScreenClickEvent(post)}
                           className="hidden cursor-pointer md:block"
                         >
-                          <PostImage
-                            post={post}
-                          />
+                          <PostImage post={post} />
                         </div>
                         <div
                           onClick={() => {
@@ -180,9 +178,7 @@ function UserProfile({
                           }}
                           className={`block w-full cursor-pointer md:hidden`}
                         >
-                          <PostImage
-                            post={post}
-                          />
+                          <PostImage post={post} />
                         </div>
                       </>
                     ))
@@ -202,9 +198,7 @@ function UserProfile({
                   <>
                     {savedPosts?.map((post) => (
                       <div key={post.postId} className="group relative">
-                        <PostImage
-                          post={post}
-                        />
+                        <PostImage post={post} />
                         <PostInfo post={post} />
                       </div>
                     ))}

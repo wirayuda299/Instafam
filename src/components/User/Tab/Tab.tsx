@@ -9,7 +9,7 @@ type Props = {
   activeTab: number;
   handleTabChange: ChangeTab;
 };
-const Tab:FC<Props> = ({ activeTab, handleTabChange }) => {
+const Tab: FC<Props> = ({ activeTab, handleTabChange }) => {
   const btn1 = useRef<HTMLButtonElement>(null);
   const btn2 = useRef<HTMLButtonElement>(null);
   const btn3 = useRef<HTMLButtonElement>(null);
@@ -99,5 +99,5 @@ const Tab:FC<Props> = ({ activeTab, handleTabChange }) => {
       </div>
     </div>
   );
-}
-export default Tab
+};
+export default Tab;

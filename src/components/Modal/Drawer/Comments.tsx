@@ -13,7 +13,7 @@ const Postheader = dynamic(() => import("@/components/Header/PostHeader"));
 const Comment = dynamic(() => import("@/components/Comments/Comment"));
 const EmptyComment = dynamic(() => import("@/components/Comments/Empty"));
 
-const PostComment:FC = () => {
+const PostComment: FC = () => {
   const {
     state: { selectedPost, postCommentModal },
     Dispatch,
@@ -90,5 +90,5 @@ const PostComment:FC = () => {
     </div>,
     document.getElementById("modal") as Element
   );
-}
-export default PostComment
+};
+export default PostComment;

@@ -15,8 +15,9 @@ const PostHeader: FC<Props> = ({ post, children }) => {
 
   return (
     <header
-      className={`relative flex h-fit items-center py-3 px-4 ${darkMode ? "bg-black text-white" : "bg-white text-black"
-        }`}
+      className={`relative flex h-fit items-center px-4 py-3 ${
+        darkMode ? "bg-black text-white" : "bg-white text-black"
+      }`}
     >
       <Image
         className="h-8 w-8 rounded-full object-cover "
@@ -34,5 +35,5 @@ const PostHeader: FC<Props> = ({ post, children }) => {
       {children}
     </header>
   );
-}
-export default memo(PostHeader)
+};
+export default memo(PostHeader);

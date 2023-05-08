@@ -27,5 +27,5 @@ const StatisticMobile: FC<Props> = ({ data }) => {
       ))}
     </ul>
   );
-}
+};
 export default memo(StatisticMobile);

@@ -11,7 +11,7 @@ const ExtraMenuBtn = dynamic(() => import("./ExtraMenuBtn"));
 const NavHeader = dynamic(() => import("../Header/NavHeader"));
 const ChatForm = dynamic(() => import("@/components/Messages/Form/ChatForm"));
 
-const Sidebar:FC = () => {
+const Sidebar: FC = () => {
   const { data: session } = useSession();
   const { pathname } = useRouter();
   const {
@@ -145,5 +145,5 @@ const Sidebar:FC = () => {
       </aside>
     </>
   );
-}
+};
 export default Sidebar;

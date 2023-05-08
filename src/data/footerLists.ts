@@ -2,7 +2,7 @@ type FooterProps = {
   name: string;
   link: string;
 };
-export const footerlists: FooterProps[] = [
+export const footerlists:Readonly<FooterProps[]> = [
   {
     name: "About",
     link: "/about",
@@ -35,4 +35,4 @@ export const footerlists: FooterProps[] = [
     name: "Instafam Verified",
     link: "/verfied-instafam",
   },
-];
+] as const;

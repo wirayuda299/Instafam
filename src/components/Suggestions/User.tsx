@@ -37,5 +37,5 @@ const UserRecommendations: FC<{ reccomend: IUser[] }> = ({ reccomend }) => {
       ))}
     </>
   );
-}
-export default UserRecommendations
+};
+export default UserRecommendations;

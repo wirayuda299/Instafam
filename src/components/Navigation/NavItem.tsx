@@ -18,7 +18,7 @@ type ListItemProps = {
   darkMode: boolean;
 };
 
-const NavItem:FC<ListItemProps> =(props) => {
+const NavItem: FC<ListItemProps> = (props) => {
   const {
     path,
     pathname,
@@ -113,5 +113,5 @@ const NavItem:FC<ListItemProps> =(props) => {
       )}
     </li>
   );
-}
-export default NavItem
+};
+export default NavItem;

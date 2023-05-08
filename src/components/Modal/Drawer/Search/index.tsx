@@ -6,7 +6,7 @@ import dynamic from "next/dynamic";
 import { useStateContext } from "@/stores/StateContext";
 const Form = dynamic(() => import("./Form"), { ssr: false });
 
-const  SearchDrawer:FC = () => {
+const SearchDrawer: FC = () => {
   const {
     state: { isSearchDrawerOpen },
   } = useStateContext();
@@ -38,5 +38,5 @@ const  SearchDrawer:FC = () => {
       ) : null}
     </>
   );
-}
+};
 export default memo(SearchDrawer);

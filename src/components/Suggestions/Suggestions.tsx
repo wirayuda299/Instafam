@@ -78,5 +78,5 @@ const Suggestions: FC<{ reccomend: IUser[] }> = ({ reccomend }) => {
       </Footer>
     </section>
   );
-}
+};
 export default memo(Suggestions);

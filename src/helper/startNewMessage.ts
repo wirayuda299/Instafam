@@ -14,7 +14,7 @@ export async function startNewMessage(
     if (chatRoomSelected?.uid === session?.user.uid) {
       throw new Error("Can not start message with your self");
     }
-    if(chatRoomSelected?.uid === undefined) return;
+    if (chatRoomSelected?.uid === undefined) return;
     await addDoc(collection(db, "messages"), {
       room: {
         id: [session?.user.uid, chatRoomSelected?.uid],

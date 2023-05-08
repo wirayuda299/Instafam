@@ -10,6 +10,10 @@ const securityHeaders = [
     value: "1; mode=block",
   },
   {
+    key: "X-Frame-Options",
+    value: "",
+  },
+  {
     key: "Permissions-Policy",
     value: "camera=()",
   },

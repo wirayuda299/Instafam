@@ -6,10 +6,10 @@ import { useRouter } from "next/router";
 import { useStore } from "zustand";
 import Lists from "./Lists";
 import { createPortal } from "react-dom";
-import {type  FC, memo } from "react";
+import { type FC, memo } from "react";
 import { useStateContext } from "@/stores/StateContext";
 
-const Menu:FC = () =>  {
+const Menu: FC = () => {
   const {
     state: { selectedPost },
   } = useStateContext();
@@ -148,5 +148,5 @@ const Menu:FC = () =>  {
     </div>,
     document.getElementById("modal") as Element
   );
-}
+};
 export default memo(Menu);

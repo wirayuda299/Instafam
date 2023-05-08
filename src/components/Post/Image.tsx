@@ -5,8 +5,8 @@ import { FC } from "react";
 
 interface Props extends React.HTMLAttributes<HTMLImageElement> {
   post: IUserPostProps;
-};
-const PostImage:FC<Props> = ({ post }) => {
+}
+const PostImage: FC<Props> = ({ post }) => {
   const { blurHash } = useBlurhash(post);
   return (
     <>
@@ -23,5 +23,5 @@ const PostImage:FC<Props> = ({ post }) => {
       />
     </>
   );
-}
-export default PostImage
+};
+export default PostImage;

@@ -18,7 +18,7 @@ type Props = {
   children: ReactNode;
 };
 
-const Form:FC<Props> = ({ height, children }) => {
+const Form: FC<Props> = ({ height, children }) => {
   const { handleSubmit, resetField, register } = useForm();
   const {
     state: { result },
@@ -140,5 +140,5 @@ const Form:FC<Props> = ({ height, children }) => {
       </form>
     </>
   );
-}
-export default  Form
+};
+export default Form;

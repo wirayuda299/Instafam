@@ -26,7 +26,7 @@ type Props = {
   darkMode: boolean;
 };
 
-const NavLink:FC<Props> = (props) => {
+const NavLink: FC<Props> = (props) => {
   const {
     session,
     handleClick,
@@ -120,6 +120,6 @@ const NavLink:FC<Props> = (props) => {
       ))}
     </ul>
   );
-}
+};
 
-export default NavLink
+export default NavLink;

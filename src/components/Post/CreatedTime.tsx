@@ -6,12 +6,14 @@ import type { FC } from "react";
 type Props = {
   author: string;
   createdAt: string | number;
-}
+};
 
 const CreatedTime: FC<Props> = ({ createdAt, author }) => {
-  
   const createdAtTime = getCreatedDate(createdAt);
-  const { state: { postModal }, Dispatch } = useStateContext();
+  const {
+    state: { postModal },
+    Dispatch,
+  } = useStateContext();
 
   return (
     <div className={`ml-3 flex w-full items-center justify-between`}>
@@ -22,11 +24,11 @@ const CreatedTime: FC<Props> = ({ createdAt, author }) => {
               onClick={() =>
                 postModal
                   ? Dispatch({
-                    type: "TOGGLE_POST_MODAL",
-                    payload: {
-                      postModal: false,
-                    },
-                  })
+                      type: "TOGGLE_POST_MODAL",
+                      payload: {
+                        postModal: false,
+                      },
+                    })
                   : null
               }
               href={`/profile/${author}`}
@@ -44,7 +46,7 @@ const CreatedTime: FC<Props> = ({ createdAt, author }) => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default CreatedTime
+export default CreatedTime;

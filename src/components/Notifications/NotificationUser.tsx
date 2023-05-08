@@ -14,12 +14,7 @@ type Props = {
   session: Session | null;
   user: IUser;
 };
-const NotificationUser: FC<Props> = ({
-  follower,
-  darkMode,
-  session,
-  user,
-}) => {
+const NotificationUser: FC<Props> = ({ follower, darkMode, session, user }) => {
   const { Dispatch } = useStateContext();
   return (
     <div className="mt-4 flex items-center space-x-2 px-4">
@@ -79,5 +74,5 @@ const NotificationUser: FC<Props> = ({
       </div>
     </div>
   );
-}
-export default NotificationUser
+};
+export default NotificationUser;

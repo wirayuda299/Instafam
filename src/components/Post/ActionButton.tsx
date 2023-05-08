@@ -5,7 +5,7 @@ import { RiBookmarkFill } from "react-icons/ri";
 import { BiBookmark } from "react-icons/bi";
 import { IoPaperPlaneOutline } from "react-icons/io5";
 import { TbMessageCircle2 } from "react-icons/tb";
-import {type FC, memo } from "react";
+import { type FC, memo } from "react";
 import { useStateContext } from "@/stores/StateContext";
 
 type Props = {
@@ -15,11 +15,11 @@ type Props = {
   savedBy: string[];
 };
 
-const  ActionButton:FC<Props> = (props) => {
+const ActionButton: FC<Props> = (props) => {
   const { post, uid, likes, savedBy } = props;
   const { Dispatch } = useStateContext();
 
-const mobileClickEvents = () => {
+  const mobileClickEvents = () => {
     Dispatch({
       type: "SELECT_POST",
       payload: {
@@ -34,7 +34,7 @@ const mobileClickEvents = () => {
     });
   };
 
-const largeScreenClickEvent = () => {
+  const largeScreenClickEvent = () => {
     Dispatch({
       type: "TOGGLE_POST_PREVIEW_MODAL",
       payload: {
@@ -49,7 +49,7 @@ const largeScreenClickEvent = () => {
     });
   };
 
-const BUTTON_LISTS = [
+  const BUTTON_LISTS = [
     {
       id: 1,
       icon: likes?.includes(uid) ? (
@@ -130,5 +130,5 @@ const BUTTON_LISTS = [
       </button>
     </div>
   );
-}
+};
 export default memo(ActionButton);

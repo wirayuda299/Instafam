@@ -15,7 +15,7 @@ interface Props {
   captions: string;
 }
 
-const Captions:FC<Props> = (props) => {
+const Captions: FC<Props> = (props) => {
   const { handlePost, loading, session, img, setCaptions, captions } = props;
   const { darkMode } = useStore(useDarkModeStore);
 
@@ -60,5 +60,5 @@ const Captions:FC<Props> = (props) => {
       />
     </div>
   );
-}
+};
 export default Captions;

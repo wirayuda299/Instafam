@@ -11,7 +11,7 @@ import { Chats as ChatsType } from "@/types/Chats";
 type Props = {
   session: Session | null;
   selectedChat: DataMessage | null;
-}
+};
 const Chats: FC<Props> = ({ session, selectedChat }) => {
   const [chats, setChats] = useState<ChatsType[]>([]);
 
@@ -35,23 +35,26 @@ const Chats: FC<Props> = ({ session, selectedChat }) => {
             {chats?.map((item) => (
               <div
                 key={item.createdAt}
-                className={`flex flex-row items-center p-3 ${item.sender.id === session?.user.uid
+                className={`flex flex-row items-center p-3 ${
+                  item.sender.id === session?.user.uid
                     ? " justify-end"
                     : "justify-start"
-                  }`}
+                }`}
               >
                 <div className="flex max-w-sm flex-col">
                   <div
-                    className={`flex items-center gap-x-4 space-x-3 ${item.sender.id !== session?.user.uid
+                    className={`flex items-center gap-x-4 space-x-3 ${
+                      item.sender.id !== session?.user.uid
                         ? "flex-row-reverse"
                         : ""
-                      }`}
+                    }`}
                   >
                     <p
-                      className={` rounded-2xl px-5 py-2 ${item.sender.id === session?.user.uid
+                      className={` rounded-2xl px-5 py-2 ${
+                        item.sender.id === session?.user.uid
                           ? "bg-gray-200 text-black"
                           : "bg-blue-600 text-white"
-                        }`}
+                      }`}
                     >
                       {item.message}
                     </p>
@@ -84,7 +87,6 @@ const Chats: FC<Props> = ({ session, selectedChat }) => {
       ) : null}
     </>
   );
-}
+};
 
-  ;
 export default Chats;

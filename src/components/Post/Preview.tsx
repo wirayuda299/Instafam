@@ -20,7 +20,7 @@ type Props = {
   savedBy: string[];
 };
 
-const PostDetailComment:FC<Props> = (props) => {
+const PostDetailComment: FC<Props> = (props) => {
   const { post, children, comments, likes, savedBy } = props;
   const { data: session } = useSession();
   const { darkMode } = useStore(useDarkModeStore);
@@ -52,7 +52,7 @@ const PostDetailComment:FC<Props> = (props) => {
             savedBy={savedBy}
             uid={session?.user.uid as string}
           />
-          <Likes likesCount={likes} uid={session?.user.uid as string}/>
+          <Likes likesCount={likes} uid={session?.user.uid as string} />
           <div className="py-2">
             <CommentsForm
               post={post ?? []}
@@ -64,5 +64,5 @@ const PostDetailComment:FC<Props> = (props) => {
       </div>
     </div>
   );
-}
-export default PostDetailComment
+};
+export default PostDetailComment;

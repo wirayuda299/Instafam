@@ -17,7 +17,7 @@ type Props = {
   refreshData: () => void;
 };
 
-const  Statistic:FC<Props> = ({ session, users, posts, refreshData }) => {
+const Statistic: FC<Props> = ({ session, users, posts, refreshData }) => {
   const data = [
     {
       id: 1,
@@ -97,5 +97,5 @@ const  Statistic:FC<Props> = ({ session, users, posts, refreshData }) => {
       </div>
     </div>
   );
-}
+};
 export default memo(Statistic);

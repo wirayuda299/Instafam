@@ -18,7 +18,7 @@ const NotificationUser = dynamic(
   }
 );
 
-const NotificationsDrawer:FC = () => {
+const NotificationsDrawer: FC = () => {
   const { darkMode } = useStore(useDarkModeStore);
   const {
     state: { notificationDrawer },
@@ -80,5 +80,5 @@ const NotificationsDrawer:FC = () => {
       ) : null}
     </>
   );
-}
-export default  NotificationsDrawer
+};
+export default NotificationsDrawer;

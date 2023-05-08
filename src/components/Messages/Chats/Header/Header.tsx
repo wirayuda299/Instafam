@@ -9,7 +9,7 @@ import type { FC } from "react";
 type Props = {
   selectedChat: DataMessage | null;
 };
-const ChatHeader:FC<Props> = ({ selectedChat }) => {
+const ChatHeader: FC<Props> = ({ selectedChat }) => {
   const { darkMode } = useStore(useDarkModeStore);
   const {
     state: { receiverDrawer },
@@ -53,5 +53,5 @@ const ChatHeader:FC<Props> = ({ selectedChat }) => {
       </button>
     </header>
   );
-}
-export default ChatHeader
+};
+export default ChatHeader;

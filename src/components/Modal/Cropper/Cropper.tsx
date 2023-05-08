@@ -19,7 +19,7 @@ const ImageCropper = dynamic(
   }
 );
 
-const Cropper:FC = () => {
+const Cropper: FC = () => {
   const { darkMode } = useStore(useDarkModeStore);
   const {
     Dispatch,
@@ -118,5 +118,5 @@ const Cropper:FC = () => {
     </div>,
     document.getElementById("modal") as Element
   );
-}
-export default Cropper
+};
+export default Cropper;

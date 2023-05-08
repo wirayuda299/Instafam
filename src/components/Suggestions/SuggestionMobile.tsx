@@ -10,8 +10,9 @@ const SuggestionMobile: FC<{ user: IUser }> = ({ user }) => {
 
   return (
     <div
-      className={`flex h-44 w-44 flex-col ${darkMode ? "bg-black text-white" : "bg-white text-black"
-        } relative items-center justify-center rounded-lg border p-5 shadow-md`}
+      className={`flex h-44 w-44 flex-col ${
+        darkMode ? "bg-black text-white" : "bg-white text-black"
+      } relative items-center justify-center rounded-lg border p-5 shadow-md`}
     >
       <Image
         src={user.image}
@@ -37,5 +38,5 @@ const SuggestionMobile: FC<{ user: IUser }> = ({ user }) => {
       </Link>
     </div>
   );
-}
-export default SuggestionMobile
+};
+export default SuggestionMobile;

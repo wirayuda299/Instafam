@@ -22,9 +22,11 @@ const Lists: FC<Props> = (props: Props) => {
       {buttonLists.map((button) => (
         <li
           key={button.id}
-          className={`!w-full rounded-none border-b border-gray-500 border-opacity-10 py-3 text-sm font-semibold transition-all duration-300  ease-out last:border-none hover:rounded-lg ${darkMode ? "hover:bg-[#a8a8a817]" : "hover:bg-[#a5a5a517]"
-            } md:py-4 md:text-base ${button.id === 1 || button.id === 2 ? "text-red-600" : ""
-            } ${pathname === "/post/[id]" && button.id === 4 ? "hidden" : ""}`}
+          className={`!w-full rounded-none border-b border-gray-500 border-opacity-10 py-3 text-sm font-semibold transition-all duration-300  ease-out last:border-none hover:rounded-lg ${
+            darkMode ? "hover:bg-[#a8a8a817]" : "hover:bg-[#a5a5a517]"
+          } md:py-4 md:text-base ${
+            button.id === 1 || button.id === 2 ? "text-red-600" : ""
+          } ${pathname === "/post/[id]" && button.id === 4 ? "hidden" : ""}`}
         >
           {selectedPost?.postedById === session?.user.uid && button.id === 1 ? (
             <Link
@@ -63,5 +65,5 @@ const Lists: FC<Props> = (props: Props) => {
       ))}
     </div>
   );
-}
-export default Lists
+};
+export default Lists;

@@ -14,7 +14,7 @@ const PostCommentDesktop = dynamic(() => import("../Post/Preview"), {
 const PostImage = dynamic(() => import("../Post/Image"), {
   ssr: true,
 });
- const  PostPreview:FC = () => {
+const PostPreview: FC = () => {
   const { darkMode } = useStore(useDarkModeStore);
   const {
     state: { postPreviewModal, selectedPost },
@@ -41,9 +41,7 @@ const PostImage = dynamic(() => import("../Post/Image"), {
                   darkMode ? "bg-black" : "bg-white"
                 } `}
               >
-                <PostImage
-                  post={selectedPost as IUserPostProps}
-                />
+                <PostImage post={selectedPost as IUserPostProps} />
                 <PostCommentDesktop
                   post={selectedPost as IUserPostProps}
                   comments={comments}
@@ -85,5 +83,5 @@ const PostImage = dynamic(() => import("../Post/Image"), {
     </div>,
     document.getElementById("modal") as Element
   );
-}
+};
 export default PostPreview;

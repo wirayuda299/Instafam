@@ -34,6 +34,6 @@ export default function usePost(post: IUserPostProps | null) {
   const comments = useMemo(() => {
     return comment;
   }, [comment]);
-  
+
   return { likes, comments, savedBy };
 }

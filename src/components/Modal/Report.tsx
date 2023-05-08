@@ -7,7 +7,7 @@ import { createPortal } from "react-dom";
 import { useStateContext } from "@/stores/StateContext";
 import type { FC } from "react";
 
-const Report:FC = () => {
+const Report: FC = () => {
   const { data: session } = useSession();
   const { register, resetField, handleSubmit } = useForm();
   const {
@@ -122,6 +122,6 @@ const Report:FC = () => {
     </div>,
     document.getElementById("modal") as Element
   );
-}
+};
 
 export default Report;

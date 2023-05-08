@@ -7,7 +7,7 @@ type Props = {
     value: number | undefined;
   }[];
 };
-const  DesktopStatistic:FC<Props> = ({ data }) => {
+const DesktopStatistic: FC<Props> = ({ data }) => {
   return (
     <ul
       title="Statistic"
@@ -27,5 +27,5 @@ const  DesktopStatistic:FC<Props> = ({ data }) => {
       ))}
     </ul>
   );
-}
+};
 export default memo(DesktopStatistic);

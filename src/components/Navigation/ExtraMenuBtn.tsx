@@ -9,7 +9,7 @@ type Props = {
   notificationdrawer: boolean;
 };
 
-const ExtraMenuBtn:FC<Props> = (props) =>{
+const ExtraMenuBtn: FC<Props> = (props) => {
   const { extraList, handleClick, drawer, notificationdrawer } = props;
 
   return (
@@ -36,5 +36,5 @@ const ExtraMenuBtn:FC<Props> = (props) =>{
       </div>
     </button>
   );
-}
-export default ExtraMenuBtn
+};
+export default ExtraMenuBtn;

@@ -21,15 +21,13 @@ type Props = {
   handleClick: () => void;
 };
 
-const PreviewLargeScreen:FC<Props> = (props) => {
+const PreviewLargeScreen: FC<Props> = (props) => {
   const { post, comments, likes, savedBy, handleClick } = props;
 
   return (
     <>
       <div className="hidden shadow-sm lg:block">
-        <PostImage
-          post={post}
-        />
+        <PostImage post={post} />
       </div>
       <PostDetailComment
         comments={comments}
@@ -43,5 +41,5 @@ const PreviewLargeScreen:FC<Props> = (props) => {
       </PostDetailComment>
     </>
   );
-}
+};
 export default PreviewLargeScreen;

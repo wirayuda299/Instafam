@@ -1,6 +1,6 @@
 import { footerlists } from "@/data/footerLists";
 import Link from "next/link";
-import type { FC, ReactNode} from "react";
+import type { FC, ReactNode } from "react";
 
 type Props = {
   children: ReactNode;
@@ -26,6 +26,6 @@ const Footer: FC<Partial<Props>> = ({ children, classNames }) => {
       {children}
     </footer>
   );
-}
+};
 
-export default Footer
+export default Footer;

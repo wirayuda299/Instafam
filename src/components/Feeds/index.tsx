@@ -22,20 +22,20 @@ const Feeds: FC<{ post: IUserPostProps }> = ({ post }) => {
         feedModal: true,
       },
     });
-  }
+  };
 
   return (
     <div
       key={post.postId}
       className={`group relative`}
-      onClick={() => selectPost(post)}>
+      onClick={() => selectPost(post)}
+    >
       <PostImage post={post} />
       <div className="hidden md:block">
         <PostInfo post={post} />
       </div>
     </div>
   );
+};
 
-}
-
-export default Feeds
+export default Feeds;

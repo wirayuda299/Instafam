@@ -11,15 +11,13 @@ type Props = {
   sender: DataMessage[];
 };
 
-const  UsersChat:FC<Props> = ({ receiver, sender }) => {
-  
+const UsersChat: FC<Props> = ({ receiver, sender }) => {
   const { darkMode } = useStore(useDarkModeStore);
   const { data: session } = useSession();
   const receiverId = receiver.map((item) => item.id);
   const { Dispatch } = useStateContext();
-  
-  if (!session) return null;
 
+  if (!session) return null;
 
   const messagesReceiver = receiver.map((item) => item.message);
   const messagesSender = sender.map((item) => item.message);
@@ -108,5 +106,5 @@ const  UsersChat:FC<Props> = ({ receiver, sender }) => {
         ))}
     </div>
   );
-}
-export default UsersChat
+};
+export default UsersChat;

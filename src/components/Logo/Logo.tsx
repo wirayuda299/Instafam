@@ -1,7 +1,7 @@
 import type { FC } from "react";
 import { AiOutlineInstagram } from "react-icons/ai";
 
-const Logo:FC = () => {
+const Logo: FC = () => {
   return (
     <>
       <svg width="1em" height="1em">
@@ -13,5 +13,5 @@ const Logo:FC = () => {
       </svg>
     </>
   );
-}
-export default Logo
+};
+export default Logo;

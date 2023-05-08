@@ -3,7 +3,7 @@ import { getCreatedDate } from "@/utils/postDate";
 import Image from "next/image";
 import Link from "next/link";
 
-type PostComments = Pick<IUserPostProps, 'comments'>
+type PostComments = Pick<IUserPostProps, "comments">;
 
 type Props = {
   comments: PostComments["comments"];
@@ -46,6 +46,6 @@ const Comments: React.FC<Props> = ({ comments }) => {
       ))}
     </>
   );
-}
+};
 
-export default Comments
+export default Comments;

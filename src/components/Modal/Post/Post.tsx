@@ -78,15 +78,17 @@ const PostModal: FC = () => {
 
   return createPortal(
     <div
-      className={` fixed left-0 top-0 z-[99] h-screen w-full select-none  !overflow-y-auto !overflow-x-hidden  shadow-sm lg:hidden  ${postModal ? "animate-scaleUp" : "animate-fadeOut"
-        } ${darkMode ? "bg-black" : "bg-white"}`}
+      className={` fixed left-0 top-0 z-[99] h-screen w-full select-none  !overflow-y-auto !overflow-x-hidden  shadow-sm lg:hidden  ${
+        postModal ? "animate-scaleUp" : "animate-fadeOut"
+      } ${darkMode ? "bg-black" : "bg-white"}`}
       aria-modal="true"
       role="dialog"
     >
       <div className="relative w-full">
         <div
-          className={`sticky top-0 z-30 flex w-full items-center border-b border-gray-500 border-opacity-50 px-3 py-3 ${darkMode ? "bg-black text-white" : "bg-white text-black"
-            }`}
+          className={`sticky top-0 z-30 flex w-full items-center border-b border-gray-500 border-opacity-50 px-3 py-3 ${
+            darkMode ? "bg-black text-white" : "bg-white text-black"
+          }`}
         >
           <div>
             <button
@@ -111,6 +113,6 @@ const PostModal: FC = () => {
     </div>,
     document.getElementById("modal") as Element
   );
-}
+};
 
 export default PostModal;

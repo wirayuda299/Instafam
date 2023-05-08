@@ -11,7 +11,7 @@ import { useRouter } from "next/router";
 import { useStateContext } from "@/stores/StateContext";
 import { toast } from "react-hot-toast";
 
-const  MessagesModal:FC = () =>{
+const MessagesModal: FC = () => {
   const {
     Dispatch,
     state: { messageModal, chatRoomSelected },
@@ -160,5 +160,5 @@ const  MessagesModal:FC = () =>{
     </div>,
     document.getElementById("modal") as Element
   );
-}
+};
 export default MessagesModal;

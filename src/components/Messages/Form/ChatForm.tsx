@@ -12,14 +12,14 @@ type Props = {
   session: Session | null;
 };
 
-const ChatForm:FC<Props>= ({ selectedChat, session }) => {
+const ChatForm: FC<Props> = ({ selectedChat, session }) => {
   const {
     register,
     handleSubmit,
     resetField,
     formState: { errors },
   } = useForm();
-  
+
   const sendMessage = async (e: FieldValues) => {
     const message = e.message;
     const { doc, setDoc, arrayUnion } = await import("firebase/firestore");
@@ -75,5 +75,5 @@ const ChatForm:FC<Props>= ({ selectedChat, session }) => {
       </form>
     </div>
   );
-}
-export default ChatForm
+};
+export default ChatForm;

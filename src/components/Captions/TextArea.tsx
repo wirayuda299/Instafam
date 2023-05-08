@@ -48,5 +48,5 @@ const TextArea: FC<Props> = (props) => {
       </button>
     </div>
   );
-}
+};
 export default TextArea;

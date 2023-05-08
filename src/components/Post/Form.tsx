@@ -11,7 +11,7 @@ type Props = {
   handleSubmit: any;
 };
 
-const PostForm:FC<Props> = (props) => {
+const PostForm: FC<Props> = (props) => {
   const { defaultValues, updatePost, register, handleSubmit } = props;
   const { darkMode } = useStore(useDarkModeStore);
   return (
@@ -38,5 +38,5 @@ const PostForm:FC<Props> = (props) => {
       </button>
     </form>
   );
-}
-export default PostForm
+};
+export default PostForm;

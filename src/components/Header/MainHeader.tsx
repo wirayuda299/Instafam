@@ -1,5 +1,5 @@
 import Link from "next/link";
-import {  AiOutlineHeart } from "react-icons/ai";
+import { AiOutlineHeart } from "react-icons/ai";
 import { Playfair_Display } from "next/font/google";
 import { useStore } from "zustand";
 import { useDarkModeStore } from "@/stores/stores";
@@ -17,11 +17,11 @@ const playfair = Playfair_Display({
   display: "swap",
   adjustFontFallback: true,
 });
-const Header:FC = () => {
+const Header: FC = () => {
   const { darkMode, setDarkMode } = useStore(useDarkModeStore);
   const { data: session } = useSession();
   const { Dispatch } = useStateContext();
-  
+
   const changeTheme = () => {
     localStorage.setItem("theme", darkMode ? "light" : "dark");
     setDarkMode(!darkMode);
@@ -81,5 +81,5 @@ const Header:FC = () => {
       </div>
     </header>
   );
-}
-export default Header
+};
+export default Header;

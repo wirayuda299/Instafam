@@ -33,5 +33,5 @@ const PostInfo: FC<{ post: IUserPostProps }> = ({ post }) => {
       </button>
     </div>
   );
-}
-export default PostInfo
+};
+export default PostInfo;

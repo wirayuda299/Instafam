@@ -59,7 +59,6 @@ const FileUpload: FC<{ img: string | undefined }> = ({ img }) => {
   };
 
   const handleInputImage = async (e: ChangeEvent<HTMLInputElement>) => {
-
     try {
       let selectedFile = e.target.files?.[0];
       if (!selectedFile) return;
@@ -109,10 +108,11 @@ const FileUpload: FC<{ img: string | undefined }> = ({ img }) => {
           <div className="mx-auto flex w-full max-w-xl justify-center">
             <label
               htmlFor="dropzone-file"
-              className={`flex h-80 w-full cursor-pointer flex-col items-center justify-center rounded-lg  shadow-2xl ${darkMode
+              className={`flex h-80 w-full cursor-pointer flex-col items-center justify-center rounded-lg  shadow-2xl ${
+                darkMode
                   ? "border border-gray-500 border-opacity-30 bg-black bg-opacity-95"
                   : "bg-gray-200"
-                }`}
+              }`}
             >
               <div className="flex flex-col items-center justify-center pb-6 pt-5">
                 <AiOutlineCloudUpload className="h-12 w-12 text-gray-400" />
@@ -137,9 +137,8 @@ const FileUpload: FC<{ img: string | undefined }> = ({ img }) => {
           </div>
         </div>
       ) : null}
-
     </>
   );
-}
+};
 
-export default FileUpload
+export default FileUpload;

@@ -13,7 +13,7 @@ interface Props {
   customs?: string;
 }
 
-const  Results:FC<Props> = (props) => {
+const Results: FC<Props> = (props) => {
   const { results, handleDrawerToggler, customs } = props;
   const { darkMode } = useStore(useDarkModeStore);
   const {
@@ -99,5 +99,5 @@ const  Results:FC<Props> = (props) => {
       </div>
     </>
   );
-}
+};
 export default Results;

@@ -2,9 +2,9 @@ import { type FC, useState } from "react";
 
 type Props = {
   hashtags: string[];
-  captions: string
+  captions: string;
   author: string;
-}
+};
 
 const Author: FC<Props> = ({ author, captions, hashtags }) => {
   const [show, setShow] = useState(false);
@@ -12,15 +12,15 @@ const Author: FC<Props> = ({ author, captions, hashtags }) => {
   return (
     <div className="overflow-hidden">
       <div
-        className={`flex max-w-[250px] items-start  space-x-2 ${show ? "!max-w-fit flex-wrap" : ""
-          }`}
+        className={`flex max-w-[250px] items-start  space-x-2 ${
+          show ? "!max-w-fit flex-wrap" : ""
+        }`}
       >
-        <h3 className="pb-2 text-sm font-medium sm:font-semibold">
-          {author}
-        </h3>
+        <h3 className="pb-2 text-sm font-medium sm:font-semibold">{author}</h3>
         <p
-          className={` text-sm font-thin  ${captions[0].length >= 20 && !show ? "truncate" : ""
-            }`}
+          className={` text-sm font-thin  ${
+            captions[0].length >= 20 && !show ? "truncate" : ""
+          }`}
         >
           {captions}
         </p>
@@ -35,8 +35,9 @@ const Author: FC<Props> = ({ author, captions, hashtags }) => {
             <span className="font-semibold ">more</span>
           ) : (
             <span
-              className={`ml-1 font-semibold ${captions[0].length < 20 ? "hidden" : "block"
-                }`}
+              className={`ml-1 font-semibold ${
+                captions[0].length < 20 ? "hidden" : "block"
+              }`}
             >
               hide
             </span>
@@ -55,5 +56,5 @@ const Author: FC<Props> = ({ author, captions, hashtags }) => {
       </div>
     </div>
   );
-}
-export default Author
+};
+export default Author;

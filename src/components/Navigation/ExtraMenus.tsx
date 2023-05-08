@@ -6,7 +6,7 @@ import { useStore } from "zustand";
 import { useDarkModeStore } from "@/stores/stores";
 import type { FC } from "react";
 
-const ExtraMenus:FC = () =>  {
+const ExtraMenus: FC = () => {
   const {
     state: { isExtraListOpen },
   } = useStateContext();
@@ -54,23 +54,28 @@ const ExtraMenus:FC = () =>  {
     <>
       {isExtraListOpen ? (
         <div
-          className={` relative w-full flex-col justify-center space-y-1 lg:space-y-3  ${isExtraListOpen ? "flex animate-fadeIn" : "hidden animate-fadeOut"
-            }`}
+          className={` relative w-full flex-col justify-center space-y-1 lg:space-y-3  ${
+            isExtraListOpen ? "flex animate-fadeIn" : "hidden animate-fadeOut"
+          }`}
         >
           <div
-            className={`md:bg-opacity-85  ${darkMode ? "bg-black text-white" : "!bg-white text-black"
-              }  -left-0 w-full rounded-md py-4 dark:bg-opacity-95  sm:w-44 md:-top-[120px] md:w-60 lg:-top-[140px]  ${isExtraListOpen ? " absolute  z-[999] block " : "hidden"
-              }`}
+            className={`md:bg-opacity-85  ${
+              darkMode ? "bg-black text-white" : "!bg-white text-black"
+            }  -left-0 w-full rounded-md py-4 dark:bg-opacity-95  sm:w-44 md:-top-[120px] md:w-60 lg:-top-[140px]  ${
+              isExtraListOpen ? " absolute  z-[999] block " : "hidden"
+            }`}
           >
             <ul className="w-full px-2">
               {ExtraMenusLists.map((list) => (
                 <li
                   key={list.id}
-                  className={`ease w-fit truncate rounded-full  border-b  px-5 py-2 transition-all duration-300   dark:border-b-0  md:w-full md:py-3 ${darkMode
+                  className={`ease w-fit truncate rounded-full  border-b  px-5 py-2 transition-all duration-300   dark:border-b-0  md:w-full md:py-3 ${
+                    darkMode
                       ? "border-none text-white hover:bg-[#b9b9b917]"
                       : "hover:bg-gray-200"
-                    } ${darkMode ? "bg-black text-white" : "bg-white text-black"
-                    }`}
+                  } ${
+                    darkMode ? "bg-black text-white" : "bg-white text-black"
+                  }`}
                   title={list.title}
                   onClick={list.event}
                 >
@@ -84,8 +89,9 @@ const ExtraMenus:FC = () =>  {
                       {list.title}
                     </span>
                     <span
-                      className={`text-2xl ${darkMode ? "text-white" : "text-black"
-                        }`}
+                      className={`text-2xl ${
+                        darkMode ? "text-white" : "text-black"
+                      }`}
                     >
                       {list.icon}
                     </span>
@@ -98,6 +104,6 @@ const ExtraMenus:FC = () =>  {
       ) : null}
     </>
   );
-}
+};
 
 export default ExtraMenus;

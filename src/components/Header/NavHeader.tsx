@@ -13,7 +13,9 @@ const playfair = Playfair_Display({
 });
 
 const NavHeader: FC = () => {
-  const { state: { notificationDrawer, isSearchDrawerOpen } } = useStateContext();
+  const {
+    state: { notificationDrawer, isSearchDrawerOpen },
+  } = useStateContext();
   return (
     <header
       className={`hidden w-full flex-col pl-6 md:flex md:pl-2.5 ${playfair.className}`}
@@ -35,5 +37,5 @@ const NavHeader: FC = () => {
       </Link>
     </header>
   );
-}
-export default NavHeader
+};
+export default NavHeader;

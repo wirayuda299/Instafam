@@ -11,7 +11,7 @@ import { createPortal } from "react-dom";
 import { AiOutlineArrowLeft } from "react-icons/ai";
 import { useStore } from "zustand";
 
-const  NotificationsModal:FC = () => {
+const NotificationsModal: FC = () => {
   const { darkMode } = useStore(useDarkModeStore);
   const {
     state: { notificationModal },
@@ -91,5 +91,5 @@ const  NotificationsModal:FC = () => {
     </div>,
     document.getElementById("modal") as Element
   );
-}
+};
 export default memo(NotificationsModal);

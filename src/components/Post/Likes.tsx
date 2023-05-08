@@ -4,7 +4,7 @@ type Props = {
   likesCount: string[];
   uid: string;
 };
-const  Likes:FC<Props> = ({ likesCount, uid }) => {
+const Likes: FC<Props> = ({ likesCount, uid }) => {
   return (
     <>
       {likesCount && likesCount.length > 0 ? (
@@ -27,5 +27,5 @@ const  Likes:FC<Props> = ({ likesCount, uid }) => {
       ) : null}
     </>
   );
-}
+};
 export default memo(Likes);

@@ -7,7 +7,7 @@ type Props = {
   session: Session | null;
   refreshData: () => void;
 };
-const Info:FC<Props> = ({ users, session, refreshData }) => {
+const Info: FC<Props> = ({ users, session, refreshData }) => {
   return (
     <div className="flex flex-col justify-between gap-2 sm:flex-row sm:items-center sm:gap-5">
       <h1 className="flex-1 text-left text-2xl font-semibold xs1:pb-3 xs1:text-4xl sm:mb-5 sm:pb-0">
@@ -39,5 +39,5 @@ const Info:FC<Props> = ({ users, session, refreshData }) => {
       ) : null}
     </div>
   );
-}
-export default Info
+};
+export default Info;

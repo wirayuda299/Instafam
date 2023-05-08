@@ -19,7 +19,6 @@ const PostCard: FC<{ post: IUserPostProps }> = ({ post }) => {
   const { data: session } = useSession();
   const { Dispatch } = useStateContext();
   const { darkMode } = useStore(useDarkModeStore);
-  
 
   const handleClick = () => {
     Dispatch({
@@ -39,38 +38,31 @@ const PostCard: FC<{ post: IUserPostProps }> = ({ post }) => {
   return (
     <div className="">
       <div
-        className={`rounded-sm p-4 shadow-lg ${darkMode ? "bg-black text-white" : "bg-white text-black"
-          }`}
+        className={`rounded-sm p-4 shadow-lg ${
+          darkMode ? "bg-black text-white" : "bg-white text-black"
+        }`}
       >
         <PostHeader post={post}>
           <button type="button" name="menu" title="menu" onClick={handleClick}>
             <BsThreeDots className="text-gray-500" size={20} />
           </button>
         </PostHeader>
-        <PostImage
-          post={post}
-        />
+        <PostImage post={post} />
         <ActionButton
           savedBy={savedBy}
           likes={likes}
           post={post}
           uid={session?.user?.uid as string}
         />
-        <Likes
-          likesCount={likes}
-          uid={session?.user.uid as string} />
+        <Likes likesCount={likes} uid={session?.user.uid as string} />
         <Author
           author={post.author}
           captions={post.captions}
           hashtags={post.hashtags}
         />
-        <Comments
-          comments={comments}
-          post={post}
-          session={session}
-        />
+        <Comments comments={comments} post={post} session={session} />
       </div>
     </div>
   );
-}
+};
 export default memo(PostCard);
