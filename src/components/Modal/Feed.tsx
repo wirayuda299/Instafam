@@ -6,6 +6,7 @@ import { useRouter } from "next/router";
 import { createPortal } from "react-dom";
 import { IUserPostProps } from "@/types/post";
 import { useStateContext } from "@/stores/StateContext";
+import type { FC } from "react";
 
 const PostImage = dynamic(() => import("@/components/Post/Image"), {
   ssr: true,
@@ -14,7 +15,7 @@ const Postheader = dynamic(() => import("@/components/Header/PostHeader"), {
   ssr: true,
 });
 
-export default function Feed() {
+const Feed:FC = () => {
   const { darkMode } = useStore(useDarkModeStore);
   const {
     state: { selectedPost, feedModal },
@@ -44,9 +45,8 @@ export default function Feed() {
     <>
       {selectedPost && feedModal && (
         <div
-          className={` fixed left-0 top-0 z-[99999999] h-screen w-full  select-none !overflow-x-hidden !overflow-y-hidden  bg-black bg-opacity-60 shadow-sm  ${
-            feedModal && selectedPost ? "animate-fadeIn" : "animate-fadeOut"
-          }`}
+          className={` fixed left-0 top-0 z-[99999999] h-screen w-full  select-none !overflow-x-hidden !overflow-y-hidden  bg-black bg-opacity-60 shadow-sm  ${feedModal && selectedPost ? "animate-fadeIn" : "animate-fadeOut"
+            }`}
           aria-modal="true"
           role="dialog"
         >
@@ -63,9 +63,8 @@ export default function Feed() {
               }}
             >
               <div
-                className={`flex min-w-[300px] flex-col rounded-lg p-2 ${
-                  darkMode ? "!bg-black text-white" : "!bg-white text-black"
-                } `}
+                className={`flex min-w-[300px] flex-col rounded-lg p-2 ${darkMode ? "!bg-black text-white" : "!bg-white text-black"
+                  } `}
               >
                 <Postheader post={selectedPost as IUserPostProps}>
                   <button
@@ -105,3 +104,4 @@ export default function Feed() {
     document.getElementById("modal") as Element
   );
 }
+export default Feed;

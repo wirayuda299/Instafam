@@ -1,5 +1,5 @@
 import { IUserPostProps } from "@/types/post";
-import type { ReactNode } from "react";
+import type { FC, ReactNode } from "react";
 import dynamic from "next/dynamic";
 import { useSession } from "next-auth/react";
 import { useStore } from "zustand";
@@ -20,7 +20,7 @@ type Props = {
   savedBy: string[];
 };
 
-export default function PostDetailComment(props: Props) {
+const PostDetailComment:FC<Props> = (props) => {
   const { post, children, comments, likes, savedBy } = props;
   const { data: session } = useSession();
   const { darkMode } = useStore(useDarkModeStore);
@@ -65,3 +65,4 @@ export default function PostDetailComment(props: Props) {
     </div>
   );
 }
+export default PostDetailComment

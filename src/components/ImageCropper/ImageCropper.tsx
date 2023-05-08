@@ -1,5 +1,5 @@
 import "react-cropper-custom/dist/index.css";
-import { Dispatch, SetStateAction } from "react";
+import type { Dispatch, FC, SetStateAction } from "react";
 import { Cropper } from "react-cropper-custom";
 
 export type Area = {
@@ -17,7 +17,7 @@ type Props = {
   darkMode: boolean;
   handleClick: () => void;
 };
-export default function ImageCropper(props: Props) {
+const ImageCropper:FC<Props> = (props) => {
   const { img, zoom, setZoom, onCropComplete, darkMode, handleClick } = props;
 
   return (
@@ -48,3 +48,4 @@ export default function ImageCropper(props: Props) {
     </div>
   );
 }
+export default ImageCropper

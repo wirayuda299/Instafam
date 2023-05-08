@@ -2,7 +2,7 @@ import dynamic from "next/dynamic";
 import { IUser } from "@/types/user";
 import { IUserPostProps } from "@/types/post";
 import { useEffect, useState } from "react";
-import { GetServerSidePropsContext } from "next";
+import type { GetServerSidePropsContext } from "next";
 
 const Suggestions = dynamic(
   () => import("@/components/Suggestions/Suggestions"),

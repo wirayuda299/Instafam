@@ -1,12 +1,13 @@
 import { useDarkModeStore } from "@/stores/stores";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
-import { FieldValues, useForm } from "react-hook-form";
+import { type FieldValues, useForm } from "react-hook-form";
 import { useStore } from "zustand";
 import { createPortal } from "react-dom";
 import { useStateContext } from "@/stores/StateContext";
+import type { FC } from "react";
 
-export default function Report() {
+const Report:FC = () => {
   const { data: session } = useSession();
   const { register, resetField, handleSubmit } = useForm();
   const {
@@ -122,3 +123,5 @@ export default function Report() {
     document.getElementById("modal") as Element
   );
 }
+
+export default Report;

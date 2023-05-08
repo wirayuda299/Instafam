@@ -2,16 +2,16 @@ import { useDarkModeStore } from "@/stores/stores";
 import { IUser } from "@/types/user";
 import Image from "next/image";
 import Link from "next/link";
+import type { FC } from "react";
 import { useStore } from "zustand";
 
-export default function SuggestionMobile({ user }: { user: IUser }) {
+const SuggestionMobile: FC<{ user: IUser }> = ({ user }) => {
   const { darkMode } = useStore(useDarkModeStore);
 
   return (
     <div
-      className={`flex h-44 w-44 flex-col ${
-        darkMode ? "bg-black text-white" : "bg-white text-black"
-      } relative items-center justify-center rounded-lg border p-5 shadow-md`}
+      className={`flex h-44 w-44 flex-col ${darkMode ? "bg-black text-white" : "bg-white text-black"
+        } relative items-center justify-center rounded-lg border p-5 shadow-md`}
     >
       <Image
         src={user.image}
@@ -38,3 +38,4 @@ export default function SuggestionMobile({ user }: { user: IUser }) {
     </div>
   );
 }
+export default SuggestionMobile

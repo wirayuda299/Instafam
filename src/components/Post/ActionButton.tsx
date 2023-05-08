@@ -5,7 +5,7 @@ import { RiBookmarkFill } from "react-icons/ri";
 import { BiBookmark } from "react-icons/bi";
 import { IoPaperPlaneOutline } from "react-icons/io5";
 import { TbMessageCircle2 } from "react-icons/tb";
-import { memo } from "react";
+import {type FC, memo } from "react";
 import { useStateContext } from "@/stores/StateContext";
 
 type Props = {
@@ -15,7 +15,7 @@ type Props = {
   savedBy: string[];
 };
 
-function ActionButton(props: Props) {
+const  ActionButton:FC<Props> = (props) => {
   const { post, uid, likes, savedBy } = props;
   const { Dispatch } = useStateContext();
 

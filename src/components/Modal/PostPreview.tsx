@@ -6,6 +6,7 @@ import dynamic from "next/dynamic";
 import { AiOutlineClose } from "react-icons/ai";
 import { createPortal } from "react-dom";
 import { useStateContext } from "@/stores/StateContext";
+import { FC } from "react";
 const PostCommentDesktop = dynamic(() => import("../Post/Preview"), {
   ssr: false,
 });
@@ -13,7 +14,7 @@ const PostCommentDesktop = dynamic(() => import("../Post/Preview"), {
 const PostImage = dynamic(() => import("../Post/Image"), {
   ssr: true,
 });
-export default function PostPreview() {
+ const  PostPreview:FC = () => {
   const { darkMode } = useStore(useDarkModeStore);
   const {
     state: { postPreviewModal, selectedPost },
@@ -85,3 +86,4 @@ export default function PostPreview() {
     document.getElementById("modal") as Element
   );
 }
+export default PostPreview;

@@ -1,8 +1,8 @@
 import { useDarkModeStore } from "@/stores/stores";
 import { IUser } from "@/types/user";
-import { useState } from "react";
+import { FC, useState } from "react";
 import { createPortal } from "react-dom";
-import { FieldValues, useForm } from "react-hook-form";
+import { type FieldValues, useForm } from "react-hook-form";
 import { AiOutlineClose } from "react-icons/ai";
 import { useStore } from "zustand";
 import Image from "next/image";
@@ -11,7 +11,7 @@ import { useRouter } from "next/router";
 import { useStateContext } from "@/stores/StateContext";
 import { toast } from "react-hot-toast";
 
-export default function MessagesModal() {
+const  MessagesModal:FC = () =>{
   const {
     Dispatch,
     state: { messageModal, chatRoomSelected },
@@ -161,3 +161,4 @@ export default function MessagesModal() {
     document.getElementById("modal") as Element
   );
 }
+export default MessagesModal;

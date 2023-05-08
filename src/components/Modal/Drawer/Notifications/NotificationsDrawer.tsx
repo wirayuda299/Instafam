@@ -5,7 +5,7 @@ import { IUser } from "@/types/user";
 import { onSnapshot, doc } from "firebase/firestore";
 import { useSession } from "next-auth/react";
 import dynamic from "next/dynamic";
-import { useEffect, useState } from "react";
+import { type FC, useEffect, useState } from "react";
 import { useStore } from "zustand";
 const Empty = dynamic(() => import("@/components/Notifications/Empty"), {
   ssr: false,
@@ -18,7 +18,7 @@ const NotificationUser = dynamic(
   }
 );
 
-export default function NotificationsDrawer() {
+const NotificationsDrawer:FC = () => {
   const { darkMode } = useStore(useDarkModeStore);
   const {
     state: { notificationDrawer },
@@ -81,3 +81,4 @@ export default function NotificationsDrawer() {
     </>
   );
 }
+export default  NotificationsDrawer

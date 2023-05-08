@@ -5,6 +5,7 @@ import { IUser } from "@/types/user";
 import { useDarkModeStore } from "@/stores/stores";
 import { useStore } from "zustand";
 import { useStateContext } from "@/stores/StateContext";
+import type { FC } from "react";
 
 interface Props {
   results: IUser[];
@@ -12,7 +13,7 @@ interface Props {
   customs?: string;
 }
 
-export default function Results(props: Props) {
+const  Results:FC<Props> = (props) => {
   const { results, handleDrawerToggler, customs } = props;
   const { darkMode } = useStore(useDarkModeStore);
   const {
@@ -99,3 +100,4 @@ export default function Results(props: Props) {
     </>
   );
 }
+export default Results;

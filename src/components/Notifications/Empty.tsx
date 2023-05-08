@@ -1,8 +1,9 @@
 import { useDarkModeStore } from "@/stores/stores";
+import type { FC } from "react";
 import { RiNotificationOffLine } from "react-icons/ri";
 import { useStore } from "zustand";
 
-export default function Empty() {
+const Empty:FC = () => {
   const { darkMode } = useStore(useDarkModeStore);
   return (
     <>
@@ -19,3 +20,4 @@ export default function Empty() {
     </>
   );
 }
+export default Empty

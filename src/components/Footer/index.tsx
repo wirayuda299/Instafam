@@ -1,49 +1,14 @@
+import { footerlists } from "@/data/footerLists";
 import Link from "next/link";
-type FooterProps = {
-  name: string;
-  link: string;
-};
+import type { FC, ReactNode} from "react";
+
 
 type Props = {
-  children?: React.ReactNode;
-  classNames?: string;
+  children: ReactNode;
+  classNames: string;
 };
 
-export default function Footer({ children, classNames }: Props) {
-  const footerlists: FooterProps[] = [
-    {
-      name: "About",
-      link: "/about",
-    },
-    {
-      name: "Help",
-      link: "/help",
-    },
-    {
-      name: "Api",
-      link: "/api",
-    },
-    {
-      name: "Privacy",
-      link: "/privacy",
-    },
-    {
-      name: "Terms",
-      link: "/terms",
-    },
-    {
-      name: "Locations",
-      link: "/locations",
-    },
-    {
-      name: "Language",
-      link: "/language",
-    },
-    {
-      name: "Instafam Verified",
-      link: "/verfied-instafam",
-    },
-  ];
+const Footer: FC<Partial<Props>> = ({ children, classNames }) => {
   return (
     <footer className="w-full px-5 ">
       <ul className={classNames}>
@@ -63,3 +28,5 @@ export default function Footer({ children, classNames }: Props) {
     </footer>
   );
 }
+
+export default Footer

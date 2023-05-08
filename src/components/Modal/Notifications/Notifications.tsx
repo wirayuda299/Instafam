@@ -6,12 +6,12 @@ import { useDarkModeStore } from "@/stores/stores";
 import { IUser } from "@/types/user";
 import { onSnapshot, doc } from "firebase/firestore";
 import { useSession } from "next-auth/react";
-import { memo, useEffect, useState } from "react";
+import { type FC, memo, useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import { AiOutlineArrowLeft } from "react-icons/ai";
 import { useStore } from "zustand";
 
-function NotificationsModal() {
+const  NotificationsModal:FC = () => {
   const { darkMode } = useStore(useDarkModeStore);
   const {
     state: { notificationModal },

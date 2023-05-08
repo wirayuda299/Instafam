@@ -1,12 +1,9 @@
 import { IUser } from "@/types/user";
 import Image from "next/image";
 import Link from "next/link";
+import type { FC } from "react";
 
-type Props = {
-  reccomend: IUser[];
-};
-
-export default function UserRecommendations({ reccomend }: Props) {
+const UserRecommendations: FC<{ reccomend: IUser[] }> = ({ reccomend }) => {
   return (
     <>
       {reccomend?.map((user: any) => (
@@ -41,3 +38,4 @@ export default function UserRecommendations({ reccomend }: Props) {
     </>
   );
 }
+export default UserRecommendations

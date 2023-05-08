@@ -1,10 +1,10 @@
-import { memo } from "react";
+import { type FC, memo } from "react";
 
 type Props = {
   likesCount: string[];
   uid: string;
 };
-function Likes({ likesCount, uid }: Props) {
+const  Likes:FC<Props> = ({ likesCount, uid }) => {
   return (
     <>
       {likesCount && likesCount.length > 0 ? (

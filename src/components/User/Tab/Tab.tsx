@@ -1,5 +1,5 @@
 import { useDarkModeStore } from "@/stores/stores";
-import { useEffect, useRef, useState } from "react";
+import { type FC, useEffect, useRef, useState } from "react";
 import { BsGrid3X3Gap, BsBookmark, BsPersonSquare } from "react-icons/bs";
 import { useStore } from "zustand";
 
@@ -9,7 +9,7 @@ type Props = {
   activeTab: number;
   handleTabChange: ChangeTab;
 };
-export default function Tab({ activeTab, handleTabChange }: Props) {
+const Tab:FC<Props> = ({ activeTab, handleTabChange }) => {
   const btn1 = useRef<HTMLButtonElement>(null);
   const btn2 = useRef<HTMLButtonElement>(null);
   const btn3 = useRef<HTMLButtonElement>(null);
@@ -100,3 +100,4 @@ export default function Tab({ activeTab, handleTabChange }: Props) {
     </div>
   );
 }
+export default Tab

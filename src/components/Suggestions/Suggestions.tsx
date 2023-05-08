@@ -1,6 +1,6 @@
 import dynamic from "next/dynamic";
 import Image from "next/image";
-import { memo } from "react";
+import { type FC, memo } from "react";
 import { IUser } from "@/types/user";
 import { useSession } from "next-auth/react";
 
@@ -9,11 +9,7 @@ const UserRecommendation = dynamic(() => import("./User"), {
   ssr: true,
 });
 
-type Props = {
-  reccomend: IUser[];
-};
-
-function Suggestions({ reccomend }: Props) {
+const Suggestions: FC<{ reccomend: IUser[] }> = ({ reccomend }) => {
   const { data: session } = useSession();
 
   return (

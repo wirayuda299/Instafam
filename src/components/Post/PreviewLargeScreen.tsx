@@ -1,5 +1,6 @@
 import { IUserPostProps } from "@/types/post";
 import dynamic from "next/dynamic";
+import type { FC } from "react";
 import { BsThreeDots } from "react-icons/bs";
 
 const PostDetailComment = dynamic(() => import("./Preview"), {
@@ -12,7 +13,7 @@ const PostImage = dynamic(() => import("./Image"), {
 
 type CommentsProps = Pick<IUserPostProps, "comments">;
 
-type props = {
+type Props = {
   post: IUserPostProps;
   comments: CommentsProps["comments"];
   savedBy: string[];
@@ -20,7 +21,7 @@ type props = {
   handleClick: () => void;
 };
 
-export default function PreviewLargeScreen(props: props) {
+const PreviewLargeScreen:FC<Props> = (props) => {
   const { post, comments, likes, savedBy, handleClick } = props;
 
   return (
@@ -43,3 +44,4 @@ export default function PreviewLargeScreen(props: props) {
     </>
   );
 }
+export default PreviewLargeScreen;

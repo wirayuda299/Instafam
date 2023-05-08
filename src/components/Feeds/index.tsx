@@ -1,15 +1,11 @@
 import { IUserPostProps } from "@/types/post";
 import dynamic from "next/dynamic";
 import { useStateContext } from "@/stores/StateContext";
+import type { FC } from "react";
 const PostImage = dynamic(() => import("../Post/Image"), { ssr: true });
 const PostInfo = dynamic(() => import("./PostInfo"), { ssr: true });
 
-type Props = {
-  post: IUserPostProps;
-  index: number;
-};
-
-export default function Feeds({ post, index }: Props) {
+const Feeds: FC<{ post: IUserPostProps }> = ({ post }) => {
   const { Dispatch } = useStateContext();
   return (
     <div
@@ -31,13 +27,13 @@ export default function Feeds({ post, index }: Props) {
         });
       }}
     >
-      <PostImage
-        post={post}
-      
-      />
+      <PostImage post={post} />
       <div className="hidden md:block">
         <PostInfo post={post} />
       </div>
     </div>
   );
+
 }
+
+export default Feeds

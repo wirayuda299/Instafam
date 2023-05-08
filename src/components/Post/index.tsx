@@ -2,7 +2,7 @@ import { IUserPostProps } from "@/types/post";
 import dynamic from "next/dynamic";
 import usePost from "@/hooks/usePost";
 import { useSession } from "next-auth/react";
-import { memo } from "react";
+import { FC, memo } from "react";
 import { BsThreeDots } from "react-icons/bs";
 import { useStateContext } from "@/stores/StateContext";
 import { useStore } from "zustand";
@@ -14,7 +14,7 @@ const Author = dynamic(() => import("./Author"));
 const Comments = dynamic(() => import("../Comments/Forms"));
 const PostImage = dynamic(() => import("./Image"), { ssr: true });
 
-function PostCard({ post }: { post: IUserPostProps }) {
+const PostCard: FC<{ post: IUserPostProps }> = ({ post }) => {
   const { likes, comments, savedBy } = usePost(post);
   const { data: session } = useSession();
   const { Dispatch } = useStateContext();
@@ -38,9 +38,8 @@ function PostCard({ post }: { post: IUserPostProps }) {
   return (
     <div className="">
       <div
-        className={`rounded-sm p-4 shadow-lg ${
-          darkMode ? "bg-black text-white" : "bg-white text-black"
-        }`}
+        className={`rounded-sm p-4 shadow-lg ${darkMode ? "bg-black text-white" : "bg-white text-black"
+          }`}
       >
         <PostHeader post={post}>
           <button type="button" name="menu" title="menu" onClick={handleClick}>
@@ -57,7 +56,7 @@ function PostCard({ post }: { post: IUserPostProps }) {
           uid={session?.user?.uid as string}
         />
         <Likes likesCount={likes} uid={session?.user.uid as string} />
-        <Author author={post.author}  captions={post.captions} hashtags={post.hashtags} />
+        <Author author={post.author} captions={post.captions} hashtags={post.hashtags} />
         <Comments comments={comments} post={post} session={session} />
       </div>
     </div>

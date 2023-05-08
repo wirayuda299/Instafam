@@ -4,12 +4,14 @@ import { useDarkModeStore } from "@/stores/stores";
 import { useStore } from "zustand";
 import { useRouter } from "next/router";
 import { useStateContext } from "@/stores/StateContext";
+import type { FC } from "react";
 const ExtraMenus = dynamic(() => import("./ExtraMenus"));
 const NavLink = dynamic(() => import("./NavLink"));
 const ExtraMenuBtn = dynamic(() => import("./ExtraMenuBtn"));
 const NavHeader = dynamic(() => import("../Header/NavHeader"));
-import ChatForm from "@/components/Messages/Form/ChatForm";
-export default function Sidebar() {
+const ChatForm = dynamic(() => import("@/components/Messages/Form/ChatForm"));
+
+const Sidebar:FC = () => {
   const { data: session } = useSession();
   const { pathname } = useRouter();
   const {
@@ -144,3 +146,4 @@ export default function Sidebar() {
     </>
   );
 }
+export default Sidebar;

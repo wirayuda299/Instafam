@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction } from "react";
+import type { Dispatch, FC, SetStateAction } from "react";
 import { useDarkModeStore } from "@/stores/stores";
 import { useStore } from "zustand";
 
@@ -8,7 +8,7 @@ type Props = {
   loading: boolean;
   handlePost: () => Promise<void>;
 };
-export default function TextArea(props: Props) {
+const TextArea: FC<Props> = (props) => {
   const { captions, setCaptions, loading, handlePost } = props;
   const { darkMode } = useStore(useDarkModeStore);
 
@@ -49,3 +49,4 @@ export default function TextArea(props: Props) {
     </div>
   );
 }
+export default TextArea;

@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Playfair_Display } from "next/font/google";
 import { useStateContext } from "@/stores/StateContext";
 import Logo from "../Logo/Logo";
+import type { FC } from "react";
 
 const playfair = Playfair_Display({
   fallback: ["sans-serif"],
@@ -11,10 +12,8 @@ const playfair = Playfair_Display({
   display: "swap",
 });
 
-export default function NavHeader() {
-  const {
-    state: { notificationDrawer, isSearchDrawerOpen },
-  } = useStateContext();
+const NavHeader: FC = () => {
+  const { state: { notificationDrawer, isSearchDrawerOpen } } = useStateContext();
   return (
     <header
       className={`hidden w-full flex-col pl-6 md:flex md:pl-2.5 ${playfair.className}`}
@@ -37,3 +36,4 @@ export default function NavHeader() {
     </header>
   );
 }
+export default NavHeader

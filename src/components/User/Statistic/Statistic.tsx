@@ -2,7 +2,7 @@ import { IUserPostProps } from "@/types/post";
 import { IUser } from "@/types/user";
 import Image from "next/image";
 import dynamic from "next/dynamic";
-import { memo } from "react";
+import { FC, memo } from "react";
 import { useStore } from "zustand";
 import { useDarkModeStore } from "@/stores/stores";
 import type { Session } from "next-auth";
@@ -17,7 +17,7 @@ type Props = {
   refreshData: () => void;
 };
 
-function Statistic({ session, users, posts, refreshData }: Props) {
+const  Statistic:FC<Props> = ({ session, users, posts, refreshData }) => {
   const data = [
     {
       id: 1,

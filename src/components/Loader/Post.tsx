@@ -1,6 +1,6 @@
 import { BsImage } from "react-icons/bs";
 
-export default function Post() {
+const Post = () => {
   return (
     <div
       role="status"
@@ -51,3 +51,4 @@ export default function Post() {
     </div>
   );
 }
+export default Post

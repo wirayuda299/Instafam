@@ -1,18 +1,15 @@
+import { IUserPostProps } from "@/types/post";
 import { getCreatedDate } from "@/utils/postDate";
 import Image from "next/image";
 import Link from "next/link";
 
+type PostComments = Pick<IUserPostProps, 'comments'>
+
 type Props = {
-  comments: {
-    commentByUid: string;
-    comment: string;
-    commentByName: string;
-    commentByPhoto: string;
-    createdAt: string | number;
-  }[];
+  comments: PostComments["comments"];
 };
 
-export default function Comment({ comments }: Props) {
+const Comments: React.FC<Props> = ({ comments }) => {
   return (
     <>
       {comments?.map((comment) => (
@@ -50,3 +47,5 @@ export default function Comment({ comments }: Props) {
     </>
   );
 }
+
+export default Comments

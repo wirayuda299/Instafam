@@ -1,4 +1,5 @@
 import Link from "next/link";
+import type { FC } from "react";
 type ListItemProps = {
   path: string;
   pathname: string;
@@ -17,7 +18,7 @@ type ListItemProps = {
   darkMode: boolean;
 };
 
-export default function NavItem(props: ListItemProps) {
+const NavItem:FC<ListItemProps> =(props) => {
   const {
     path,
     pathname,
@@ -113,3 +114,4 @@ export default function NavItem(props: ListItemProps) {
     </li>
   );
 }
+export default NavItem

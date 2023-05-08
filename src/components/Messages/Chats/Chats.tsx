@@ -4,15 +4,15 @@ import Image from "next/image";
 import ChatForm from "../Form/ChatForm";
 import { db } from "@/config/firebase";
 import { onSnapshot, doc } from "firebase/firestore";
-import { useEffect, useState } from "react";
+import { type FC, useEffect, useState } from "react";
 import { DataMessage } from "@/types/DataMessage";
 import { Chats as ChatsType } from "@/types/Chats";
 
 type Props = {
   session: Session | null;
   selectedChat: DataMessage | null;
-};
-export default function Chats({ session, selectedChat }: Props) {
+}
+const Chats: FC<Props> = ({ session, selectedChat }) => {
   const [chats, setChats] = useState<ChatsType[]>([]);
 
   useEffect(() => {
@@ -35,26 +35,23 @@ export default function Chats({ session, selectedChat }: Props) {
             {chats?.map((item) => (
               <div
                 key={item.createdAt}
-                className={`flex flex-row items-center p-3 ${
-                  item.sender.id === session?.user.uid
+                className={`flex flex-row items-center p-3 ${item.sender.id === session?.user.uid
                     ? " justify-end"
                     : "justify-start"
-                }`}
+                  }`}
               >
                 <div className="flex max-w-sm flex-col">
                   <div
-                    className={`flex items-center gap-x-4 space-x-3 ${
-                      item.sender.id !== session?.user.uid
+                    className={`flex items-center gap-x-4 space-x-3 ${item.sender.id !== session?.user.uid
                         ? "flex-row-reverse"
                         : ""
-                    }`}
+                      }`}
                   >
                     <p
-                      className={` rounded-2xl px-5 py-2 ${
-                        item.sender.id === session?.user.uid
+                      className={` rounded-2xl px-5 py-2 ${item.sender.id === session?.user.uid
                           ? "bg-gray-200 text-black"
                           : "bg-blue-600 text-white"
-                      }`}
+                        }`}
                     >
                       {item.message}
                     </p>
@@ -88,3 +85,6 @@ export default function Chats({ session, selectedChat }: Props) {
     </>
   );
 }
+
+  ;
+export default Chats;

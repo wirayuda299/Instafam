@@ -1,6 +1,6 @@
 import { signIn } from "next-auth/react";
 import { FcGoogle } from "react-icons/fc";
-import { GetServerSidePropsContext } from "next";
+import type { GetServerSidePropsContext } from "next";
 import Head from "next/head";
 import { useStore } from "zustand";
 import { useDarkModeStore } from "@/stores/stores";

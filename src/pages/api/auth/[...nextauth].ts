@@ -3,7 +3,7 @@ import { urlNormalize } from "@/utils/urlNormalize";
 import { getUsernameFromEmail } from "@/utils/usernameGenerator";
 import { setDoc, doc } from "firebase/firestore";
 import NextAuth, { NextAuthOptions } from "next-auth";
-import { JWT } from "next-auth/jwt";
+import  type { JWT } from "next-auth/jwt";
 import GoogleProvider from "next-auth/providers/google";
 
 export const authOptions: NextAuthOptions = {

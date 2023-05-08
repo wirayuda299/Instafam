@@ -1,6 +1,6 @@
 import { useDarkModeStore } from "@/stores/stores";
 import { useStore } from "zustand";
-import { useEffect, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import { IUserPostProps } from "@/types/post";
 import { AiOutlineArrowLeft } from "react-icons/ai";
 import dynamic from "next/dynamic";
@@ -16,7 +16,7 @@ const PostCard = dynamic(() => import("@/components/Post"), {
   ssr: true,
 });
 
-export default function PostModal() {
+const PostModal: FC = () => {
   const {
     state: { selectedPost, postModal },
     Dispatch,
@@ -78,17 +78,15 @@ export default function PostModal() {
 
   return createPortal(
     <div
-      className={` fixed left-0 top-0 z-[99] h-screen w-full select-none  !overflow-y-auto !overflow-x-hidden  shadow-sm lg:hidden  ${
-        postModal ? "animate-scaleUp" : "animate-fadeOut"
-      } ${darkMode ? "bg-black" : "bg-white"}`}
+      className={` fixed left-0 top-0 z-[99] h-screen w-full select-none  !overflow-y-auto !overflow-x-hidden  shadow-sm lg:hidden  ${postModal ? "animate-scaleUp" : "animate-fadeOut"
+        } ${darkMode ? "bg-black" : "bg-white"}`}
       aria-modal="true"
       role="dialog"
     >
       <div className="relative w-full">
         <div
-          className={`sticky top-0 z-30 flex w-full items-center border-b border-gray-500 border-opacity-50 px-3 py-3 ${
-            darkMode ? "bg-black text-white" : "bg-white text-black"
-          }`}
+          className={`sticky top-0 z-30 flex w-full items-center border-b border-gray-500 border-opacity-50 px-3 py-3 ${darkMode ? "bg-black text-white" : "bg-white text-black"
+            }`}
         >
           <div>
             <button
@@ -114,3 +112,5 @@ export default function PostModal() {
     document.getElementById("modal") as Element
   );
 }
+
+export default PostModal;

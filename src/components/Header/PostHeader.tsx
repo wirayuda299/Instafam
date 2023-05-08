@@ -3,14 +3,14 @@ import { IUserPostProps } from "@/types/post";
 import { useStore } from "zustand";
 import { useDarkModeStore } from "@/stores/stores";
 import CreatedTime from "@/components/Post/CreatedTime";
-import { memo } from "react";
+import { type FC, memo } from "react";
 
 type Props = {
   post: IUserPostProps;
   children?: React.ReactNode;
 };
 
-function Postheader({ post, children }: Props) {
+const PostHeader:FC<Props> = ({ post, children }) => {
   const { darkMode } = useStore(useDarkModeStore);
 
   return (
@@ -36,4 +36,4 @@ function Postheader({ post, children }: Props) {
     </header>
   );
 }
-export default memo(Postheader);
+export default memo(PostHeader)

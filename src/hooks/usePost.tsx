@@ -11,6 +11,7 @@ export default function usePost(post: IUserPostProps | null) {
   const {
     state: { selectedPost },
   } = useStateContext();
+
   const [savedBy, setSavedBy] = useState<string[]>([]);
   useEffect(() => {
     const unsub = onSnapshot(
@@ -33,5 +34,6 @@ export default function usePost(post: IUserPostProps | null) {
   const comments = useMemo(() => {
     return comment;
   }, [comment]);
+  
   return { likes, comments, savedBy };
 }

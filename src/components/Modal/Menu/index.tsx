@@ -6,10 +6,10 @@ import { useRouter } from "next/router";
 import { useStore } from "zustand";
 import Lists from "./Lists";
 import { createPortal } from "react-dom";
-import { memo } from "react";
+import {type  FC, memo } from "react";
 import { useStateContext } from "@/stores/StateContext";
 
-function Menu() {
+const Menu:FC = () =>  {
   const {
     state: { selectedPost },
   } = useStateContext();

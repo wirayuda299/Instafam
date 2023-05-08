@@ -1,4 +1,4 @@
-import { memo } from "react";
+import { type FC, memo } from "react";
 
 type Props = {
   data: {
@@ -7,7 +7,7 @@ type Props = {
     value: number | undefined;
   }[];
 };
-function DesktopStatistic({ data }: Props) {
+const  DesktopStatistic:FC<Props> = ({ data }) => {
   return (
     <ul
       title="Statistic"

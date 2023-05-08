@@ -20,7 +20,6 @@ export default function App({
   Component,
   pageProps: { session, ...pageProps },
 }: ComponentWithPageLayout) {
-  // @ts-ignore
   return (
     <>
       <Head>

@@ -10,6 +10,7 @@ import Image from "next/image";
 import dynamic from "next/dynamic";
 import type { Session } from "next-auth";
 import { BsPersonCircle } from "react-icons/bs";
+import type { FC } from "react";
 
 const NavItem = dynamic(() => import("./NavItem"), { ssr: true });
 
@@ -25,7 +26,7 @@ type Props = {
   darkMode: boolean;
 };
 
-export default function NavLink(props: Props) {
+const NavLink:FC<Props> = (props) => {
   const {
     session,
     handleClick,
@@ -120,3 +121,5 @@ export default function NavLink(props: Props) {
     </ul>
   );
 }
+
+export default NavLink

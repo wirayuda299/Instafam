@@ -1,6 +1,6 @@
 import Image from "next/image";
 import dynamic from "next/dynamic";
-import { Dispatch, SetStateAction } from "react";
+import type { Dispatch, FC, SetStateAction } from "react";
 import { useDarkModeStore } from "@/stores/stores";
 import { useStore } from "zustand";
 import type { Session } from "next-auth";
@@ -15,7 +15,7 @@ interface Props {
   captions: string;
 }
 
-export default function Captions(props: Props) {
+const Captions:FC<Props> = (props) => {
   const { handlePost, loading, session, img, setCaptions, captions } = props;
   const { darkMode } = useStore(useDarkModeStore);
 
@@ -61,3 +61,4 @@ export default function Captions(props: Props) {
     </div>
   );
 }
+export default Captions;

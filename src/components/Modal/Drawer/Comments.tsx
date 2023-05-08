@@ -6,14 +6,14 @@ import usePost from "@/hooks/usePost";
 import dynamic from "next/dynamic";
 import { createPortal } from "react-dom";
 import { IUserPostProps } from "@/types/post";
-import { useId } from "react";
+import { type FC, useId } from "react";
 import { useStateContext } from "@/stores/StateContext";
 const CommentsForm = dynamic(() => import("../../Comments/Forms"));
 const Postheader = dynamic(() => import("@/components/Header/PostHeader"));
 const Comment = dynamic(() => import("@/components/Comments/Comment"));
 const EmptyComment = dynamic(() => import("@/components/Comments/Empty"));
 
-export default function PostComment() {
+const PostComment:FC = () => {
   const {
     state: { selectedPost, postCommentModal },
     Dispatch,
@@ -91,3 +91,4 @@ export default function PostComment() {
     document.getElementById("modal") as Element
   );
 }
+export default PostComment

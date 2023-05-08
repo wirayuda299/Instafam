@@ -3,7 +3,7 @@ import { IUser } from "@/types/user";
 import type { Session } from "next-auth";
 import Image from "next/image";
 import Link from "next/link";
-import { useStore } from "zustand";
+import type { FC } from "react";
 type Props = {
   follower: {
     followedBy: string;
@@ -14,12 +14,12 @@ type Props = {
   session: Session | null;
   user: IUser;
 };
-export default function NotificationUser({
+const NotificationUser: FC<Props> = ({
   follower,
   darkMode,
   session,
   user,
-}: Props) {
+}) => {
   const { Dispatch } = useStateContext();
   return (
     <div className="mt-4 flex items-center space-x-2 px-4">
@@ -80,3 +80,4 @@ export default function NotificationUser({
     </div>
   );
 }
+export default NotificationUser

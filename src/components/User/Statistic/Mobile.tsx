@@ -1,4 +1,4 @@
-import { memo } from "react";
+import { FC, memo } from "react";
 
 type Props = {
   data: {
@@ -7,7 +7,7 @@ type Props = {
     value: number | undefined;
   }[];
 };
-function StatisticMobile({ data }: Props) {
+const StatisticMobile: FC<Props> = ({ data }) => {
   return (
     <ul
       title="Statistic"

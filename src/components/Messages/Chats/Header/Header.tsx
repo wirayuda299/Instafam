@@ -4,11 +4,12 @@ import Image from "next/image";
 import { useStore } from "zustand";
 import { useStateContext } from "@/stores/StateContext";
 import { AiOutlineClose, AiOutlineMenu } from "react-icons/ai";
+import { FC } from "react";
 
 type Props = {
   selectedChat: DataMessage | null;
 };
-export default function ChatHeader({ selectedChat }: Props) {
+const ChatHeader:FC<Props> = ({ selectedChat }) => {
   const { darkMode } = useStore(useDarkModeStore);
   const {
     state: { receiverDrawer },
@@ -53,3 +54,4 @@ export default function ChatHeader({ selectedChat }: Props) {
     </header>
   );
 }
+export default ChatHeader

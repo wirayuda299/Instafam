@@ -2,7 +2,8 @@ import { db } from "@/config/firebase";
 import { useDarkModeStore } from "@/stores/stores";
 import { DataMessage } from "@/types/DataMessage";
 import type { Session } from "next-auth";
-import { FieldValues, useForm } from "react-hook-form";
+import type { FC } from "react";
+import { type FieldValues, useForm } from "react-hook-form";
 import { SlPaperPlane } from "react-icons/sl";
 import { useStore } from "zustand";
 
@@ -11,13 +12,14 @@ type Props = {
   session: Session | null;
 };
 
-export default function ChatForm({ selectedChat, session }: Props) {
+const ChatForm:FC<Props>= ({ selectedChat, session }) => {
   const {
     register,
     handleSubmit,
     resetField,
     formState: { errors },
   } = useForm();
+  
   const sendMessage = async (e: FieldValues) => {
     const message = e.message;
     const { doc, setDoc, arrayUnion } = await import("firebase/firestore");
@@ -74,3 +76,4 @@ export default function ChatForm({ selectedChat, session }: Props) {
     </div>
   );
 }
+export default ChatForm

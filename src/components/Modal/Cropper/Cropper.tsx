@@ -1,11 +1,11 @@
 import { useDarkModeStore } from "@/stores/stores";
-import { useState } from "react";
+import { type FC, useState } from "react";
 import { createPortal } from "react-dom";
 import { AiOutlineClose } from "react-icons/ai";
 import { useStore } from "zustand";
 import { useRouter } from "next/router";
 import dynamic from "next/dynamic";
-import { Area } from "@/components/ImageCropper/ImageCropper";
+import type { Area } from "@/components/ImageCropper/ImageCropper";
 import { getCroppedImg } from "react-cropper-custom";
 import { useStateContext } from "@/stores/StateContext";
 const FileUpload = dynamic(() => import("@/components/FileUpload/FileUpload"), {
@@ -19,7 +19,7 @@ const ImageCropper = dynamic(
   }
 );
 
-export default function Cropper() {
+const Cropper:FC = () => {
   const { darkMode } = useStore(useDarkModeStore);
   const {
     Dispatch,
@@ -63,27 +63,6 @@ export default function Cropper() {
       },
     });
   };
-
-  const handleClose = () => {
-    Dispatch({
-      type: "TOGGLE_POST_CREATE_MODAL",
-      payload: {
-        postCreateModal: false,
-      },
-    });
-    Dispatch({
-      type: "SET_PREVIEW_URL",
-      payload: {
-        previewUrl: "",
-      },
-    });
-    Dispatch({
-      type: "SET_CROPPED_IMAGE",
-      payload: {
-        croppedImage: "",
-      },
-    });
-  }
 
   if (!postCreateModal) return null;
 
@@ -140,3 +119,4 @@ export default function Cropper() {
     document.getElementById("modal") as Element
   );
 }
+export default Cropper

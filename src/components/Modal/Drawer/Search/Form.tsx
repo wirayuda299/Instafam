@@ -1,8 +1,8 @@
-import type { ReactNode } from "react";
+import type { FC, ReactNode } from "react";
 import dynamic from "next/dynamic";
 import { useDarkModeStore } from "@/stores/stores";
 import { useStore } from "zustand";
-import { FieldValues, useForm } from "react-hook-form";
+import { type FieldValues, useForm } from "react-hook-form";
 import { IUser } from "@/types/user";
 import { getCsrfToken, useSession } from "next-auth/react";
 import { useRouter } from "next/router";
@@ -18,7 +18,7 @@ type Props = {
   children: ReactNode;
 };
 
-export default function Form({ height, children }: Props) {
+const Form:FC<Props> = ({ height, children }) => {
   const { handleSubmit, resetField, register } = useForm();
   const {
     state: { result },
@@ -141,3 +141,4 @@ export default function Form({ height, children }: Props) {
     </>
   );
 }
+export default  Form

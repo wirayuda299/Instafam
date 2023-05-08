@@ -1,19 +1,14 @@
 import { useDarkModeStore } from "@/stores/stores";
 import { AiOutlineCloudUpload } from "react-icons/ai";
 import { useStore } from "zustand";
-import { useState, type ChangeEvent } from "react";
+import type { ChangeEvent, FC } from "react";
 import toast from "react-hot-toast";
 import { encode } from "blurhash";
 import { useStateContext } from "@/stores/StateContext";
 
-type Props = {
-  img: string | undefined;
-};
-
-export default function FileUpload({ img }: Props) {
+const FileUpload: FC<{ img: string | undefined }> = ({ img }) => {
   const { darkMode } = useStore(useDarkModeStore);
   const { Dispatch } = useStateContext();
-  const [isLoading, setIsLoading] = useState(false);
 
   const loadImage = async (src: any) =>
     new Promise((resolve, reject) => {
@@ -38,8 +33,6 @@ export default function FileUpload({ img }: Props) {
     return encode(imageData?.data, imageData?.width, imageData?.height, 4, 4);
   };
   const filterImage = async (file: any) => {
-    setIsLoading(true);
-
     try {
       toast.loading("Checking image...");
       const data = new FormData();
@@ -66,15 +59,14 @@ export default function FileUpload({ img }: Props) {
   };
 
   const handleInputImage = async (e: ChangeEvent<HTMLInputElement>) => {
-    
-    try { 
+
+    try {
       let selectedFile = e.target.files?.[0];
       if (!selectedFile) return;
       const result = await filterImage(selectedFile);
       if (result?.unsafe) {
         toast.dismiss();
         toast.error("Image is not allowed");
-        setIsLoading(false);
         return;
       }
       const data = await loadImage(URL.createObjectURL(selectedFile));
@@ -100,7 +92,6 @@ export default function FileUpload({ img }: Props) {
               previewUrl: event.target.result as string,
             },
           });
-          setIsLoading(false);
         }
       };
       reader.readAsDataURL(selectedFile);
@@ -118,11 +109,10 @@ export default function FileUpload({ img }: Props) {
           <div className="mx-auto flex w-full max-w-xl justify-center">
             <label
               htmlFor="dropzone-file"
-              className={`flex h-80 w-full cursor-pointer flex-col items-center justify-center rounded-lg  shadow-2xl ${
-                darkMode
+              className={`flex h-80 w-full cursor-pointer flex-col items-center justify-center rounded-lg  shadow-2xl ${darkMode
                   ? "border border-gray-500 border-opacity-30 bg-black bg-opacity-95"
                   : "bg-gray-200"
-              }`}
+                }`}
             >
               <div className="flex flex-col items-center justify-center pb-6 pt-5">
                 <AiOutlineCloudUpload className="h-12 w-12 text-gray-400" />
@@ -147,7 +137,9 @@ export default function FileUpload({ img }: Props) {
           </div>
         </div>
       ) : null}
-     
+
     </>
   );
 }
+
+export default FileUpload

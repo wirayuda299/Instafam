@@ -1,3 +1,4 @@
+import type { FC } from "react";
 import { AiOutlineClose } from "react-icons/ai";
 import { RxHamburgerMenu } from "react-icons/rx";
 
@@ -8,7 +9,7 @@ type Props = {
   notificationdrawer: boolean;
 };
 
-export default function ExtraMenuBtn(props: Props) {
+const ExtraMenuBtn:FC<Props> = (props) =>{
   const { extraList, handleClick, drawer, notificationdrawer } = props;
 
   return (
@@ -36,3 +37,4 @@ export default function ExtraMenuBtn(props: Props) {
     </button>
   );
 }
+export default ExtraMenuBtn

@@ -4,8 +4,9 @@ import { BiSun } from "react-icons/bi";
 import { useStateContext } from "@/stores/StateContext";
 import { useStore } from "zustand";
 import { useDarkModeStore } from "@/stores/stores";
+import type { FC } from "react";
 
-export default function ExtraMenus() {
+const ExtraMenus:FC = () =>  {
   const {
     state: { isExtraListOpen },
   } = useStateContext();
@@ -98,3 +99,5 @@ export default function ExtraMenus() {
     </>
   );
 }
+
+export default ExtraMenus;

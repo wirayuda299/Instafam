@@ -1,11 +1,12 @@
 import { IUserPostProps } from "@/types/post";
 import Image from "next/image";
 import useBlurhash from "@/hooks/useBlurhash";
+import { FC } from "react";
 
 interface Props extends React.HTMLAttributes<HTMLImageElement> {
   post: IUserPostProps;
 };
-export default function PostImage({ post }: Props) {
+const PostImage:FC<Props> = ({ post }) => {
   const { blurHash } = useBlurhash(post);
   return (
     <>
@@ -23,3 +24,4 @@ export default function PostImage({ post }: Props) {
     </>
   );
 }
+export default PostImage

@@ -3,6 +3,7 @@ import { useDarkModeStore } from "@/stores/stores";
 import { DataMessage } from "@/types/DataMessage";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
+import type { FC } from "react";
 import { useStore } from "zustand";
 
 type Props = {
@@ -10,13 +11,15 @@ type Props = {
   sender: DataMessage[];
 };
 
-export default function UsersChat({ receiver, sender }: Props) {
+const  UsersChat:FC<Props> = ({ receiver, sender }) => {
+  
   const { darkMode } = useStore(useDarkModeStore);
   const { data: session } = useSession();
   const receiverId = receiver.map((item) => item.id);
   const { Dispatch } = useStateContext();
-
+  
   if (!session) return null;
+
 
   const messagesReceiver = receiver.map((item) => item.message);
   const messagesSender = sender.map((item) => item.message);
@@ -106,3 +109,4 @@ export default function UsersChat({ receiver, sender }: Props) {
     </div>
   );
 }
+export default UsersChat
