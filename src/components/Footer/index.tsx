@@ -2,7 +2,6 @@ import { footerlists } from "@/data/footerLists";
 import Link from "next/link";
 import type { FC, ReactNode} from "react";
 
-
 type Props = {
   children: ReactNode;
   classNames: string;

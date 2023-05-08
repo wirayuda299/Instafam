@@ -17,7 +17,7 @@ type Props = {
   darkMode: boolean;
   handleClick: () => void;
 };
-const ImageCropper:FC<Props> = (props) => {
+const ImageCropper: FC<Props> = (props) => {
   const { img, zoom, setZoom, onCropComplete, darkMode, handleClick } = props;
 
   return (
@@ -36,9 +36,8 @@ const ImageCropper:FC<Props> = (props) => {
             />
           </div>
           <button
-            className={`mt-3 w-full  rounded-md py-2 text-center ${
-              darkMode ? "bg-black text-white" : "bg-gray-200 text-black"
-            }`}
+            className={`mt-3 w-full  rounded-md py-2 text-center ${darkMode ? "bg-black text-white" : "bg-gray-200 text-black"
+              }`}
             onClick={handleClick}
           >
             Done

@@ -19,7 +19,7 @@ const Author: FC<Props> = ({ author, captions, hashtags }) => {
           {author}
         </h3>
         <p
-          className={` text-sm font-thin  ${captions.length >= 20 && !show ? "truncate" : ""
+          className={` text-sm font-thin  ${captions[0].length >= 20 && !show ? "truncate" : ""
             }`}
         >
           {captions}
@@ -35,7 +35,7 @@ const Author: FC<Props> = ({ author, captions, hashtags }) => {
             <span className="font-semibold ">more</span>
           ) : (
             <span
-              className={`ml-1 font-semibold ${captions.length < 20 ? "hidden" : "block"
+              className={`ml-1 font-semibold ${captions[0].length < 20 ? "hidden" : "block"
                 }`}
             >
               hide

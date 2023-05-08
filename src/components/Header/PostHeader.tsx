@@ -10,14 +10,13 @@ type Props = {
   children?: React.ReactNode;
 };
 
-const PostHeader:FC<Props> = ({ post, children }) => {
+const PostHeader: FC<Props> = ({ post, children }) => {
   const { darkMode } = useStore(useDarkModeStore);
 
   return (
     <header
-      className={`relative flex h-fit items-center py-3 px-4 ${
-        darkMode ? "bg-black text-white" : "bg-white text-black"
-      }`}
+      className={`relative flex h-fit items-center py-3 px-4 ${darkMode ? "bg-black text-white" : "bg-white text-black"
+        }`}
     >
       <Image
         className="h-8 w-8 rounded-full object-cover "

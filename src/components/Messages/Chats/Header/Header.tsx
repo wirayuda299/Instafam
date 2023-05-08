@@ -4,7 +4,7 @@ import Image from "next/image";
 import { useStore } from "zustand";
 import { useStateContext } from "@/stores/StateContext";
 import { AiOutlineClose, AiOutlineMenu } from "react-icons/ai";
-import { FC } from "react";
+import type { FC } from "react";
 
 type Props = {
   selectedChat: DataMessage | null;

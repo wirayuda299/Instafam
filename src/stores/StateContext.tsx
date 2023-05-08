@@ -1,5 +1,6 @@
 import {
-  Dispatch,
+  type Dispatch,
+  SetStateAction,
   createContext,
   useContext,
   useMemo,
@@ -9,7 +10,7 @@ import { reducer } from "./reducer";
 import { State } from "@/types/State";
 import { ActionsType } from "@/types/ActionsTypes";
 
-const initialState: State = {
+const initialState: State  = {
   selectedPost: null,
   isExtraListOpen: false,
   isSearchDrawerOpen: false,
@@ -46,11 +47,13 @@ const StateContext = createContext<StateProviderProps>({
 
 export function StateProvider({ children }: { children: React.ReactNode }) {
   const [state, Dispatch] = useReducer(reducer, initialState);
+  
 
   const values = useMemo(() => {
     return {
       state,
       Dispatch,
+
     };
   }, [state]);
 

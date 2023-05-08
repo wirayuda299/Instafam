@@ -2,7 +2,7 @@ import useWindowResize from "@/hooks/useWindowResize";
 import { useStateContext } from "@/stores/StateContext";
 import { useDarkModeStore } from "@/stores/stores";
 import dynamic from "next/dynamic";
-import { useEffect } from "react";
+import { type ReactNode, useEffect } from "react";
 import { useStore } from "zustand";
 
 const Menu = dynamic(() => import("@/components/Modal/Menu"));
@@ -42,7 +42,7 @@ const ImageCropperModal = dynamic(
   }
 );
 
-export default function Layout({ children }: { children: any }) {
+export default function Layout({ children }: { children: ReactNode }) {
   const { darkMode, setDarkMode } = useStore(useDarkModeStore);
   const { Dispatch } = useStateContext();
 

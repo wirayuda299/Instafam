@@ -2,7 +2,7 @@ import { IUserPostProps } from "@/types/post";
 import dynamic from "next/dynamic";
 import usePost from "@/hooks/usePost";
 import { useSession } from "next-auth/react";
-import { FC, memo } from "react";
+import { type FC, memo } from "react";
 import { BsThreeDots } from "react-icons/bs";
 import { useStateContext } from "@/stores/StateContext";
 import { useStore } from "zustand";
@@ -19,6 +19,7 @@ const PostCard: FC<{ post: IUserPostProps }> = ({ post }) => {
   const { data: session } = useSession();
   const { Dispatch } = useStateContext();
   const { darkMode } = useStore(useDarkModeStore);
+  
 
   const handleClick = () => {
     Dispatch({
@@ -55,9 +56,19 @@ const PostCard: FC<{ post: IUserPostProps }> = ({ post }) => {
           post={post}
           uid={session?.user?.uid as string}
         />
-        <Likes likesCount={likes} uid={session?.user.uid as string} />
-        <Author author={post.author} captions={post.captions} hashtags={post.hashtags} />
-        <Comments comments={comments} post={post} session={session} />
+        <Likes
+          likesCount={likes}
+          uid={session?.user.uid as string} />
+        <Author
+          author={post.author}
+          captions={post.captions}
+          hashtags={post.hashtags}
+        />
+        <Comments
+          comments={comments}
+          post={post}
+          session={session}
+        />
       </div>
     </div>
   );

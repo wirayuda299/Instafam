@@ -60,7 +60,7 @@ export default function Trending({ posts }: Props) {
             >
               <PostImage
                 post={post}
-                className="h-full min-h-full w-full rounded-lg object-cover"
+                className="h-full min-h-full w-full rounded-lg object-cover object-center overflow-hidden"
               />
               <PostInfo post={post} />
             </div>

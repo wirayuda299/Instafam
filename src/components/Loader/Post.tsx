@@ -1,14 +1,17 @@
+import { useDarkModeStore } from "@/stores/stores";
 import { BsImage } from "react-icons/bs";
+import { useStore } from "zustand";
 
 const Post = () => {
+  const {darkMode} = useStore(useDarkModeStore)
   return (
     <div
       role="status"
-      className="max-w-2xl animate-pulse  rounded p-4 shadow md:p-6 "
+      className="w-full animate-pulse  rounded p-4 shadow md:p-6 "
     >
       <div className="mt-4 flex items-center space-x-3">
         <svg
-          className="h-14 w-14 text-gray-200 "
+          className={`h-14 w-14   ${darkMode ? 'text-[#b9b9b917]' : 'text-gray-200'}`}
           aria-hidden="true"
           fill="currentColor"
           viewBox="0 0 20 20"
@@ -21,16 +24,16 @@ const Post = () => {
           ></path>
         </svg>
         <div>
-          <div className="mb-2 h-2.5 w-32  rounded-full bg-gray-200"></div>
-          <div className="h-2 w-20 rounded-full bg-gray-200 "></div>
+          <div className={`mb-2 h-2.5 w-32  rounded-full  ${darkMode ? 'bg-[#b9b9b917]' : 'bg-gray-200'}`}></div>
+          <div className={`h-2 w-20 rounded-full  ${darkMode ? 'bg-[#b9b9b917]' : 'bg-gray-200'}`}></div>
         </div>
       </div>
-      <div className="mb-4 flex h-96 w-full items-center justify-center rounded bg-gray-300 ">
-        <BsImage size={50} className="text-gray-200" />
+      <div className={`mb-4 flex h-96 w-full items-center justify-center rounded ${darkMode ? 'bg-[#b9b9b917]' : 'bg-gray-200'} `}>
+        <BsImage size={50} className={` ${darkMode ? 'text-[#b9b9b917]' : 'text-gray-200'} `} />
       </div>
       <div className="mt-4 flex items-center space-x-3">
         <svg
-          className="h-14 w-14 text-gray-200 "
+          className={`h-14 w-14 ${darkMode ? 'text-[#b9b9b917]' : 'text-gray-200'} `}
           aria-hidden="true"
           fill="currentColor"
           viewBox="0 0 20 20"
@@ -43,8 +46,8 @@ const Post = () => {
           ></path>
         </svg>
         <div>
-          <div className="mb-2 h-2.5 w-32  rounded-full bg-gray-200"></div>
-          <div className="h-2 w-48 rounded-full bg-gray-200 "></div>
+          <div className={`mb-2 h-2.5 w-32  rounded-full ${darkMode ? 'bg-[#b9b9b917]' : 'bg-gray-200'}`}></div>
+          <div className={`h-2 w-48 rounded-full  ${darkMode ? 'bg-[#b9b9b917]' : 'bg-gray-200'}`}></div>
         </div>
       </div>
       <span className="sr-only">Loading...</span>

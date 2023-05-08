@@ -7,26 +7,28 @@ const PostInfo = dynamic(() => import("./PostInfo"), { ssr: true });
 
 const Feeds: FC<{ post: IUserPostProps }> = ({ post }) => {
   const { Dispatch } = useStateContext();
+
+  const selectPost = (selectedPost: IUserPostProps) => {
+    Dispatch({
+      type: "SELECT_POST",
+      payload: {
+        post: selectedPost,
+      },
+    });
+
+    Dispatch({
+      type: "TOGGLE_FEED_MODAL",
+      payload: {
+        feedModal: true,
+      },
+    });
+  }
+
   return (
     <div
       key={post.postId}
       className={`group relative`}
-      onClick={() => {
-        Dispatch({
-          type: "SELECT_POST",
-          payload: {
-            post,
-          },
-        });
-
-        Dispatch({
-          type: "TOGGLE_FEED_MODAL",
-          payload: {
-            feedModal: true,
-          },
-        });
-      }}
-    >
+      onClick={() => selectPost(post)}>
       <PostImage post={post} />
       <div className="hidden md:block">
         <PostInfo post={post} />
