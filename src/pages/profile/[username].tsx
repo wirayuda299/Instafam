@@ -229,10 +229,7 @@ export async function getServerSideProps({ query }: GetServerSidePropsContext) {
   const user = (await getCurrentUserData(query?.username as string)) as IUser[];
   const posts = await getPostByCurrentUser(user ? user[0]?.uid : "");
   const savedPosts = await getPostsSavedByUser(user ? user[0]?.uid : "");
-  const reccomendations = await getUserRecommendation(
-    user ? user[0]?.uid : "",
-    undefined
-  );
+  const reccomendations = await getUserRecommendation(user ? user[0]?.uid : "");
   if (!user || !posts) {
     return {
       notFound: true,
