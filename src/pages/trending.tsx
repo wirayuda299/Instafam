@@ -18,7 +18,7 @@ const Form = dynamic(() => import("@/components/Modal/Drawer/Search/Form"), {
 const Footer = dynamic(() => import("@/components/Footer"), {
   ssr: true,
 });
-const PostInfo = dynamic(() => import("@/components/Feeds/PostInfo"), {
+const PostInfo = dynamic(() => import("@/components/Post/PostInfo"), {
   ssr: true,
 });
 

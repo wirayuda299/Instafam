@@ -17,7 +17,7 @@ const Statistic = dynamic(
 const SuggestionMobile = dynamic(
   () => import("@/components/Suggestions/SuggestionMobile")
 );
-const PostInfo = dynamic(() => import("@/components/Feeds/PostInfo"));
+const PostInfo = dynamic(() => import("@/components/Post/PostInfo"));
 const Tab = dynamic(() => import("@/components/User/Tab/Tab"));
 const PostImage = dynamic(() => import("@/components/Post/Image"), {
   ssr: true,
@@ -28,7 +28,7 @@ type Props = {
   session: Session | null;
   user: IUser | null;
   query: {
-    readonly username: string;
+     username: string;
   };
   savedPosts: IUserPostProps[] | [];
   reccomendations: IUser[] | [];
@@ -128,14 +128,14 @@ function UserProfile({
           </div>
 
           {session?.user?.username === query?.username ? <>{Tabs}</> : null}
-          <div className="mx-auto max-w-4xl md:max-w-5xl lg:hidden">
+          <div className=" max-w-4xl md:max-w-5xl lg:hidden mt-5">
             <h1 className="p-5 text-xl font-bold">Suggestion</h1>
             <div className="mt-5 flex justify-center">
-              <div className="flex snap-mandatory snap-center gap-5 overflow-x-scroll">
+              <div className="flex snap-mandatory snap-center  gap-5 overflow-x-scroll">
                 {reccomendations
                   .filter((user) => user.username !== session?.user?.username)
-                  .map((user) => (
-                    <SuggestionMobile user={user} key={user.uid} />
+                  .map((user, i) => (
+                    <SuggestionMobile user={user} key={i} />
                   ))}
               </div>
             </div>

@@ -2,7 +2,6 @@ import { db } from "@/config/firebase";
 import { IUser } from "@/types/user";
 import { collection, getDocs, limit, query, where } from "firebase/firestore";
 
-
 export async function getUserRecommendation(
   uid: string,
   amount?: number | undefined

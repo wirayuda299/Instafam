@@ -5,6 +5,7 @@ import Head from "next/head";
 import type { GetServerSidePropsContext } from "next";
 import usePost from "@/hooks/usePost";
 import { useStateContext } from "@/stores/StateContext";
+import { useSession } from "next-auth/react";
 
 const PostCard = dynamic(() => import("@/components/Post"), {
   ssr: true,
@@ -26,6 +27,7 @@ export default function PostDetail({ post }: { post: IUserPostProps }) {
     Dispatch,
     state: { menuModal },
   } = useStateContext();
+  const { data: session } = useSession();
   const [loading, setLoading] = useState(true);
   const ref = useRef<HTMLDivElement>(null);
   const [nextPosts, setNextPosts] = useState<IUserPostProps[] | null>(null);
@@ -76,6 +78,7 @@ export default function PostDetail({ post }: { post: IUserPostProps }) {
           <div className="container mx-auto grid h-screen w-full max-w-5xl place-items-center rounded-lg ">
             <div className="relative grid h-full w-full grid-cols-1 justify-between overflow-y-auto border border-gray-500 border-opacity-50 p-5 lg:max-h-[530px] lg:grid-cols-2 lg:p-0">
               <PreviewLargeScreen
+                session={session}
                 comments={comments}
                 handleClick={handleClick}
                 likes={likes}

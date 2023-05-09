@@ -10,9 +10,9 @@ const SuggestionMobile: FC<{ user: IUser }> = ({ user }) => {
 
   return (
     <div
-      className={`flex h-44 w-44 flex-col ${
-        darkMode ? "bg-black text-white" : "bg-white text-black"
-      } relative items-center justify-center rounded-lg border p-5 shadow-md`}
+      className={`flex h-44 shadow-xl aspect-square border border-gray-400 border-opacity-10 w-44 flex-col ${
+        darkMode ? "bg-black   text-white" : "bg-white text-black"
+      } relative items-center justify-center rounded-lg p-5 shadow-md`}
     >
       <Image
         src={user.image}

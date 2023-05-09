@@ -10,12 +10,8 @@ import {
   where,
 } from "firebase/firestore";
 
-
-
-
 export const getPosts = async (num: number) => {
   try {
-
     const q = query(
       collection(db, "posts"),
       orderBy("createdAt", "desc"),
