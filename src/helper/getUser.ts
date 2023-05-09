@@ -1,19 +1,14 @@
 import { db } from "@/config/firebase";
 import { IUser } from "@/types/user";
-import { collection, getDocs, limit, query, where } from "firebase/firestore";
+import { collection, getDocs, query, where } from "firebase/firestore";
 
 export async function getUserRecommendation(
   uid: string,
-  amount?: number | undefined
 ) {
   try {
     const qAll = query(collection(db, "users"), where("uid", "!=", uid));
-    const qlimit = query(
-      collection(db, "users"),
-      where("uid", "!=", uid),
-      limit(5)
-    );
-    const getUsers = await getDocs(amount ? qlimit : qAll);
+
+    const getUsers = await getDocs( qAll);
     return getUsers.docs.map((doc) => doc.data()) as IUser[];
   } catch (error: any) {
     console.log(error.message);

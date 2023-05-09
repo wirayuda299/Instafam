@@ -162,4 +162,4 @@ export type ActionsType =
   | MessageModalAction
   | chatRoomSelectedAction
   | SelectedActivityActions
-  | SelectedChatAction;
+  | SelectedChatAction

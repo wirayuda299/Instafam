@@ -14,7 +14,7 @@ const Suggestions: FC<{ reccomend: IUser[] }> = ({ reccomend }) => {
 
   return (
     <section className=" hidden h-screen min-w-[384px] lg:block">
-      <div className=" w-full max-w-sm p-5">
+      <div className=" w-full max-w-sm p-5 ">
         <div className="mb-2 flex items-center  justify-around space-x-2 md:justify-between">
           <div className="mb-2 flex items-center space-x-3">
             <Image
@@ -31,9 +31,9 @@ const Suggestions: FC<{ reccomend: IUser[] }> = ({ reccomend }) => {
               priority
               quality={50}
             />
-            <span className="text-base font-semibold ">
+            <p className="text-base font-semibold ">
               {session?.user?.username}
-            </span>
+            </p>
           </div>
           <div className={"flex items-center justify-center space-x-2"}>
             <button

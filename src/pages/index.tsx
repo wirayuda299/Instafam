@@ -17,32 +17,33 @@ const PostCard = dynamic(() => import("@/components/Post"), {
 
 type Props = {
   posts: IUserPostProps[];
-  users: IUser[];
+  limitUser: IUser[];
 };
 
-function Home({ posts, users }: Props) {
+function Home({ posts, limitUser }: Props) {
   const [newPosts, setNewPosts] = useState<IUserPostProps[]>([]);
   useEffect(() => {
-    const handleIntersection = async (entries: IntersectionObserverEntry[]) => {
-      if (entries[0].isIntersecting) {
-        const { fetchNextPosts } = await import("@/helper/getPosts");
-        const newPosts = await fetchNextPosts(posts[posts.length - 1]);
-        setNewPosts(newPosts ?? []);
-      }
-    };
+    (async () => {
+      const observer = new IntersectionObserver(async (entries) => {
+        if (entries[0].isIntersecting) {
+          const { fetchNextPosts } = await import("@/helper/getPosts");
+          const newPosts = await fetchNextPosts(posts[posts.length - 1]);
+          setNewPosts(newPosts ?? []);
+        }
+      });
 
-    const observer = new IntersectionObserver(handleIntersection);
-    const entry = document.getElementById("entry");
-    if (entry) {
-      observer.observe(entry);
-    }
-    return () => {
+      const entry = document.getElementById("entry");
       if (entry) {
-        observer.unobserve(entry);
-        observer.disconnect();
-        setNewPosts([]);
+        observer.observe(entry);
       }
-    };
+      return () => {
+        if (entry) {
+          observer.unobserve(entry);
+          observer.disconnect();
+          setNewPosts([]);
+        }
+      };
+    })();
   }, []);
 
   return (
@@ -62,7 +63,7 @@ function Home({ posts, users }: Props) {
           )}
         </div>
         <div className="sticky top-0 h-screen">
-          <Suggestions reccomend={users} />
+          <Suggestions reccomend={limitUser} />
         </div>
       </div>
     </div>
@@ -87,8 +88,9 @@ export async function getServerSideProps({
       },
     };
   }
-  const users = await getUserRecommendation(session?.user.uid, 5);
+  const users = await getUserRecommendation(session?.user.uid);
   const posts = await getPosts(3);
+  const limitUser = users?.slice(0, 5);
 
   res.setHeader("Cache-Control", "public, maxage=60, stale-while-revalidate");
 
@@ -97,6 +99,7 @@ export async function getServerSideProps({
       users,
       posts,
       session,
+      limitUser
     },
   };
 }

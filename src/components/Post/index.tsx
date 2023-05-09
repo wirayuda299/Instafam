@@ -38,12 +38,15 @@ const PostCard: FC<{ post: IUserPostProps }> = ({ post }) => {
   return (
     <div className="">
       <div
-        className={`rounded-sm p-4 shadow-lg ${
-          darkMode ? "bg-black text-white" : "bg-white text-black"
-        }`}
+        className={`rounded-sm p-4 shadow-lg ${darkMode ? "bg-black text-white" : "bg-white text-black"
+          }`}
       >
         <PostHeader post={post}>
-          <button type="button" name="menu" title="menu" onClick={handleClick}>
+          <button
+            type="button"
+            name="menu"
+            title="menu"
+            onClick={handleClick}>
             <BsThreeDots className="text-gray-500" size={20} />
           </button>
         </PostHeader>

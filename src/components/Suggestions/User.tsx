@@ -5,7 +5,7 @@ import type { FC } from "react";
 
 const UserRecommendations: FC<{ reccomend: IUser[] }> = ({ reccomend }) => {
   return (
-    <>
+    <div className="w-full h-full overflow-y-auto">
       {reccomend?.map((user: any) => (
         <div
           key={user.uid}
@@ -35,7 +35,7 @@ const UserRecommendations: FC<{ reccomend: IUser[] }> = ({ reccomend }) => {
           </Link>
         </div>
       ))}
-    </>
+    </div>
   );
 };
 export default UserRecommendations;

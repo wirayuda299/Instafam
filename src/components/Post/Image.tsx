@@ -17,8 +17,7 @@ const PostImage: FC<Props> = ({ post }) => {
         sizes="(max-width: 1300px) 100vw, 500px"
         placeholder="blur"
         blurDataURL={`${blurHash}`}
-        quality={70}
-        priority
+        quality={60}
         className="post h-auto min-h-full w-full rounded-lg object-cover"
         alt={post?.author ?? "user post image"}
       />

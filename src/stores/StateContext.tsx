@@ -32,6 +32,7 @@ const initialState: State = {
   chatRoomSelected: null,
   selectedActivity: "interactions",
   selectedChat: null,
+
 };
 
 type StateProviderProps = {
