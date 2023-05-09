@@ -35,16 +35,12 @@ Other features is comming soon.
 ## Technologies Used
 
 - React
-- Nextjs 13
+- Nextjs 13 (pages directory)
 - Tailwind CSS
 - Firebase
 - NextAuth
 - Zustand
 
 ## Notes
-
 - This project is only for learning purposes.
 
-## Contributing
-
-If you'd like to contribute to Instafam, please fork the repository and make your changes. Once you're happy with your changes, submit a pull request.

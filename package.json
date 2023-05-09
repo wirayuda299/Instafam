@@ -2,6 +2,30 @@
   "name": "instafam",
   "version": "0.1.0",
   "private": true,
+  "description": "Instafam is a social media app built with Next.js, Firebase, TailwindCSS, and more.",
+  "author": "Wirayuda",
+  "keywords": [
+    "next.js",
+    "firebase",
+    "tailwindcss",
+    "zustand",
+    "react-hook-form",
+    "react-cropper-custom",
+    "react-icons",
+    "react-hot-toast",
+    "zod",
+    "react",
+    "social media",
+    "social",
+    "media",
+    "app",
+    "instagram clone",
+    "instagram clone app",
+    "instagram clone nextjs",
+    "instagram clone firebase",
+    "next-auth",
+    "fullstack"
+  ],
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -28,7 +52,6 @@
     "react-icons": "^4.8.0",
     "sharp": "^0.31.3",
     "typescript": "4.9.5",
-    "zod": "^3.21.4",
     "zustand": "^4.3.7"
   },
   "devDependencies": {

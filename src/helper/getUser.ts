@@ -1,19 +1,13 @@
 import { db } from "@/config/firebase";
 import { IUser } from "@/types/user";
 import { collection, getDocs, limit, query, where } from "firebase/firestore";
-import { z } from "zod";
 
-const getUserRecommendationSchema = z.object({
-  uid: z.string().nonempty(),
-});
 
 export async function getUserRecommendation(
   uid: string,
   amount?: number | undefined
 ) {
   try {
-    const isValid = getUserRecommendationSchema.parse({ uid });
-    if (!isValid) throw new Error("Please add uid");
     const qAll = query(collection(db, "users"), where("uid", "!=", uid));
     const qlimit = query(
       collection(db, "users"),

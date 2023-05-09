@@ -36,9 +36,8 @@ const NavItem: FC<ListItemProps> = (props) => {
     <li
       role="listitem"
       key={list.id}
-      className={` flex h-full w-fit items-center rounded-full text-base font-light transition-colors duration-700 ease-out md:w-full md:p-2.5  ${
-        list.id === 2 || list.id === 5 ? "hidden md:block" : ""
-      }  ${pathname === list.path ? "font-semibold" : ""} 
+      className={` flex h-full w-fit items-center rounded-full text-base font-light transition-colors duration-700 ease-out md:w-full md:p-2.5  ${list.id === 2 || list.id === 5 ? "hidden md:block" : ""
+        }  ${pathname === list.path ? "font-semibold" : ""} 
         } ${darkMode ? "hover:bg-[#b9b9b917]" : "hover:bg-gray-200"}`}
     >
       {list.id === 2 ? (
@@ -51,9 +50,8 @@ const NavItem: FC<ListItemProps> = (props) => {
         >
           {list.icon}
           <span
-            className={`${
-              drawer || notificationDrawer ? "hidden" : "hidden lg:block"
-            }`}
+            className={`${drawer || notificationDrawer ? "hidden" : "hidden lg:block"
+              }`}
           >
             {list.title}
           </span>
@@ -62,15 +60,15 @@ const NavItem: FC<ListItemProps> = (props) => {
         <button
           role="button"
           type="button"
-          name="search"
+          name="create"
+          title="Create Post"
           className="flex space-x-2"
           onClick={openCreateModal}
         >
           <div>{list.icon}</div>
           <span
-            className={`${
-              drawer || notificationDrawer ? "hidden" : "hidden lg:block"
-            }`}
+            className={`${drawer || notificationDrawer ? "hidden" : "hidden lg:block"
+              }`}
           >
             {list.title}
           </span>
@@ -80,20 +78,23 @@ const NavItem: FC<ListItemProps> = (props) => {
           role="button"
           type="button"
           name="Notifications"
+          title="Notifications"
           className="flex space-x-2"
           onClick={() => handleNotificationDrawer()}
         >
           <div>{list.icon}</div>
           <span
-            className={`${
-              drawer || notificationDrawer ? "hidden" : "hidden lg:block"
-            }`}
+            className={`${drawer || notificationDrawer ? "hidden" : "hidden lg:block"
+              }`}
           >
             {list.title}
           </span>
         </button>
       ) : (
-        <button name={list.title} title={list.title} type="button">
+        <button
+          name={list.title}
+          title={list.title}
+          type="button">
           <Link
             onClick={toggler}
             className="flex cursor-pointer space-x-2"
@@ -102,9 +103,8 @@ const NavItem: FC<ListItemProps> = (props) => {
           >
             {list.icon}
             <span
-              className={`${
-                drawer || notificationDrawer ? "hidden" : "hidden lg:block"
-              }`}
+              className={`${drawer || notificationDrawer ? "hidden" : "hidden lg:block"
+                }`}
             >
               {list.title}
             </span>

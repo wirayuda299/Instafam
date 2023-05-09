@@ -1,7 +1,7 @@
 import { IUserPostProps } from "@/types/post";
 import Image from "next/image";
 import useBlurhash from "@/hooks/useBlurhash";
-import { FC } from "react";
+import type { FC } from "react";
 
 interface Props extends React.HTMLAttributes<HTMLImageElement> {
   post: IUserPostProps;
@@ -18,6 +18,7 @@ const PostImage: FC<Props> = ({ post }) => {
         placeholder="blur"
         blurDataURL={`${blurHash}`}
         quality={70}
+        priority
         className="post h-auto min-h-full w-full rounded-lg object-cover"
         alt={post?.author ?? "user post image"}
       />
