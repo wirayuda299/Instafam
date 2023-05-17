@@ -23,7 +23,7 @@ export default function CreatePost() {
 
   useEffect(() => {
     if (!session) router.push("/auth/signin");
-    if (!croppedImage) router.push("/");
+    if (!croppedImage) router.push(process.env.NEXTAUTH_URL as string);
   }, [croppedImage, session]);
 
   const makePosts = async () => {

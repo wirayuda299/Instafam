@@ -38,11 +38,10 @@ export default function Trending({ posts }: Props) {
           <div key={`${post.postId}`}>
             <div
               title="click to view the post"
-              className={`group relative mb-5 hidden  h-max !w-full md:block ${
-                Number(post.createdAt) % 2 === 0
+              className={`group relative mb-5 hidden cursor-pointer  h-max !w-full md:block ${Number(post.createdAt) % 2 === 0
                   ? "aspect-square"
                   : "aspect-[9/16]"
-              }`}
+                }`}
               onClick={() => {
                 Dispatch({
                   type: "SELECT_POST",
@@ -79,11 +78,11 @@ export default function Trending({ posts }: Props) {
                   },
                 });
               }}
-              className={`block w-full cursor-pointer md:pointer-events-none md:hidden`}
+              className={`block w-full cursor-pointer md:pointer-events-none mb-5 md:hidden`}
             >
               <PostImage
                 post={post}
-                className={`h-full w-full border border-gray-400 border-opacity-40 object-cover `}
+                className={`h-full w-full  border border-gray-400 border-opacity-40 object-cover `}
               />
             </div>
           </div>

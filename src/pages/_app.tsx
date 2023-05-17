@@ -56,7 +56,6 @@ export default function App({
                 easing: "ease-out",
               }}
             />
-
             <Component {...pageProps} />
           </Layout>
         </StateProvider>

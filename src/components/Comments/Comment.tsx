@@ -14,7 +14,7 @@ const Comments: React.FC<Props> = ({ comments }) => {
     <>
       {comments?.map((comment) => (
         <div className="mb-5 flex w-full space-x-10  " key={comment?.createdAt}>
-          <div className="flex items-center space-x-2 px-2 py-2 ">
+          <div className="flex items-center space-x-2 px-6 lg:px-2 py-2 ">
             <Image
               src={comment?.commentByPhoto}
               width={40}

@@ -29,7 +29,7 @@ const MessagesModal: FC = () => {
         toast.error("Please enter a username or name of user");
         return;
       }
-      if (!session) {
+      if (!session || !session.user) {
         toast.error("Please login to search user");
         push("/auth/signin");
         return;

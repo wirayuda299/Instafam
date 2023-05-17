@@ -91,7 +91,12 @@ export default function Messages({ sessions, receiver, sender }: Props) {
         ) : (
           <>
             {!selectedChat && receiver.length < 1 ? (
-              <button>Open</button>
+              <button
+                type="button"
+                name="open"
+                title="open"
+                
+              >Open</button>
             ) : (
               <div className={" flex h-screen w-full "}>
                 <aside

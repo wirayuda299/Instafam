@@ -21,18 +21,10 @@ export default function SignIn({ providers }: { providers: Providers }) {
       <Head>
         <title>Sign In &#8226; Instafam</title>
         <meta name="description" content="Sign in to your Instafam account" />
-        <meta name="keywords" content="instagram, sign in, login" />
         <meta
           property="og:url"
           content="https://instafam.vercel.app/auth/signin"
         />
-        <meta name="X-content-type-options" content="nosniff" />
-        <meta name="X-frame-options" content="DENY" />
-        <meta name="X-xss-protection" content="1; mode=block" />
-        <meta name="referrer" content="no-referrer" />
-        <meta name="robots" content="index, follow" />
-        <meta name="googlebot" content="index, follow" />
-        <meta name="google" content="notranslate" />
       </Head>
       <div
         className={`grid h-screen w-full place-items-center p-5 ${
@@ -58,8 +50,8 @@ export default function SignIn({ providers }: { providers: Providers }) {
                 title="Sign in with Google"
                 key={provider.id}
                 className="ease inline-flex items-center gap-x-5 rounded-md bg-black bg-gradient-to-r  from-pink-600 from-30% to-orange-400 px-5 py-3 text-center font-semibold text-white transition-all duration-300 hover:bg-opacity-80 dark:bg-white"
-                onClick={() =>
-                  signIn(provider.id, {
+                onClick={async () =>
+                  await signIn(provider.id, {
                     callbackUrl: `${process.env.NEXTAUTH_URL}`,
                     redirect: true,
                   })

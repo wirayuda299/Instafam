@@ -2,15 +2,14 @@ import { ActionsType } from "@/types/ActionsTypes";
 import { useEffect } from "react";
 
 export default function useWindowResize(Dispatch: React.Dispatch<ActionsType>) {
-  const closeNotificationDrawer = () => {
+ 
+  const closeOnresize = () => {
     Dispatch({
       type: "TOGGLE_NOTIFICATION_DRAWER",
       payload: {
         notificationDrawer: false,
       },
     });
-  };
-  const closeOnresize = () => {
     Dispatch({
       type: "TOGGLE_POST_PREVIEW_MODAL",
       payload: {
@@ -18,21 +17,29 @@ export default function useWindowResize(Dispatch: React.Dispatch<ActionsType>) {
       },
     });
     Dispatch({
+      type: "TOGGLE_POST_MODAL",
+      payload: {
+        postModal: false,
+      }
+    });
+    Dispatch({
       type: "SELECT_POST",
       payload: {
         post: null,
       },
     });
-  };
-  const closeExtraList = () => {
+    Dispatch({
+      type: "TOGGLE_SEARCH_DRAWER",
+      payload: {
+        searchDrawer: false,
+      },
+    });
     Dispatch({
       type: "TOGGLE_EXTRA_LIST",
       payload: {
         extraList: false,
       },
     });
-  };
-  const closeCommentDrawer = () => {
     Dispatch({
       type: "TOGGLE_POST_COMMENT_MODAL",
       payload: {
@@ -45,16 +52,6 @@ export default function useWindowResize(Dispatch: React.Dispatch<ActionsType>) {
         post: null,
       },
     });
-  };
-  const closeSearchdrawer = () => {
-    Dispatch({
-      type: "TOGGLE_SEARCH_DRAWER",
-      payload: {
-        searchDrawer: false,
-      },
-    });
-  };
-  const closeMenuModal = () => {
     Dispatch({
       type: "TOGGLE_MENU_MODAL",
       payload: {
@@ -66,20 +63,10 @@ export default function useWindowResize(Dispatch: React.Dispatch<ActionsType>) {
   useEffect(() => {
     window.addEventListener("resize", () => {
       closeOnresize();
-      closeNotificationDrawer();
-      closeExtraList();
-      closeCommentDrawer();
-      closeSearchdrawer();
-      closeMenuModal();
     });
     return () => {
       window.removeEventListener("resize", () => {
         closeOnresize();
-        closeNotificationDrawer();
-        closeExtraList();
-        closeCommentDrawer();
-        closeSearchdrawer();
-        closeMenuModal();
       });
     };
   }, []);

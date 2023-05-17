@@ -5,6 +5,7 @@ import type { FieldValues } from "react-hook-form";
 import { useForm } from "react-hook-form";
 import dynamic from "next/dynamic";
 import Head from "next/head";
+import { useSession } from "next-auth/react";
 
 const Postheader = dynamic(() => import("@/components/Header/PostHeader"));
 const PostForm = dynamic(() => import("@/components/Post/Form"));
@@ -17,17 +18,24 @@ interface Values extends FieldValues {
 export default function EditPosts({ post }: { post: IUserPostProps }) {
   const { register, handleSubmit } = useForm();
   const { push } = useRouter();
+  const session = useSession()
   const defaultValues = {
     captions: `${post?.captions} ${post?.hashtags}`,
   };
 
-  const updateCurrentPost = async (e: Values) => {
+  const updateCurrentPost = async ({ updated }: Values) => {
     const { toast } = await import("react-hot-toast");
+
     try {
+      if (typeof updated !== "string" || !session || !session.data?.user) {
+        toast.error(`This ${updated} is not a string`)
+        return;
+      }
       const { updatePost } = await import("@/helper/updatePost");
-      await updatePost(e, post).then(() => {
-        push("/");
-      });
+      await updatePost(updated, post)
+        .then(() => {
+          push(process.env.NEXTAUTH_URL as string);
+        });
     } catch (error: any) {
       toast.error(error.message);
     }
@@ -44,9 +52,9 @@ export default function EditPosts({ post }: { post: IUserPostProps }) {
             <div className="relative grid h-full w-full grid-cols-1 rounded-lg border border-gray-500 border-opacity-50 p-5 lg:max-h-[550px] lg:grid-cols-2 lg:p-0">
               <PostImage post={post} />
               <div>
-                <div className="border-b border-gray-500 border-opacity-50">
+                <section className="border-b border-gray-500 border-opacity-50">
                   <Postheader post={post} />
-                </div>
+                </section>
                 <PostForm
                   defaultValues={defaultValues}
                   handleSubmit={handleSubmit}

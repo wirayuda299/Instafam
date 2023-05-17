@@ -49,6 +49,9 @@ const PostComment: FC = () => {
         >
           <div>
             <button
+              type="button"
+              name="close"
+              title="close"
               className="text-left"
               onClick={() => {
                 Dispatch({
