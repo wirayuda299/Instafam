@@ -24,7 +24,7 @@ const PostComment = () => {
 
   if (!session) return null;
 
-  if (!postCommentModal) return;
+  if (!postCommentModal) return null;
 
   return createPortal(
     <div
