@@ -2,7 +2,7 @@ import { db } from "@/config/firebase";
 import { urlNormalize } from "@/utils/urlNormalize";
 import { getUsernameFromEmail } from "@/utils/usernameGenerator";
 import { setDoc, doc } from "firebase/firestore";
-import NextAuth, { NextAuthOptions } from "next-auth";
+import NextAuth, { type NextAuthOptions } from "next-auth";
 import type { JWT } from "next-auth/jwt";
 import GoogleProvider from "next-auth/providers/google";
 

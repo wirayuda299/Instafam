@@ -4,7 +4,8 @@ import type { Session } from "next-auth";
 import Image from "next/image";
 import Link from "next/link";
 import type { FC } from "react";
-type Props = {
+
+type NotificationDrawerProps = {
   follower: {
     followedBy: string;
     followedByName: string;
@@ -14,7 +15,13 @@ type Props = {
   session: Session | null;
   user: IUser;
 };
-const NotificationUser: FC<Props> = ({ follower, darkMode, session, user }) => {
+
+const NotificationUser: FC<NotificationDrawerProps> = ({
+  follower,
+  darkMode,
+  session,
+  user,
+}) => {
   const { Dispatch } = useStateContext();
   return (
     <div className="mt-4 flex items-center space-x-2 px-4">

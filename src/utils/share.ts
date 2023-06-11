@@ -1,4 +1,3 @@
-import { IUserPostProps } from "@/types/post";
 import toast from "react-hot-toast";
 
 type Share = (post: IUserPostProps, url: string) => void;

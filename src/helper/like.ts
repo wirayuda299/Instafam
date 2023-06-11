@@ -1,5 +1,3 @@
-import { IUserPostProps } from "@/types/post";
-
 type LikesProps = {
   post: IUserPostProps;
   uid: string;

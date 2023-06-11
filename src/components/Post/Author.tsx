@@ -1,12 +1,12 @@
 import { type FC, useState } from "react";
 
-type Props = {
+type AuhtorProps = {
   hashtags: string[];
   captions: string;
   author: string;
 };
 
-const Author: FC<Props> = ({ author, captions, hashtags }) => {
+const Author: FC<AuhtorProps> = ({ author, captions, hashtags }) => {
   const [show, setShow] = useState(false);
 
   return (

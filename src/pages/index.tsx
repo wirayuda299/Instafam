@@ -1,6 +1,5 @@
 import dynamic from "next/dynamic";
 import { IUser } from "@/types/user";
-import { IUserPostProps } from "@/types/post";
 import { useEffect, useState } from "react";
 import type { GetServerSidePropsContext } from "next";
 
@@ -99,7 +98,7 @@ export async function getServerSideProps({
       users,
       posts,
       session,
-      limitUser
+      limitUser,
     },
   };
 }

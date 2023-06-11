@@ -6,12 +6,12 @@ import Image from "next/image";
 import type { FC } from "react";
 import { useStore } from "zustand";
 
-type Props = {
+type UsersChatProps = {
   receiver: DataMessage[];
   sender: DataMessage[];
 };
 
-const UsersChat: FC<Props> = ({ receiver, sender }) => {
+const UsersChat: FC<UsersChatProps> = ({ receiver, sender }) => {
   const { darkMode } = useStore(useDarkModeStore);
   const { data: session } = useSession();
   const receiverId = receiver.map((item) => item.id);

@@ -14,7 +14,7 @@ import type { FC } from "react";
 
 const NavItem = dynamic(() => import("./NavItem"), { ssr: true });
 
-type Props = {
+type NavLinkProps = {
   session: Session | null;
   handleClick: () => void;
   pathname: string;
@@ -26,7 +26,7 @@ type Props = {
   darkMode: boolean;
 };
 
-const NavLink: FC<Props> = (props) => {
+const NavLink: FC<NavLinkProps> = (props) => {
   const {
     session,
     handleClick,

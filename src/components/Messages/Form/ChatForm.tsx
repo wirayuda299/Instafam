@@ -7,12 +7,12 @@ import { type FieldValues, useForm } from "react-hook-form";
 import { SlPaperPlane } from "react-icons/sl";
 import { useStore } from "zustand";
 
-type Props = {
+type ChatFormProps = {
   selectedChat: DataMessage | null;
   session: Session | null;
 };
 
-const ChatForm: FC<Props> = ({ selectedChat, session }) => {
+const ChatForm: FC<ChatFormProps> = ({ selectedChat, session }) => {
   const {
     register,
     handleSubmit,

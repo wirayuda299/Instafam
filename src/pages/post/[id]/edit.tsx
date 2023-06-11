@@ -1,4 +1,3 @@
-import { IUserPostProps } from "@/types/post";
 import type { GetServerSidePropsContext } from "next";
 import { useRouter } from "next/router";
 import type { FieldValues } from "react-hook-form";
@@ -18,7 +17,7 @@ interface Values extends FieldValues {
 export default function EditPosts({ post }: { post: IUserPostProps }) {
   const { register, handleSubmit } = useForm();
   const { push } = useRouter();
-  const session = useSession()
+  const session = useSession();
   const defaultValues = {
     captions: `${post?.captions} ${post?.hashtags}`,
   };
@@ -28,14 +27,13 @@ export default function EditPosts({ post }: { post: IUserPostProps }) {
 
     try {
       if (typeof updated !== "string" || !session || !session.data?.user) {
-        toast.error(`This ${updated} is not a string`)
+        toast.error(`This ${updated} is not a string`);
         return;
       }
       const { updatePost } = await import("@/helper/updatePost");
-      await updatePost(updated, post)
-        .then(() => {
-          push(process.env.NEXTAUTH_URL as string);
-        });
+      await updatePost(updated, post).then(() => {
+        push(process.env.NEXTAUTH_URL as string);
+      });
     } catch (error: any) {
       toast.error(error.message);
     }

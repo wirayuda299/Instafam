@@ -1,5 +1,5 @@
 import { useDarkModeStore } from "@/stores/stores";
-import { type FC, useState } from "react";
+import { useState } from "react";
 import { createPortal } from "react-dom";
 import { AiOutlineClose } from "react-icons/ai";
 import { useStore } from "zustand";
@@ -19,7 +19,7 @@ const ImageCropper = dynamic(
   }
 );
 
-const Cropper: FC = () => {
+const Cropper = () => {
   const { darkMode } = useStore(useDarkModeStore);
   const {
     Dispatch,
@@ -30,6 +30,7 @@ const Cropper: FC = () => {
 
   async function onCropComplete(croppedArea: Area) {
     if (!previewUrl) return;
+
     try {
       const canvasSize = {
         width: 1200,

@@ -1,6 +1,5 @@
 import dynamic from "next/dynamic";
 import Head from "next/head";
-import { IUserPostProps } from "@/types/post";
 import { IUser } from "@/types/user";
 import { useRouter } from "next/router";
 import type { GetServerSidePropsContext } from "next";
@@ -28,7 +27,7 @@ type Props = {
   session: Session | null;
   user: IUser | null;
   query: {
-     username: string;
+    username: string;
   };
   savedPosts: IUserPostProps[] | [];
   reccomendations: IUser[] | [];
@@ -128,7 +127,7 @@ function UserProfile({
           </div>
 
           {session?.user?.username === query?.username ? <>{Tabs}</> : null}
-          <div className=" max-w-4xl md:max-w-5xl lg:hidden mt-5">
+          <div className=" mt-5 max-w-4xl md:max-w-5xl lg:hidden">
             <h1 className="p-5 text-xl font-bold">Suggestion</h1>
             <div className="mt-5 flex justify-center">
               <div className="flex snap-mandatory snap-center  gap-5 overflow-x-scroll">

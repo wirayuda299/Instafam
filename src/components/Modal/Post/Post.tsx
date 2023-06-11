@@ -1,7 +1,6 @@
 import { useDarkModeStore } from "@/stores/stores";
 import { useStore } from "zustand";
 import { type FC, useEffect, useState } from "react";
-import { IUserPostProps } from "@/types/post";
 import { AiOutlineArrowLeft } from "react-icons/ai";
 import dynamic from "next/dynamic";
 import { createPortal } from "react-dom";
@@ -17,7 +16,10 @@ const PostCard = dynamic(() => import("@/components/Post"), {
 });
 
 const PostModal: FC = () => {
-  const { state: { selectedPost, postModal }, Dispatch } = useStateContext();
+  const {
+    state: { selectedPost, postModal },
+    Dispatch,
+  } = useStateContext();
   const [reqParams, setReqParams] = useState<string | string[] | undefined>("");
   const [posts, setPosts] = useState<IUserPostProps[]>([]);
   const [loading, setLoading] = useState(true);
@@ -77,37 +79,38 @@ const PostModal: FC = () => {
 
   if (error) {
     return (
-    <div className="w-full h-full">
-      <div className="flex flex-col items-center justify-center w-full h-full">
-        <h1 className="text-2xl font-semibold text-center text-red-500">
-          {error}
-        </h1>
-        <button
-          type="button"
-          name="reload"
-          title="reload"
-          className="text-left"
-          onClick={() => window.location.reload()}
-        >
-          Reload Page
-        </button>
+      <div className="h-full w-full">
+        <div className="flex h-full w-full flex-col items-center justify-center">
+          <h1 className="text-center text-2xl font-semibold text-red-500">
+            {error}
+          </h1>
+          <button
+            type="button"
+            name="reload"
+            title="reload"
+            className="text-left"
+            onClick={() => window.location.reload()}
+          >
+            Reload Page
+          </button>
+        </div>
       </div>
-    </div>
-    )
-
+    );
   }
 
   return createPortal(
     <div
-      className={` fixed left-0 top-0 z-[99] h-screen w-full select-none  !overflow-y-auto !overflow-x-hidden  shadow-sm lg:hidden  ${postModal ? "animate-scaleUp" : "animate-fadeOut"
-        } ${darkMode ? "bg-black" : "bg-white"}`}
+      className={` fixed left-0 top-0 z-[99] h-screen w-full select-none  !overflow-y-auto !overflow-x-hidden  shadow-sm lg:hidden  ${
+        postModal ? "animate-scaleUp" : "animate-fadeOut"
+      } ${darkMode ? "bg-black" : "bg-white"}`}
       aria-modal="true"
       role="dialog"
     >
       <div className="relative w-full">
         <div
-          className={`sticky top-0 z-30 flex w-full items-center border-b border-gray-500 border-opacity-50 px-3 py-3 ${darkMode ? "bg-black text-white" : "bg-white text-black"
-            }`}
+          className={`sticky top-0 z-30 flex w-full items-center border-b border-gray-500 border-opacity-50 px-3 py-3 ${
+            darkMode ? "bg-black text-white" : "bg-white text-black"
+          }`}
         >
           <div>
             <button

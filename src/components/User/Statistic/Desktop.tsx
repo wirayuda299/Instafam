@@ -1,13 +1,13 @@
 import { type FC, memo } from "react";
 
-type Props = {
+type DesktopStatisticProps = {
   data: {
     id: number;
     title: string;
     value: number | undefined;
   }[];
 };
-const DesktopStatistic: FC<Props> = ({ data }) => {
+const DesktopStatistic: FC<DesktopStatisticProps> = ({ data }) => {
   return (
     <ul
       title="Statistic"

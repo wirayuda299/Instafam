@@ -1,6 +1,6 @@
 import { useDarkModeStore } from "@/stores/stores";
 import { IUser } from "@/types/user";
-import { FC, useState } from "react";
+import { useState } from "react";
 import { createPortal } from "react-dom";
 import { type FieldValues, useForm } from "react-hook-form";
 import { AiOutlineClose } from "react-icons/ai";
@@ -11,7 +11,7 @@ import { useRouter } from "next/router";
 import { useStateContext } from "@/stores/StateContext";
 import { toast } from "react-hot-toast";
 
-const MessagesModal: FC = () => {
+const MessagesModal = () => {
   const {
     Dispatch,
     state: { messageModal, chatRoomSelected },

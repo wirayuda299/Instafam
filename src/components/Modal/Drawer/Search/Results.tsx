@@ -7,13 +7,13 @@ import { useStore } from "zustand";
 import { useStateContext } from "@/stores/StateContext";
 import type { FC } from "react";
 
-interface Props {
+interface ResultsProps {
   results: IUser[];
   handleDrawerToggler: () => void;
   customs?: string;
 }
 
-const Results: FC<Props> = (props) => {
+const Results: FC<ResultsProps> = (props) => {
   const { results, handleDrawerToggler, customs } = props;
   const { darkMode } = useStore(useDarkModeStore);
   const {

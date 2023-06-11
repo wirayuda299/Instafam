@@ -10,7 +10,7 @@ const FileUpload: FC<{ img: string | undefined }> = ({ img }) => {
   const { darkMode } = useStore(useDarkModeStore);
   const { Dispatch } = useStateContext();
 
-  const loadImage = async (src: any) =>
+  const loadImage = async (src: string) =>
     new Promise((resolve, reject) => {
       const img = new Image();
       img.onload = () => resolve(img);

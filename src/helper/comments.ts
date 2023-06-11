@@ -1,4 +1,3 @@
-import { IUserPostProps } from "@/types/post";
 import type { Session } from "next-auth";
 import type { FieldValues, UseFormResetField } from "react-hook-form";
 

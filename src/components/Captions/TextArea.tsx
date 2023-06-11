@@ -2,13 +2,13 @@ import type { Dispatch, FC, SetStateAction } from "react";
 import { useDarkModeStore } from "@/stores/stores";
 import { useStore } from "zustand";
 
-type Props = {
+type TextAreaProps = {
   captions: string;
   setCaptions: Dispatch<SetStateAction<string>>;
   loading: boolean;
   handlePost: () => Promise<void>;
 };
-const TextArea: FC<Props> = (props) => {
+const TextArea: FC<TextAreaProps> = (props) => {
   const { captions, setCaptions, loading, handlePost } = props;
   const { darkMode } = useStore(useDarkModeStore);
 
@@ -20,8 +20,8 @@ const TextArea: FC<Props> = (props) => {
           darkMode ? "bg-black " : "bg-white"
         }`}
         value={captions}
-        placeholder="Your caption"
-        name="caption"
+        placeholder="Your captions"
+        name="captions"
         onChange={(e) => setCaptions(e.target.value)}
         cols={60}
         rows={10}

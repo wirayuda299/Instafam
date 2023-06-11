@@ -9,7 +9,7 @@ export type Area = {
   y: number;
 };
 
-type Props = {
+type ImageCropperProps = {
   img: string;
   zoom: number;
   setZoom: Dispatch<SetStateAction<number>>;
@@ -17,7 +17,7 @@ type Props = {
   darkMode: boolean;
   handleClick: () => void;
 };
-const ImageCropper: FC<Props> = (props) => {
+const ImageCropper: FC<ImageCropperProps> = (props) => {
   const { img, zoom, setZoom, onCropComplete, darkMode, handleClick } = props;
 
   return (
@@ -36,6 +36,9 @@ const ImageCropper: FC<Props> = (props) => {
             />
           </div>
           <button
+            type="button"
+            name="done"
+            title="done"
             className={`mt-3 w-full  rounded-md py-2 text-center ${
               darkMode ? "bg-black text-white" : "bg-gray-200 text-black"
             }`}

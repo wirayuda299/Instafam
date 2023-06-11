@@ -1,8 +1,7 @@
 import { useStateContext } from "@/stores/StateContext";
-import type { FC } from "react";
 import { RiMessengerLine } from "react-icons/ri";
 
-const EmptyMessages: FC = () => {
+const EmptyMessages = () => {
   const { Dispatch } = useStateContext();
   return (
     <div className="p-5 text-center ">

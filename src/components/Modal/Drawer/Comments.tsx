@@ -5,15 +5,14 @@ import { useSession } from "next-auth/react";
 import usePost from "@/hooks/usePost";
 import dynamic from "next/dynamic";
 import { createPortal } from "react-dom";
-import { IUserPostProps } from "@/types/post";
-import { type FC, useId } from "react";
+import { useId } from "react";
 import { useStateContext } from "@/stores/StateContext";
 const CommentsForm = dynamic(() => import("../../Comments/Forms"));
 const Postheader = dynamic(() => import("@/components/Header/PostHeader"));
 const Comment = dynamic(() => import("@/components/Comments/Comment"));
 const EmptyComment = dynamic(() => import("@/components/Comments/Empty"));
 
-const PostComment: FC = () => {
+const PostComment = () => {
   const {
     state: { selectedPost, postCommentModal },
     Dispatch,
@@ -23,9 +22,7 @@ const PostComment: FC = () => {
   const { comments } = usePost(selectedPost);
   const id = useId();
 
-  if (!session) return null;
-
-  if (!postCommentModal) return null;
+  if (!session && !postCommentModal) return null;
 
   return createPortal(
     <div
@@ -74,7 +71,7 @@ const PostComment: FC = () => {
             <Postheader post={selectedPost as IUserPostProps} />
           </div>
           <div className="max-h-screen  !w-full overflow-y-auto px-2 pb-28">
-            <EmptyComment comments={comments} />
+            <EmptyComment />
             <Comment comments={comments} key={id} />
           </div>
         </div>

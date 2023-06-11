@@ -4,9 +4,7 @@ import { AiOutlineClose } from "react-icons/ai";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
 import { createPortal } from "react-dom";
-import { IUserPostProps } from "@/types/post";
 import { useStateContext } from "@/stores/StateContext";
-import type { FC } from "react";
 
 const PostImage = dynamic(() => import("@/components/Post/Image"), {
   ssr: true,
@@ -15,7 +13,7 @@ const Postheader = dynamic(() => import("@/components/Header/PostHeader"), {
   ssr: true,
 });
 
-const Feed: FC = () => {
+const Feed = () => {
   const { darkMode } = useStore(useDarkModeStore);
   const {
     state: { selectedPost, feedModal },
@@ -70,6 +68,9 @@ const Feed: FC = () => {
               >
                 <Postheader post={selectedPost as IUserPostProps}>
                   <button
+                    type="button"
+                    name="close"
+                    title="close"
                     onClick={() => {
                       Dispatch({
                         type: "TOGGLE_FEED_MODAL",

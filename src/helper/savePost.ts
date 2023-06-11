@@ -1,5 +1,3 @@
-import { IUserPostProps } from "@/types/post";
-
 type SavedPostProps = {
   post: IUserPostProps;
   uid: string;

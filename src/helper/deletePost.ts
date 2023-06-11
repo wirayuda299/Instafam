@@ -1,5 +1,4 @@
 import { storage, db } from "@/config/firebase";
-import { IUserPostProps } from "@/types/post";
 import type { Session } from "next-auth";
 import toast from "react-hot-toast";
 

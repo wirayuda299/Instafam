@@ -1,6 +1,5 @@
 import { db } from "@/config/firebase";
 import { useStateContext } from "@/stores/StateContext";
-import { IUserPostProps } from "@/types/post";
 import { onSnapshot, doc } from "firebase/firestore";
 import { useState, useEffect, useMemo } from "react";
 type IComment = Pick<IUserPostProps, "comments">;

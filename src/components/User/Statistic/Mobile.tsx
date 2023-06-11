@@ -1,13 +1,13 @@
 import { FC, memo } from "react";
 
-type Props = {
+type StatisticMobileProps = {
   data: {
     id: number;
     title: string;
     value: number | undefined;
   }[];
 };
-const StatisticMobile: FC<Props> = ({ data }) => {
+const StatisticMobile: FC<StatisticMobileProps> = ({ data }) => {
   return (
     <ul
       title="Statistic"

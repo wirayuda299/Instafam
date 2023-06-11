@@ -1,4 +1,3 @@
-import { IUserPostProps } from "@/types/post";
 import { IUser } from "@/types/user";
 import Image from "next/image";
 import dynamic from "next/dynamic";

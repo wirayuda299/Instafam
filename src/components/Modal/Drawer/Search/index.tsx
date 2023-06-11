@@ -1,12 +1,12 @@
 import { AiOutlineSearch } from "react-icons/ai";
-import { type FC, memo } from "react";
+import { memo } from "react";
 import { useDarkModeStore } from "@/stores/stores";
 import { useStore } from "zustand";
 import dynamic from "next/dynamic";
 import { useStateContext } from "@/stores/StateContext";
 const Form = dynamic(() => import("./Form"), { ssr: false });
 
-const SearchDrawer: FC = () => {
+const SearchDrawer = () => {
   const {
     state: { isSearchDrawerOpen },
   } = useStateContext();

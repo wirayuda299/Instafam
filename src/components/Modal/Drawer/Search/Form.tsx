@@ -13,12 +13,12 @@ const defaultValues = {
   search: "",
 };
 
-type Props = {
+type FormProps = {
   height: string;
   children: ReactNode;
 };
 
-const Form: FC<Props> = ({ height, children }) => {
+const Form: FC<FormProps> = ({ height, children }) => {
   const { handleSubmit, resetField, register } = useForm();
   const {
     state: { result },
@@ -51,7 +51,7 @@ const Form: FC<Props> = ({ height, children }) => {
 
   const searchUser = async (data: FieldValues) => {
     const { toast } = await import("react-hot-toast");
-    try {      
+    try {
       const token = await getCsrfToken();
       if (!session || !token) {
         toast.error("Please login to search user");
@@ -98,17 +98,20 @@ const Form: FC<Props> = ({ height, children }) => {
   return (
     <>
       <form
-        className={`mt-5 rounded-sm  ${height} ${darkMode ? "bg-black text-white" : "bg-white text-black"
-          }`}
+        className={`mt-5 rounded-sm  ${height} ${
+          darkMode ? "bg-black text-white" : "bg-white text-black"
+        }`}
         onSubmit={handleSubmit(searchUser)}
       >
         <div
-          className={`w-full pb-5  ${darkMode ? "bg-black text-white" : "bg-white text-black"
-            } `}
+          className={`w-full pb-5  ${
+            darkMode ? "bg-black text-white" : "bg-white text-black"
+          } `}
         >
           <div
-            className={`${darkMode ? "bg-black text-white" : "bg-white text-black"
-              }`}
+            className={`${
+              darkMode ? "bg-black text-white" : "bg-white text-black"
+            }`}
           >
             <div className="flex w-full items-center justify-between rounded-md bg-[#b9b9b917] px-3">
               <input
@@ -127,8 +130,9 @@ const Form: FC<Props> = ({ height, children }) => {
             <FormResult
               handleDrawerToggler={handleDrawerToggler}
               results={result}
-              customs={`h-screen fixed z-50 top-0 md: h-full  md:left-0 md:w-full md:z-0  md:transition-all md:duration-300 md:ease-in-out md:static ${darkMode ? "bg-black text-white" : "bg-white text-black"
-                }`}
+              customs={`h-screen fixed z-50 top-0 md: h-full  md:left-0 md:w-full md:z-0  md:transition-all md:duration-300 md:ease-in-out md:static ${
+                darkMode ? "bg-black text-white" : "bg-white text-black"
+              }`}
             />
           </div>
         </div>

@@ -1,5 +1,4 @@
 import { useStateContext } from "@/stores/StateContext";
-import { IUserPostProps } from "@/types/post";
 import dynamic from "next/dynamic";
 import { AiOutlineSearch } from "react-icons/ai";
 
@@ -38,10 +37,11 @@ export default function Trending({ posts }: Props) {
           <div key={`${post.postId}`}>
             <div
               title="click to view the post"
-              className={`group relative mb-5 hidden cursor-pointer  h-max !w-full md:block ${Number(post.createdAt) % 2 === 0
+              className={`group relative mb-5 hidden h-max  !w-full cursor-pointer md:block ${
+                Number(post.createdAt) % 2 === 0
                   ? "aspect-square"
                   : "aspect-[9/16]"
-                }`}
+              }`}
               onClick={() => {
                 Dispatch({
                   type: "SELECT_POST",
@@ -78,7 +78,7 @@ export default function Trending({ posts }: Props) {
                   },
                 });
               }}
-              className={`block w-full cursor-pointer md:pointer-events-none mb-5 md:hidden`}
+              className={`mb-5 block w-full cursor-pointer md:pointer-events-none md:hidden`}
             >
               <PostImage
                 post={post}

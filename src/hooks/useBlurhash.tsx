@@ -1,4 +1,3 @@
-import { IUserPostProps } from "@/types/post";
 import { decode } from "blurhash";
 import { useEffect, useState } from "react";
 

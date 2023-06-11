@@ -2,7 +2,7 @@ import { useDarkModeStore } from "@/stores/stores";
 import { useStore } from "zustand";
 import type { FC } from "react";
 
-type Props = {
+type PostFormProps = {
   defaultValues: {
     captions: string;
   };
@@ -11,7 +11,7 @@ type Props = {
   handleSubmit: any;
 };
 
-const PostForm: FC<Props> = (props) => {
+const PostForm: FC<PostFormProps> = (props) => {
   const { defaultValues, updatePost, register, handleSubmit } = props;
   const { darkMode } = useStore(useDarkModeStore);
   return (

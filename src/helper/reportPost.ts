@@ -2,7 +2,6 @@ import type { FieldValues } from "react-hook-form";
 import { getCsrfToken } from "next-auth/react";
 import { db } from "@/config/firebase";
 import { doc, setDoc } from "firebase/firestore";
-import { IUserPostProps } from "@/types/post";
 import type { Session } from "next-auth";
 import toast from "react-hot-toast";
 

@@ -1,4 +1,3 @@
-import { IUserPostProps } from "@/types/post";
 import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 import { FaRegComment } from "react-icons/fa";
 import { RiBookmarkFill } from "react-icons/ri";

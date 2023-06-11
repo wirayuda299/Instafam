@@ -2,14 +2,14 @@ import type { FC } from "react";
 import { AiOutlineClose } from "react-icons/ai";
 import { RxHamburgerMenu } from "react-icons/rx";
 
-type Props = {
+type ExtraMenuProps = {
   extraList: boolean;
   handleClick: () => void;
   drawer: boolean;
   notificationdrawer: boolean;
 };
 
-const ExtraMenuBtn: FC<Props> = (props) => {
+const ExtraMenuBtn: FC<ExtraMenuProps> = (props) => {
   const { extraList, handleClick, drawer, notificationdrawer } = props;
 
   return (

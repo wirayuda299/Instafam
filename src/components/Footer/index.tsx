@@ -1,13 +1,13 @@
-import { footerlists } from "@/data/footerLists";
+import footerlists from "@/data/footerLists.json";
 import Link from "next/link";
 import type { FC, ReactNode } from "react";
 
-type Props = {
+type FooterProps = {
   children: ReactNode;
   classNames: string;
 };
 
-const Footer: FC<Partial<Props>> = ({ children, classNames }) => {
+const Footer: FC<Partial<FooterProps>> = ({ children, classNames }) => {
   return (
     <footer className="w-full px-5 ">
       <ul className={classNames}>

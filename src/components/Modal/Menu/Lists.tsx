@@ -1,10 +1,9 @@
-import { IUserPostProps } from "@/types/post";
 import type { Session } from "next-auth";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import type { FC } from "react";
 
-type Props = {
+type ListsProps = {
   buttonLists: any[];
   selectedPost: IUserPostProps | null;
   session: Session | null;
@@ -12,7 +11,7 @@ type Props = {
   closeMenuModal: () => void;
 };
 
-const Lists: FC<Props> = (props: Props) => {
+const Lists: FC<ListsProps> = (props) => {
   const { buttonLists, selectedPost, session, darkMode, closeMenuModal } =
     props;
   const { pathname } = useRouter();

@@ -5,9 +5,8 @@ import { type FieldValues, useForm } from "react-hook-form";
 import { useStore } from "zustand";
 import { createPortal } from "react-dom";
 import { useStateContext } from "@/stores/StateContext";
-import type { FC } from "react";
 
-const Report: FC = () => {
+const Report = () => {
   const { data: session } = useSession();
   const { register, resetField, handleSubmit } = useForm();
   const {
@@ -22,13 +21,12 @@ const Report: FC = () => {
 
   const reportPost = async (e: FieldValues) => {
     const { handleReport } = await import("@/helper/reportPost");
-    handleReport(e, selectedPost, session, resetField).then(() => {
-      Dispatch({
-        type: "TOGGLE_POST_REPORT_MODAL",
-        payload: {
-          postReportModal: false,
-        },
-      });
+    await handleReport(e, selectedPost, session, resetField);
+    Dispatch({
+      type: "TOGGLE_POST_REPORT_MODAL",
+      payload: {
+        postReportModal: false,
+      },
     });
   };
 

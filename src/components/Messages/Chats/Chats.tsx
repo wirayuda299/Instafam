@@ -8,11 +8,11 @@ import { type FC, useEffect, useState } from "react";
 import { DataMessage } from "@/types/DataMessage";
 import { Chats as ChatsType } from "@/types/Chats";
 
-type Props = {
+type ChatsProps = {
   session: Session | null;
   selectedChat: DataMessage | null;
 };
-const Chats: FC<Props> = ({ session, selectedChat }) => {
+const Chats: FC<ChatsProps> = ({ session, selectedChat }) => {
   const [chats, setChats] = useState<ChatsType[]>([]);
 
   useEffect(() => {

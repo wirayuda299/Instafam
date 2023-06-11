@@ -1,15 +1,14 @@
 import useUser from "@/hooks/useUser";
 import { useDarkModeStore } from "@/stores/stores";
-import { IUserPostProps } from "@/types/post";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import { useStore } from "zustand";
 import Lists from "./Lists";
 import { createPortal } from "react-dom";
-import { type FC, memo } from "react";
+import { memo } from "react";
 import { useStateContext } from "@/stores/StateContext";
 
-const Menu: FC = () => {
+const Menu = () => {
   const {
     state: { selectedPost },
   } = useStateContext();

@@ -1,6 +1,4 @@
-import { IUserPostProps } from "@/types/post";
-
-export async function updatePost(updated:string, post:IUserPostProps) {
+export async function updatePost(updated: string, post: IUserPostProps) {
   try {
     const { db } = await import("@/config/firebase");
     const { doc, updateDoc } = await import("firebase/firestore");

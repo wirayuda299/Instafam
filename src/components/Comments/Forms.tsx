@@ -1,4 +1,3 @@
-import { IUserPostProps } from "@/types/post";
 import { useRouter } from "next/router";
 import type { FieldValues } from "react-hook-form";
 import { useForm } from "react-hook-form";
@@ -23,10 +22,9 @@ export default function Comments({ post, session }: Props) {
   const handleSubmits = async (e: FieldValues) => {
     const { postComments } = await import("@/helper/comments");
     const { toast } = await import("react-hot-toast");
-    if (e.comments === "") {
-      toast.error("Please enter a comment");
-      return;
-    }
+
+    if (e.comments === "") return toast.error("Please enter a comment");
+
     await postComments({
       e,
       post,

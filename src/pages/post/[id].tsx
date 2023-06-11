@@ -1,4 +1,3 @@
-import { IUserPostProps } from "@/types/post";
 import { useEffect, useRef, useState } from "react";
 import dynamic from "next/dynamic";
 import Head from "next/head";

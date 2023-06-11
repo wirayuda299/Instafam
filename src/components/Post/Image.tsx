@@ -1,4 +1,3 @@
-import { IUserPostProps } from "@/types/post";
 import Image from "next/image";
 import useBlurhash from "@/hooks/useBlurhash";
 import type { FC } from "react";

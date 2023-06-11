@@ -1,4 +1,4 @@
-export interface IUserPostProps {
+interface IUserPostProps {
   likes: number;
   captions: string;
   image: string;

@@ -2,7 +2,6 @@ import Link from "next/link";
 import { Playfair_Display } from "next/font/google";
 import { useStateContext } from "@/stores/StateContext";
 import Logo from "../Logo/Logo";
-import type { FC } from "react";
 
 const playfair = Playfair_Display({
   fallback: ["sans-serif"],
@@ -12,7 +11,7 @@ const playfair = Playfair_Display({
   display: "swap",
 });
 
-const NavHeader: FC = () => {
+const NavHeader = () => {
   const {
     state: { notificationDrawer, isSearchDrawerOpen },
   } = useStateContext();

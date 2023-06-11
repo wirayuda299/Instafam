@@ -1,4 +1,3 @@
-import { IUserPostProps } from "@/types/post";
 import type { FC } from "react";
 import { AiFillHeart, AiTwotoneMessage } from "react-icons/ai";
 

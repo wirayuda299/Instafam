@@ -6,15 +6,16 @@ import { useStateContext } from "@/stores/StateContext";
 import { AiOutlineClose, AiOutlineMenu } from "react-icons/ai";
 import type { FC } from "react";
 
-type Props = {
+type ChatHeaderProps = {
   selectedChat: DataMessage | null;
 };
-const ChatHeader: FC<Props> = ({ selectedChat }) => {
+const ChatHeader: FC<ChatHeaderProps> = ({ selectedChat }) => {
   const { darkMode } = useStore(useDarkModeStore);
   const {
     state: { receiverDrawer },
     Dispatch,
   } = useStateContext();
+
   return (
     <header
       className={`sticky top-0 flex w-full items-center justify-between border-b-2 border-gray-400 border-opacity-50 p-4 pt-5 lg:hidden ${

@@ -7,7 +7,6 @@ import { useSession } from "next-auth/react";
 import { BiSun } from "react-icons/bi";
 import { BsMoonFill } from "react-icons/bs";
 import { useStateContext } from "@/stores/StateContext";
-import type { FC } from "react";
 
 const playfair = Playfair_Display({
   fallback: ["sans-serif"],
@@ -17,7 +16,7 @@ const playfair = Playfair_Display({
   display: "swap",
   adjustFontFallback: true,
 });
-const Header: FC = () => {
+const Header = () => {
   const { darkMode, setDarkMode } = useStore(useDarkModeStore);
   const { data: session } = useSession();
   const { Dispatch } = useStateContext();

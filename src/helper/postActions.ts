@@ -1,4 +1,3 @@
-import { IUserPostProps } from "@/types/post";
 import type { Session } from "next-auth";
 
 type PostActions = (

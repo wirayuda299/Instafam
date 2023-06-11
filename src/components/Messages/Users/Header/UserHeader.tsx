@@ -1,9 +1,8 @@
 import { useStateContext } from "@/stores/StateContext";
-import type { FC } from "react";
 import { AiOutlineArrowLeft } from "react-icons/ai";
 import { BsChatText } from "react-icons/bs";
 
-const UserHeader: FC = () => {
+const UserHeader = () => {
   const { Dispatch } = useStateContext();
   return (
     <header className="w-full border-b-2 border-gray-400 border-opacity-50 py-6">

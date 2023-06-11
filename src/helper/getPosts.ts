@@ -1,5 +1,4 @@
 import { db } from "@/config/firebase";
-import { IUserPostProps } from "@/types/post";
 import {
   collection,
   getDocs,
