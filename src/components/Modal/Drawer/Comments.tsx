@@ -22,7 +22,9 @@ const PostComment = () => {
   const { comments } = usePost(selectedPost);
   const id = useId();
 
-  if (!session && !postCommentModal) return null;
+  if (!session) return null;
+
+  if (!postCommentModal) return;
 
   return createPortal(
     <div
@@ -88,7 +90,7 @@ const PostComment = () => {
         </div>
       </div>
     </div>,
-    document.getElementById("modal") as Element
+    document?.getElementById("modal") as Element
   );
 };
 export default PostComment;

@@ -103,6 +103,7 @@ const NavItem: FC<ListItemProps> = (props) => {
             href={path}
             title={list.title}
             prefetch={false}
+            as={path}
           >
             {list.icon}
             <span
