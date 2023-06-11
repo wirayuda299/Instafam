@@ -140,7 +140,7 @@ type SelectedChatAction = {
   };
 };
 
-export type ActionsType =
+type ActionsType =
   | TogglePostPreviewModalAction
   | ToggleMenuModalAction
   | SetResultAction
@@ -162,4 +162,4 @@ export type ActionsType =
   | MessageModalAction
   | chatRoomSelectedAction
   | SelectedActivityActions
-  | SelectedChatAction
+  | SelectedChatAction;

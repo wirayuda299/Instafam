@@ -19,7 +19,7 @@ type Props = {
   limitUser: IUser[];
 };
 
-function Home({ posts, limitUser }: Props) {
+export default function Home({ posts, limitUser }: Props) {
   const [newPosts, setNewPosts] = useState<IUserPostProps[]>([]);
   useEffect(() => {
     (async () => {
@@ -68,7 +68,6 @@ function Home({ posts, limitUser }: Props) {
     </div>
   );
 }
-export default Home;
 
 export async function getServerSideProps({
   req,
