@@ -19,7 +19,7 @@ const CreatedTime: FC<Props> = ({ createdAt, author }) => {
     <div className={`ml-3 flex w-full items-center justify-between`}>
       <div>
         <div>
-          <div>
+          <h2>
             <Link
               onClick={() =>
                 postModal
@@ -37,7 +37,7 @@ const CreatedTime: FC<Props> = ({ createdAt, author }) => {
             >
               {author}
             </Link>
-          </div>
+          </h2>
           <span
             className={`block text-left font-thin leading-tight text-gray-500 antialiased xs:text-[10px] sm:text-xs `}
           >

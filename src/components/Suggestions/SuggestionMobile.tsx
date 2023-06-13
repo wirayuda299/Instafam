@@ -23,12 +23,12 @@ const SuggestionMobile: FC<{ user: IUser }> = ({ user }) => {
         blurDataURL={user.image}
         alt={user.username}
       />
-      <h2
+      <h3
         className="mt-2 w-full truncate text-center font-bold"
         title={user.username}
       >
         {user.username}
-      </h2>
+      </h3>
       <Link
         className="mt-2 h-7 w-32 rounded-md  bg-blue-500 text-center text-white "
         href={`/profile/${user.username}`}

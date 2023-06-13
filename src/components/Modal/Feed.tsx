@@ -20,6 +20,21 @@ const Feed = () => {
     Dispatch,
   } = useStateContext();
 
+  const handleClick = () => {
+    Dispatch({
+      type: "TOGGLE_FEED_MODAL",
+      payload: {
+        feedModal: false,
+      },
+    });
+    Dispatch({
+      type: "SELECT_POST",
+      payload: {
+        post: null,
+      },
+    });
+  };
+
   if (!selectedPost && !feedModal) return null;
   const modal = document.getElementById("modal") as Element;
 
@@ -44,25 +59,16 @@ const Feed = () => {
                   type="button"
                   name="close"
                   title="close"
-                  onClick={() => {
-                    Dispatch({
-                      type: "TOGGLE_FEED_MODAL",
-                      payload: {
-                        feedModal: false,
-                      },
-                    });
-                    Dispatch({
-                      type: "SELECT_POST",
-                      payload: {
-                        post: null,
-                      },
-                    });
-                  }}
+                  onClick={handleClick}
                 >
                   <AiOutlineClose size={20} />
                 </button>
               </Postheader>
-              <Link href={`/post/${selectedPost?.postId}`} title={`View post`}>
+              <Link
+                href={`/post/${selectedPost?.postId}`}
+                title="view post"
+                onClick={handleClick}
+              >
                 <PostImage post={selectedPost as IUserPostProps} />
               </Link>
             </div>

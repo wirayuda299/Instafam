@@ -5,6 +5,7 @@ import type { GetServerSidePropsContext } from "next";
 import usePost from "@/hooks/usePost";
 import { useStateContext } from "@/stores/StateContext";
 import { useSession } from "next-auth/react";
+import { getAllPosts } from "@/helper/getPosts";
 
 const PostCard = dynamic(() => import("@/components/Post"), {
   ssr: true,
@@ -32,36 +33,44 @@ export default function PostDetail({ post }: { post: IUserPostProps }) {
   const [nextPosts, setNextPosts] = useState<IUserPostProps[] | null>(null);
 
   useEffect(() => {
-    const observer = new IntersectionObserver(async (entries) => {
-      if (entries[0].isIntersecting) {
-        const { getAllPosts } = await import("@/helper/getPosts");
-        const newPosts = await getAllPosts();
-        setNextPosts(newPosts.filter((p) => p.postId !== post.postId));
+    window.addEventListener("resize", async () => {
+      if (window.innerWidth < 1024) {
+        const allPosts = await getAllPosts();
+        setNextPosts(allPosts);
         setLoading(false);
       }
     });
-    if (ref.current) {
-      observer.observe(ref.current);
-    }
     return () => {
-      if (ref.current) {
-        observer.unobserve(ref.current);
-      }
+      window.removeEventListener("resize", async () => {
+        if (window.innerWidth < 1024) {
+          const allPosts = await getAllPosts();
+          setNextPosts(allPosts);
+          setLoading(false);
+        }
+      });
     };
-  }, [post]);
+  }, []);
+
   useEffect(() => {
-    Dispatch({
-      type: "SELECT_POST",
-      payload: {
-        post: null,
-      },
-    });
-    Dispatch({
-      type: "TOGGLE_FEED_MODAL",
-      payload: {
-        feedModal: false,
-      },
-    });
+    const width = window.innerWidth;
+    if (width < 1024) {
+      const observer = new IntersectionObserver(async (entries) => {
+        if (entries[0].isIntersecting) {
+          const { getAllPosts } = await import("@/helper/getPosts");
+          const newPosts = await getAllPosts();
+          setNextPosts(newPosts.filter((p) => p.postId !== post.postId));
+          setLoading(false);
+        }
+      });
+      if (ref.current) {
+        observer.observe(ref.current);
+      }
+      return () => {
+        if (ref.current) {
+          observer.unobserve(ref.current);
+        }
+      };
+    }
   }, [post]);
 
   const handleClick = () => {
