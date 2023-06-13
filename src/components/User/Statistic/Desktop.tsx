@@ -1,13 +1,7 @@
 import { type FC, memo } from "react";
+import { StatisticProps } from "./Mobile";
 
-type DesktopStatisticProps = {
-  data: {
-    id: number;
-    title: string;
-    value: number | undefined;
-  }[];
-};
-const DesktopStatistic: FC<DesktopStatisticProps> = ({ data }) => {
+const DesktopStatistic: FC<StatisticProps> = ({ data }) => {
   return (
     <ul
       title="Statistic"

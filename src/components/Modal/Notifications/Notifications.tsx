@@ -5,12 +5,12 @@ import { useStateContext } from "@/stores/StateContext";
 import { useDarkModeStore } from "@/stores/stores";
 import { onSnapshot, doc } from "firebase/firestore";
 import { useSession } from "next-auth/react";
-import { type FC, memo, useEffect, useState } from "react";
+import { memo, useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import { AiOutlineArrowLeft } from "react-icons/ai";
 import { useStore } from "zustand";
 
-const NotificationsModal: FC = () => {
+const NotificationsModal = () => {
   const { darkMode } = useStore(useDarkModeStore);
   const {
     state: { notificationModal },

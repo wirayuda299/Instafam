@@ -2,9 +2,10 @@ import Image from "next/image";
 import useBlurhash from "@/hooks/useBlurhash";
 import type { FC } from "react";
 
-interface Props extends React.HTMLAttributes<HTMLImageElement> {
+type Props = {
   post: IUserPostProps;
-}
+} & React.HTMLAttributes<HTMLImageElement>;
+
 const PostImage: FC<Props> = ({ post }) => {
   const { blurHash } = useBlurhash(post);
   return (

@@ -1,6 +1,7 @@
 import { toast } from "react-hot-toast";
 
 type CopyLink = (url: string) => void;
+
 export const copyLink: CopyLink = (url) => {
   try {
     navigator.clipboard

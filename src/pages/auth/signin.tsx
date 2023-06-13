@@ -6,13 +6,13 @@ import { useStore } from "zustand";
 import { useDarkModeStore } from "@/stores/stores";
 import Logo from "@/components/Logo/Logo";
 
-interface Providers {
+type Providers = {
   id: string;
   name: string;
   type: string;
   signinUrl: string;
   callbackUrl: string;
-}
+}[];
 
 export default function SignIn({ providers }: { providers: Providers }) {
   const { darkMode } = useStore(useDarkModeStore);

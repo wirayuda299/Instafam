@@ -4,7 +4,11 @@ import { useRouter } from "next/router";
 import type { FC } from "react";
 
 type ListsProps = {
-  buttonLists: any[];
+  buttonLists: {
+    id: number;
+    name: string;
+    event: () => void;
+  }[];
   selectedPost: IUserPostProps | null;
   session: Session | null;
   darkMode: boolean;

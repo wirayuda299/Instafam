@@ -10,7 +10,6 @@ const ActionButton = dynamic(() => import("@/components/Post/ActionButton"));
 const Comment = dynamic(() => import("@/components/Comments/Comment"));
 const PostHeader = dynamic(() => import("@/components/Header/PostHeader"));
 const Empty = dynamic(() => import("../Comments/Empty"));
-
 const PostImage = dynamic(() => import("./Image"), {
   ssr: true,
 });

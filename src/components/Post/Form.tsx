@@ -7,7 +7,6 @@ type PostFormProps = {
   defaultValues: {
     captions: string;
   };
-
   updatePost: (data: any) => void;
   register: any;
   handleSubmit: UseFormHandleSubmit<FieldValues, undefined>;

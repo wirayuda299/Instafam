@@ -18,6 +18,7 @@ const ChatForm: FC<ChatFormProps> = ({ selectedChat, session }) => {
     resetField,
     formState: { errors },
   } = useForm();
+  const { darkMode } = useStore(useDarkModeStore);
 
   const sendMessage = async (e: FieldValues) => {
     const message = e.message;
@@ -46,7 +47,6 @@ const ChatForm: FC<ChatFormProps> = ({ selectedChat, session }) => {
       console.log(error.message);
     }
   };
-  const { darkMode } = useStore(useDarkModeStore);
 
   return (
     <div

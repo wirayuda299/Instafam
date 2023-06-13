@@ -5,11 +5,7 @@ import Link from "next/link";
 import type { FC } from "react";
 
 type NotificationDrawerProps = {
-  follower: {
-    followedBy: string;
-    followedByName: string;
-    followedImage: string;
-  };
+  follower: Pick<IUser, "followers">["followers"][0];
   darkMode: boolean;
   session: Session | null;
   user: IUser;

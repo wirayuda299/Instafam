@@ -1,17 +1,17 @@
-export type PostModalAction = {
+type PostModalAction = {
   type: "TOGGLE_POST_MODAL";
   payload: {
     postModal: boolean;
   };
 };
 
-export type PostCrateModalAction = {
+type PostCrateModalAction = {
   type: "TOGGLE_POST_CREATE_MODAL";
   payload: {
     postCreateModal: boolean;
   };
 };
-export type NotificationDrawerAction = {
+type NotificationDrawerAction = {
   type: "TOGGLE_NOTIFICATION_DRAWER";
   payload: {
     notificationDrawer: boolean;
@@ -29,7 +29,7 @@ type FeedModalAction = {
     feedModal: boolean;
   };
 };
-export type postCommentModalAction = {
+type postCommentModalAction = {
   type: "TOGGLE_POST_COMMENT_MODAL";
   payload: {
     postCommentModal: boolean;
@@ -54,14 +54,14 @@ type ToggleSearchDrawerAction = {
   };
 };
 
-export type SetResultAction = {
+type SetResultAction = {
   type: "SET_RESULT";
   payload: {
     result: IUser[];
   };
 };
 
-export type ToggleMenuModalAction = {
+type ToggleMenuModalAction = {
   type: "TOGGLE_MENU_MODAL";
   payload: {
     menuModal: boolean;
@@ -98,7 +98,7 @@ export type SetPreviewUrlAction = {
     previewUrl: string;
   };
 };
-export type CroppedImageAction = {
+type CroppedImageAction = {
   type: "SET_CROPPED_IMAGE";
   payload: {
     croppedImage: string;
