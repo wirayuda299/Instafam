@@ -15,11 +15,12 @@ const PostCard = dynamic(() => import("@/components/Post"), {
 
 type Props = {
   posts: IUserPostProps[];
-  limitUser: IUser[];
+  users: IUser[];
 };
 
-export default function Home({ posts, limitUser }: Props) {
+export default function Home({ posts, users }: Props) {
   const [newPosts, setNewPosts] = useState<IUserPostProps[]>([]);
+
   useEffect(() => {
     (async () => {
       const observer = new IntersectionObserver(async (entries) => {
@@ -30,7 +31,7 @@ export default function Home({ posts, limitUser }: Props) {
         }
       });
 
-      const entry = document.getElementById("entry");
+      const entry = document.getElementById("entry") as HTMLDivElement;
       if (entry) {
         observer.observe(entry);
       }
@@ -47,7 +48,7 @@ export default function Home({ posts, limitUser }: Props) {
   return (
     <div className="h-screen ">
       <div className="flex h-screen w-full items-start justify-between overflow-y-auto">
-        <div className="w-full">
+        <section className="w-full">
           {posts?.map((post) => (
             <div key={post.postId}>
               <PostCard post={post} />
@@ -59,10 +60,10 @@ export default function Home({ posts, limitUser }: Props) {
           ) : (
             newPosts?.map((post) => <PostCard post={post} key={post.postId} />)
           )}
-        </div>
-        <div className="sticky top-0 h-screen">
-          <Suggestions reccomend={limitUser} />
-        </div>
+        </section>
+        <section className="sticky top-0 h-screen">
+          <Suggestions reccomend={users} />
+        </section>
       </div>
     </div>
   );
@@ -73,7 +74,7 @@ export async function getServerSideProps({
   res,
 }: GetServerSidePropsContext) {
   const { getPosts } = await import("@/helper/getPosts");
-  const { getUserRecommendation } = await import("@/helper/getUser");
+  const { getUserRecommendationLimit } = await import("@/helper/getUser");
   const { getSession } = await import("next-auth/react");
   const session = await getSession({ req });
 
@@ -85,9 +86,8 @@ export async function getServerSideProps({
       },
     };
   }
-  const users = await getUserRecommendation(session?.user.uid);
+  const users = await getUserRecommendationLimit(session?.user.uid);
   const posts = await getPosts(3);
-  const limitUser = users?.slice(0, 5);
 
   res.setHeader("Cache-Control", "public, maxage=60, stale-while-revalidate");
 
@@ -96,7 +96,6 @@ export async function getServerSideProps({
       users,
       posts,
       session,
-      limitUser,
     },
   };
 }

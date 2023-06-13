@@ -31,9 +31,10 @@ export default function App({
         <meta name="robots" content="/robots.txt" />
         <meta
           name="keywords"
-          content="social media, instafam, nextjs, tailwindcss, reactjs, firebase, typescript, next-auth,
-         "
+          content="social media, instafam, nextjs, tailwindcss, reactjs, firebase, typescript, next-auth"
         />
+        <meta httpEquiv="X-UA-Compatible" content="ie=edge" />
+        <meta name="theme" content="#000" />
         <meta
           name="viewport"
           content="width=device-width, minimum-scale=1.0, maximum-scale =5, initial-scale=1.0"
