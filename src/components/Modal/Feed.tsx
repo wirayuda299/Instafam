@@ -2,10 +2,8 @@ import { useDarkModeStore } from "@/stores/stores";
 import { useStore } from "zustand";
 import { AiOutlineClose } from "react-icons/ai";
 import dynamic from "next/dynamic";
-import { useRouter } from "next/router";
 import { createPortal } from "react-dom";
 import { useStateContext } from "@/stores/StateContext";
-import { useState } from "react";
 import Link from "next/link";
 
 const PostImage = dynamic(() => import("@/components/Post/Image"), {
@@ -21,28 +19,10 @@ const Feed = () => {
     state: { selectedPost, feedModal },
     Dispatch,
   } = useStateContext();
-  const router = useRouter();
-  const [disabled, setDisabled] = useState<boolean>(false);
 
-  // const handleClick = () => {
-  //   setDisabled(true);
-  //   router.replace(`/post/${selectedPost?.postId}`);
-  //   Dispatch({
-  //     type: "TOGGLE_FEED_MODAL",
-  //     payload: {
-  //       feedModal: false,
-  //     },
-  //   });
-  //   Dispatch({
-  //     type: "SELECT_POST",
-  //     payload: {
-  //       post: null,
-  //     },
-  //   });
-  //   setDisabled(false);
-  // };
+  if (!selectedPost && !feedModal) return null;
 
-  if (!selectedPost && feedModal) return null;
+  const modal = document.getElementById("modal") as Element;
 
   return createPortal(
     <>
@@ -93,7 +73,7 @@ const Feed = () => {
         </div>
       )}
     </>,
-    document.getElementById("modal") as Element
+    modal
   );
 };
 export default Feed;
