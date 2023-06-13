@@ -73,7 +73,7 @@ const PostComment = () => {
             <Postheader post={selectedPost as IUserPostProps} />
           </div>
           <div className="max-h-screen  !w-full overflow-y-auto px-2 pb-28">
-            <EmptyComment />
+            {comments.length < 1 && <EmptyComment />}
             <Comment comments={comments} key={id} />
           </div>
         </div>

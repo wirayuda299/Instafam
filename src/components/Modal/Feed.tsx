@@ -5,6 +5,8 @@ import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
 import { createPortal } from "react-dom";
 import { useStateContext } from "@/stores/StateContext";
+import { useState } from "react";
+import Link from "next/link";
 
 const PostImage = dynamic(() => import("@/components/Post/Image"), {
   ssr: true,
@@ -20,47 +22,40 @@ const Feed = () => {
     Dispatch,
   } = useStateContext();
   const router = useRouter();
+  const [disabled, setDisabled] = useState<boolean>(false);
 
-  const handleClick = () => {
-    router.replace(`/post/${selectedPost?.postId}`);
-    Dispatch({
-      type: "TOGGLE_FEED_MODAL",
-      payload: {
-        feedModal: false,
-      },
-    });
-    Dispatch({
-      type: "SELECT_POST",
-      payload: {
-        post: null,
-      },
-    });
-  };
+  // const handleClick = () => {
+  //   setDisabled(true);
+  //   router.replace(`/post/${selectedPost?.postId}`);
+  //   Dispatch({
+  //     type: "TOGGLE_FEED_MODAL",
+  //     payload: {
+  //       feedModal: false,
+  //     },
+  //   });
+  //   Dispatch({
+  //     type: "SELECT_POST",
+  //     payload: {
+  //       post: null,
+  //     },
+  //   });
+  //   setDisabled(false);
+  // };
 
-  if (!selectedPost && !feedModal) return null;
+  if (!selectedPost && feedModal) return null;
 
   return createPortal(
     <>
       {selectedPost && feedModal && (
         <div
-          className={` fixed left-0 top-0 z-[99999999] h-screen w-full  select-none !overflow-x-hidden !overflow-y-hidden  bg-black bg-opacity-60 shadow-sm  ${
+          className={` fixed left-0 top-0 z-50 h-screen w-full  select-none !overflow-x-hidden !overflow-y-hidden  bg-black bg-opacity-60 shadow-sm  ${
             feedModal && selectedPost ? "animate-fadeIn" : "animate-fadeOut"
           }`}
           aria-modal="true"
           role="dialog"
         >
           <div className="mx-auto h-full max-w-[500px] text-center">
-            <div
-              className="flex h-full cursor-pointer flex-col items-center justify-center"
-              onClick={() => {
-                Dispatch({
-                  type: "SELECT_POST",
-                  payload: {
-                    post: null,
-                  },
-                });
-              }}
-            >
+            <div className="flex h-full cursor-pointer flex-col items-center justify-center">
               <div
                 className={`flex min-w-[300px] flex-col rounded-lg p-2 ${
                   darkMode ? "!bg-black text-white" : "!bg-white text-black"
@@ -89,13 +84,9 @@ const Feed = () => {
                     <AiOutlineClose size={20} />
                   </button>
                 </Postheader>
-                <button
-                  onClick={handleClick}
-                  title={`/post/${selectedPost?.postId}`}
-                  name={`/post/${selectedPost?.postId}`}
-                >
+                <Link href={`/post/${selectedPost.postId}`} title={`View post`}>
                   <PostImage post={selectedPost as IUserPostProps} />
-                </button>
+                </Link>
               </div>
             </div>
           </div>

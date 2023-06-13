@@ -38,7 +38,7 @@ export default function Comments({ post, session }: Props) {
       className={pathname === "/post/[id]" ? "flex flex-col-reverse " : "block"}
     >
       <form
-        className=" flex items-center py-1"
+        className=" flex items-center px-3 py-1"
         onSubmit={handleSubmit(handleSubmits)}
       >
         <input
@@ -50,7 +50,7 @@ export default function Comments({ post, session }: Props) {
           className="w-full bg-transparent text-xs focus:outline-none"
         />
         <button type="submit" name="share comment" title="share comment">
-          <AiOutlineSend className="text-lg md:text-xl" />
+          <AiOutlineSend className="text-xl md:text-2xl" />
         </button>
       </form>
     </div>

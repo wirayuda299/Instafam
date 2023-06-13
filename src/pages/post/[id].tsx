@@ -49,6 +49,20 @@ export default function PostDetail({ post }: { post: IUserPostProps }) {
       }
     };
   }, [post]);
+  useEffect(() => {
+    Dispatch({
+      type: "SELECT_POST",
+      payload: {
+        post: null,
+      },
+    });
+    Dispatch({
+      type: "TOGGLE_FEED_MODAL",
+      payload: {
+        feedModal: false,
+      },
+    });
+  }, [post]);
 
   const handleClick = () => {
     Dispatch({

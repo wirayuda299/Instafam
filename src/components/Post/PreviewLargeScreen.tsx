@@ -47,11 +47,20 @@ const PreviewLargeScreen: FC<Props> = (props) => {
               </button>
             </PostHeader>
           </div>
-          <div className={comments.length < 1 ? "mt-32" : ""}>
-            <div className="pt-11 ">
+          <div
+            className={
+              comments.length < 1
+                ? "flex h-full w-full items-center justify-center"
+                : ""
+            }
+          >
+            {comments.length < 1 ? (
               <Empty />
-            </div>
-            <Comment comments={comments} />
+            ) : (
+              <div className="pl-4 pt-11">
+                <Comment comments={comments} />
+              </div>
+            )}
           </div>
           <div
             className={`absolute bottom-0 hidden w-full border-t border-gray-500 border-opacity-50 px-2 lg:block ${
