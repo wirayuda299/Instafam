@@ -1,5 +1,4 @@
 import { useDarkModeStore } from "@/stores/stores";
-import { IUser } from "@/types/user";
 import { useState } from "react";
 import { createPortal } from "react-dom";
 import { type FieldValues, useForm } from "react-hook-form";

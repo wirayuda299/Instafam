@@ -5,7 +5,6 @@ import ChatForm from "../Form/ChatForm";
 import { db } from "@/config/firebase";
 import { onSnapshot, doc } from "firebase/firestore";
 import { type FC, useEffect, useState } from "react";
-import { DataMessage } from "@/types/DataMessage";
 import { Chats as ChatsType } from "@/types/Chats";
 
 type ChatsProps = {

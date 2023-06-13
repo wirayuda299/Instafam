@@ -1,7 +1,6 @@
 import Link from "next/link";
 import { AiOutlineClose } from "react-icons/ai";
 import Image from "next/image";
-import { IUser } from "@/types/user";
 import { useDarkModeStore } from "@/stores/stores";
 import { useStore } from "zustand";
 import { useStateContext } from "@/stores/StateContext";

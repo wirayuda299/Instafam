@@ -16,6 +16,7 @@ const playfair = Playfair_Display({
   display: "swap",
   adjustFontFallback: true,
 });
+
 const Header = () => {
   const { darkMode, setDarkMode } = useStore(useDarkModeStore);
   const { data: session } = useSession();

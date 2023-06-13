@@ -1,5 +1,4 @@
 import { useDarkModeStore } from "@/stores/stores";
-import { IUser } from "@/types/user";
 import Image from "next/image";
 import Link from "next/link";
 import type { FC } from "react";
@@ -10,7 +9,7 @@ const SuggestionMobile: FC<{ user: IUser }> = ({ user }) => {
 
   return (
     <div
-      className={`flex h-44 shadow-xl aspect-square border border-gray-400 border-opacity-10 w-44 flex-col ${
+      className={`flex aspect-square h-44 w-44 flex-col border border-gray-400 border-opacity-10 shadow-xl ${
         darkMode ? "bg-black   text-white" : "bg-white text-black"
       } relative items-center justify-center rounded-lg p-5 shadow-md`}
     >

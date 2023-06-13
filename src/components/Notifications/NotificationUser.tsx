@@ -1,5 +1,4 @@
 import { useStateContext } from "@/stores/StateContext";
-import { IUser } from "@/types/user";
 import type { Session } from "next-auth";
 import Image from "next/image";
 import Link from "next/link";

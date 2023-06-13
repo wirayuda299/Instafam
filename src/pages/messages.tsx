@@ -6,7 +6,6 @@ import type { Session } from "next-auth";
 import { getServerSession } from "next-auth";
 import type { GetServerSidePropsContext } from "next";
 import { authOptions } from "./api/auth/[...nextauth]";
-import { DataMessage } from "@/types/DataMessage";
 import { useStateContext } from "@/stores/StateContext";
 
 const UsersChat = dynamic(
@@ -91,12 +90,9 @@ export default function Messages({ sessions, receiver, sender }: Props) {
         ) : (
           <>
             {!selectedChat && receiver.length < 1 ? (
-              <button
-                type="button"
-                name="open"
-                title="open"
-                
-              >Open</button>
+              <button type="button" name="open" title="open">
+                Open
+              </button>
             ) : (
               <div className={" flex h-screen w-full "}>
                 <aside

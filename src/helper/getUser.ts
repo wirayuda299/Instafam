@@ -1,14 +1,11 @@
 import { db } from "@/config/firebase";
-import { IUser } from "@/types/user";
 import { collection, getDocs, query, where } from "firebase/firestore";
 
-export async function getUserRecommendation(
-  uid: string,
-) {
+export async function getUserRecommendation(uid: string) {
   try {
     const qAll = query(collection(db, "users"), where("uid", "!=", uid));
 
-    const getUsers = await getDocs( qAll);
+    const getUsers = await getDocs(qAll);
     return getUsers.docs.map((doc) => doc.data()) as IUser[];
   } catch (error: any) {
     console.log(error.message);

@@ -1,14 +1,16 @@
 import { useDarkModeStore } from "@/stores/stores";
 import { useStore } from "zustand";
 import type { FC } from "react";
+import type { UseFormHandleSubmit, FieldValues } from "react-hook-form";
 
 type PostFormProps = {
   defaultValues: {
     captions: string;
   };
+
   updatePost: (data: any) => void;
   register: any;
-  handleSubmit: any;
+  handleSubmit: UseFormHandleSubmit<FieldValues, undefined>;
 };
 
 const PostForm: FC<PostFormProps> = (props) => {

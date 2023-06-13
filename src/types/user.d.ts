@@ -1,5 +1,4 @@
-import { IUserPostProps } from "./post";
-export interface IUser {
+interface IUser {
   image: string;
   createdAt: string;
   following: {

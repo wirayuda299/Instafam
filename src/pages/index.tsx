@@ -1,5 +1,4 @@
 import dynamic from "next/dynamic";
-import { IUser } from "@/types/user";
 import { useEffect, useState } from "react";
 import type { GetServerSidePropsContext } from "next";
 

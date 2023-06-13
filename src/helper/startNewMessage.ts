@@ -1,5 +1,4 @@
 import { db } from "@/config/firebase";
-import { IUser } from "@/types/user";
 import type { Session } from "next-auth";
 import { toast } from "react-hot-toast";
 

@@ -1,7 +1,6 @@
 import dynamic from "next/dynamic";
 import Image from "next/image";
 import { type FC, memo } from "react";
-import { IUser } from "@/types/user";
 import { useSession } from "next-auth/react";
 
 const Footer = dynamic(() => import("@/components/Footer"));

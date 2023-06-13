@@ -1,6 +1,5 @@
 import { useStateContext } from "@/stores/StateContext";
 import { useDarkModeStore } from "@/stores/stores";
-import { DataMessage } from "@/types/DataMessage";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
 import type { FC } from "react";

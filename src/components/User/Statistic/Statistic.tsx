@@ -1,4 +1,3 @@
-import { IUser } from "@/types/user";
 import Image from "next/image";
 import dynamic from "next/dynamic";
 import { FC, memo } from "react";

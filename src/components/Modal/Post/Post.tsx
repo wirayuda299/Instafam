@@ -1,6 +1,6 @@
 import { useDarkModeStore } from "@/stores/stores";
 import { useStore } from "zustand";
-import { type FC, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { AiOutlineArrowLeft } from "react-icons/ai";
 import dynamic from "next/dynamic";
 import { createPortal } from "react-dom";
@@ -15,7 +15,7 @@ const PostCard = dynamic(() => import("@/components/Post"), {
   ssr: true,
 });
 
-const PostModal: FC = () => {
+const PostModal = () => {
   const {
     state: { selectedPost, postModal },
     Dispatch,

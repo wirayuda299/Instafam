@@ -1,6 +1,5 @@
 import { db } from "@/config/firebase";
 import { useDarkModeStore } from "@/stores/stores";
-import { DataMessage } from "@/types/DataMessage";
 import type { Session } from "next-auth";
 import type { FC } from "react";
 import { type FieldValues, useForm } from "react-hook-form";

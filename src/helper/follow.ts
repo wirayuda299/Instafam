@@ -1,14 +1,12 @@
-import { IUser } from "@/types/user";
-
 type FollowerProps = Pick<IUser, "followers">;
 type Follower = FollowerProps["followers"][0];
 
-interface HandleFollowProps {
+type HandleFollowProps = {
   id: string;
   uid: string;
   followedByName: string;
   followedImage: string;
-}
+};
 
 export const handleFollow = async <T extends HandleFollowProps>(props: T) => {
   const { id, uid, followedByName, followedImage } = props;

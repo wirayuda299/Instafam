@@ -6,7 +6,6 @@ import {
   useReducer,
 } from "react";
 import { reducer } from "./reducer";
-import { State } from "@/types/State";
 import { ActionsType } from "@/types/ActionsTypes";
 
 const initialState: State = {
@@ -32,7 +31,6 @@ const initialState: State = {
   chatRoomSelected: null,
   selectedActivity: "interactions",
   selectedChat: null,
-
 };
 
 type StateProviderProps = {

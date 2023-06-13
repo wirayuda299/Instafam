@@ -3,7 +3,6 @@ import dynamic from "next/dynamic";
 import { useDarkModeStore } from "@/stores/stores";
 import { useStore } from "zustand";
 import { type FieldValues, useForm } from "react-hook-form";
-import { IUser } from "@/types/user";
 import { getCsrfToken, useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import { useStateContext } from "@/stores/StateContext";

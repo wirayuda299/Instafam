@@ -1,4 +1,4 @@
-export type DataMessage = {
+type DataMessage = {
   message: any;
   id: string;
   image: string;

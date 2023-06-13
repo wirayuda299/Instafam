@@ -1,11 +1,10 @@
-import { IUser } from "@/types/user";
 import Image from "next/image";
 import Link from "next/link";
 import type { FC } from "react";
 
 const UserRecommendations: FC<{ reccomend: IUser[] }> = ({ reccomend }) => {
   return (
-    <div className="w-full h-full overflow-y-auto">
+    <div className="h-full w-full overflow-y-auto">
       {reccomend?.map((user: any) => (
         <div
           key={user.uid}

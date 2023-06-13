@@ -15,6 +15,7 @@ const NavHeader = () => {
   const {
     state: { notificationDrawer, isSearchDrawerOpen },
   } = useStateContext();
+
   return (
     <header
       className={`hidden w-full flex-col pl-6 md:flex md:pl-2.5 ${playfair.className}`}

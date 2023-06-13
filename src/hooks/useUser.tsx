@@ -1,6 +1,5 @@
 import { db } from "@/config/firebase";
 import { useStateContext } from "@/stores/StateContext";
-import { IUser } from "@/types/user";
 import { doc, onSnapshot } from "firebase/firestore";
 import { useEffect, useState } from "react";
 

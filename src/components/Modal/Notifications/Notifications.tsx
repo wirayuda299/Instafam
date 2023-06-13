@@ -3,7 +3,6 @@ import NotificationUser from "@/components/Notifications/NotificationUser";
 import { db } from "@/config/firebase";
 import { useStateContext } from "@/stores/StateContext";
 import { useDarkModeStore } from "@/stores/stores";
-import { IUser } from "@/types/user";
 import { onSnapshot, doc } from "firebase/firestore";
 import { useSession } from "next-auth/react";
 import { type FC, memo, useEffect, useState } from "react";

@@ -17,7 +17,12 @@ const Footer: FC<Partial<FooterProps>> = ({ children, classNames }) => {
             key={list.name}
             className="cursor-pointer underline-offset-0 hover:underline hover:underline-offset-2"
           >
-            <Link href={list.link} title={list.name} as={list.link}>
+            <Link
+              href={list.link}
+              title={list.name}
+              as={list.link}
+              prefetch={false}
+            >
               {list.name}
             </Link>
           </li>

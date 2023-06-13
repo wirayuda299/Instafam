@@ -6,15 +6,6 @@ import { useStore } from "zustand";
 import type { Session } from "next-auth";
 const TextArea = dynamic(() => import("./TextArea"));
 
-interface Props {
-  handlePost: () => Promise<void>;
-  loading: boolean;
-  session: Session | null;
-  img: string;
-  setCaptions: Dispatch<SetStateAction<string>>;
-  captions: string;
-}
-
 type CaptionsProps = {
   handlePost: () => Promise<void>;
   loading: boolean;

@@ -1,5 +1,4 @@
 import { useDarkModeStore } from "@/stores/stores";
-import { DataMessage } from "@/types/DataMessage";
 import Image from "next/image";
 import { useStore } from "zustand";
 import { useStateContext } from "@/stores/StateContext";

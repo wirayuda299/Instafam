@@ -1,4 +1,3 @@
-import { IUser } from "@/types/user";
 import type { Session } from "next-auth";
 import type { FC } from "react";
 

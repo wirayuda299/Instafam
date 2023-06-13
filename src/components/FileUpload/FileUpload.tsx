@@ -6,33 +6,38 @@ import toast from "react-hot-toast";
 import { encode } from "blurhash";
 import { useStateContext } from "@/stores/StateContext";
 
+type FilterResults = {
+  objects: any[];
+  unsafe: boolean;
+};
 const FileUpload: FC<{ img: string | undefined }> = ({ img }) => {
   const { darkMode } = useStore(useDarkModeStore);
   const { Dispatch } = useStateContext();
 
-  const loadImage = async (src: string) =>
+  const loadImage = async <T,>(src: T) =>
     new Promise((resolve, reject) => {
       const img = new Image();
       img.onload = () => resolve(img);
       img.onerror = (...args) => reject(args);
-      img.src = src;
+      img.src = src as string;
     });
 
-  const getImageData = (image: any) => {
-    const canvas = document.createElement("canvas");
-    canvas.width = image.width;
-    canvas.height = image.height;
+  const getImageData = (image: HTMLImageElement) => {
+    const canvas = document.createElement("canvas") as HTMLCanvasElement;
+    canvas.width = image.width as number;
+    canvas.height = image.height as number;
     const context = canvas.getContext("2d");
     context?.drawImage(image, 0, 0);
     return context?.getImageData(0, 0, image.width, image.height);
   };
 
-  const encodeImageToBlurhash = async (imageUrl: any) => {
-    const image = await loadImage(imageUrl);
-    const imageData = getImageData(image) as any;
+  const encodeImageToBlurhash = async <T,>(imageUrl: T) => {
+    const image = (await loadImage(imageUrl)) as HTMLImageElement;
+    const imageData = getImageData(image);
+    if (!imageData) return;
     return encode(imageData?.data, imageData?.width, imageData?.height, 4, 4);
   };
-  const filterImage = async (file: any) => {
+  const filterImage = async (file: File) => {
     try {
       toast.loading("Checking image...");
       const data = new FormData();
@@ -51,7 +56,8 @@ const FileUpload: FC<{ img: string | undefined }> = ({ img }) => {
         "https://nsfw-images-detection-and-classification.p.rapidapi.com/adult-content-file",
         options
       );
-      const result = await getResult.json();
+      const result = (await getResult.json()) as FilterResults;
+
       return result;
     } catch (error: any) {
       console.log(error.message);
@@ -62,13 +68,18 @@ const FileUpload: FC<{ img: string | undefined }> = ({ img }) => {
     try {
       let selectedFile = e.target.files?.[0];
       if (!selectedFile) return;
+
       const result = await filterImage(selectedFile);
+
       if (result?.unsafe) {
         toast.dismiss();
         toast.error("Image is not allowed");
         return;
       }
-      const data = await loadImage(URL.createObjectURL(selectedFile));
+      const data = (await loadImage(
+        URL.createObjectURL(selectedFile)
+      )) as HTMLImageElement;
+
       const imageData = getImageData(data);
 
       if (!imageData) return;
@@ -78,7 +89,9 @@ const FileUpload: FC<{ img: string | undefined }> = ({ img }) => {
         if (event.target) {
           toast.dismiss();
           const blurhash = await encodeImageToBlurhash(event.target.result);
+
           if (!blurhash) return;
+
           Dispatch({
             type: "SET_BLUR_HASH",
             payload: {

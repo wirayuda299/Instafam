@@ -1,7 +1,3 @@
-import { IUserPostProps } from "./post";
-import { IUser } from "./user";
-import { DataMessage } from "@/types/DataMessage";
-
 export type PostModalAction = {
   type: "TOGGLE_POST_MODAL";
   payload: {
@@ -139,8 +135,7 @@ type SelectedChatAction = {
     selectedChat: DataMessage | null;
   };
 };
-
-type ActionsType =
+export type ActionsType =
   | TogglePostPreviewModalAction
   | ToggleMenuModalAction
   | SetResultAction

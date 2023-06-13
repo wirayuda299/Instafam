@@ -1,7 +1,4 @@
-import { IUserPostProps } from "./post";
-import { IUser } from "./user";
-import { DataMessage } from "@/types/DataMessage";
-export type State = {
+type State = {
   selectedPost: IUserPostProps | null;
   isExtraListOpen: boolean;
   isSearchDrawerOpen: boolean;

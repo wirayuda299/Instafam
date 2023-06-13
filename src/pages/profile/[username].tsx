@@ -1,6 +1,5 @@
 import dynamic from "next/dynamic";
 import Head from "next/head";
-import { IUser } from "@/types/user";
 import { useRouter } from "next/router";
 import type { GetServerSidePropsContext } from "next";
 import { memo, useMemo, useState, useTransition } from "react";

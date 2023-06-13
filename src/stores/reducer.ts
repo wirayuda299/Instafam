@@ -1,5 +1,4 @@
 import { ActionsType } from "@/types/ActionsTypes";
-import type { State } from "@/types/State";
 
 export function reducer(state: State, action: ActionsType) {
   switch (action.type) {

@@ -4,7 +4,6 @@ import type { FieldValues } from "react-hook-form";
 import { useForm } from "react-hook-form";
 import dynamic from "next/dynamic";
 import Head from "next/head";
-import { useSession } from "next-auth/react";
 
 const Postheader = dynamic(() => import("@/components/Header/PostHeader"));
 const PostForm = dynamic(() => import("@/components/Post/Form"));
@@ -17,7 +16,7 @@ interface Values extends FieldValues {
 export default function EditPosts({ post }: { post: IUserPostProps }) {
   const { register, handleSubmit } = useForm();
   const { push } = useRouter();
-  const session = useSession();
+
   const defaultValues = {
     captions: `${post?.captions} ${post?.hashtags}`,
   };
@@ -26,7 +25,7 @@ export default function EditPosts({ post }: { post: IUserPostProps }) {
     const { toast } = await import("react-hot-toast");
 
     try {
-      if (typeof updated !== "string" || !session || !session.data?.user) {
+      if (typeof updated !== "string") {
         toast.error(`This ${updated} is not a string`);
         return;
       }

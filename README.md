@@ -1,6 +1,6 @@
 # Instafam - Connect with people around the world
 
-Welcome to Instafam!, This is my first nextjs project. Please if you have suggesstion for this project don't hesitate tolet me know> And about this project,This is a social media app that allows you to connect with people around the world. You can post pictures, like and comment on other people's posts, and follow other users. You can also search for users by their username.
+Welcome to Instafam!, This is my first nextjs project. Please if you have suggesstion for this project don't hesitate to let me know> And about this project,This is a social media app that allows you to connect with people around the world. You can post pictures, like and comment on other people's posts, and follow other users. You can also search for users by their username.
 
 ## Features
 
