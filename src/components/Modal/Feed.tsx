@@ -35,7 +35,8 @@ const Feed = () => {
     });
   };
 
-  if (!selectedPost && !feedModal) return null;
+  if (!feedModal) return null;
+
   const modal = document.getElementById("modal") as Element;
 
   return createPortal(

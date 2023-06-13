@@ -16,7 +16,7 @@ const Author: FC<AuhtorProps> = ({ author, captions, hashtags }) => {
           show ? "!max-w-fit flex-wrap" : ""
         }`}
       >
-        <h4 className="pb-2 text-sm font-medium sm:font-semibold">{author}</h4>
+        <h3 className="pb-2 text-sm font-medium sm:font-semibold">{author}</h3>
         <p
           className={` text-sm font-thin  ${
             captions[0].length >= 20 && !show ? "truncate" : ""

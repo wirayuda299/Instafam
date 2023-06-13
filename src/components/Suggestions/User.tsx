@@ -21,11 +21,15 @@ const UserRecommendations: FC<{ reccomend: IUser[] }> = ({ reccomend }) => {
               quality={50}
             />
             <div className="flex flex-col items-start justify-center">
-              <h2 className="text-sm font-semibold ">{user.username}</h2>
+              <h5 className="text-sm font-semibold">{user.username}</h5>
               <p className=" text-xs text-slate-500">{user.name}</p>
             </div>
           </div>
-          <Link className="ml-auto" href={`/profile/${user?.username}`}>
+          <Link
+            className="ml-auto"
+            href={`/profile/${user?.username}`}
+            prefetch={false}
+          >
             <span className="text-xs font-light text-blue-600">View</span>
           </Link>
         </div>

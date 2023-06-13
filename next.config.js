@@ -1,6 +1,5 @@
 /** @type {import('next').NextConfig} */
 
-
 const securityHeaders = [
   {
     key: "X-DNS-Prefetch-Control",
@@ -11,8 +10,8 @@ const securityHeaders = [
     value: "1; mode=block",
   },
   {
-    key: 'X-Frame-Options',
-    value: 'SAMEORIGIN'
+    key: "X-Frame-Options",
+    value: "SAMEORIGIN",
   },
   {
     key: "Permissions-Policy",
@@ -23,7 +22,6 @@ const securityHeaders = [
     value: "nosniff",
   },
 ];
-
 
 const nextConfig = {
   async headers() {

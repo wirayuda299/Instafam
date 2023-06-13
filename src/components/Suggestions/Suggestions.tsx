@@ -26,9 +26,9 @@ const Suggestions: FC<{ reccomend: IUser[] }> = ({ reccomend }) => {
               priority
               quality={50}
             />
-            <h3 className="text-base font-semibold ">
+            <h4 className="text-base font-semibold ">
               {session?.user?.username}
-            </h3>
+            </h4>
           </div>
           <div className={"flex items-center justify-center space-x-2"}>
             <button

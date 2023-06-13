@@ -38,7 +38,7 @@ export default function Comments({ post, session }: Props) {
       className={pathname === "/post/[id]" ? "flex flex-col-reverse " : "block"}
     >
       <form
-        className=" flex items-center px-3 py-1"
+        className=" py- flex items-center px-3 text-slate-400"
         onSubmit={handleSubmit(handleSubmits)}
       >
         <input
@@ -47,6 +47,7 @@ export default function Comments({ post, session }: Props) {
           autoComplete="off"
           defaultValue={defaultValues.comments}
           {...register("comments")}
+          maxLength={300}
           className="w-full bg-transparent text-xs focus:outline-none"
         />
         <button type="submit" name="share comment" title="share comment">

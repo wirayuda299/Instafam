@@ -22,7 +22,9 @@ export default async function handler(
     const response = await getDocs(q);
     const result = response.docs.map((doc) => doc.data());
     const regex = new RegExp(`${search}`, "gi");
-    const filtered = result.filter((user) => regex.test(user.name) || regex.test(user.username));
+    const filtered = result.filter(
+      (user) => regex.test(user.name) || regex.test(user.username)
+    );
     return res.status(200).json(filtered ?? []);
   }
 }

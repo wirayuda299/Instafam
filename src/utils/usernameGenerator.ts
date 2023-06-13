@@ -1,4 +1,3 @@
-
 export function getUsernameFromEmail(email: string) {
   try {
     const atIndex = email.indexOf("@");
