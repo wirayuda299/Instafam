@@ -58,7 +58,7 @@ const PostModal = () => {
       setPosts([]);
       setLoading(true);
     };
-  }, [selectedPost, postModal, pathname]);
+  }, [postModal, pathname]);
 
   const closeModal = () => {
     Dispatch({
