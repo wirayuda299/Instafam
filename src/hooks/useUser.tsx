@@ -8,6 +8,7 @@ export default function useUser(uid: string) {
   const {
     state: { selectedPost },
   } = useStateContext();
+
   useEffect(() => {
     const unsub = onSnapshot(
       doc(db, "users", `${uid ? uid : selectedPost?.postedById}`),
