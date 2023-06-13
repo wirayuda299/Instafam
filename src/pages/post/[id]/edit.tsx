@@ -69,6 +69,7 @@ export default function EditPosts({ post }: { post: IUserPostProps }) {
 export async function getServerSideProps({ query }: GetServerSidePropsContext) {
   const { getPostById } = await import("@/helper/getPosts");
   const post = await getPostById(query?.id as string);
+
   if (!post) {
     return {
       notFound: true,

@@ -60,7 +60,7 @@ const Sidebar = () => {
     Dispatch({
       type: "TOGGLE_SEARCH_DRAWER",
       payload: {
-        searchDrawer: !isSearchDrawerOpen,
+        searchDrawer: false,
       },
     });
     Dispatch({
