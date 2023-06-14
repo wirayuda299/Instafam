@@ -2,19 +2,17 @@ import dynamic from "next/dynamic";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import type { GetServerSidePropsContext } from "next";
-import { useEffect, useMemo, useState, useTransition } from "react";
+import { useEffect, useState, useTransition } from "react";
 import type { Session } from "next-auth";
 import { useStateContext } from "@/stores/StateContext";
 import { useSession } from "next-auth/react";
 import { getUserRecommendation } from "@/helper/getUser";
 import { getPostsSavedByUser } from "@/helper/getPosts";
-import Post from "@/components/Loader/Post";
+
 const Statistic = dynamic(
-  () => import("@/components/User/Statistic/Statistic"),
-  {
-    ssr: true,
-  }
+  () => import("@/components/User/Statistic/Statistic")
 );
+const PostLoader = dynamic(() => import("@/components/Loader/Post"));
 const SuggestionMobile = dynamic(
   () => import("@/components/Suggestions/SuggestionMobile")
 );
@@ -38,6 +36,7 @@ export default function UserProfile({ posts, user, query }: Props) {
   const [loadingSavedPosts, setLoadingSavedPosts] = useState<boolean>(true);
   const [savedPostTab, setSavedPostsTab] = useState(false);
   const [users, setUsers] = useState<IUser[]>([]);
+  const [loadingUsers, setLoadingUsers] = useState<boolean>(true);
   const [savedPosts, setsavedPosts] = useState<IUserPostProps[]>([]);
   const [showUsers, setShowUsers] = useState<boolean>(false);
   const { data: session } = useSession();
@@ -45,8 +44,6 @@ export default function UserProfile({ posts, user, query }: Props) {
   const [activeTab, setActiveTab] = useState<number>(1);
   const [, startTransition] = useTransition();
   const { Dispatch } = useStateContext();
-
-  const refreshData = () => replace(asPath);
 
   const handleTabClick = (tabId: number) => {
     startTransition(() => {
@@ -85,27 +82,6 @@ export default function UserProfile({ posts, user, query }: Props) {
     });
   };
 
-  const Tabs = useMemo(() => {
-    return (
-      <>
-        <Tab activeTab={activeTab} handleTabChange={handleTabClick} />
-      </>
-    );
-  }, [activeTab]);
-
-  const Statistics = useMemo(() => {
-    return (
-      <>
-        <Statistic
-          session={session}
-          refreshData={refreshData}
-          users={user}
-          posts={posts ?? []}
-        />
-      </>
-    );
-  }, [session, user, posts]);
-
   useEffect(() => {
     const getUserRecommendations = async () => {
       try {
@@ -113,6 +89,7 @@ export default function UserProfile({ posts, user, query }: Props) {
           session?.user.uid as string
         );
         setUsers(reccomendations ?? []);
+        setLoadingUsers(false);
       } catch (error: any) {
         console.log(error.message);
       }
@@ -152,11 +129,16 @@ export default function UserProfile({ posts, user, query }: Props) {
       </Head>
       {session ? (
         <div className="mx-auto h-screen w-full overflow-x-auto overflow-y-scroll">
-          <div className="flex w-full items-center space-x-3 border-b border-gray-500 border-opacity-50 md:justify-center md:space-x-10">
-            {Statistics}
-          </div>
+          <Statistic
+            session={session}
+            refreshData={() => replace(asPath)}
+            users={user}
+            posts={posts ?? []}
+          />
 
-          {session?.user?.username === query?.username ? <>{Tabs}</> : null}
+          {session?.user?.username === query?.username ? (
+            <Tab activeTab={activeTab} handleTabChange={handleTabClick} />
+          ) : null}
           <div className=" mx-auto mt-3  md:max-w-5xl lg:hidden">
             <div className="flex items-center justify-between px-5">
               <h1 className="p-5 text-xl font-bold">Suggestion</h1>
@@ -230,9 +212,9 @@ export default function UserProfile({ posts, user, query }: Props) {
               <>
                 {loadingSavedPosts && (
                   <>
-                    <Post />
-                    <Post />
-                    <Post />
+                    <PostLoader />
+                    <PostLoader />
+                    <PostLoader />
                   </>
                 )}
                 {savedPosts && savedPosts.length < 1 ? (

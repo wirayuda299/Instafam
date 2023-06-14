@@ -35,63 +35,61 @@ const Statistic: FC<Props> = ({ session, users, posts, refreshData }) => {
   ];
   const { darkMode } = useStore(useDarkModeStore);
   return (
-    <div className="w-full">
-      <div className={`${darkMode ? "text-white" : "text-black"}`}>
-        <div className="flex w-full flex-col items-center justify-between sm:flex-row sm:justify-around">
-          <div className="flex flex-wrap items-center justify-start sm:space-x-5">
-            <div className="py-5">
-              <div className="pb-5 md:pb-10">
-                <div className="flex w-full items-center justify-evenly gap-6 xs1:space-x-10">
-                  <Image
-                    src={users ? users?.image : ""}
-                    alt={users ? users?.username : ""}
-                    width={500}
-                    height={500}
-                    sizes="(max-width: 500px) 100vw, 500px"
-                    priority
-                    className="h-24 w-24 rounded-full border p-1 xs1:h-28 xs1:w-28 lg:h-32 lg:w-32"
-                    placeholder="blur"
-                    blurDataURL={
-                      "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDABQODxIPDRQSEBIXFRQYHjIhHhwcHj0sLiQySUBMS0dARkVQWnNiUFVtVkVGZIhlbXd7gYKBTmCNl4x9lnN+gXz/2wBDARUXFx4aHjshITt8U0ZTfHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHz/wAARCAACAAMDASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwDpbiR1mYB2A46H2ooooEf/2Q=="
-                    }
-                  />
-                  <div className="w-full">
-                    <UserInfo
-                      refreshData={refreshData}
-                      session={session}
-                      users={users}
+    <div className="flex w-full items-center space-x-3 border-b border-gray-500 border-opacity-50 md:justify-center md:space-x-10">
+      <div className="w-full">
+        <div className={`${darkMode ? "text-white" : "text-black"}`}>
+          <div className="flex w-full flex-col items-center justify-between sm:flex-row sm:justify-around">
+            <div className="flex flex-wrap items-center justify-start sm:space-x-5">
+              <div className="py-5">
+                <div className="pb-5 md:pb-10">
+                  <div className="flex w-full items-center justify-evenly gap-6 xs1:space-x-10">
+                    <Image
+                      src={users ? users?.image : ""}
+                      alt={users ? users?.username : ""}
+                      width={500}
+                      height={500}
+                      sizes="(max-width: 500px) 100vw, 500px"
+                      priority
+                      className="h-24 w-24 rounded-full border p-1 xs1:h-28 xs1:w-28 lg:h-32 lg:w-32"
                     />
-                    <div className="flex sm:flex-col-reverse">
-                      <div className="w-full">
-                        {users?.uid === session?.user?.uid ? (
-                          <button
-                            name="sign out"
-                            type="button"
-                            title="sign out"
-                            className="mt-2 w-full rounded-md  bg-blue-500 py-1 text-center text-white md:hidden"
-                            onClick={async () => {
-                              const { signOut } = await import(
-                                "next-auth/react"
-                              );
-                              signOut({
-                                callbackUrl: `${process.env.NEXTAUTH_URL}/auth/signin`,
-                                redirect: true,
-                              });
-                            }}
-                          >
-                            Log Out
-                          </button>
-                        ) : null}
+                    <div className="w-full">
+                      <UserInfo
+                        refreshData={refreshData}
+                        session={session}
+                        users={users}
+                      />
+                      <div className="flex sm:flex-col-reverse">
+                        <div className="w-full">
+                          {users?.uid === session?.user?.uid ? (
+                            <button
+                              name="sign out"
+                              type="button"
+                              title="sign out"
+                              className="mt-2 w-full rounded-md  bg-blue-500 py-1 text-center text-white md:hidden"
+                              onClick={async () => {
+                                const { signOut } = await import(
+                                  "next-auth/react"
+                                );
+                                signOut({
+                                  callbackUrl: `${process.env.NEXTAUTH_URL}/auth/signin`,
+                                  redirect: true,
+                                });
+                              }}
+                            >
+                              Log Out
+                            </button>
+                          ) : null}
+                        </div>
+                        <DesktopStatistic data={data} />
                       </div>
-                      <DesktopStatistic data={data} />
                     </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
+          <StatisticMobile data={data} />
         </div>
-        <StatisticMobile data={data} />
       </div>
     </div>
   );
