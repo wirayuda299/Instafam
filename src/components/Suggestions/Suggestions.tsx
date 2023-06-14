@@ -2,6 +2,7 @@ import dynamic from "next/dynamic";
 import Image from "next/image";
 import { type FC, memo } from "react";
 import { useSession } from "next-auth/react";
+import { useStateContext } from "@/stores/StateContext";
 
 const Footer = dynamic(() => import("@/components/Footer"));
 const UserRecommendation = dynamic(() => import("./User"), {
@@ -10,6 +11,7 @@ const UserRecommendation = dynamic(() => import("./User"), {
 
 const Suggestions: FC<{ reccomend: IUser[] }> = ({ reccomend }) => {
   const { data: session } = useSession();
+  const { Dispatch } = useStateContext();
 
   return (
     <section className=" hidden h-screen min-w-[384px] lg:block">
@@ -56,6 +58,14 @@ const Suggestions: FC<{ reccomend: IUser[] }> = ({ reccomend }) => {
             name="see all"
             title="see all"
             className="text-xs dark:text-blue-600 "
+            onClick={() =>
+              Dispatch({
+                type: "SHOW_USERS_MODAL",
+                payload: {
+                  showAllUserModal: true,
+                },
+              })
+            }
           >
             See all
           </button>

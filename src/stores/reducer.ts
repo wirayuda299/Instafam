@@ -2,6 +2,11 @@ import { ActionsType } from "@/types/ActionsTypes";
 
 export function reducer(state: State, action: ActionsType) {
   switch (action.type) {
+    case "SHOW_REPORT_MODAL":
+      return {
+        ...state,
+        showReportModal: action.payload.showReportModal,
+      };
     case "SET_SELECTED_CHAT":
       return {
         ...state,
@@ -111,6 +116,11 @@ export function reducer(state: State, action: ActionsType) {
       return {
         ...state,
         messageModal: action.payload.messageModal,
+      };
+    case "SHOW_USERS_MODAL":
+      return {
+        ...state,
+        showAllUserModal: action.payload.showAllUserModal,
       };
 
     default:

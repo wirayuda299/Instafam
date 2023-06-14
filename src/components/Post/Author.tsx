@@ -31,7 +31,7 @@ const Author: FC<AuhtorProps> = ({ author, captions, hashtags }) => {
           name="show more"
           title="show more"
         >
-          {captions.length >= 20 && !show ? (
+          {captions[0].length >= 20 && !show ? (
             <span className="font-semibold ">more</span>
           ) : (
             <span

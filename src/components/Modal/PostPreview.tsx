@@ -28,7 +28,7 @@ const PostPreview = () => {
 
   return createPortal(
     <div
-      className={` fixed left-0 top-0 z-50 hidden h-screen w-full select-none !overflow-hidden bg-black bg-opacity-60 shadow-sm lg:block  ${
+      className={` fixed left-0 top-0 z-50 hidden h-screen w-full select-none !overflow-hidden bg-black bg-opacity-60 shadow-sm backdrop-blur-sm lg:block  ${
         postPreviewModal ? "animate-fadeIn" : "animate-fadeOut"
       }`}
       aria-modal="true"

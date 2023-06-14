@@ -42,7 +42,7 @@ const Feed = () => {
   return createPortal(
     <>
       <div
-        className={` fixed left-0 top-0 z-50 h-screen w-full  select-none !overflow-x-hidden !overflow-y-hidden  bg-black bg-opacity-60 shadow-sm  ${
+        className={` fixed left-0 top-0 z-50 h-screen w-full select-none  !overflow-x-hidden !overflow-y-hidden bg-black  bg-opacity-20 shadow-sm backdrop-blur-sm  ${
           feedModal && selectedPost ? "animate-fadeIn" : "animate-fadeOut"
         }`}
         aria-modal="true"

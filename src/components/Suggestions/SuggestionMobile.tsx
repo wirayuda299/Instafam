@@ -1,3 +1,4 @@
+import { useStateContext } from "@/stores/StateContext";
 import { useDarkModeStore } from "@/stores/stores";
 import Image from "next/image";
 import Link from "next/link";
@@ -6,6 +7,7 @@ import { useStore } from "zustand";
 
 const SuggestionMobile: FC<{ user: IUser }> = ({ user }) => {
   const { darkMode } = useStore(useDarkModeStore);
+  const { Dispatch } = useStateContext();
 
   return (
     <div
@@ -30,6 +32,18 @@ const SuggestionMobile: FC<{ user: IUser }> = ({ user }) => {
         {user.username}
       </h3>
       <Link
+        title={user.username}
+        onClick={() => {
+          if (window.innerWidth >= 1028) {
+            Dispatch({
+              type: "SHOW_USERS_MODAL",
+              payload: {
+                showAllUserModal: false,
+              },
+            });
+          }
+          return undefined;
+        }}
         className="mt-2 h-7 w-32 rounded-md  bg-blue-500 text-center text-white "
         href={`/profile/${user.username}`}
       >

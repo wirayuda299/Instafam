@@ -10,6 +10,18 @@ export default function useWindowResize(Dispatch: React.Dispatch<ActionsType>) {
       },
     });
     Dispatch({
+      type: "SHOW_REPORT_MODAL",
+      payload: {
+        showReportModal: false,
+      },
+    }),
+      Dispatch({
+        type: "SHOW_USERS_MODAL",
+        payload: {
+          showAllUserModal: false,
+        },
+      });
+    Dispatch({
       type: "TOGGLE_POST_PREVIEW_MODAL",
       payload: {
         postPreviewModal: false,

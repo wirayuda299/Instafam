@@ -4,15 +4,20 @@ import { useDarkModeStore } from "@/stores/stores";
 import dynamic from "next/dynamic";
 import { type ReactNode, useEffect } from "react";
 import { useStore } from "zustand";
-
+const AllUsers = dynamic(
+  () => import("@/components/Modal/Users/Recommendations")
+);
 const Menu = dynamic(() => import("@/components/Modal/Menu"));
-const Report = dynamic(() => import("@/components/Modal/Report"));
+const ReportPost = dynamic(
+  () => import("@/components/Modal/Report/ReportPost")
+);
 const PostPreview = dynamic(() => import("@/components/Modal/PostPreview"));
 const PostComment = dynamic(() => import("@/components/Modal/Drawer/Comments"));
 const SearchForm = dynamic(() => import("@/components/Modal/Drawer/Search"));
 const Sidebar = dynamic(() => import("../Navigation/Sidebar"), {
   ssr: true,
 });
+const Report = dynamic(() => import("@/components/Modal/Report/Report"));
 const NotificationsModal = dynamic(
   () => import("@/components/Modal/Notifications/Notifications"),
   {
@@ -75,7 +80,7 @@ export default function Layout({ children }: { children: ReactNode }) {
         </main>
       </div>
       <Menu />
-      <Report />
+      <ReportPost />
       <PostPreview />
       <PostComment />
       <NotificationsModal />
@@ -83,6 +88,8 @@ export default function Layout({ children }: { children: ReactNode }) {
       <PostModal />
       <MessagesModal />
       <ImageCropperModal />
+      <AllUsers />
+      <Report />
     </div>
   );
 }

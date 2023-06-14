@@ -8,6 +8,7 @@ import { useDarkModeStore } from "@/stores/stores";
 const ExtraMenus = () => {
   const {
     state: { isExtraListOpen },
+    Dispatch,
   } = useStateContext();
   const { darkMode, setDarkMode } = useStore(useDarkModeStore);
 
@@ -31,9 +32,13 @@ const ExtraMenus = () => {
       icon: <AiOutlineWarning />,
       path: "/report",
       title: "Report",
-      event: () => {
-        console.log("Report");
-      },
+      event: () =>
+        Dispatch({
+          type: "SHOW_REPORT_MODAL",
+          payload: {
+            showReportModal: true,
+          },
+        }),
     },
 
     {

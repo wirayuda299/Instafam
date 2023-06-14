@@ -71,12 +71,12 @@ const Cropper = () => {
     <div
       className={` ${
         darkMode ? " text-white" : " text-black"
-      } fixed left-0 top-0  z-50 h-screen w-full select-none !overflow-hidden bg-black  bg-opacity-50 shadow-sm `}
+      } fixed left-0 top-0 z-50 h-screen w-full select-none !overflow-hidden bg-black bg-opacity-50  shadow-sm backdrop-blur-sm`}
       aria-modal="true"
       role="dialog"
     >
       <button
-        className="absolute right-3 top-32 rounded-lg border-2  bg-white font-semibold text-black sm:top-3 "
+        className="absolute right-5 top-32 rounded-lg  font-semibold text-white sm:top-3 "
         onClick={() => {
           Dispatch({
             type: "TOGGLE_POST_CREATE_MODAL",

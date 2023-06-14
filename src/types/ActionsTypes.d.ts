@@ -135,6 +135,18 @@ type SelectedChatAction = {
     selectedChat: DataMessage | null;
   };
 };
+type ShowUsersModalActions = {
+  type: "SHOW_USERS_MODAL";
+  payload: {
+    showAllUserModal: boolean;
+  };
+};
+type ShowReportModalActions = {
+  type: "SHOW_REPORT_MODAL";
+  payload: {
+    showReportModal: boolean;
+  };
+};
 export type ActionsType =
   | TogglePostPreviewModalAction
   | ToggleMenuModalAction
@@ -157,4 +169,6 @@ export type ActionsType =
   | MessageModalAction
   | chatRoomSelectedAction
   | SelectedActivityActions
-  | SelectedChatAction;
+  | SelectedChatAction
+  | ShowUsersModalActions
+  | ShowReportModalActions;

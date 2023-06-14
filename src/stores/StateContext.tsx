@@ -9,6 +9,8 @@ import { reducer } from "./reducer";
 import { ActionsType } from "@/types/ActionsTypes";
 
 const initialState: State = {
+  showReportModal: false,
+  showAllUserModal: false,
   selectedPost: null,
   isExtraListOpen: false,
   isSearchDrawerOpen: false,

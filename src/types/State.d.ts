@@ -21,4 +21,6 @@ type State = {
   chatRoomSelected: IUser | null;
   selectedActivity: string;
   selectedChat: DataMessage | null;
+  showAllUserModal: boolean;
+  showReportModal: boolean;
 };
