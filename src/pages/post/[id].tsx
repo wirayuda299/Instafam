@@ -5,7 +5,6 @@ import type { GetServerSidePropsContext } from "next";
 import usePost from "@/hooks/usePost";
 import { useStateContext } from "@/stores/StateContext";
 import { useSession } from "next-auth/react";
-import { getAllPosts } from "@/helper/getPosts";
 
 const PostCard = dynamic(() => import("@/components/Post"), {
   ssr: true,
@@ -35,6 +34,7 @@ export default function PostDetail({ post }: { post: IUserPostProps }) {
   useEffect(() => {
     window.addEventListener("resize", async () => {
       if (window.innerWidth < 1024) {
+        const { getAllPosts } = await import("@/helper/getPosts");
         const allPosts = await getAllPosts();
         setNextPosts(allPosts);
         setLoading(false);
@@ -43,6 +43,7 @@ export default function PostDetail({ post }: { post: IUserPostProps }) {
     return () => {
       window.removeEventListener("resize", async () => {
         if (window.innerWidth < 1024) {
+          const { getAllPosts } = await import("@/helper/getPosts");
           const allPosts = await getAllPosts();
           setNextPosts(allPosts);
           setLoading(false);

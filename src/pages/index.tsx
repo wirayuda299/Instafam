@@ -55,7 +55,7 @@ export default function Home({ posts, users }: Props) {
             </div>
           ))}
           <div id="entry"></div>
-          {newPosts.length === 0 ? (
+          {newPosts?.length === 0 ? (
             <PostLoader />
           ) : (
             newPosts?.map((post) => <PostCard post={post} key={post.postId} />)
