@@ -2,10 +2,13 @@ import dynamic from "next/dynamic";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import type { GetServerSidePropsContext } from "next";
-import { memo, useMemo, useState, useTransition } from "react";
+import { useEffect, useMemo, useState, useTransition } from "react";
 import type { Session } from "next-auth";
 import { useStateContext } from "@/stores/StateContext";
 import { useSession } from "next-auth/react";
+import { getUserRecommendation } from "@/helper/getUser";
+import { getPostsSavedByUser } from "@/helper/getPosts";
+import Post from "@/components/Loader/Post";
 const Statistic = dynamic(
   () => import("@/components/User/Statistic/Statistic"),
   {
@@ -28,19 +31,15 @@ type Props = {
   query: {
     username: string;
   };
-  savedPosts: IUserPostProps[] | [];
-  reccomendations: IUser[] | [];
 };
 
-function UserProfile({
-  posts,
-  user,
-  query,
-  savedPosts,
-  reccomendations,
-}: Props) {
+export default function UserProfile({ posts, user, query }: Props) {
   const [postTab, setPostTab] = useState(true);
-  const [savedPostTab, setSavedPosts] = useState(false);
+  const [loadingSavedPosts, setLoadingSavedPosts] = useState<boolean>(true);
+  const [savedPostTab, setSavedPostsTab] = useState(false);
+  const [users, setUsers] = useState<IUser[]>([]);
+  const [savedPosts, setsavedPosts] = useState<IUserPostProps[]>([]);
+  const [showUsers, setShowUsers] = useState<boolean>(false);
   const { data: session } = useSession();
   const { replace, asPath } = useRouter();
   const [activeTab, setActiveTab] = useState<number>(1);
@@ -56,15 +55,15 @@ function UserProfile({
     switch (tabId) {
       case 1:
         setPostTab(true);
-        setSavedPosts(false);
+        setSavedPostsTab(false);
         break;
       case 2:
+        setSavedPostsTab(true);
         setPostTab(false);
-        setSavedPosts(true);
         break;
       case 3:
         setPostTab(false);
-        setSavedPosts(false);
+        setSavedPostsTab(false);
         break;
       default:
         break;
@@ -107,6 +106,38 @@ function UserProfile({
     );
   }, [session, user, posts]);
 
+  useEffect(() => {
+    const getUserRecommendations = async () => {
+      try {
+        const reccomendations = await getUserRecommendation(
+          session?.user.uid as string
+        );
+        setUsers(reccomendations ?? []);
+      } catch (error: any) {
+        console.log(error.message);
+      }
+    };
+    if (window.innerWidth <= 1028 && showUsers) {
+      getUserRecommendations();
+    }
+  }, [showUsers === true]);
+
+  useEffect(() => {
+    const getSavedPosts = async () => {
+      try {
+        const savedPostsData = await getPostsSavedByUser(
+          session?.user.uid as string
+        );
+
+        setsavedPosts(savedPostsData ?? []);
+        setLoadingSavedPosts(false);
+      } catch (error: any) {
+        console.log(error.message);
+      }
+    };
+    savedPostTab && getSavedPosts();
+  }, [savedPostTab === true]);
+
   return (
     <>
       <Head>
@@ -126,17 +157,28 @@ function UserProfile({
           </div>
 
           {session?.user?.username === query?.username ? <>{Tabs}</> : null}
-          <div className=" mt-5 max-w-4xl md:max-w-5xl lg:hidden">
-            <h1 className="p-5 text-xl font-bold">Suggestion</h1>
-            <div className="mt-5 flex justify-center">
-              <div className="flex snap-mandatory snap-center  gap-5 overflow-x-scroll">
-                {reccomendations
-                  .filter((user) => user.username !== session?.user?.username)
-                  .map((user, i) => (
-                    <SuggestionMobile user={user} key={i} />
-                  ))}
-              </div>
+          <div className=" mx-auto mt-3  md:max-w-5xl lg:hidden">
+            <div className="flex items-center justify-between px-5">
+              <h1 className="p-5 text-xl font-bold">Suggestion</h1>
+              <button
+                onClick={() => setShowUsers(!showUsers)}
+                className="text-sm text-blue-600"
+                type="button"
+                name="show"
+                title="show all users"
+              >
+                {showUsers ? "Hide" : "Show"}
+              </button>
             </div>
+            {showUsers ? (
+              <div className="mt-5 flex justify-center">
+                <div className="flex snap-mandatory snap-center  gap-5 overflow-x-scroll">
+                  {users.map((user) => (
+                    <SuggestionMobile user={user} key={user.uid} />
+                  ))}
+                </div>
+              </div>
+            ) : null}
           </div>
 
           <div className="grid w-full grid-cols-1 items-center justify-center gap-5 p-5 sm:grid-cols-2 md:grid-cols-3 ">
@@ -186,6 +228,13 @@ function UserProfile({
             </>
             {savedPostTab && (
               <>
+                {loadingSavedPosts && (
+                  <>
+                    <Post />
+                    <Post />
+                    <Post />
+                  </>
+                )}
                 {savedPosts && savedPosts.length < 1 ? (
                   <div className="col-span-3 mx-auto h-full w-full">
                     <h1 className="w-full text-center text-2xl font-semibold text-gray-500 dark:text-gray-400">
@@ -215,20 +264,14 @@ function UserProfile({
     </>
   );
 }
-export default memo(UserProfile);
 
 export async function getServerSideProps({ query }: GetServerSidePropsContext) {
-  const { getPostByCurrentUser, getPostsSavedByUser } = await import(
-    "@/helper/getPosts"
-  );
-  const { getCurrentUserData, getUserRecommendation } = await import(
-    "@/helper/getUser"
-  );
+  const { getPostByCurrentUser } = await import("@/helper/getPosts");
+  const { getCurrentUserData } = await import("@/helper/getUser");
   const user = (await getCurrentUserData(query?.username as string)) as IUser[];
   const posts = await getPostByCurrentUser(user ? user[0]?.uid : "");
-  const savedPosts = await getPostsSavedByUser(user ? user[0]?.uid : "");
-  const reccomendations = await getUserRecommendation(user ? user[0]?.uid : "");
-  if (!user || !posts) {
+
+  if (!user) {
     return {
       notFound: true,
     };
@@ -239,8 +282,6 @@ export async function getServerSideProps({ query }: GetServerSidePropsContext) {
       posts,
       user: user ? user[0] : null,
       query,
-      savedPosts: savedPosts ? savedPosts : [],
-      reccomendations: reccomendations ? reccomendations : [],
     },
   };
 }
