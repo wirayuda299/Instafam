@@ -1,15 +1,16 @@
 import { AiOutlineWarning } from "react-icons/ai";
 import { BsMoonFill } from "react-icons/bs";
 import { BiSun } from "react-icons/bi";
-import { useStateContext } from "@/stores/StateContext";
 import { useStore } from "zustand";
 import { useDarkModeStore } from "@/stores/stores";
+import { useModalContext } from "@/stores/Modal/ModalStatesContext";
+import { useDrawerContext } from "@/stores/Drawer/DrawerStates";
 
 const ExtraMenus = () => {
   const {
-    state: { isExtraListOpen },
-    Dispatch,
-  } = useStateContext();
+    drawerStates: { isExtraListOpen },
+  } = useDrawerContext();
+  const { modalDispatch } = useModalContext();
   const { darkMode, setDarkMode } = useStore(useDarkModeStore);
 
   const changeTheme = () => {
@@ -33,7 +34,7 @@ const ExtraMenus = () => {
       path: "/report",
       title: "Report",
       event: () =>
-        Dispatch({
+        modalDispatch({
           type: "SHOW_REPORT_MODAL",
           payload: {
             showReportModal: true,

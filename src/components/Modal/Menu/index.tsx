@@ -6,30 +6,31 @@ import { useStore } from "zustand";
 import Lists from "./Lists";
 import { createPortal } from "react-dom";
 import { memo } from "react";
-import { useStateContext } from "@/stores/StateContext";
+import { useStateContext } from "@/stores/Global/StateContext";
+import { useModalContext } from "@/stores/Modal/ModalStatesContext";
 
 const Menu = () => {
   const {
     state: { selectedPost },
   } = useStateContext();
+  const {
+    modalStates: { menuModal },
+    modalDispatch,
+  } = useModalContext();
   const { replace, asPath } = useRouter();
   const refreshData = () => replace(asPath);
-  const {
-    state: { menuModal },
-    Dispatch,
-  } = useStateContext();
   const { darkMode } = useStore(useDarkModeStore);
   const { data: session } = useSession();
   const { user } = useUser(session?.user?.uid as string);
 
   const openReportModal = () => {
-    Dispatch({
+    modalDispatch({
       type: "TOGGLE_POST_REPORT_MODAL",
       payload: {
         postReportModal: true,
       },
     });
-    Dispatch({
+    modalDispatch({
       type: "TOGGLE_MENU_MODAL",
       payload: {
         menuModal: false,
@@ -38,7 +39,7 @@ const Menu = () => {
   };
 
   const closeMenuModal = () => {
-    Dispatch({
+    modalDispatch({
       type: "TOGGLE_MENU_MODAL",
       payload: {
         menuModal: false,
@@ -108,7 +109,7 @@ const Menu = () => {
       id: 6,
       name: "Cancel",
       event: () => {
-        Dispatch({
+        modalDispatch({
           type: "TOGGLE_MENU_MODAL",
           payload: {
             menuModal: false,

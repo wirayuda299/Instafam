@@ -4,15 +4,19 @@ import Image from "next/image";
 import { type FieldValues, useForm } from "react-hook-form";
 import { useStore } from "zustand";
 import { createPortal } from "react-dom";
-import { useStateContext } from "@/stores/StateContext";
+import { useStateContext } from "@/stores/Global/StateContext";
+import { useModalContext } from "@/stores/Modal/ModalStatesContext";
 
 const Report = () => {
   const { data: session } = useSession();
   const { register, resetField, handleSubmit } = useForm();
   const {
-    state: { selectedPost, postReportModal },
-    Dispatch,
+    state: { selectedPost },
   } = useStateContext();
+  const {
+    modalStates: { postReportModal },
+    modalDispatch,
+  } = useModalContext();
   const { darkMode } = useStore(useDarkModeStore);
 
   const defaultValues = {
@@ -22,7 +26,7 @@ const Report = () => {
   const reportPost = async (e: FieldValues) => {
     const { handleReport } = await import("@/helper/reportPost");
     await handleReport(e, selectedPost, session, resetField);
-    Dispatch({
+    modalDispatch({
       type: "TOGGLE_POST_REPORT_MODAL",
       payload: {
         postReportModal: false,
@@ -100,7 +104,7 @@ const Report = () => {
                       type="button"
                       className="ml-5 rounded border bg-green-500 px-5 py-1 text-white"
                       onClick={() => {
-                        Dispatch({
+                        modalDispatch({
                           type: "TOGGLE_POST_REPORT_MODAL",
                           payload: {
                             postReportModal: false,

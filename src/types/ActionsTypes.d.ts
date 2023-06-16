@@ -147,28 +147,71 @@ type ShowReportModalActions = {
     showReportModal: boolean;
   };
 };
+
+type SetPostTabActions = {
+  type: "SET_POST_TAB";
+};
+type SetSavedPostTabActions = {
+  type: "SET_SAVED_POST_TAB";
+};
+type SetTaggedPostTabActions = {
+  type: "SET_Tagged_POST_TAB";
+};
+
+type SetUsersActions = {
+  type: "SET_USERS";
+  payload: {
+    users: IUser[];
+  };
+};
+type SetSavedPosts = {
+  type: "SET_SAVED_POSTS";
+  payload: {
+    savedposts: IUserPostProps[];
+  };
+};
+type SetShowUsers = {
+  type: "SET_SHOW_USERS";
+  payload: {
+    showUsers: boolean;
+  };
+};
+
+export type ActionsTypeUsersPage =
+  | SetPostTabActions
+  | SetSavedPostTabActions
+  | SetUsersActions
+  | SetTaggedPostTabActions
+  | SetSavedPosts
+  | SetShowUsers;
+
 export type ActionsType =
-  | TogglePostPreviewModalAction
-  | ToggleMenuModalAction
   | SetResultAction
-  | ToggleSearchDrawerAction
-  | ToggleExtraListAction
   | SelectPostAction
-  | ResultDrawerAction
-  | FeedModalAction
-  | PostModalAction
-  | postCommentModalAction
-  | NotificationDrawerAction
-  | NotificationModalAction
-  | PostCrateModalAction
-  | PostReportModalAction
   | SetBlurHashAction
   | SetPreviewUrlAction
   | CroppedImageAction
-  | ReceiverDrawerAction
-  | MessageModalAction
   | chatRoomSelectedAction
   | SelectedActivityActions
-  | SelectedChatAction
+  | SelectedChatAction;
+
+type ActionsModalTypes =
+  | ToggleMenuModalAction
+  | TogglePostPreviewModalAction
+  | FeedModalAction
+  | PostModalAction
+  | NotificationModalAction
+  | postCommentModalAction
+  | PostCrateModalAction
+  | PostReportModalAction
+  | MessageModalAction
   | ShowUsersModalActions
-  | ShowReportModalActions;
+  | ShowReportModalActions
+  | ToggleExtraListAction;
+
+type DrawerActionsTypes =
+  | ToggleExtraListAction
+  | ToggleSearchDrawerAction
+  | ResultDrawerAction
+  | NotificationDrawerAction
+  | ReceiverDrawerAction;

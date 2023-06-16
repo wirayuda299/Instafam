@@ -1,6 +1,6 @@
 import SuggestionMobile from "@/components/Suggestions/SuggestionMobile";
 import { getUserRecommendation } from "@/helper/getUser";
-import { useStateContext } from "@/stores/StateContext";
+import { useModalContext } from "@/stores/Modal/ModalStatesContext";
 import { useDarkModeStore } from "@/stores/stores";
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
@@ -10,9 +10,9 @@ import { useStore } from "zustand";
 
 const Recommendations = () => {
   const {
-    state: { showAllUserModal },
-    Dispatch,
-  } = useStateContext();
+    modalStates: { showAllUserModal },
+    modalDispatch,
+  } = useModalContext();
   const { darkMode } = useStore(useDarkModeStore);
   const { data: session } = useSession();
   const [users, setUsers] = useState<IUser[]>([]);
@@ -44,7 +44,7 @@ const Recommendations = () => {
               type="button"
               className="absolute right-5 top-3"
               onClick={() =>
-                Dispatch({
+                modalDispatch({
                   type: "SHOW_USERS_MODAL",
                   payload: {
                     showAllUserModal: false,

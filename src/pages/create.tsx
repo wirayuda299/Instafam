@@ -5,7 +5,7 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
-import { useStateContext } from "@/stores/StateContext";
+import { useStateContext } from "@/stores/Global/StateContext";
 const Captions = dynamic(() => import("@/components/Captions/Captions"), {
   ssr: false,
 });

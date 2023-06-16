@@ -3,8 +3,9 @@ import dynamic from "next/dynamic";
 import Head from "next/head";
 import type { GetServerSidePropsContext } from "next";
 import usePost from "@/hooks/usePost";
-import { useStateContext } from "@/stores/StateContext";
+import { useStateContext } from "@/stores/Global/StateContext";
 import { useSession } from "next-auth/react";
+import { useModalContext } from "@/stores/Modal/ModalStatesContext";
 
 const PostCard = dynamic(() => import("@/components/Post"), {
   ssr: true,
@@ -22,10 +23,11 @@ const PreviewLargeScreen = dynamic(
 
 export default function PostDetail({ post }: { post: IUserPostProps }) {
   const { likes, comments, savedBy } = usePost(post);
+  const { Dispatch } = useStateContext();
   const {
-    Dispatch,
-    state: { menuModal },
-  } = useStateContext();
+    modalStates: { menuModal },
+    modalDispatch,
+  } = useModalContext();
   const { data: session } = useSession();
   const [loading, setLoading] = useState(true);
   const ref = useRef<HTMLDivElement>(null);
@@ -75,7 +77,7 @@ export default function PostDetail({ post }: { post: IUserPostProps }) {
   }, [post]);
 
   const handleClick = () => {
-    Dispatch({
+    modalDispatch({
       type: "TOGGLE_MENU_MODAL",
       payload: {
         menuModal: !menuModal,

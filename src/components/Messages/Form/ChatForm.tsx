@@ -68,7 +68,7 @@ const ChatForm: FC<ChatFormProps> = ({ selectedChat, session }) => {
             <span>This field is required</span>
           ))}
         />
-        <button name="send" title="send">
+        <button name="send" title="send" type="button">
           <SlPaperPlane className="text-2xl" />
         </button>
       </form>

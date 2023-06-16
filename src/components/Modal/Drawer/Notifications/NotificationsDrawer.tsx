@@ -1,5 +1,5 @@
 import { db } from "@/config/firebase";
-import { useStateContext } from "@/stores/StateContext";
+import { useDrawerContext } from "@/stores/Drawer/DrawerStates";
 import { useDarkModeStore } from "@/stores/stores";
 import { onSnapshot, doc } from "firebase/firestore";
 import { useSession } from "next-auth/react";
@@ -20,8 +20,8 @@ const NotificationUser = dynamic(
 const NotificationsDrawer = () => {
   const { darkMode } = useStore(useDarkModeStore);
   const {
-    state: { notificationDrawer },
-  } = useStateContext();
+    drawerStates: { notificationDrawer },
+  } = useDrawerContext();
   const { data: session } = useSession();
   const [user, setUser] = useState<IUser | null>(null);
 

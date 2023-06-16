@@ -4,8 +4,9 @@ import usePost from "@/hooks/usePost";
 import dynamic from "next/dynamic";
 import { AiOutlineClose } from "react-icons/ai";
 import { createPortal } from "react-dom";
-import { useStateContext } from "@/stores/StateContext";
+import { useStateContext } from "@/stores/Global/StateContext";
 import { useSession } from "next-auth/react";
+import { useModalContext } from "@/stores/Modal/ModalStatesContext";
 const Likes = dynamic(() => import("@/components/Post/Likes"));
 const CommentsForm = dynamic(() => import("@/components/Comments/Forms"));
 const ActionButton = dynamic(() => import("@/components/Post/ActionButton"));
@@ -18,9 +19,13 @@ const PostImage = dynamic(() => import("../Post/Image"), {
 const PostPreview = () => {
   const { darkMode } = useStore(useDarkModeStore);
   const {
-    state: { postPreviewModal, selectedPost },
+    state: { selectedPost },
     Dispatch,
   } = useStateContext();
+  const {
+    modalStates: { postPreviewModal },
+    modalDispatch,
+  } = useModalContext();
   const { likes, comments, savedBy } = usePost(selectedPost ?? null);
   const { data: session } = useSession();
 
@@ -54,13 +59,13 @@ const PostPreview = () => {
                       <PostHeader post={selectedPost as IUserPostProps}>
                         <button
                           onClick={() => {
-                            Dispatch({
+                            modalDispatch({
                               type: "TOGGLE_POST_PREVIEW_MODAL",
                               payload: {
                                 postPreviewModal: false,
                               },
                             });
-                            Dispatch({
+                            modalDispatch({
                               type: "TOGGLE_POST_COMMENT_MODAL",
                               payload: {
                                 postCommentModal: false,

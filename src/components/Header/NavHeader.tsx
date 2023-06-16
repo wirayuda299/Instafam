@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { Playfair_Display } from "next/font/google";
-import { useStateContext } from "@/stores/StateContext";
 import Logo from "../Logo/Logo";
+import { useDrawerContext } from "@/stores/Drawer/DrawerStates";
 
 const playfair = Playfair_Display({
   fallback: ["sans-serif"],
@@ -13,8 +13,8 @@ const playfair = Playfair_Display({
 
 const NavHeader = () => {
   const {
-    state: { notificationDrawer, isSearchDrawerOpen },
-  } = useStateContext();
+    drawerStates: { notificationDrawer, isSearchDrawerOpen },
+  } = useDrawerContext();
 
   return (
     <header

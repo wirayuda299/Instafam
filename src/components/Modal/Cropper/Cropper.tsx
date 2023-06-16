@@ -7,7 +7,8 @@ import { useRouter } from "next/router";
 import dynamic from "next/dynamic";
 import type { Area } from "@/components/ImageCropper/ImageCropper";
 import { getCroppedImg } from "react-cropper-custom";
-import { useStateContext } from "@/stores/StateContext";
+import { useStateContext } from "@/stores/Global/StateContext";
+import { useModalContext } from "@/stores/Modal/ModalStatesContext";
 const FileUpload = dynamic(() => import("@/components/FileUpload/FileUpload"), {
   ssr: false,
 });
@@ -22,8 +23,12 @@ const ImageCropper = dynamic(
 const Cropper = () => {
   const { darkMode } = useStore(useDarkModeStore);
   const {
+    modalStates: { postCreateModal },
+    modalDispatch,
+  } = useModalContext();
+  const {
+    state: { previewUrl },
     Dispatch,
-    state: { postCreateModal, previewUrl },
   } = useStateContext();
   const [zoom, setZoom] = useState(1);
   const router = useRouter();
@@ -50,7 +55,7 @@ const Cropper = () => {
   }
 
   const handleClick = () => {
-    Dispatch({
+    modalDispatch({
       type: "TOGGLE_POST_CREATE_MODAL",
       payload: {
         postCreateModal: false,
@@ -76,9 +81,9 @@ const Cropper = () => {
       role="dialog"
     >
       <button
-        className="absolute right-5 top-32 rounded-lg  font-semibold text-white sm:top-3 "
+        className="absolute right-0 top-28 z-10 rounded-lg font-semibold  text-white sm:right-3 sm:top-5 "
         onClick={() => {
-          Dispatch({
+          modalDispatch({
             type: "TOGGLE_POST_CREATE_MODAL",
             payload: {
               postCreateModal: false,
@@ -111,9 +116,7 @@ const Cropper = () => {
             zoom={zoom}
           />
         ) : (
-          <div className="flex h-full  w-full items-center justify-center">
-            <FileUpload img={previewUrl} />
-          </div>
+          <FileUpload />
         )}
       </div>
     </div>,

@@ -3,8 +3,9 @@ import { useStore } from "zustand";
 import { AiOutlineClose } from "react-icons/ai";
 import dynamic from "next/dynamic";
 import { createPortal } from "react-dom";
-import { useStateContext } from "@/stores/StateContext";
+import { useStateContext } from "@/stores/Global/StateContext";
 import Link from "next/link";
+import { useModalContext } from "@/stores/Modal/ModalStatesContext";
 
 const PostImage = dynamic(() => import("@/components/Post/Image"), {
   ssr: true,
@@ -16,12 +17,16 @@ const Postheader = dynamic(() => import("@/components/Header/PostHeader"), {
 const Feed = () => {
   const { darkMode } = useStore(useDarkModeStore);
   const {
-    state: { selectedPost, feedModal },
+    state: { selectedPost },
     Dispatch,
   } = useStateContext();
+  const {
+    modalStates: { feedModal },
+    modalDispatch,
+  } = useModalContext();
 
   const handleClick = () => {
-    Dispatch({
+    modalDispatch({
       type: "TOGGLE_FEED_MODAL",
       payload: {
         feedModal: false,

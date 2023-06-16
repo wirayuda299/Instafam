@@ -3,8 +3,9 @@ import { AiOutlineClose } from "react-icons/ai";
 import Image from "next/image";
 import { useDarkModeStore } from "@/stores/stores";
 import { useStore } from "zustand";
-import { useStateContext } from "@/stores/StateContext";
+import { useStateContext } from "@/stores/Global/StateContext";
 import type { FC } from "react";
+import { useDrawerContext } from "@/stores/Drawer/DrawerStates";
 
 interface ResultsProps {
   results: IUser[];
@@ -16,9 +17,9 @@ const Results: FC<ResultsProps> = (props) => {
   const { results, handleDrawerToggler, customs } = props;
   const { darkMode } = useStore(useDarkModeStore);
   const {
-    state: { resultDrawer },
-    Dispatch,
-  } = useStateContext();
+    drawerStates: { resultDrawer },
+  } = useDrawerContext();
+  const { Dispatch } = useStateContext();
   if (!resultDrawer) return null;
 
   return (

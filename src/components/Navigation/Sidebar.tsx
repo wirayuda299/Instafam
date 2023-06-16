@@ -3,7 +3,9 @@ import { useSession } from "next-auth/react";
 import { useDarkModeStore } from "@/stores/stores";
 import { useStore } from "zustand";
 import { useRouter } from "next/router";
-import { useStateContext } from "@/stores/StateContext";
+import { useStateContext } from "@/stores/Global/StateContext";
+import { useModalContext } from "@/stores/Modal/ModalStatesContext";
+import { useDrawerContext } from "@/stores/Drawer/DrawerStates";
 const ExtraMenus = dynamic(() => import("./ExtraMenus"));
 const NavLink = dynamic(() => import("./NavLink"));
 const ExtraMenuBtn = dynamic(() => import("./ExtraMenuBtn"));
@@ -14,14 +16,14 @@ const Sidebar = () => {
   const { data: session } = useSession();
   const { pathname } = useRouter();
   const {
-    state: {
-      isExtraListOpen,
-      isSearchDrawerOpen,
-      notificationDrawer,
-      selectedChat,
-    },
+    state: { selectedChat },
     Dispatch,
   } = useStateContext();
+  const {
+    drawerStates: { isExtraListOpen, isSearchDrawerOpen, notificationDrawer },
+    drawerDispatch,
+  } = useDrawerContext();
+  const { modalDispatch } = useModalContext();
   const { darkMode } = useStore(useDarkModeStore);
 
   if (!session) return null;
@@ -33,7 +35,7 @@ const Sidebar = () => {
         result: [],
       },
     });
-    Dispatch({
+    drawerDispatch({
       type: "TOGGLE_SEARCH_DRAWER",
       payload: {
         searchDrawer: false,
@@ -42,13 +44,13 @@ const Sidebar = () => {
   };
 
   const handleClick = () => {
-    Dispatch({
+    drawerDispatch({
       type: "TOGGLE_EXTRA_LIST",
       payload: {
         extraList: !isExtraListOpen,
       },
     });
-    Dispatch({
+    drawerDispatch({
       type: "TOGGLE_SEARCH_DRAWER",
       payload: {
         searchDrawer: false,
@@ -57,13 +59,13 @@ const Sidebar = () => {
   };
 
   const handleNotificationDrawer = () => {
-    Dispatch({
+    drawerDispatch({
       type: "TOGGLE_SEARCH_DRAWER",
       payload: {
         searchDrawer: false,
       },
     });
-    Dispatch({
+    drawerDispatch({
       type: "TOGGLE_NOTIFICATION_DRAWER",
       payload: {
         notificationDrawer: !notificationDrawer,
@@ -72,7 +74,7 @@ const Sidebar = () => {
   };
 
   const handleSearchDrawer = () => {
-    Dispatch({
+    drawerDispatch({
       type: "TOGGLE_SEARCH_DRAWER",
       payload: {
         searchDrawer: !isSearchDrawerOpen,
@@ -84,7 +86,7 @@ const Sidebar = () => {
         result: [],
       },
     });
-    Dispatch({
+    drawerDispatch({
       type: "TOGGLE_NOTIFICATION_DRAWER",
       payload: {
         notificationDrawer: false,
@@ -93,7 +95,7 @@ const Sidebar = () => {
   };
 
   const openCreateModal = () => {
-    Dispatch({
+    modalDispatch({
       type: "TOGGLE_POST_CREATE_MODAL",
       payload: {
         postCreateModal: true,

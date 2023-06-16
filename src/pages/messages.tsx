@@ -6,7 +6,8 @@ import type { Session } from "next-auth";
 import { getServerSession } from "next-auth";
 import type { GetServerSidePropsContext } from "next";
 import { authOptions } from "./api/auth/[...nextauth]";
-import { useStateContext } from "@/stores/StateContext";
+import { useStateContext } from "@/stores/Global/StateContext";
+import { useDrawerContext } from "@/stores/Drawer/DrawerStates";
 
 const UsersChat = dynamic(
   () => import("@/components/Messages/Users/UsersChat"),
@@ -45,13 +46,17 @@ type Props = {
 
 export default function Messages({ sessions, receiver, sender }: Props) {
   const {
-    state: { receiverDrawer, selectedChat },
+    state: { selectedChat },
     Dispatch,
   } = useStateContext();
+  const {
+    drawerStates: { receiverDrawer },
+    drawerDispatch,
+  } = useDrawerContext();
   const { darkMode } = useStore(useDarkModeStore);
 
   const closeReceiverDrawer = () => {
-    Dispatch({
+    drawerDispatch({
       type: "TOGGLE_RECEIVER_DRAWER",
       payload: {
         receiverDrawer: false,

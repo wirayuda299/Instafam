@@ -1,4 +1,4 @@
-import { useStateContext } from "@/stores/StateContext";
+import { useDrawerContext } from "@/stores/Drawer/DrawerStates";
 import type { Session } from "next-auth";
 import Image from "next/image";
 import Link from "next/link";
@@ -17,7 +17,7 @@ const NotificationUser: FC<NotificationDrawerProps> = ({
   session,
   user,
 }) => {
-  const { Dispatch } = useStateContext();
+  const { drawerDispatch } = useDrawerContext();
   return (
     <div className="mt-4 flex items-center space-x-2 px-4">
       <Image
@@ -34,7 +34,7 @@ const NotificationUser: FC<NotificationDrawerProps> = ({
             <Link
               href={`/profile/${follower.followedByName}`}
               onClick={() => {
-                Dispatch({
+                drawerDispatch({
                   type: "TOGGLE_NOTIFICATION_DRAWER",
                   payload: {
                     notificationDrawer: false,

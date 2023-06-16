@@ -4,7 +4,6 @@ import { collection, getDocs, limit, query, where } from "firebase/firestore";
 export async function getUserRecommendation(uid: string) {
   try {
     const qAll = query(collection(db, "users"), where("uid", "!=", uid));
-
     const getUsers = await getDocs(qAll);
     return getUsers.docs.map((doc) => doc.data()) as IUser[];
   } catch (error: any) {

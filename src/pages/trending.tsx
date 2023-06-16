@@ -1,11 +1,7 @@
-import { useStateContext } from "@/stores/StateContext";
+import { useModalContext } from "@/stores/Modal/ModalStatesContext";
+import { useStateContext } from "@/stores/Global/StateContext";
 import dynamic from "next/dynamic";
 import { AiOutlineSearch } from "react-icons/ai";
-
-type Props = {
-  posts: IUserPostProps[];
-  lastPost: IUserPostProps | null;
-};
 
 const PostImage = dynamic(() => import("@/components/Post/Image"), {
   ssr: true,
@@ -21,8 +17,9 @@ const PostInfo = dynamic(() => import("@/components/Post/PostInfo"), {
   ssr: true,
 });
 
-export default function Trending({ posts }: Props) {
+export default function Trending({ posts }: { posts: IUserPostProps[] }) {
   const { Dispatch } = useStateContext();
+  const { modalDispatch } = useModalContext();
   return (
     <div className="h-screen w-full overflow-y-auto p-5">
       <div className="md:pointer-events-none  md:hidden ">
@@ -49,7 +46,7 @@ export default function Trending({ posts }: Props) {
                     post,
                   },
                 });
-                Dispatch({
+                modalDispatch({
                   type: "TOGGLE_FEED_MODAL",
                   payload: {
                     feedModal: true,
@@ -74,7 +71,7 @@ export default function Trending({ posts }: Props) {
                     post,
                   },
                 });
-                Dispatch({
+                modalDispatch({
                   type: "TOGGLE_POST_MODAL",
                   payload: {
                     postModal: true,
@@ -95,10 +92,17 @@ export default function Trending({ posts }: Props) {
       <Footer classNames="flex flex-wrap gap-3 text-xs  text-gray-500 transition-all ease mt-10 justify-center">
         <p className="mt-5 w-full text-center text-xs text-gray-500">
           © 2023 INSTAFAM by{" "}
-          <a href="https://instafam.vercel.app" className="pr-1">
+          <a
+            href="https://instafam.vercel.app"
+            className="pr-1"
+            target="_blank"
+          >
             Instafam
           </a>
-          from <a href="https://instafam.vercel.app">INSTAFAM</a>
+          from{" "}
+          <a href="https://instafam.vercel.app" target="_blank">
+            INSTAFAM
+          </a>
         </p>
       </Footer>
       <br className="md:hidden" />

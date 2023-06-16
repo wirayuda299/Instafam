@@ -1,15 +1,30 @@
 import { useDarkModeStore } from "@/stores/stores";
-import { type FC, useEffect, useRef, useState } from "react";
+import { ActionsTypeUsersPage } from "@/types/ActionsTypes";
+import { handleTabClick } from "@/utils/handleTabChanges";
+import {
+  type FC,
+  useEffect,
+  useRef,
+  useState,
+  TransitionStartFunction,
+  Dispatch,
+  SetStateAction,
+} from "react";
 import { BsGrid3X3Gap, BsBookmark, BsPersonSquare } from "react-icons/bs";
 import { useStore } from "zustand";
 
-type ChangeTab = (tabId: number) => void;
-
 type Props = {
   activeTab: number;
-  handleTabChange: ChangeTab;
+  startTransition: TransitionStartFunction;
+  dispatch: Dispatch<ActionsTypeUsersPage>;
+  setActiveTab: Dispatch<SetStateAction<number>>;
 };
-const Tab: FC<Props> = ({ activeTab, handleTabChange }) => {
+const Tab: FC<Props> = ({
+  activeTab,
+  dispatch,
+  setActiveTab,
+  startTransition,
+}) => {
   const btn1 = useRef<HTMLButtonElement>(null);
   const btn2 = useRef<HTMLButtonElement>(null);
   const btn3 = useRef<HTMLButtonElement>(null);
@@ -84,7 +99,14 @@ const Tab: FC<Props> = ({ activeTab, handleTabChange }) => {
             ref={tab.ref}
             role="tab"
             title={tab.title}
-            onClick={() => handleTabChange(tab.id)}
+            onClick={() =>
+              handleTabClick({
+                dispatch,
+                setActiveTab,
+                startTransition,
+                tabId: tab.id,
+              })
+            }
             className={`tab-${tab.id}`}
           >
             <span>{tab.icon}</span>

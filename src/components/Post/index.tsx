@@ -3,9 +3,10 @@ import usePost from "@/hooks/usePost";
 import { useSession } from "next-auth/react";
 import { type FC, memo } from "react";
 import { BsThreeDots } from "react-icons/bs";
-import { useStateContext } from "@/stores/StateContext";
+import { useStateContext } from "@/stores/Global/StateContext";
 import { useStore } from "zustand";
 import { useDarkModeStore } from "@/stores/stores";
+import { useModalContext } from "@/stores/Modal/ModalStatesContext";
 const Likes = dynamic(() => import("./Likes"));
 const ActionButton = dynamic(() => import("./ActionButton"));
 const PostHeader = dynamic(() => import("../Header/PostHeader"));
@@ -16,11 +17,12 @@ const PostImage = dynamic(() => import("./Image"), { ssr: true });
 const PostCard: FC<{ post: IUserPostProps }> = ({ post }) => {
   const { likes, comments, savedBy } = usePost(post);
   const { data: session } = useSession();
+  const { modalDispatch } = useModalContext();
   const { Dispatch } = useStateContext();
   const { darkMode } = useStore(useDarkModeStore);
 
   const handleClick = () => {
-    Dispatch({
+    modalDispatch({
       type: "TOGGLE_MENU_MODAL",
       payload: {
         menuModal: true,

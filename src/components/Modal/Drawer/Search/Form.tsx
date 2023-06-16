@@ -5,7 +5,8 @@ import { useStore } from "zustand";
 import { type FieldValues, useForm } from "react-hook-form";
 import { getCsrfToken, useSession } from "next-auth/react";
 import { useRouter } from "next/router";
-import { useStateContext } from "@/stores/StateContext";
+import { useStateContext } from "@/stores/Global/StateContext";
+import { useDrawerContext } from "@/stores/Drawer/DrawerStates";
 const FormResult = dynamic(() => import("./Results"), { ssr: true });
 
 const defaultValues = {
@@ -24,6 +25,7 @@ const Form: FC<FormProps> = ({ height, children }) => {
     Dispatch,
   } = useStateContext();
   const { darkMode } = useStore(useDarkModeStore);
+  const { drawerDispatch } = useDrawerContext();
   const router = useRouter();
   const { data: session } = useSession();
 
@@ -34,13 +36,13 @@ const Form: FC<FormProps> = ({ height, children }) => {
         result: [],
       },
     });
-    Dispatch({
+    drawerDispatch({
       type: "TOGGLE_SEARCH_DRAWER",
       payload: {
         searchDrawer: false,
       },
     });
-    Dispatch({
+    drawerDispatch({
       type: "TOGGLE_RESULT_DRAWER",
       payload: {
         resultDrawer: false,
@@ -84,7 +86,7 @@ const Form: FC<FormProps> = ({ height, children }) => {
       });
       resetField("search");
 
-      Dispatch({
+      drawerDispatch({
         type: "TOGGLE_RESULT_DRAWER",
         payload: {
           resultDrawer: true,

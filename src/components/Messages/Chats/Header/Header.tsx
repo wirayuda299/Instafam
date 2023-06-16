@@ -1,18 +1,18 @@
 import { useDarkModeStore } from "@/stores/stores";
 import Image from "next/image";
 import { useStore } from "zustand";
-import { useStateContext } from "@/stores/StateContext";
 import { AiOutlineClose, AiOutlineMenu } from "react-icons/ai";
 import type { FC } from "react";
+import { useDrawerContext } from "@/stores/Drawer/DrawerStates";
 
 const ChatHeader: FC<{ selectedChat: DataMessage | null }> = ({
   selectedChat,
 }) => {
   const { darkMode } = useStore(useDarkModeStore);
   const {
-    state: { receiverDrawer },
-    Dispatch,
-  } = useStateContext();
+    drawerStates: { receiverDrawer },
+    drawerDispatch,
+  } = useDrawerContext();
 
   return (
     <header
@@ -40,7 +40,7 @@ const ChatHeader: FC<{ selectedChat: DataMessage | null }> = ({
         name={"back"}
         title={"back"}
         onClick={() => {
-          Dispatch({
+          drawerDispatch({
             type: "TOGGLE_RECEIVER_DRAWER",
             payload: {
               receiverDrawer: !receiverDrawer,

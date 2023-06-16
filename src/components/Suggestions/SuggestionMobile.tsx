@@ -1,4 +1,4 @@
-import { useStateContext } from "@/stores/StateContext";
+import { useModalContext } from "@/stores/Modal/ModalStatesContext";
 import { useDarkModeStore } from "@/stores/stores";
 import Image from "next/image";
 import Link from "next/link";
@@ -7,7 +7,7 @@ import { useStore } from "zustand";
 
 const SuggestionMobile: FC<{ user: IUser }> = ({ user }) => {
   const { darkMode } = useStore(useDarkModeStore);
-  const { Dispatch } = useStateContext();
+  const { modalDispatch } = useModalContext();
 
   return (
     <div
@@ -35,7 +35,7 @@ const SuggestionMobile: FC<{ user: IUser }> = ({ user }) => {
         title={user.username}
         onClick={() => {
           if (window.innerWidth >= 1028) {
-            Dispatch({
+            modalDispatch({
               type: "SHOW_USERS_MODAL",
               payload: {
                 showAllUserModal: false,

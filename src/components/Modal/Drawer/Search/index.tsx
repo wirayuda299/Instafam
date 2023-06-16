@@ -3,13 +3,13 @@ import { memo } from "react";
 import { useDarkModeStore } from "@/stores/stores";
 import { useStore } from "zustand";
 import dynamic from "next/dynamic";
-import { useStateContext } from "@/stores/StateContext";
+import { useDrawerContext } from "@/stores/Drawer/DrawerStates";
 const Form = dynamic(() => import("./Form"), { ssr: false });
 
 const SearchDrawer = () => {
   const {
-    state: { isSearchDrawerOpen },
-  } = useStateContext();
+    drawerStates: { isSearchDrawerOpen },
+  } = useDrawerContext();
   const { darkMode } = useStore(useDarkModeStore);
   if (!isSearchDrawerOpen) return null;
 

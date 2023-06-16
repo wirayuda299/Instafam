@@ -1,5 +1,5 @@
 import { db } from "@/config/firebase";
-import { useStateContext } from "@/stores/StateContext";
+import { useModalContext } from "@/stores/Modal/ModalStatesContext";
 import { doc, setDoc } from "firebase/firestore";
 import { getCsrfToken, useSession } from "next-auth/react";
 import Image from "next/image";
@@ -10,9 +10,9 @@ import { AiOutlineClose } from "react-icons/ai";
 
 export default function Report() {
   const {
-    state: { showReportModal },
-    Dispatch,
-  } = useStateContext();
+    modalStates: { showReportModal },
+    modalDispatch,
+  } = useModalContext();
   const { data: session } = useSession();
   const { handleSubmit, register, resetField } = useForm();
   const defaultValues = {
@@ -36,7 +36,7 @@ export default function Report() {
         toast.success(
           "Thank you for your feedback, we will review your feedback"
         );
-        Dispatch({
+        modalDispatch({
           type: "SHOW_REPORT_MODAL",
           payload: {
             showReportModal: false,
@@ -61,7 +61,7 @@ export default function Report() {
               type="button"
               className="absolute right-5 top-3"
               onClick={() =>
-                Dispatch({
+                modalDispatch({
                   type: "SHOW_REPORT_MODAL",
                   payload: {
                     showReportModal: false,

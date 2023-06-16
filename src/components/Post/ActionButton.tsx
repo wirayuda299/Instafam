@@ -5,7 +5,8 @@ import { BiBookmark } from "react-icons/bi";
 import { IoPaperPlaneOutline } from "react-icons/io5";
 import { TbMessageCircle2 } from "react-icons/tb";
 import { type FC, memo } from "react";
-import { useStateContext } from "@/stores/StateContext";
+import { useStateContext } from "@/stores/Global/StateContext";
+import { useModalContext } from "@/stores/Modal/ModalStatesContext";
 
 type Props = {
   post: IUserPostProps;
@@ -17,6 +18,7 @@ type Props = {
 const ActionButton: FC<Props> = (props) => {
   const { post, uid, likes, savedBy } = props;
   const { Dispatch } = useStateContext();
+  const { modalDispatch } = useModalContext();
 
   const mobileClickEvents = () => {
     Dispatch({
@@ -25,7 +27,7 @@ const ActionButton: FC<Props> = (props) => {
         post,
       },
     });
-    Dispatch({
+    modalDispatch({
       type: "TOGGLE_POST_COMMENT_MODAL",
       payload: {
         postCommentModal: true,
@@ -34,7 +36,7 @@ const ActionButton: FC<Props> = (props) => {
   };
 
   const largeScreenClickEvent = () => {
-    Dispatch({
+    modalDispatch({
       type: "TOGGLE_POST_PREVIEW_MODAL",
       payload: {
         postPreviewModal: true,

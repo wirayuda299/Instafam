@@ -1,6 +1,5 @@
 import Head from "next/head";
 import Image from "next/image";
-import images from "../../public/404.webp";
 export default function NotFound() {
   return (
     <>
@@ -9,7 +8,7 @@ export default function NotFound() {
       </Head>
       <div className="relative h-screen overflow-hidden bg-indigo-900">
         <Image
-          src={images}
+          src={"/404.webp"}
           alt="404"
           className="absolute h-full w-full object-cover"
           priority
@@ -18,8 +17,6 @@ export default function NotFound() {
           security="restricted"
           role="presentation"
           width={1920}
-          placeholder="blur"
-          blurDataURL={images.blurDataURL}
           height={1080}
         />
         <div className="absolute inset-0 bg-black opacity-25"></div>

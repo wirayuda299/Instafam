@@ -6,7 +6,8 @@ import dynamic from "next/dynamic";
 import { createPortal } from "react-dom";
 import { useRouter } from "next/router";
 import { useSession } from "next-auth/react";
-import { useStateContext } from "@/stores/StateContext";
+import { useStateContext } from "@/stores/Global/StateContext";
+import { useModalContext } from "@/stores/Modal/ModalStatesContext";
 
 const PostLoader = dynamic(() => import("@/components/Loader/Post"), {
   ssr: true,
@@ -17,9 +18,13 @@ const PostCard = dynamic(() => import("@/components/Post"), {
 
 const PostModal = () => {
   const {
-    state: { selectedPost, postModal },
+    state: { selectedPost },
     Dispatch,
   } = useStateContext();
+  const {
+    modalStates: { postModal },
+    modalDispatch,
+  } = useModalContext();
   const [reqParams, setReqParams] = useState<string | string[] | undefined>("");
   const [posts, setPosts] = useState<IUserPostProps[]>([]);
   const [loading, setLoading] = useState(true);
@@ -61,7 +66,7 @@ const PostModal = () => {
   }, [postModal, pathname]);
 
   const closeModal = () => {
-    Dispatch({
+    modalDispatch({
       type: "TOGGLE_POST_MODAL",
       payload: {
         postModal: false,

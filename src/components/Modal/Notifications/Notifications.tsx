@@ -1,7 +1,7 @@
 import Empty from "@/components/Notifications/Empty";
 import NotificationUser from "@/components/Notifications/NotificationUser";
 import { db } from "@/config/firebase";
-import { useStateContext } from "@/stores/StateContext";
+import { useModalContext } from "@/stores/Modal/ModalStatesContext";
 import { useDarkModeStore } from "@/stores/stores";
 import { onSnapshot, doc } from "firebase/firestore";
 import { useSession } from "next-auth/react";
@@ -13,9 +13,9 @@ import { useStore } from "zustand";
 const NotificationsModal = () => {
   const { darkMode } = useStore(useDarkModeStore);
   const {
-    state: { notificationModal },
-    Dispatch,
-  } = useStateContext();
+    modalStates: { notificationModal },
+    modalDispatch,
+  } = useModalContext();
   const { data: session } = useSession();
   const [user, setUser] = useState<IUser | null>(null);
 
@@ -57,7 +57,7 @@ const NotificationsModal = () => {
               title="back"
               className="text-left "
               onClick={() => {
-                Dispatch({
+                modalDispatch({
                   type: "TOGGLE_NOTIFICATION_MODAL",
                   payload: {
                     notificationModal: false,

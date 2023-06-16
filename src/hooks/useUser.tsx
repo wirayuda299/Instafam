@@ -1,5 +1,5 @@
 import { db } from "@/config/firebase";
-import { useStateContext } from "@/stores/StateContext";
+import { useStateContext } from "@/stores/Global/StateContext";
 import { doc, onSnapshot } from "firebase/firestore";
 import { useEffect, useState } from "react";
 

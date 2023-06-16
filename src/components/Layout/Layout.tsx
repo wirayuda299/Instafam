@@ -1,9 +1,11 @@
 import useWindowResize from "@/hooks/useWindowResize";
-import { useStateContext } from "@/stores/StateContext";
+import { useModalContext } from "@/stores/Modal/ModalStatesContext";
+import { useStateContext } from "@/stores/Global/StateContext";
 import { useDarkModeStore } from "@/stores/stores";
 import dynamic from "next/dynamic";
 import { type ReactNode, useEffect } from "react";
 import { useStore } from "zustand";
+import { useDrawerContext } from "@/stores/Drawer/DrawerStates";
 const AllUsers = dynamic(
   () => import("@/components/Modal/Users/Recommendations")
 );
@@ -50,8 +52,10 @@ const ImageCropperModal = dynamic(
 export default function Layout({ children }: { children: ReactNode }) {
   const { darkMode, setDarkMode } = useStore(useDarkModeStore);
   const { Dispatch } = useStateContext();
+  const { modalDispatch } = useModalContext();
+  const { drawerDispatch } = useDrawerContext();
 
-  useWindowResize(Dispatch);
+  useWindowResize(Dispatch, modalDispatch, drawerDispatch);
 
   useEffect(() => {
     const theme = localStorage.getItem("theme");

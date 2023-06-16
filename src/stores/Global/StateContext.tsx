@@ -4,40 +4,24 @@ import {
   useContext,
   useMemo,
   useReducer,
+  ReactNode,
 } from "react";
-import { reducer } from "./reducer";
+import { reducer } from "../reducerFunctions/reducer";
 import { ActionsType } from "@/types/ActionsTypes";
 
-const initialState: State = {
-  showReportModal: false,
-  showAllUserModal: false,
+const initialState: GlobalStates = {
   selectedPost: null,
-  isExtraListOpen: false,
-  isSearchDrawerOpen: false,
-  menuModal: false,
   result: [],
-  postPreviewModal: false,
-  resultDrawer: false,
-  feedModal: false,
-  postModal: false,
-  postCommentModal: false,
-  notificationDrawer: false,
-  notificationModal: false,
-  postCreateModal: false,
-  postReportModal: false,
   blurhash: "",
   previewUrl: "",
   croppedImage: "",
-  receiverDrawer: false,
-  messageModal: false,
   chatRoomSelected: null,
-  selectedActivity: "interactions",
   selectedChat: null,
 };
 
 type StateProviderProps = {
   Dispatch: Dispatch<ActionsType>;
-  state: State;
+  state: GlobalStates;
 };
 
 const StateContext = createContext<StateProviderProps>({
@@ -45,7 +29,7 @@ const StateContext = createContext<StateProviderProps>({
   state: initialState,
 });
 
-export function StateProvider({ children }: { children: React.ReactNode }) {
+export function StateProvider({ children }: { children: ReactNode }) {
   const [state, Dispatch] = useReducer(reducer, initialState);
 
   const values = useMemo(() => {

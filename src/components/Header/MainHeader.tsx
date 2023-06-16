@@ -6,7 +6,7 @@ import { useDarkModeStore } from "@/stores/stores";
 import { useSession } from "next-auth/react";
 import { BiSun } from "react-icons/bi";
 import { BsMoonFill } from "react-icons/bs";
-import { useStateContext } from "@/stores/StateContext";
+import { useModalContext } from "@/stores/Modal/ModalStatesContext";
 
 const playfair = Playfair_Display({
   fallback: ["sans-serif"],
@@ -20,7 +20,7 @@ const playfair = Playfair_Display({
 const Header = () => {
   const { darkMode, setDarkMode } = useStore(useDarkModeStore);
   const { data: session } = useSession();
-  const { Dispatch } = useStateContext();
+  const { modalDispatch } = useModalContext();
 
   const changeTheme = () => {
     localStorage.setItem("theme", darkMode ? "light" : "dark");
@@ -67,7 +67,7 @@ const Header = () => {
           name="notifications"
           title="notifications"
           onClick={() => {
-            Dispatch({
+            modalDispatch({
               type: "TOGGLE_NOTIFICATION_MODAL",
               payload: {
                 notificationModal: true,

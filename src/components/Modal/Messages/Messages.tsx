@@ -7,14 +7,19 @@ import { useStore } from "zustand";
 import Image from "next/image";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
-import { useStateContext } from "@/stores/StateContext";
+import { useStateContext } from "@/stores/Global/StateContext";
 import { toast } from "react-hot-toast";
+import { useModalContext } from "@/stores/Modal/ModalStatesContext";
 
 const MessagesModal = () => {
   const {
     Dispatch,
-    state: { messageModal, chatRoomSelected },
+    state: { chatRoomSelected },
   } = useStateContext();
+  const {
+    modalStates: { messageModal },
+    modalDispatch,
+  } = useModalContext();
   const { handleSubmit, resetField, register } = useForm();
   const [result, setResult] = useState<IUser[] | undefined>([]);
   const { darkMode } = useStore(useDarkModeStore);
@@ -71,7 +76,7 @@ const MessagesModal = () => {
           </div>
           <button
             onClick={async () => {
-              Dispatch({
+              modalDispatch({
                 type: "TOGGLE_MESSAGE_MODAL",
                 payload: {
                   messageModal: false,
@@ -120,7 +125,7 @@ const MessagesModal = () => {
                     "@/helper/startNewMessage"
                   );
                   startNewMessage(session, chatRoomSelected).then(() => {
-                    Dispatch({
+                    modalDispatch({
                       type: "TOGGLE_MESSAGE_MODAL",
                       payload: {
                         messageModal: false,

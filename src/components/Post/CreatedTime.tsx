@@ -1,4 +1,4 @@
-import { useStateContext } from "@/stores/StateContext";
+import { useModalContext } from "@/stores/Modal/ModalStatesContext";
 import { getCreatedDate } from "@/utils/postDate";
 import Link from "next/link";
 import type { FC } from "react";
@@ -11,10 +11,9 @@ type Props = {
 const CreatedTime: FC<Props> = ({ createdAt, author }) => {
   const createdAtTime = getCreatedDate(createdAt);
   const {
-    state: { postModal },
-    Dispatch,
-  } = useStateContext();
-
+    modalStates: { postModal },
+    modalDispatch,
+  } = useModalContext();
   return (
     <div className={`ml-3 flex w-full items-center justify-between`}>
       <div>
@@ -23,7 +22,7 @@ const CreatedTime: FC<Props> = ({ createdAt, author }) => {
             <Link
               onClick={() =>
                 postModal
-                  ? Dispatch({
+                  ? modalDispatch({
                       type: "TOGGLE_POST_MODAL",
                       payload: {
                         postModal: false,

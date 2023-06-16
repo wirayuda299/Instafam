@@ -6,7 +6,8 @@ import usePost from "@/hooks/usePost";
 import dynamic from "next/dynamic";
 import { createPortal } from "react-dom";
 import { useId } from "react";
-import { useStateContext } from "@/stores/StateContext";
+import { useStateContext } from "@/stores/Global/StateContext";
+import { useModalContext } from "@/stores/Modal/ModalStatesContext";
 const CommentsForm = dynamic(() => import("../../Comments/Forms"));
 const Postheader = dynamic(() => import("@/components/Header/PostHeader"));
 const Comment = dynamic(() => import("@/components/Comments/Comment"));
@@ -14,9 +15,12 @@ const EmptyComment = dynamic(() => import("@/components/Comments/Empty"));
 
 const PostComment = () => {
   const {
-    state: { selectedPost, postCommentModal },
-    Dispatch,
+    state: { selectedPost },
   } = useStateContext();
+  const {
+    modalStates: { postCommentModal },
+    modalDispatch,
+  } = useModalContext();
   const { darkMode } = useStore(useDarkModeStore);
   const { data: session } = useSession();
   const { comments } = usePost(selectedPost);
@@ -53,7 +57,7 @@ const PostComment = () => {
               title="close"
               className="text-left"
               onClick={() => {
-                Dispatch({
+                modalDispatch({
                   type: "TOGGLE_POST_COMMENT_MODAL",
                   payload: {
                     postCommentModal: false,

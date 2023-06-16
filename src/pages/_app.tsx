@@ -3,11 +3,13 @@ import { SessionProvider } from "next-auth/react";
 import { Toaster } from "react-hot-toast";
 import dynamic from "next/dynamic";
 import NextNProgress from "nextjs-progressbar";
-import { StateProvider } from "@/stores/StateContext";
+import { StateProvider } from "@/stores/Global/StateContext";
 import Head from "next/head";
 import type { AppProps } from "next/app";
 import type { Session } from "next-auth";
 import type { ComponentType } from "react";
+import { ModalContextProviders } from "@/stores/Modal/ModalStatesContext";
+import { DrawerStatesprovider } from "@/stores/Drawer/DrawerStates";
 
 const Layout = dynamic(() => import("@/components/Layout/Layout"));
 type ComponentWithPageLayout = AppProps & {
@@ -43,22 +45,26 @@ export default function App({
       </Head>
       <SessionProvider session={session}>
         <StateProvider>
-          <Layout>
-            <Toaster />
-            <NextNProgress
-              color="#e23e44"
-              startPosition={0.3}
-              height={3}
-              options={{
-                showSpinner: false,
-                trickle: true,
-                trickleSpeed: 100,
-                minimum: 0.3,
-                easing: "ease-out",
-              }}
-            />
-            <Component {...pageProps} />
-          </Layout>
+          <ModalContextProviders>
+            <DrawerStatesprovider>
+              <Layout>
+                <Toaster />
+                <NextNProgress
+                  color="#e23e44"
+                  startPosition={0.3}
+                  height={3}
+                  options={{
+                    showSpinner: false,
+                    trickle: true,
+                    trickleSpeed: 100,
+                    minimum: 0.3,
+                    easing: "ease-out",
+                  }}
+                />
+                <Component {...pageProps} />
+              </Layout>
+            </DrawerStatesprovider>
+          </ModalContextProviders>
         </StateProvider>
       </SessionProvider>
     </>

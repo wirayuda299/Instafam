@@ -1,8 +1,8 @@
-import { useStateContext } from "@/stores/StateContext";
+import { useModalContext } from "@/stores/Modal/ModalStatesContext";
 import { RiMessengerLine } from "react-icons/ri";
 
 const EmptyMessages = () => {
-  const { Dispatch } = useStateContext();
+  const { modalDispatch } = useModalContext();
   return (
     <div className="p-5 text-center ">
       <button className="rounded-full border-2 border-black p-6">
@@ -15,7 +15,7 @@ const EmptyMessages = () => {
       <button
         className="mt-3 rounded-md bg-blue-600 px-5 py-2 font-semibold text-white"
         onClick={() => {
-          Dispatch({
+          modalDispatch({
             type: "TOGGLE_MESSAGE_MODAL",
             payload: {
               messageModal: true,
