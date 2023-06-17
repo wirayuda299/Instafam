@@ -165,9 +165,8 @@ export default function UserProfile({ posts, user, query }: Props) {
                   </div>
                 ) : (
                   posts?.map((post, i) => (
-                    <>
+                    <div key={Math.random() * i}>
                       <div
-                        key={Math.random() * i}
                         onClick={() => largeScreenClickEvent(post)}
                         className="hidden cursor-pointer md:block"
                       >
@@ -192,7 +191,7 @@ export default function UserProfile({ posts, user, query }: Props) {
                       >
                         <PostImage post={post} />
                       </div>
-                    </>
+                    </div>
                   ))
                 )}
               </>
@@ -215,7 +214,7 @@ export default function UserProfile({ posts, user, query }: Props) {
                 ) : (
                   <>
                     {states.savedPosts?.map((post, i) => (
-                      <div key={Math.random() * i} className="group relative">
+                      <div key={post.postId} className="group relative">
                         <PostImage post={post} />
                         <PostInfo post={post} />
                       </div>
