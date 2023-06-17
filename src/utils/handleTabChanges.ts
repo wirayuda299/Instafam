@@ -1,5 +1,5 @@
 import { ActionsTypeUsersPage } from "@/types/ActionsTypes";
-import { SetStateAction, TransitionStartFunction } from "react";
+import type { SetStateAction, TransitionStartFunction } from "react";
 
 type ParamsTypes = {
   startTransition: TransitionStartFunction;
@@ -9,6 +9,7 @@ type ParamsTypes = {
 };
 
 type HandleTabChanges = (params: ParamsTypes) => void;
+
 export const handleTabClick: HandleTabChanges = ({
   dispatch,
   setActiveTab,

@@ -1,4 +1,4 @@
-import type { FieldValues } from "react-hook-form";
+import type { FieldValues, UseFormResetField } from "react-hook-form";
 import { getCsrfToken } from "next-auth/react";
 import { db } from "@/config/firebase";
 import { doc, setDoc } from "firebase/firestore";
@@ -9,7 +9,7 @@ export const handleReport = async (
   e: FieldValues,
   selectedPost: IUserPostProps | null,
   session: Session | null,
-  resetField: any
+  resetField: UseFormResetField<FieldValues>
 ) => {
   try {
     const token = await getCsrfToken();
