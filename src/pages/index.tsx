@@ -26,7 +26,9 @@ export default function Home({ posts, users }: Props) {
       const observer = new IntersectionObserver(async (entries) => {
         if (entries[0].isIntersecting) {
           const { fetchNextPosts } = await import("@/helper/getPosts");
-          const newPosts = await fetchNextPosts(posts[posts.length - 1]);
+          const newPosts = (await fetchNextPosts(
+            posts[posts.length - 1]
+          )) as IUserPostProps[];
           setNewPosts(newPosts ?? []);
         }
       });

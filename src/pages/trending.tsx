@@ -114,8 +114,8 @@ export default function Trending({ posts }: { posts: IUserPostProps[] }) {
 
 export async function getServerSideProps({ res }: any) {
   const { getAllPosts } = await import("@/helper/getPosts");
-  const response = await getAllPosts();
-  const posts = response.sort((a, b) => b.likedBy.length - a.likedBy.length);
+  const response = (await getAllPosts()) as IUserPostProps[];
+  const posts = response?.sort((a, b) => b.likedBy.length - a.likedBy.length);
 
   res.setHeader("Cache-Control", "public, maxage=60, stale-while-revalidate");
   return {

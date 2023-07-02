@@ -21,7 +21,9 @@ const Recommendations = () => {
   useEffect(() => {
     const getusers = async () => {
       try {
-        const data = await getUserRecommendation(session?.user.uid as string);
+        const data = (await getUserRecommendation(
+          session?.user.uid as string
+        )) as IUser[];
         setUsers(data ?? []);
         setLoading(false);
       } catch (error: any) {

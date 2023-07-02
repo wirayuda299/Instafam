@@ -95,7 +95,8 @@ export default function UserProfile({ posts, user, query }: Props) {
         );
         dispatch({
           type: "SET_SAVED_POSTS",
-          payload: { savedposts: savedPostsData ?? [] },
+          // @ts-ignore
+          payload: { savedposts: (savedPostsData as IUserPostProps[]) ?? [] },
         });
       } catch (error: any) {
         console.log(error.message);

@@ -37,7 +37,8 @@ export default function PostDetail({ post }: { post: IUserPostProps }) {
     window.addEventListener("resize", async () => {
       if (window.innerWidth < 1024) {
         const { getAllPosts } = await import("@/helper/getPosts");
-        const allPosts = await getAllPosts();
+        const allPosts = (await getAllPosts()) as IUserPostProps[];
+        // @ts-ignore
         setNextPosts(allPosts);
         setLoading(false);
       }
@@ -46,7 +47,7 @@ export default function PostDetail({ post }: { post: IUserPostProps }) {
       window.removeEventListener("resize", async () => {
         if (window.innerWidth < 1024) {
           const { getAllPosts } = await import("@/helper/getPosts");
-          const allPosts = await getAllPosts();
+          const allPosts = (await getAllPosts()) as IUserPostProps[];
           setNextPosts(allPosts);
           setLoading(false);
         }
@@ -60,7 +61,7 @@ export default function PostDetail({ post }: { post: IUserPostProps }) {
       const observer = new IntersectionObserver(async (entries) => {
         if (entries[0].isIntersecting) {
           const { getAllPosts } = await import("@/helper/getPosts");
-          const newPosts = await getAllPosts();
+          const newPosts = (await getAllPosts()) as IUserPostProps[];
           setNextPosts(newPosts.filter((p) => p.postId !== post.postId));
           setLoading(false);
         }
