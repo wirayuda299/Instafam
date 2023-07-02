@@ -18,8 +18,10 @@ export const getPosts = async (num: number) => {
     );
     const res = await getDocs(q);
     return res.docs.map((data) => data.data()) as IUserPostProps[];
-  } catch (error: any) {
-    throw Error(error.message);
+  } catch (error) {
+    if (error instanceof Error) {
+      return error.message as Error["message"];
+    }
   }
 };
 export const getAllPosts = async () => {
@@ -27,13 +29,15 @@ export const getAllPosts = async () => {
     const q = query(collection(db, "posts"), orderBy("createdAt", "desc"));
     const res = await getDocs(q);
     return res.docs.map((data) => data.data()) as IUserPostProps[];
-  } catch (error: any) {
-    throw Error(error.message);
+  } catch (error) {
+    if (error instanceof Error) {
+      return error.message as Error["message"];
+    }
   }
 };
 export async function fetchNextPosts(
   last: IUserPostProps | null
-): Promise<IUserPostProps[] | undefined> {
+): Promise<IUserPostProps[] | undefined | string> {
   try {
     const q = query(
       collection(db, "posts"),
@@ -42,14 +46,16 @@ export async function fetchNextPosts(
     );
     const res = await getDocs(q);
     return res.docs.map((data) => data.data()) as IUserPostProps[];
-  } catch (error: any) {
-    console.log(error.message);
+  } catch (error) {
+    if (error instanceof Error) {
+      return error.message as Error["message"];
+    }
   }
 }
 
 export async function getPostByCurrentUser(
   uid: string | string[] = ""
-): Promise<IUserPostProps[] | undefined> {
+): Promise<IUserPostProps[] | undefined | string> {
   try {
     const matchpattern = /^\d+$/;
 
@@ -70,26 +76,30 @@ export async function getPostByCurrentUser(
       const res = await getDocs(q);
       return res.docs.map((data) => data.data()) as IUserPostProps[];
     }
-  } catch (error: any) {
-    console.log(error.message);
+  } catch (error) {
+    if (error instanceof Error) {
+      return error.message as Error["message"];
+    }
   }
 }
 
 export async function getPostById(
   id: string
-): Promise<IUserPostProps[] | undefined> {
+): Promise<IUserPostProps[] | undefined | string> {
   try {
     const q = query(collection(db, "posts"), where("postId", "==", `${id}`));
     const res = await getDocs(q);
     return res.docs.map((data) => data.data()) as IUserPostProps[];
-  } catch (error: any) {
-    console.log(error.message);
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      return error.message as Error["message"];
+    }
   }
 }
 
 type GetPostsSavedByUser = (
   uid: string
-) => Promise<IUserPostProps[] | undefined>;
+) => Promise<IUserPostProps[] | undefined | string>;
 
 export const getPostsSavedByUser: GetPostsSavedByUser = async (uid) => {
   try {
@@ -100,7 +110,9 @@ export const getPostsSavedByUser: GetPostsSavedByUser = async (uid) => {
     );
     const res = await getDocs(q);
     return res.docs.map((data) => data.data()) as IUserPostProps[];
-  } catch (error: any) {
-    console.log(error.message);
+  } catch (error) {
+    if (error instanceof Error) {
+      return error.message as Error["message"];
+    }
   }
 };

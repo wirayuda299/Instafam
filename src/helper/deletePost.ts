@@ -27,7 +27,9 @@ export const deletePost = async <T extends DeletePostProps>(props: T) => {
     const deleteFromStorage = await deleteObject(postRef);
 
     await Promise.all([deleteFromFirestore, deleteFromStorage]);
-  } catch (error: any) {
-    toast.error(error.message);
+  } catch (error) {
+    if (error instanceof Error) {
+      toast.error(error.message);
+    }
   }
 };

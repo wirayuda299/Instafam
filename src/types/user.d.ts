@@ -1,17 +1,23 @@
-interface IUser {
+type Following = {
+  userId: string;
+};
+
+type Followers = {
+  followedBy: string;
+  followedByName: string;
+  followedImage: string;
+};
+
+type Base = {
   image: string;
   createdAt: string;
-  following: {
-    userId: string;
-  }[];
-  followers: {
-    followedBy: string;
-    followedByName: string;
-    followedImage: string;
-  }[];
   email: string;
-  savedPosts: IUserPostProps[];
   uid: string;
   username: string;
   name: string;
+};
+interface IUser extends Base {
+  following: Following[];
+  followers: Followers[];
+  savedPosts: IUserPostProps[];
 }

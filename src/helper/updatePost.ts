@@ -1,9 +1,9 @@
 export async function updatePost(updated: string, post: IUserPostProps) {
+  const { toast } = await import("react-hot-toast");
   try {
     const { db } = await import("@/config/firebase");
     const { doc, updateDoc } = await import("firebase/firestore");
     const q = doc(db, "posts", `post-${post.postId}`);
-    const { toast } = await import("react-hot-toast");
     await updateDoc(q, {
       captions: updated.match(/^[^#]*/),
       hashtags:
@@ -13,7 +13,9 @@ export async function updatePost(updated: string, post: IUserPostProps) {
           .split(" ") || [],
     });
     toast.success("Post updated!");
-  } catch (error: any) {
-    console.log(error.message);
+  } catch (error) {
+    if (error instanceof Error) {
+      toast.error(error.message) as Error["message"];
+    }
   }
 }

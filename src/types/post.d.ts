@@ -1,3 +1,10 @@
+type PostComments = {
+  commentByUid: string;
+  comment: string;
+  commentByName: string;
+  commentByPhoto: string;
+  createdAt: string | number;
+};
 interface IUserPostProps {
   likes: number;
   captions: string;
@@ -8,13 +15,7 @@ interface IUserPostProps {
   storageRef: string;
   likedBy: string[];
   createdAt: string | number;
-  comments: {
-    commentByUid: string;
-    comment: string;
-    commentByName: string;
-    commentByPhoto: string;
-    createdAt: string | number;
-  }[];
+  comments: PostComments[];
   hashtags: string[];
   postId: string;
   tagged: [];

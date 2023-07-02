@@ -22,7 +22,9 @@ export async function savePost(params: SavedPostProps) {
         await updateDoc(q, { savedBy: arrayUnion(uid) });
       }
     }
-  } catch (error: any) {
-    console.log(error.message);
+  } catch (error) {
+    if (error instanceof Error) {
+      return error.message as Error["message"];
+    }
   }
 }

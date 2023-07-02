@@ -1,6 +1,7 @@
 import { db } from "@/config/firebase";
 import { query, collection, where, getDocs } from "firebase/firestore";
 import type { Session } from "next-auth";
+import { toast } from "react-hot-toast";
 
 type Data = {
   id: string;
@@ -48,7 +49,9 @@ export async function getMessage(
       receiver,
       senderData,
     };
-  } catch (error: any) {
-    console.log(error.message);
+  } catch (error) {
+    if (error instanceof Error) {
+      toast.error(error.message) as Error["message"];
+    }
   }
 }
