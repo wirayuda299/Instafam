@@ -48,8 +48,8 @@ const PostModal = () => {
           "@/helper/getPosts"
         );
         const res = pathname.startsWith("/profile")
-          ? await getPostByCurrentUser(reqParams)
-          : await getAllPosts();
+          ? ((await getPostByCurrentUser(reqParams)) as IUserPostProps[])
+          : ((await getAllPosts()) as IUserPostProps[]);
         if (!res) throw new Error("Failed to fetch posts");
         setPosts(res.filter((p) => p.postId !== selectedPost?.postId));
         setLoading(false);
