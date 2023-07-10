@@ -1,18 +1,21 @@
+import { useDrawerContext } from "@/stores/Drawer/DrawerStates";
 import Link from "next/link";
 import type { FC } from "react";
+
+type Lists = {
+  id: string;
+title: string;
+path: string;
+icon: JSX.Element;
+}
+
 
 type ListItemProps = {
   path: string;
   pathname: string;
-  list: {
-    id: number;
-    title: string;
-    path: string;
-    icon: JSX.Element;
-  };
+  list: Lists
   drawer: boolean;
   toggler: () => void;
-  handleSearchDrawer: () => void;
   handleNotificationDrawer: () => void;
   notificationDrawer: boolean;
   openCreateModal: () => void;
@@ -25,28 +28,31 @@ const NavItem: FC<ListItemProps> = (props) => {
     list,
     drawer,
     toggler,
-    handleSearchDrawer,
     notificationDrawer,
     handleNotificationDrawer,
     openCreateModal,
   } = props;
+
+  const {drawerDispatch} = useDrawerContext()
+
 
   return (
     <li
       role="listitem"
       key={list.id}
       className={` flex h-full w-fit items-center rounded-full text-base font-light transition-colors duration-700 ease-out hover:bg-gray-200 dark:hover:bg-[#b9b9b917] md:w-full md:p-2.5 ${
-        list.id === 2 || list.id === 5 ? "hidden md:block" : ""
+        list.id === 'search-drawers' || list.id === 'notifications' ? "hidden md:block" : ""
       }  ${pathname === list.path ? "font-semibold" : ""} 
         `}
     >
-      {list.id === 2 ? (
+      {list.id === 'search-drawers' ? (
         <button
+          id={list.id}
           role="button"
           type="button"
           name="search"
           className="flex space-x-2"
-          onClick={() => handleSearchDrawer()}
+          onClick={() => drawerDispatch({type:'TOGGLE_SEARCH_DRAWER', payload:{searchDrawer:true}})}
         >
           {list.icon}
           <span
@@ -57,7 +63,7 @@ const NavItem: FC<ListItemProps> = (props) => {
             {list.title}
           </span>
         </button>
-      ) : list.id === 6 ? (
+      ) : list.id === 'create'? (
         <button
           role="button"
           type="button"
@@ -75,7 +81,7 @@ const NavItem: FC<ListItemProps> = (props) => {
             {list.title}
           </span>
         </button>
-      ) : list.id === 5 ? (
+      ) : list.id === "notifications" ? (
         <button
           role="button"
           type="button"

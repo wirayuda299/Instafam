@@ -14,13 +14,7 @@ export default function useWindowResize(
   modalDispatch: Props["modalDispatch"],
   drawerDispatch: Props["drawerDispatch"]
 ) {
-  const closeOnresize = () => {
-    drawerDispatch({
-      type: "TOGGLE_NOTIFICATION_DRAWER",
-      payload: {
-        notificationDrawer: false,
-      },
-    });
+  const closeOnresize = () => {;
     modalDispatch({
       type: "SHOW_REPORT_MODAL",
       payload: {

@@ -1,7 +1,7 @@
 import dynamic from "next/dynamic";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import {  useEffect, useState } from "react";
 
 import { useStateContext } from "@/stores/Global/StateContext";
 import { useModalContext } from "@/stores/Modal/ModalStatesContext";
@@ -21,11 +21,11 @@ const Sidebar = () => {
   
   const { modalDispatch } = useModalContext();  
 
-    useEffect(() => {
-      document.addEventListener("click", handleClickOutside);
-      return () => {
-        document.removeEventListener("click",handleClickOutside);
-      };
+  useEffect(() => {
+     document.addEventListener("click", handleClickOutside);
+     return () => {
+      document.removeEventListener("click",handleClickOutside);
+    };
   }, []);
 
   function handleClickOutside(e: MouseEvent) {
@@ -33,11 +33,12 @@ const Sidebar = () => {
 
     if(!e.target) return 
     // @ts-ignore
-    const isExtraLists = e.target.id === "extraLists";
+    const isTargetClicked = e.target.id === 'extraLists';
 
-    if (!isExtraLists) return setIsOpen(false);
-
+    if (!isTargetClicked) return setIsOpen(false)
   }
+
+  
   if (!session) return null;
 
   const toggler = () => {
@@ -74,7 +75,7 @@ const Sidebar = () => {
     drawerDispatch({
       type: "TOGGLE_SEARCH_DRAWER",
       payload: {
-        searchDrawer: !isSearchDrawerOpen,
+        searchDrawer: true,
       },
     });
     Dispatch({

@@ -5,7 +5,7 @@ type PostModalAction = {
   };
 };
 
-type PostCrateModalAction = {
+type PostCreateModalAction = {
   type: "TOGGLE_POST_CREATE_MODAL";
   payload: {
     postCreateModal: boolean;
@@ -190,19 +190,16 @@ export type ActionsType =
   | SelectedActivityActions
   | SelectedChatAction;
 
-type ActionsModalTypes =
-  | ToggleMenuModalAction
-  | TogglePostPreviewModalAction
+type ActionsModalTypes = ToggleMenuModalAction | TogglePostPreviewModalAction
   | FeedModalAction
   | PostModalAction
   | NotificationModalAction
   | postCommentModalAction
-  | PostCrateModalAction
+  | PostCreateModalAction
   | PostReportModalAction
   | MessageModalAction
   | ShowUsersModalActions
   | ShowReportModalActions
-  | ToggleExtraListAction;
 
 type DrawerActionsTypes =
   | ToggleSearchDrawerAction
