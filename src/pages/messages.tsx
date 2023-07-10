@@ -1,6 +1,4 @@
-import { useDarkModeStore } from "@/stores/stores";
 import { useEffect } from "react";
-import { useStore } from "zustand";
 import dynamic from "next/dynamic";
 import type { Session } from "next-auth";
 import { getServerSession } from "next-auth";
@@ -53,7 +51,6 @@ export default function Messages({ sessions, receiver, sender }: Props) {
     drawerStates: { receiverDrawer },
     drawerDispatch,
   } = useDrawerContext();
-  const { darkMode } = useStore(useDarkModeStore);
 
   const closeReceiverDrawer = () => {
     drawerDispatch({
@@ -101,10 +98,8 @@ export default function Messages({ sessions, receiver, sender }: Props) {
             ) : (
               <div className={" flex h-screen w-full "}>
                 <aside
-                  className={`ease fixed top-0 z-50 h-full w-full max-w-sm border-r border-gray-400 border-opacity-50 transition-all  duration-300 lg:static lg:z-0  ${
+                  className={`ease fixed top-0 z-50 h-full w-full max-w-sm border-r border-gray-400 border-opacity-50 bg-white text-black transition-all duration-300 dark:bg-black dark:text-white lg:static lg:z-0  ${
                     receiverDrawer ? "left-0 lg:static " : "-left-full"
-                  } ${
-                    darkMode ? "bg-black text-white" : "bg-white text-black"
                   }`}
                 >
                   <UserHeader />

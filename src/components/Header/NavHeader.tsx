@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Playfair_Display } from "next/font/google";
+
 import Logo from "../Logo/Logo";
 import { useDrawerContext } from "@/stores/Drawer/DrawerStates";
 

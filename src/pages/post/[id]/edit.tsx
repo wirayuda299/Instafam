@@ -9,9 +9,9 @@ const Postheader = dynamic(() => import("@/components/Header/PostHeader"));
 const PostForm = dynamic(() => import("@/components/Post/Form"));
 const PostImage = dynamic(() => import("@/components/Post/Image"));
 
-interface Values extends FieldValues {
+type Values = {
   updated: string;
-}
+} & FieldValues;
 
 export default function EditPosts({ post }: { post: IUserPostProps }) {
   const { register, handleSubmit } = useForm();

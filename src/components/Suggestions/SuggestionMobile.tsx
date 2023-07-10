@@ -1,19 +1,15 @@
 import { useModalContext } from "@/stores/Modal/ModalStatesContext";
-import { useDarkModeStore } from "@/stores/stores";
 import Image from "next/image";
 import Link from "next/link";
 import type { FC } from "react";
-import { useStore } from "zustand";
 
 const SuggestionMobile: FC<{ user: IUser }> = ({ user }) => {
-  const { darkMode } = useStore(useDarkModeStore);
   const { modalDispatch } = useModalContext();
 
   return (
     <div
-      className={`flex aspect-square h-44 w-44 flex-col border border-gray-400 border-opacity-10 shadow-xl ${
-        darkMode ? "bg-black   text-white" : "bg-white text-black"
-      } relative items-center justify-center rounded-lg p-5 shadow-md`}
+      className="relative flex aspect-square h-44 w-44 flex-col items-center justify-center rounded-lg border border-gray-400 border-opacity-10 bg-white
+       p-5 text-black shadow-xl dark:bg-black dark:text-white "
     >
       <Image
         src={user.image}

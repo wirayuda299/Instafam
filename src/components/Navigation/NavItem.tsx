@@ -16,7 +16,6 @@ type ListItemProps = {
   handleNotificationDrawer: () => void;
   notificationDrawer: boolean;
   openCreateModal: () => void;
-  darkMode: boolean;
 };
 
 const NavItem: FC<ListItemProps> = (props) => {
@@ -27,7 +26,6 @@ const NavItem: FC<ListItemProps> = (props) => {
     drawer,
     toggler,
     handleSearchDrawer,
-    darkMode,
     notificationDrawer,
     handleNotificationDrawer,
     openCreateModal,
@@ -37,10 +35,10 @@ const NavItem: FC<ListItemProps> = (props) => {
     <li
       role="listitem"
       key={list.id}
-      className={` flex h-full w-fit items-center rounded-full text-base font-light transition-colors duration-700 ease-out md:w-full md:p-2.5  ${
+      className={` flex h-full w-fit items-center rounded-full text-base font-light transition-colors duration-700 ease-out hover:bg-gray-200 dark:hover:bg-[#b9b9b917] md:w-full md:p-2.5 ${
         list.id === 2 || list.id === 5 ? "hidden md:block" : ""
       }  ${pathname === list.path ? "font-semibold" : ""} 
-        } ${darkMode ? "hover:bg-[#b9b9b917]" : "hover:bg-gray-200"}`}
+        `}
     >
       {list.id === 2 ? (
         <button

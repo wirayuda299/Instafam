@@ -1,10 +1,8 @@
 import { useDrawerContext } from "@/stores/Drawer/DrawerStates";
 import { useStateContext } from "@/stores/Global/StateContext";
-import { useDarkModeStore } from "@/stores/stores";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
 import type { FC } from "react";
-import { useStore } from "zustand";
 
 type UsersChatProps = {
   receiver: DataMessage[];
@@ -12,7 +10,6 @@ type UsersChatProps = {
 };
 
 const UsersChat: FC<UsersChatProps> = ({ receiver, sender }) => {
-  const { darkMode } = useStore(useDarkModeStore);
   const { data: session } = useSession();
   const receiverId = receiver.map((item) => item.id);
   const { Dispatch } = useStateContext();
@@ -52,11 +49,7 @@ const UsersChat: FC<UsersChatProps> = ({ receiver, sender }) => {
                 <div
                   key={i}
                   onClick={() => handleClick(send)}
-                  className={`ease flex cursor-pointer items-center justify-between border-b-2 border-gray-400 border-opacity-50 transition-all duration-500   ${
-                    darkMode
-                      ? "from-gray-700 p-3 hover:bg-gradient-to-r"
-                      : "from-gray-200 p-3 hover:bg-gradient-to-r "
-                  }`}
+                  className="ease duration-500from-gray-200 flex cursor-pointer items-center justify-between border-b-2 border-gray-400 border-opacity-50 p-3 transition-all hover:bg-gradient-to-r  dark:from-gray-700 dark:p-3 dark:hover:bg-gradient-to-r"
                 >
                   <div className="flex items-center space-x-2">
                     <Image
@@ -86,11 +79,7 @@ const UsersChat: FC<UsersChatProps> = ({ receiver, sender }) => {
                 },
               });
             }}
-            className={`ease flex cursor-pointer items-center justify-between border-b-2 border-gray-400 border-opacity-50 transition-all duration-500   ${
-              darkMode
-                ? "from-gray-700 p-3 hover:bg-gradient-to-r"
-                : "from-gray-200 p-3 hover:bg-gradient-to-r "
-            } ${receive.id === session?.user.uid ? "hidden" : "block"}`}
+            className={`ease flex cursor-pointer items-center justify-between border-b-2 border-gray-400 border-opacity-50 transition-all duration-500  dark:from-gray-700 dark:p-3 from-gray-200 p-3 hover:bg-gradient-to-rdark:hover:bg-gradient-to-r ${receive.id === session?.user.uid ? "hidden" : "block"}`}
           >
             <div className="flex items-center space-x-2">
               <Image

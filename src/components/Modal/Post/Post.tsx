@@ -1,5 +1,3 @@
-import { useDarkModeStore } from "@/stores/stores";
-import { useStore } from "zustand";
 import { useEffect, useState } from "react";
 import { AiOutlineArrowLeft } from "react-icons/ai";
 import dynamic from "next/dynamic";
@@ -28,7 +26,6 @@ const PostModal = () => {
   const [reqParams, setReqParams] = useState<string | string[] | undefined>("");
   const [posts, setPosts] = useState<IUserPostProps[]>([]);
   const [loading, setLoading] = useState(true);
-  const { darkMode } = useStore(useDarkModeStore);
   const { pathname, query } = useRouter();
   const { data: session } = useSession();
   const [error, setError] = useState<string | null>(null);
@@ -105,18 +102,14 @@ const PostModal = () => {
 
   return createPortal(
     <div
-      className={` fixed left-0 top-0 z-[99] h-screen w-full select-none  !overflow-y-auto !overflow-x-hidden  shadow-sm lg:hidden  ${
+      className={` fixed left-0 top-0 z-[99] h-screen w-full select-none  !overflow-y-auto !overflow-x-hidden  bg-white shadow-sm dark:bg-black lg:hidden  ${
         postModal ? "animate-scaleUp" : "animate-fadeOut"
-      } ${darkMode ? "bg-black" : "bg-white"}`}
+      } `}
       aria-modal="true"
       role="dialog"
     >
       <div className="relative w-full">
-        <div
-          className={`sticky top-0 z-30 flex w-full items-center border-b border-gray-500 border-opacity-50 px-3 py-3 ${
-            darkMode ? "bg-black text-white" : "bg-white text-black"
-          }`}
-        >
+        <div className="sticky top-0 z-30 flex w-full items-center border-b border-gray-500 border-opacity-50 bg-white px-3 py-3 text-black dark:bg-black dark:text-white ">
           <div>
             <button
               type="button"

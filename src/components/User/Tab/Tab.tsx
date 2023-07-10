@@ -1,4 +1,3 @@
-import { useDarkModeStore } from "@/stores/stores";
 import { ActionsTypeUsersPage } from "@/types/ActionsTypes";
 import { handleTabClick } from "@/utils/handleTabChanges";
 import {
@@ -11,7 +10,6 @@ import {
   SetStateAction,
 } from "react";
 import { BsGrid3X3Gap, BsBookmark, BsPersonSquare } from "react-icons/bs";
-import { useStore } from "zustand";
 
 type Props = {
   activeTab: number;
@@ -28,39 +26,23 @@ const Tab: FC<Props> = ({
   const btn1 = useRef<HTMLButtonElement>(null);
   const btn2 = useRef<HTMLButtonElement>(null);
   const btn3 = useRef<HTMLButtonElement>(null);
-  const { darkMode } = useStore(useDarkModeStore);
 
   const tabValue = [
     {
       id: 1,
-      icon: (
-        <BsGrid3X3Gap
-          size={25}
-          className={`${darkMode ? "text-white" : "text-black"}`}
-        />
-      ),
+      icon: <BsGrid3X3Gap size={25} className="text-black dark:text-white" />,
       ref: btn1,
       title: "Posts",
     },
     {
       id: 2,
-      icon: (
-        <BsBookmark
-          size={25}
-          className={`${darkMode ? "text-white" : "text-black"}`}
-        />
-      ),
+      icon: <BsBookmark size={25} className="text-black dark:text-white" />,
       ref: btn2,
       title: "Saved Posts",
     },
     {
       id: 3,
-      icon: (
-        <BsPersonSquare
-          size={25}
-          className={`${darkMode ? "text-white" : "text-black"}`}
-        />
-      ),
+      icon: <BsPersonSquare size={25} className="text-black dark:text-white" />,
       ref: btn3,
       title: "Tagged Posts",
     },

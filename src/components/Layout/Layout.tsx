@@ -1,10 +1,8 @@
 import useWindowResize from "@/hooks/useWindowResize";
 import { useModalContext } from "@/stores/Modal/ModalStatesContext";
 import { useStateContext } from "@/stores/Global/StateContext";
-import { useDarkModeStore } from "@/stores/stores";
 import dynamic from "next/dynamic";
-import { type ReactNode, useEffect } from "react";
-import { useStore } from "zustand";
+import { type ReactNode, useEffect, useState } from "react";
 import { useDrawerContext } from "@/stores/Drawer/DrawerStates";
 const AllUsers = dynamic(
   () => import("@/components/Modal/Users/Recommendations")
@@ -50,30 +48,27 @@ const ImageCropperModal = dynamic(
 );
 
 export default function Layout({ children }: { children: ReactNode }) {
-  const { darkMode, setDarkMode } = useStore(useDarkModeStore);
   const { Dispatch } = useStateContext();
   const { modalDispatch } = useModalContext();
   const { drawerDispatch } = useDrawerContext();
 
   useWindowResize(Dispatch, modalDispatch, drawerDispatch);
-
+  const [theme, setTheme] = useState<string | null>("");
+  
   useEffect(() => {
-    const theme = localStorage.getItem("theme");
-    if (theme !== null) {
-      if (theme === "dark") {
-        setDarkMode(true);
-      } else {
-        setDarkMode(false);
-      }
-    }
-  }, [darkMode]);
+    const prefersDarkMode = window.matchMedia(
+      "(prefers-color-scheme: dark)"
+    ).matches;
+
+    const selectedTheme =
+      theme || localStorage.theme || (prefersDarkMode ? "dark" : "light");
+
+    document.documentElement.classList.toggle("dark", selectedTheme === "dark");
+    localStorage.theme = selectedTheme;
+  }, [theme]);
 
   return (
-    <div
-      className={`h-screen w-full ${
-        darkMode ? "bg-black text-white" : "bg-white text-black"
-      }`}
-    >
+    <div className="h-screen w-full bg-white text-black dark:bg-black dark:text-white">
       <div className="flex h-full">
         <Sidebar />
         <SearchForm />

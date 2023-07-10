@@ -1,9 +1,8 @@
 import Image from "next/image";
 import dynamic from "next/dynamic";
 import type { Dispatch, FC, SetStateAction } from "react";
-import { useDarkModeStore } from "@/stores/stores";
-import { useStore } from "zustand";
 import type { Session } from "next-auth";
+
 const TextArea = dynamic(() => import("./TextArea"));
 
 type CaptionsProps = {
@@ -17,18 +16,13 @@ type CaptionsProps = {
 
 const Captions: FC<CaptionsProps> = (props) => {
   const { handlePost, loading, session, img, setCaptions, captions } = props;
-  const { darkMode } = useStore(useDarkModeStore);
+
+  if (!img) return null;
 
   return (
     <div
       id="create-post"
-      className={`max-h-full w-full max-w-lg rounded-md p-2 pb-10 shadow-lg  md:pb-0 ${
-        !img ? "hidden" : "block"
-      } ${
-        darkMode
-          ? "border border-gray-500 border-opacity-50 bg-black"
-          : "bg-white shadow-md shadow-gray-400"
-      }`}
+      className="max-h-full w-full max-w-lg rounded-md bg-white p-2 pb-10 shadow-lg shadow-gray-400 dark:border dark:border-gray-500 dark:border-opacity-50 dark:bg-black  md:pb-0"
     >
       <div className="flex w-full items-center space-x-2 border-b border-gray-400  border-opacity-50 p-2">
         <Image
@@ -39,11 +33,7 @@ const Captions: FC<CaptionsProps> = (props) => {
           height={60}
           quality={50}
         />
-        <h1
-          className={`text-sm font-semibold md:text-lg ${
-            darkMode ? "text-white" : "text-black"
-          }`}
-        >
+        <h1 className="text-sm font-semibold text-white dark:text-black md:text-lg ">
           {session?.user?.username}
         </h1>
       </div>

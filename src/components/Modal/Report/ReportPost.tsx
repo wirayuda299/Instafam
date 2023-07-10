@@ -1,8 +1,6 @@
-import { useDarkModeStore } from "@/stores/stores";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
-import { type FieldValues, useForm } from "react-hook-form";
-import { useStore } from "zustand";
+import { FieldValues, useForm } from "react-hook-form";
 import { createPortal } from "react-dom";
 import { useStateContext } from "@/stores/Global/StateContext";
 import { useModalContext } from "@/stores/Modal/ModalStatesContext";
@@ -17,7 +15,6 @@ const Report = () => {
     modalStates: { postReportModal },
     modalDispatch,
   } = useModalContext();
-  const { darkMode } = useStore(useDarkModeStore);
 
   const defaultValues = {
     reason: "",
@@ -46,11 +43,7 @@ const Report = () => {
     >
       <div className="mx-auto h-full max-w-5xl text-center ">
         <div className="flex h-full flex-col items-center justify-center ">
-          <div
-            className={`flex min-w-[400px] flex-col rounded-lg border-gray-500 p-5 py-10 ${
-              darkMode ? "bg-black text-white" : "bg-white text-black"
-            }`}
-          >
+          <div className="flex min-w-[400px] flex-col rounded-lg border-gray-500 bg-white p-5 py-10 text-black dark:bg-black dark:text-white">
             <div>
               <h1 className="text-2xl font-bold">Report</h1>
               <p className="text-sm text-gray-500">

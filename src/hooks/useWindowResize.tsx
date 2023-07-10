@@ -69,13 +69,6 @@ export default function useWindowResize(
         searchDrawer: false,
       },
     });
-    drawerDispatch({
-      type: "TOGGLE_EXTRA_LIST",
-      payload: {
-        extraList: false,
-      },
-    });
-
     Dispatch({
       type: "SELECT_POST",
       payload: {

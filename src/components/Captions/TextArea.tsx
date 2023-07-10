@@ -1,6 +1,4 @@
 import type { Dispatch, FC, SetStateAction } from "react";
-import { useDarkModeStore } from "@/stores/stores";
-import { useStore } from "zustand";
 
 type TextAreaProps = {
   captions: string;
@@ -10,15 +8,12 @@ type TextAreaProps = {
 };
 const TextArea: FC<TextAreaProps> = (props) => {
   const { captions, setCaptions, loading, handlePost } = props;
-  const { darkMode } = useStore(useDarkModeStore);
 
   return (
     <div className="w-full p-3">
       <textarea
         spellCheck="false"
-        className={`w-full resize-none rounded-md p-2 outline-none  ${
-          darkMode ? "bg-black " : "bg-white"
-        }`}
+        className="w-full resize-none rounded-md bg-white p-2 outline-none dark:bg-black"
         value={captions}
         placeholder="Your captions"
         name="captions"
@@ -32,11 +27,7 @@ const TextArea: FC<TextAreaProps> = (props) => {
         name="post"
         type="button"
         title="post"
-        className={`ease w-full rounded-lg py-4  text-lg font-semibold  transition-all duration-300 hover:bg-opacity-100 ${
-          darkMode
-            ? "border border-gray-400 border-opacity-30 bg-gray-500 bg-opacity-80 text-white"
-            : "bg-gray-100 text-black"
-        }`}
+        className="ease w-full rounded-lg bg-gray-100 py-4 text-lg font-semibold text-black  transition-all duration-300 hover:bg-opacity-100 dark:border dark:border-gray-400 dark:border-opacity-30 dark:bg-gray-500 dark:bg-opacity-80 dark:text-white"
       >
         {loading ? (
           <div className="flex w-full items-center justify-center space-x-3">

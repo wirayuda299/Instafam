@@ -1,12 +1,11 @@
 import type { FC, ReactNode } from "react";
 import dynamic from "next/dynamic";
-import { useDarkModeStore } from "@/stores/stores";
-import { useStore } from "zustand";
 import { type FieldValues, useForm } from "react-hook-form";
 import { getCsrfToken, useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import { useStateContext } from "@/stores/Global/StateContext";
 import { useDrawerContext } from "@/stores/Drawer/DrawerStates";
+
 const FormResult = dynamic(() => import("./Results"), { ssr: true });
 
 const defaultValues = {
@@ -24,7 +23,6 @@ const Form: FC<FormProps> = ({ height, children }) => {
     state: { result },
     Dispatch,
   } = useStateContext();
-  const { darkMode } = useStore(useDarkModeStore);
   const { drawerDispatch } = useDrawerContext();
   const router = useRouter();
   const { data: session } = useSession();
@@ -99,21 +97,11 @@ const Form: FC<FormProps> = ({ height, children }) => {
   return (
     <>
       <form
-        className={`mt-5 rounded-sm  ${height} ${
-          darkMode ? "bg-black text-white" : "bg-white text-black"
-        }`}
+        className={`mt-5 rounded-sm  ${height} text-black dark:bg-black dark:text-white `}
         onSubmit={handleSubmit(searchUser)}
       >
-        <div
-          className={`w-full pb-5  ${
-            darkMode ? "bg-black text-white" : "bg-white text-black"
-          } `}
-        >
-          <div
-            className={`${
-              darkMode ? "bg-black text-white" : "bg-white text-black"
-            }`}
-          >
+        <div className="w-full bg-white pb-5 text-black dark:bg-black dark:text-white  ">
+          <div className=" text-black dark:bg-black dark:text-white ">
             <div className="flex w-full items-center justify-between rounded-md bg-[#b9b9b917] px-3">
               <input
                 type="search"
@@ -131,9 +119,7 @@ const Form: FC<FormProps> = ({ height, children }) => {
             <FormResult
               handleDrawerToggler={handleDrawerToggler}
               results={result}
-              customs={`h-screen fixed z-50 top-0 md: h-full  md:left-0 md:w-full md:z-0  md:transition-all md:duration-300 md:ease-in-out md:static ${
-                darkMode ? "bg-black text-white" : "bg-white text-black"
-              }`}
+              customs="h-screen fixed z-50 top-0 md: h-full  md:left-0 md:w-full md:z-0  md:transition-all md:duration-300 md:ease-in-out md:static  text-black dark:bg-black dark:text-white "
             />
           </div>
         </div>

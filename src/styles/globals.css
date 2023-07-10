@@ -1,6 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
 @supports (font: -apple-system-body) and (-webkit-appearance: none) {
   body {
     font-size: 16px !important;
@@ -19,4 +20,7 @@ body {
   background: linear-gradient(90deg, #db2777 0%, #ea580c 100%) !important;
   height: 4px !important;
   border-radius: 50% !important;
+}
+.dark{
+  @apply bg-black text-white
 }

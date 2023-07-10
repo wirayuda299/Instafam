@@ -2,8 +2,6 @@ import { signIn } from "next-auth/react";
 import { FcGoogle } from "react-icons/fc";
 import type { GetServerSidePropsContext } from "next";
 import Head from "next/head";
-import { useStore } from "zustand";
-import { useDarkModeStore } from "@/stores/stores";
 import Logo from "@/components/Logo/Logo";
 
 type Providers = {
@@ -15,7 +13,6 @@ type Providers = {
 }[];
 
 export default function SignIn({ providers }: { providers: Providers }) {
-  const { darkMode } = useStore(useDarkModeStore);
   return (
     <>
       <Head>
@@ -26,11 +23,7 @@ export default function SignIn({ providers }: { providers: Providers }) {
           content="https://instafam.vercel.app/auth/signin"
         />
       </Head>
-      <div
-        className={`grid h-screen w-full place-items-center p-5 ${
-          darkMode ? "text-white" : "text-black"
-        }`}
-      >
+      <div className="grid h-screen w-full place-items-center p-5 text-black dark:text-white">
         <div className="flex items-center justify-between gap-4 overflow-hidden">
           <div className="flex aspect-square max-h-[512px] max-w-lg flex-col items-center justify-center text-center">
             <div className="text-9xl  ">

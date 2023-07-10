@@ -1,8 +1,6 @@
 import useUser from "@/hooks/useUser";
-import { useDarkModeStore } from "@/stores/stores";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
-import { useStore } from "zustand";
 import Lists from "./Lists";
 import { createPortal } from "react-dom";
 import { memo } from "react";
@@ -19,7 +17,6 @@ const Menu = () => {
   } = useModalContext();
   const { replace, asPath } = useRouter();
   const refreshData = () => replace(asPath);
-  const { darkMode } = useStore(useDarkModeStore);
   const { data: session } = useSession();
   const { user } = useUser(session?.user?.uid as string);
 
@@ -130,14 +127,9 @@ const Menu = () => {
     >
       <div className="mx-auto h-full max-w-5xl text-center ">
         <div className="flex h-full flex-col items-center justify-center">
-          <ul
-            className={`flex min-w-[400px] flex-col rounded-lg  p-5 ${
-              darkMode ? "!bg-black text-white" : "!bg-white text-black"
-            } `}
-          >
+          <ul className="flex min-w-[400px] flex-col rounded-lg !bg-white p-5 text-black dark:!bg-black  ">
             <Lists
               buttonLists={buttonLists}
-              darkMode={darkMode}
               selectedPost={selectedPost}
               closeMenuModal={closeMenuModal}
               session={session}

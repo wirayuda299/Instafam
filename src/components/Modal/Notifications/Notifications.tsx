@@ -1,17 +1,15 @@
-import Empty from "@/components/Notifications/Empty";
-import NotificationUser from "@/components/Notifications/NotificationUser";
 import { db } from "@/config/firebase";
-import { useModalContext } from "@/stores/Modal/ModalStatesContext";
-import { useDarkModeStore } from "@/stores/stores";
 import { onSnapshot, doc } from "firebase/firestore";
 import { useSession } from "next-auth/react";
 import { memo, useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import { AiOutlineArrowLeft } from "react-icons/ai";
-import { useStore } from "zustand";
+
+import { useModalContext } from "@/stores/Modal/ModalStatesContext";
+import Empty from "@/components/Notifications/Empty";
+import NotificationUser from "@/components/Notifications/NotificationUser";
 
 const NotificationsModal = () => {
-  const { darkMode } = useStore(useDarkModeStore);
   const {
     modalStates: { notificationModal },
     modalDispatch,
@@ -38,18 +36,14 @@ const NotificationsModal = () => {
 
   return createPortal(
     <div
-      className={` fixed left-0 top-0 z-[99] h-screen w-full select-none !overflow-y-auto  !overflow-x-hidden shadow-sm  md:hidden lg:hidden  ${
+      className={` fixed left-0 top-0 z-[99] h-screen w-full select-none !overflow-y-auto  !overflow-x-hidden shadow-sm  md:hidden lg:hidden   ${
         notificationModal ? "animate-fadeIn" : "hidden animate-fadeOut"
-      } ${darkMode ? "bg-black" : "bg-white"}`}
+      }`}
       aria-modal="true"
       role="dialog"
     >
       <div className="relative h-full w-full">
-        <div
-          className={`sticky top-0 z-30 flex w-full items-center border-b border-gray-500 border-opacity-50 px-3 py-3 ${
-            darkMode ? "bg-black text-white" : "bg-white text-black"
-          }`}
-        >
+        <div className="sticky top-0 z-30 flex w-full items-center border-b border-gray-500 border-opacity-50 bg-white px-3 py-3 text-black dark:bg-black dark:text-white">
           <div className="flex w-full place-items-center ">
             <button
               type="button"
@@ -80,7 +74,6 @@ const NotificationsModal = () => {
             <NotificationUser
               user={user}
               key={follower.followedByName}
-              darkMode={darkMode}
               follower={follower}
               session={session}
             />

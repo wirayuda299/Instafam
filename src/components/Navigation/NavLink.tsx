@@ -23,7 +23,6 @@ type NavLinkProps = {
   handleSearchDrawer: () => void;
   handleNotificationDrawer: () => void;
   openCreateModal: () => void;
-  darkMode: boolean;
 };
 
 const NavLink: FC<NavLinkProps> = (props) => {
@@ -36,7 +35,6 @@ const NavLink: FC<NavLinkProps> = (props) => {
     handleSearchDrawer,
     notificationDrawer,
     openCreateModal,
-    darkMode,
   } = props;
 
   const navList = [
@@ -107,7 +105,6 @@ const NavLink: FC<NavLinkProps> = (props) => {
     handleNotificationDrawer,
     handleSearchDrawer,
     notificationDrawer,
-    darkMode,
     pathname,
     toggler: handleClick,
     drawer,

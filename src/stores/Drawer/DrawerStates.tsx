@@ -14,7 +14,6 @@ type DrawerStatesproviderTypes = {
   drawerDispatch: Dispatch<DrawerActionsTypes>;
 };
 export const initialStates = {
-  isExtraListOpen: false,
   isSearchDrawerOpen: false,
   resultDrawer: false,
   notificationDrawer: false,

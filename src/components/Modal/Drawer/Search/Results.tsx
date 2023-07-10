@@ -1,10 +1,9 @@
+import type { FC } from "react";
 import Link from "next/link";
 import { AiOutlineClose } from "react-icons/ai";
 import Image from "next/image";
-import { useDarkModeStore } from "@/stores/stores";
-import { useStore } from "zustand";
+
 import { useStateContext } from "@/stores/Global/StateContext";
-import type { FC } from "react";
 import { useDrawerContext } from "@/stores/Drawer/DrawerStates";
 
 interface ResultsProps {
@@ -15,7 +14,6 @@ interface ResultsProps {
 
 const Results: FC<ResultsProps> = (props) => {
   const { results, handleDrawerToggler, customs } = props;
-  const { darkMode } = useStore(useDarkModeStore);
   const {
     drawerStates: { resultDrawer },
   } = useDrawerContext();
@@ -25,17 +23,11 @@ const Results: FC<ResultsProps> = (props) => {
   return (
     <>
       <div
-        className={`result flex h-full w-full justify-center  px-5 ${
-          darkMode ? "bg-black text-white" : "bg-white text-black"
-        } transition-all md:px-0 ${results.length < 1 ? "hidden" : "block"} ${
-          customs ? customs : ""
-        }`}
+        className={`result flex h-full w-full justify-center bg-white px-5 text-black transition-all  dark:bg-black dark:text-white md:px-0 ${
+          results.length < 1 ? "hidden" : "block"
+        } ${customs ? customs : ""}`}
       >
-        <div
-          className={`w-full ${
-            darkMode ? "bg-black text-white" : "bg-white text-black"
-          }`}
-        >
+        <div className="dark:text-whit w-full bg-white text-black  dark:bg-black">
           {results?.length === 0 ? (
             <div className="flex items-center justify-center">
               <p className="text-sm font-semibold">No results found</p>
@@ -45,9 +37,7 @@ const Results: FC<ResultsProps> = (props) => {
               {results &&
                 results?.map((result) => (
                   <div
-                    className={`mb-3 flex w-full items-center justify-between border-b border-gray-500 border-opacity-50 py-2 pb-5 ${
-                      darkMode ? "bg-black text-white" : "bg-white text-black"
-                    }`}
+                    className="mb-3 flex w-full items-center justify-between border-b border-gray-500 border-opacity-50 bg-white py-2 pb-5 text-black  dark:bg-black "
                     key={result.uid}
                   >
                     <Link

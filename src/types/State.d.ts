@@ -23,7 +23,6 @@ type ModalStates = {
 };
 
 type DrawerStatesTypes = {
-  isExtraListOpen: boolean;
   isSearchDrawerOpen: boolean;
   resultDrawer: boolean;
   notificationDrawer: boolean;

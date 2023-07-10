@@ -1,9 +1,7 @@
-import { useDarkModeStore } from "@/stores/stores";
 import type { Session } from "next-auth";
 import dynamic from "next/dynamic";
 import type { FC } from "react";
 import { BsThreeDots } from "react-icons/bs";
-import { useStore } from "zustand";
 const Likes = dynamic(() => import("./Likes"));
 const CommentsForm = dynamic(() => import("@/components/Comments/Forms"));
 const ActionButton = dynamic(() => import("@/components/Post/ActionButton"));
@@ -27,17 +25,12 @@ type Props = {
 
 const PreviewLargeScreen: FC<Props> = (props) => {
   const { post, comments, likes, savedBy, handleClick, session } = props;
-  const { darkMode } = useStore(useDarkModeStore);
   return (
     <>
       <div className="hidden shadow-sm lg:block">
         <PostImage post={post} />
       </div>
-      <div
-        className={`relative hidden md:block ${
-          darkMode ? "bg-black text-white" : "bg-white text-black"
-        }`}
-      >
+      <div className="relative hidden bg-white text-black dark:bg-black dark:text-white md:block ">
         <div className="hidden h-full max-h-[400px] overflow-y-auto  overflow-x-hidden py-3 lg:block ">
           <div className="absolute top-0 w-full border-b border-gray-500 border-opacity-50 px-2">
             <PostHeader post={post}>
@@ -61,11 +54,7 @@ const PreviewLargeScreen: FC<Props> = (props) => {
               </div>
             )}
           </div>
-          <div
-            className={`absolute bottom-0 hidden w-full border-t border-gray-500 border-opacity-50 px-2 lg:block ${
-              darkMode ? "bg-black" : "bg-white"
-            }`}
-          >
+          <div className="absolute bottom-0 hidden w-full border-t border-gray-500 border-opacity-50 bg-white px-2 dark:bg-black lg:block">
             <ActionButton
               likes={likes}
               post={post ?? []}
