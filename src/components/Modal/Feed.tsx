@@ -1,5 +1,3 @@
-import { useDarkModeStore } from "@/stores/stores";
-import { useStore } from "zustand";
 import { AiOutlineClose } from "react-icons/ai";
 import dynamic from "next/dynamic";
 import { createPortal } from "react-dom";
@@ -15,7 +13,6 @@ const Postheader = dynamic(() => import("@/components/Header/PostHeader"), {
 });
 
 const Feed = () => {
-  const { darkMode } = useStore(useDarkModeStore);
   const {
     state: { selectedPost },
     Dispatch,
@@ -55,11 +52,7 @@ const Feed = () => {
       >
         <div className="mx-auto h-full max-w-[500px] text-center">
           <div className="flex h-full cursor-pointer flex-col items-center justify-center">
-            <div
-              className={`flex min-w-[300px] flex-col rounded-lg p-2 ${
-                darkMode ? "!bg-black text-white" : "!bg-white text-black"
-              } `}
-            >
+            <div className="flex min-w-[300px] flex-col rounded-lg bg-white p-2 text-black dark:!bg-black dark:text-white">
               <Postheader post={selectedPost as IUserPostProps}>
                 <button
                   type="button"

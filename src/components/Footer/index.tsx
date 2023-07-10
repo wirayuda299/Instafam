@@ -1,6 +1,7 @@
-import footerlists from "@/data/footerLists.json";
 import Link from "next/link";
 import type { FC, ReactNode } from "react";
+
+import footerlists from "@/data/footerLists.json";
 
 type FooterProps = {
   children: ReactNode;

@@ -1,19 +1,16 @@
 import SuggestionMobile from "@/components/Suggestions/SuggestionMobile";
 import { getUserRecommendation } from "@/helper/getUser";
 import { useModalContext } from "@/stores/Modal/ModalStatesContext";
-import { useDarkModeStore } from "@/stores/stores";
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import { AiOutlineClose } from "react-icons/ai";
-import { useStore } from "zustand";
 
 const Recommendations = () => {
   const {
     modalStates: { showAllUserModal },
     modalDispatch,
   } = useModalContext();
-  const { darkMode } = useStore(useDarkModeStore);
   const { data: session } = useSession();
   const [users, setUsers] = useState<IUser[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
@@ -56,11 +53,7 @@ const Recommendations = () => {
             >
               <AiOutlineClose size={35} />
             </button>
-            <div
-              className={`max-h-[35rem] w-full max-w-2xl overflow-y-auto overflow-x-hidden rounded-md border border-gray-400 border-opacity-20 p-5 ${
-                darkMode ? "bg-black" : "bg-white"
-              }`}
-            >
+            <div className="max-h-[35rem] w-full max-w-2xl overflow-y-auto overflow-x-hidden rounded-md border border-gray-400 border-opacity-20 bg-white p-5 dark:bg-black">
               <div className="grid w-full grid-cols-2 place-items-center gap-5">
                 {loading ? (
                   <div className="aspect-square h-44 w-44 animate-pulse bg-black"></div>

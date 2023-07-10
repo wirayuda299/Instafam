@@ -2,8 +2,9 @@ import { useRouter } from "next/router";
 import type { FieldValues } from "react-hook-form";
 import { useForm } from "react-hook-form";
 import { AiOutlineSend } from "react-icons/ai";
-export type IComment = Pick<IUserPostProps, "comments">;
 import type { Session } from "next-auth";
+
+export type IComment = Pick<IUserPostProps, "comments">;
 
 type Props = {
   post: IUserPostProps;

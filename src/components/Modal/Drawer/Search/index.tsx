@@ -1,8 +1,7 @@
+import dynamic from "next/dynamic";
 import { AiOutlineSearch } from "react-icons/ai";
 import { memo } from "react";
-import { useDarkModeStore } from "@/stores/stores";
-import { useStore } from "zustand";
-import dynamic from "next/dynamic";
+
 import { useDrawerContext } from "@/stores/Drawer/DrawerStates";
 const Form = dynamic(() => import("./Form"), { ssr: false });
 
@@ -10,14 +9,14 @@ const SearchDrawer = () => {
   const {
     drawerStates: { isSearchDrawerOpen },
   } = useDrawerContext();
-  const { darkMode } = useStore(useDarkModeStore);
+
   if (!isSearchDrawerOpen) return null;
+
 
   return (
     <section
-      className={`ease fixed  z-[1] transition-all duration-150 ${
-        darkMode ? "bg-black" : "bg-white"
-      } ${
+      id="search-drawer"
+      className={`ease fixed z-[1] bg-white transition-all duration-150 dark:bg-black ${
         isSearchDrawerOpen
           ? "animate-slideIn lg:animate-slideIn"
           : "animate-slideOut lg:animate-slideOutWidth"
@@ -25,7 +24,7 @@ const SearchDrawer = () => {
     >
       <div className=" h-full w-full ">
         <div className="w-64 border-b p-5">
-          <h1 className="py-5 text-2xl font-semibold">Search</h1>
+          <h2 className="py-5 text-2xl font-semibold">Search</h2>
           <Form height="h-screen ">
             <button type="submit" name="search" title="search">
               <AiOutlineSearch size={20} />

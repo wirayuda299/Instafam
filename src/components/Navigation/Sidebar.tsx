@@ -1,8 +1,8 @@
 import dynamic from "next/dynamic";
 import { useSession } from "next-auth/react";
-import { useDarkModeStore } from "@/stores/stores";
-import { useStore } from "zustand";
 import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
+
 import { useStateContext } from "@/stores/Global/StateContext";
 import { useModalContext } from "@/stores/Modal/ModalStatesContext";
 import { useDrawerContext } from "@/stores/Drawer/DrawerStates";
@@ -13,19 +13,31 @@ const NavHeader = dynamic(() => import("../Header/NavHeader"));
 const ChatForm = dynamic(() => import("@/components/Messages/Form/ChatForm"));
 
 const Sidebar = () => {
+  const [isOpen, setIsOpen] = useState<boolean>(false);
   const { data: session } = useSession();
   const { pathname } = useRouter();
-  const {
-    state: { selectedChat },
-    Dispatch,
-  } = useStateContext();
-  const {
-    drawerStates: { isExtraListOpen, isSearchDrawerOpen, notificationDrawer },
-    drawerDispatch,
-  } = useDrawerContext();
-  const { modalDispatch } = useModalContext();
-  const { darkMode } = useStore(useDarkModeStore);
+  const { state: { selectedChat }, Dispatch} = useStateContext();
+  const { drawerStates: { isSearchDrawerOpen, notificationDrawer }, drawerDispatch } = useDrawerContext();
+  
+  const { modalDispatch } = useModalContext();  
 
+    useEffect(() => {
+      document.addEventListener("click", handleClickOutside);
+      return () => {
+        document.removeEventListener("click",handleClickOutside);
+      };
+  }, []);
+
+  function handleClickOutside(e: MouseEvent) {
+    e.stopPropagation()
+
+    if(!e.target) return 
+    // @ts-ignore
+    const isExtraLists = e.target.id === "extraLists";
+
+    if (!isExtraLists) return setIsOpen(false);
+
+  }
   if (!session) return null;
 
   const toggler = () => {
@@ -33,21 +45,6 @@ const Sidebar = () => {
       type: "SET_RESULT",
       payload: {
         result: [],
-      },
-    });
-    drawerDispatch({
-      type: "TOGGLE_SEARCH_DRAWER",
-      payload: {
-        searchDrawer: false,
-      },
-    });
-  };
-
-  const handleClick = () => {
-    drawerDispatch({
-      type: "TOGGLE_EXTRA_LIST",
-      payload: {
-        extraList: !isExtraListOpen,
       },
     });
     drawerDispatch({
@@ -104,16 +101,11 @@ const Sidebar = () => {
   };
 
   return (
-    <>
       <aside
         className={`
-         ease fixed bottom-0 left-0 z-50 flex h-14 w-full items-center transition-width duration-300 md:static md:z-10 md:h-screen md:w-fit md:border-r md:border-opacity-50   ${
+         ease fixed bottom-0 left-0 z-50 flex h-14 w-full items-center bg-white text-black transition-width duration-300 dark:border-t dark:border-gray-400 dark:border-opacity-40 dark:bg-black dark:text-white md:static md:z-10 md:h-screen md:w-fit md:border-r md:border-opacity-50 dark:md:border-t-0   ${
            isSearchDrawerOpen || notificationDrawer ? "!w-20" : " lg:w-64 "
-         } ${
-          darkMode
-            ? " border-t border-gray-400 border-opacity-40 bg-black text-white md:border-t-0"
-            : "bg-white text-black"
-        }`}
+         }`}
       >
         <nav className=" flex w-full flex-col justify-between p-1 md:h-full md:p-3 ">
           <NavHeader />
@@ -124,7 +116,6 @@ const Sidebar = () => {
               </div>
             ) : null}
             <NavLink
-              darkMode={darkMode}
               handleNotificationDrawer={handleNotificationDrawer}
               handleSearchDrawer={handleSearchDrawer}
               notificationDrawer={notificationDrawer}
@@ -134,17 +125,16 @@ const Sidebar = () => {
               pathname={pathname}
               openCreateModal={openCreateModal}
             />
-            <ExtraMenus />
+            <ExtraMenus isOpen={isOpen} />
           </div>
           <ExtraMenuBtn
+            setIsOpen={setIsOpen}
             notificationdrawer={notificationDrawer}
             drawer={isSearchDrawerOpen}
-            extraList={isExtraListOpen}
-            handleClick={handleClick}
+            extraList={isOpen}
           />
         </nav>
       </aside>
-    </>
   );
 };
 export default Sidebar;

@@ -41,12 +41,7 @@ type SelectPostAction = {
     post: IUserPostProps | null;
   };
 };
-type ToggleExtraListAction = {
-  type: "TOGGLE_EXTRA_LIST";
-  payload: {
-    extraList: boolean;
-  };
-};
+
 type ToggleSearchDrawerAction = {
   type: "TOGGLE_SEARCH_DRAWER";
   payload: {
@@ -210,7 +205,6 @@ type ActionsModalTypes =
   | ToggleExtraListAction;
 
 type DrawerActionsTypes =
-  | ToggleExtraListAction
   | ToggleSearchDrawerAction
   | ResultDrawerAction
   | NotificationDrawerAction

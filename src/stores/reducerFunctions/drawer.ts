@@ -6,11 +6,6 @@ export function drawerreducer(
   action: DrawerActionsTypes
 ) {
   switch (action.type) {
-    case "TOGGLE_EXTRA_LIST":
-      return {
-        ...state,
-        isExtraListOpen: action.payload.extraList,
-      };
     case "TOGGLE_RECEIVER_DRAWER":
       return {
         ...state,

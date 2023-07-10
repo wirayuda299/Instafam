@@ -1,14 +1,13 @@
-import { useDarkModeStore } from "@/stores/stores";
 import { useState } from "react";
 import { createPortal } from "react-dom";
 import { type FieldValues, useForm } from "react-hook-form";
 import { AiOutlineClose } from "react-icons/ai";
-import { useStore } from "zustand";
 import Image from "next/image";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
-import { useStateContext } from "@/stores/Global/StateContext";
 import { toast } from "react-hot-toast";
+
+import { useStateContext } from "@/stores/Global/StateContext";
 import { useModalContext } from "@/stores/Modal/ModalStatesContext";
 
 const MessagesModal = () => {
@@ -22,7 +21,6 @@ const MessagesModal = () => {
   } = useModalContext();
   const { handleSubmit, resetField, register } = useForm();
   const [result, setResult] = useState<IUser[] | undefined>([]);
-  const { darkMode } = useStore(useDarkModeStore);
   const { replace, asPath, push } = useRouter();
   const { data: session } = useSession();
 
@@ -63,9 +61,9 @@ const MessagesModal = () => {
 
   return createPortal(
     <div
-      className={` fixed left-0 top-0 z-[99999999] h-screen w-full  select-none !overflow-hidden   shadow-sm  ${
+      className={` fixed left-0 top-0 z-[99999999] h-screen w-full select-none !overflow-hidden bg-white text-black  shadow-sm dark:bg-black   dark:text-white  ${
         messageModal ? "animate-fadeIn" : "animate-fadeOut"
-      } ${darkMode ? "bg-black text-white" : "bg-white text-black"}`}
+      }`}
       aria-modal="true"
       role="dialog"
     >
@@ -139,9 +137,7 @@ const MessagesModal = () => {
                 }
               }}
               key={user.uid}
-              className={`relative flex items-center space-x-2  px-4 py-3 ${
-                darkMode ? "bg-black text-white" : "bg-white text-black"
-              }`}
+              className="relative flex items-center space-x-2  bg-white px-4 py-3 text-black  dark:bg-black dark:text-white"
             >
               <Image
                 className="h-8 w-8 rounded-full object-cover "

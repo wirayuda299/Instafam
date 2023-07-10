@@ -5,6 +5,7 @@ import ChatForm from "../Form/ChatForm";
 import { db } from "@/config/firebase";
 import { onSnapshot, doc } from "firebase/firestore";
 import { type FC, useEffect, useState } from "react";
+
 import { Chats as ChatsType } from "@/types/Chats";
 
 type ChatsProps = {
@@ -71,13 +72,9 @@ const Chats: FC<ChatsProps> = ({ session, selectedChat }) => {
                 </div>
               </div>
             ))}
-            <div
-              className={
-                "md: left-0 z-0 hidden w-full md:absolute md:bottom-0 md:block"
-              }
-            >
+            <section className="md: left-0 z-0 hidden w-full md:absolute md:bottom-0 md:block">
               <ChatForm selectedChat={selectedChat} session={session} />
-            </div>
+            </section>
           </div>
           <br />
           <br />

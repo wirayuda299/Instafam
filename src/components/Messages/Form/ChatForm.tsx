@@ -1,10 +1,8 @@
 import { db } from "@/config/firebase";
-import { useDarkModeStore } from "@/stores/stores";
 import type { Session } from "next-auth";
 import type { FC } from "react";
 import { type FieldValues, useForm } from "react-hook-form";
 import { SlPaperPlane } from "react-icons/sl";
-import { useStore } from "zustand";
 
 type ChatFormProps = {
   selectedChat: DataMessage | null;
@@ -18,7 +16,6 @@ const ChatForm: FC<ChatFormProps> = ({ selectedChat, session }) => {
     resetField,
     formState: { errors },
   } = useForm();
-  const { darkMode } = useStore(useDarkModeStore);
 
   const sendMessage = async (e: FieldValues) => {
     const message = e.message;
@@ -49,11 +46,7 @@ const ChatForm: FC<ChatFormProps> = ({ selectedChat, session }) => {
   };
 
   return (
-    <div
-      className={` w-full rounded-full border-2 border-gray-500 border-opacity-40 md:absolute md:bottom-0  ${
-        darkMode ? "bg-black" : "bg-white "
-      }`}
-    >
+    <div className="w-full  rounded-full border-2 border-gray-500 border-opacity-40 bg-white dark:bg-black md:absolute md:bottom-0">
       <form
         className="flex items-center justify-between px-5 py-4"
         onSubmit={handleSubmit(sendMessage)}

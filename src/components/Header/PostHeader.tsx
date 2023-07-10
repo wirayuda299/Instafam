@@ -1,6 +1,5 @@
 import Image from "next/image";
-import { useStore } from "zustand";
-import { useDarkModeStore } from "@/stores/stores";
+
 import CreatedTime from "@/components/Post/CreatedTime";
 import { type FC, memo } from "react";
 
@@ -10,14 +9,9 @@ type PostHeaderProps = {
 };
 
 const PostHeader: FC<PostHeaderProps> = ({ post, children }) => {
-  const { darkMode } = useStore(useDarkModeStore);
 
   return (
-    <header
-      className={`relative flex h-fit items-center px-4 py-3 ${
-        darkMode ? "bg-black text-white" : "bg-white text-black"
-      }`}
-    >
+    <header className="relative flex h-fit items-center bg-white px-4 py-3 text-black dark:bg-black dark:text-white ">
       <Image
         className="h-8 w-8 rounded-full object-cover "
         alt={post?.author ?? "user profile"}

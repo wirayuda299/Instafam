@@ -1,12 +1,12 @@
 import Link from "next/link";
 import { AiOutlineHeart } from "react-icons/ai";
 import { Playfair_Display } from "next/font/google";
-import { useStore } from "zustand";
-import { useDarkModeStore } from "@/stores/stores";
 import { useSession } from "next-auth/react";
 import { BiSun } from "react-icons/bi";
 import { BsMoonFill } from "react-icons/bs";
+
 import { useModalContext } from "@/stores/Modal/ModalStatesContext";
+import { useState } from "react";
 
 const playfair = Playfair_Display({
   fallback: ["sans-serif"],
@@ -18,22 +18,15 @@ const playfair = Playfair_Display({
 });
 
 const Header = () => {
-  const { darkMode, setDarkMode } = useStore(useDarkModeStore);
   const { data: session } = useSession();
+  const [theme, setTheme] = useState<string | null>('');
   const { modalDispatch } = useModalContext();
 
-  const changeTheme = () => {
-    localStorage.setItem("theme", darkMode ? "light" : "dark");
-    setDarkMode(!darkMode);
-  };
+  const changeTheme = () => {};
   if (!session) return null;
 
   return (
-    <header
-      className={`relative h-14 w-full border-b border-gray-500 border-opacity-50 px-5 md:hidden ${
-        darkMode ? "bg-black text-white" : "bg-white text-black"
-      }`}
-    >
+    <header className="relative h-14 w-full border-b border-gray-500 border-opacity-50 bg-white px-5 text-black dark:bg-black dark:text-white md:hidden ">
       <div className="flex h-full w-full items-center justify-between space-x-5">
         <div className="w-full">
           <Link
@@ -44,22 +37,15 @@ const Header = () => {
           </Link>
         </div>
         <button
-          name={`switch to ${darkMode ? "light" : "dark"}`}
-          title={`switch to ${darkMode ? "light" : "dark"}`}
+          type="button"
+          name={`switch theme`}
+          title={`switch theme`}
           onClick={() => changeTheme()}
         >
-          {darkMode ? (
-            <BiSun
-              className={`animate-rotateOnView text-2xl ${
-                darkMode ? "text-white" : "text-black"
-              }`}
-            />
+          {theme === "dark" ? (
+            <BiSun className="animate-rotateOnView text-2xl text-black dark:text-white" />
           ) : (
-            <BsMoonFill
-              className={`animate-rotateOnView text-2xl ${
-                darkMode ? "text-white" : "text-black"
-              }`}
-            />
+            <BsMoonFill className="animate-rotateOnView text-2xl text-black dark:text-white" />
           )}
         </button>
         <button

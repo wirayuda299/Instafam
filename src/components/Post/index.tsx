@@ -1,11 +1,10 @@
 import dynamic from "next/dynamic";
-import usePost from "@/hooks/usePost";
 import { useSession } from "next-auth/react";
 import { type FC, memo } from "react";
 import { BsThreeDots } from "react-icons/bs";
+
+import usePost from "@/hooks/usePost";
 import { useStateContext } from "@/stores/Global/StateContext";
-import { useStore } from "zustand";
-import { useDarkModeStore } from "@/stores/stores";
 import { useModalContext } from "@/stores/Modal/ModalStatesContext";
 const Likes = dynamic(() => import("./Likes"));
 const ActionButton = dynamic(() => import("./ActionButton"));
@@ -19,7 +18,6 @@ const PostCard: FC<{ post: IUserPostProps }> = ({ post }) => {
   const { data: session } = useSession();
   const { modalDispatch } = useModalContext();
   const { Dispatch } = useStateContext();
-  const { darkMode } = useStore(useDarkModeStore);
 
   const handleClick = () => {
     modalDispatch({
@@ -37,11 +35,7 @@ const PostCard: FC<{ post: IUserPostProps }> = ({ post }) => {
   };
 
   return (
-    <div
-      className={`rounded-sm p-4 shadow-lg ${
-        darkMode ? "bg-black text-white" : "bg-white text-black"
-      }`}
-    >
+    <div className="rounded-sm bg-white p-4 text-black shadow-lg dark:bg-black dark:text-white ">
       <PostHeader post={post}>
         <button type="button" name="menu" title="menu" onClick={handleClick}>
           <BsThreeDots className="text-gray-500" size={20} />

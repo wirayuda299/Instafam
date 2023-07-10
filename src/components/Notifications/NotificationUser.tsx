@@ -6,14 +6,12 @@ import type { FC } from "react";
 
 type NotificationDrawerProps = {
   follower: Pick<IUser, "followers">["followers"][0];
-  darkMode: boolean;
   session: Session | null;
   user: IUser;
 };
 
 const NotificationUser: FC<NotificationDrawerProps> = ({
   follower,
-  darkMode,
   session,
   user,
 }) => {
@@ -42,7 +40,7 @@ const NotificationUser: FC<NotificationDrawerProps> = ({
                 });
               }}
             >
-              <h1 className={darkMode ? "text-white" : "text-black"}>
+              <h1 className="dark:text-whitetext-black">
                 {follower.followedByName}
               </h1>
               <span className="truncate text-xs text-gray-500">

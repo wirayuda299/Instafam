@@ -1,18 +1,16 @@
-import { useDarkModeStore } from "@/stores/stores";
 import { useState } from "react";
 import { createPortal } from "react-dom";
 import { AiOutlineClose } from "react-icons/ai";
-import { useStore } from "zustand";
 import { useRouter } from "next/router";
 import dynamic from "next/dynamic";
-import type { Area } from "@/components/ImageCropper/ImageCropper";
 import { getCroppedImg } from "react-cropper-custom";
+
+import type { Area } from "@/components/ImageCropper/ImageCropper";
 import { useStateContext } from "@/stores/Global/StateContext";
 import { useModalContext } from "@/stores/Modal/ModalStatesContext";
 const FileUpload = dynamic(() => import("@/components/FileUpload/FileUpload"), {
   ssr: false,
 });
-
 const ImageCropper = dynamic(
   () => import("@/components/ImageCropper/ImageCropper"),
   {
@@ -21,7 +19,6 @@ const ImageCropper = dynamic(
 );
 
 const Cropper = () => {
-  const { darkMode } = useStore(useDarkModeStore);
   const {
     modalStates: { postCreateModal },
     modalDispatch,
@@ -74,9 +71,8 @@ const Cropper = () => {
 
   return createPortal(
     <div
-      className={` ${
-        darkMode ? " text-white" : " text-black"
-      } fixed left-0 top-0 z-50 h-screen w-full select-none !overflow-hidden bg-black bg-opacity-50  shadow-sm backdrop-blur-sm`}
+      className="fixed
+      left-0 top-0 z-50 h-screen w-full select-none !overflow-hidden bg-black bg-opacity-50 text-black shadow-sm  backdrop-blur-sm dark:text-white"
       aria-modal="true"
       role="dialog"
     >
@@ -108,7 +104,6 @@ const Cropper = () => {
       <div className="mx-auto h-full max-w-lg sm:w-full ">
         {previewUrl ? (
           <ImageCropper
-            darkMode={darkMode}
             handleClick={handleClick}
             img={previewUrl}
             onCropComplete={onCropComplete}

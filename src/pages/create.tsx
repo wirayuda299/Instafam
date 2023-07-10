@@ -1,6 +1,4 @@
 import dynamic from "next/dynamic";
-import { useStore } from "zustand";
-import { useDarkModeStore } from "@/stores/stores";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
@@ -11,7 +9,6 @@ const Captions = dynamic(() => import("@/components/Captions/Captions"), {
 });
 
 export default function CreatePost() {
-  const { darkMode } = useStore(useDarkModeStore);
   const [captions, setCaptions] = useState<string>("");
   const [loading, setLoading] = useState(false);
   const { data: session } = useSession();
@@ -54,11 +51,7 @@ export default function CreatePost() {
     }
   };
   return (
-    <div
-      className={`mb-5 h-screen w-full !overflow-y-auto ${
-        darkMode ? "bg-black" : "bg-white"
-      }`}
-    >
+    <div className="mb-5 h-screen w-full !overflow-y-auto bg-white dark:bg-black ">
       <div className=" mx-auto grid h-full place-items-center !overflow-y-auto lg:grid-cols-2">
         <Image
           className="hidden object-cover lg:block"
