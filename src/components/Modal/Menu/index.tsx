@@ -8,13 +8,10 @@ import { useStateContext } from "@/stores/Global/StateContext";
 import { useModalContext } from "@/stores/Modal/ModalStatesContext";
 
 const Menu = () => {
-  const {
-    state: { selectedPost },
-  } = useStateContext();
-  const {
-    modalStates: { menuModal },
-    modalDispatch,
-  } = useModalContext();
+  const { state: { selectedPost } } = useStateContext();
+  
+  const { modalStates: { menuModal }, modalDispatch } = useModalContext();
+
   const { replace, asPath } = useRouter();
   const refreshData = () => replace(asPath);
   const { data: session } = useSession();
@@ -35,6 +32,7 @@ const Menu = () => {
     });
   };
 
+  
   const closeMenuModal = () => {
     modalDispatch({
       type: "TOGGLE_MENU_MODAL",

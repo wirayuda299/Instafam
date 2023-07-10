@@ -39,44 +39,44 @@ const NavLink: FC<NavLinkProps> = (props) => {
 
   const navList = [
     {
-      id: 1,
+      id: 'home',
       title: "Home",
       path: "/",
       icon: <AiOutlineHome className={` text-3xl`} />,
     },
     {
-      id: 2,
+      id: 'search-drawers',
       title: "Search",
       path: "",
       icon: <AiOutlineSearch className={` text-3xl`} />,
     },
     {
-      id: 3,
+      id: 'trending',
       title: "Trending",
       path: "/trending",
       icon: <MdOutlineExplore className={` text-3xl`} />,
     },
     {
-      id: 4,
+      id: 'messages',
       title: "Messages",
       path: "/messages",
       icon: <RiMessengerLine className={` text-3xl`} />,
     },
     {
-      id: 5,
+      id: 'notifications',
       title: "Notifications",
       path: "",
       icon: <AiOutlineHeart className={` text-3xl`} />,
     },
     {
-      id: 6,
+      id: 'create',
       title: "Create",
       path: "",
       icon: <AiOutlinePlusSquare className={` text-3xl`} />,
       event: () => openCreateModal(),
     },
     {
-      id: 7,
+      id: 'profile',
       title: "Profile",
       path: `/profile/${session?.user.username}`,
       icon: (
@@ -103,7 +103,6 @@ const NavLink: FC<NavLinkProps> = (props) => {
   const navItemProps = {
     openCreateModal,
     handleNotificationDrawer,
-    handleSearchDrawer,
     notificationDrawer,
     pathname,
     toggler: handleClick,

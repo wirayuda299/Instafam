@@ -16,7 +16,7 @@ const PostImage = dynamic(() => import("./Image"), { ssr: true });
 const PostCard: FC<{ post: IUserPostProps }> = ({ post }) => {
   const { likes, comments, savedBy } = usePost(post);
   const { data: session } = useSession();
-  const { modalDispatch } = useModalContext();
+  const { modalDispatch} = useModalContext();
   const { Dispatch } = useStateContext();
 
   const handleClick = () => {
