@@ -13,7 +13,7 @@ Welcome to Instafam!, This is my first nextjs project. Please if you have sugges
 - View other users' profiles
 - Save posts to your profile
 - View your saved posts
-- Create, read, update and delete, report a post
+- Create, read, update delete and report a post
 - Simple detection of nudity in images while create a post
 - Navigate to spesific post,
 - Copy post link
