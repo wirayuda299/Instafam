@@ -31,7 +31,6 @@ Other features is comming soon.
 - Tailwind CSS
 - Firebase
 - NextAuth
-- Zustand
 
 ## Notes
 
