@@ -1,7 +1,7 @@
 import { AiOutlineWarning } from "react-icons/ai";
 import { BsMoonFill } from "react-icons/bs";
 import { BiSun } from "react-icons/bi";
-import { Dispatch, FC, RefObject, SetStateAction, useState } from "react";
+import { Dispatch, FC, RefObject, SetStateAction, useEffect, useState } from "react";
 
 import { useModalContext } from "@/stores/Modal/ModalStatesContext";
 import useClickOutside from "@/hooks/useClickoutside";
@@ -18,6 +18,18 @@ export const ExtraMenus:FC<ExtraMenuProps<HTMLDivElement>> = ({isOpen, menuRef, 
   const { modalDispatch } = useModalContext();
   const [theme, setTheme] = useState<string | null>("");
   useClickOutside(menuRef, () => setIsOpen(false))
+
+    useEffect(() => {
+    const prefersDarkMode = window.matchMedia(
+      "(prefers-color-scheme: dark)"
+    ).matches;
+
+    const selectedTheme =
+      theme || localStorage.theme || (prefersDarkMode ? "dark" : "light");
+
+    document.documentElement.classList.toggle("dark", selectedTheme === "dark");
+    localStorage.theme = selectedTheme;
+  }, [theme]);
   
   const ExtraMenusLists = [
     {
@@ -100,5 +112,8 @@ export const ExtraMenus:FC<ExtraMenuProps<HTMLDivElement>> = ({isOpen, menuRef, 
       </div>
   ); 
 }
+
+
+
 
 export default ExtraMenus;

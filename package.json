@@ -31,7 +31,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "format": "prettier --write ./"
+    "format": "prettier --write /**/*"
   },
   "dependencies": {
     "@types/node": "18.16.19",
