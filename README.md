@@ -32,6 +32,3 @@ Other features is comming soon.
 - Firebase
 - NextAuth
 
-## Notes
-
-- This project is only for learning purposes.
