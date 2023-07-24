@@ -2,8 +2,9 @@ import usePost from "@/hooks/usePost";
 import dynamic from "next/dynamic";
 import { AiOutlineClose } from "react-icons/ai";
 import { createPortal } from "react-dom";
-import { useStateContext } from "@/stores/Global/StateContext";
 import { useSession } from "next-auth/react";
+
+import { useStateContext } from "@/stores/Global/StateContext";
 import { useModalContext } from "@/stores/Modal/ModalStatesContext";
 const Likes = dynamic(() => import("@/components/Post/Likes"));
 const CommentsForm = dynamic(() => import("@/components/Comments/Forms"));
@@ -14,6 +15,7 @@ const Empty = dynamic(() => import("../Comments/Empty"));
 const PostImage = dynamic(() => import("../Post/Image"), {
   ssr: true,
 });
+
 const PostPreview = () => {
   const {
     state: { selectedPost },

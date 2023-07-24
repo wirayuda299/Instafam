@@ -1,15 +1,20 @@
 import { AiOutlineWarning } from "react-icons/ai";
 import { BsMoonFill } from "react-icons/bs";
 import { BiSun } from "react-icons/bi";
-import { FC, useEffect, useState } from "react";
+import { Dispatch, FC, RefObject, SetStateAction, FC, useEffect, useState } from "react";
 
 import { useModalContext } from "@/stores/Modal/ModalStatesContext";
+import useClickOutside from "@/hooks/useClickoutside";
 
-type ExtraMenuProps = {
+type Ref<T> = {
+  menuRef: RefObject<T>
+}
+type ExtraMenuProps<T> = {
   isOpen: boolean;
-};
+  setIsOpen: Dispatch<SetStateAction<boolean>>
+} & Ref<T>
 
-const ExtraMenus: FC<ExtraMenuProps> = ({ isOpen }) => {
+export const ExtraMenus:FC<ExtraMenuProps<HTMLDivElement>> = ({isOpen, menuRef, setIsOpen}) => {
   const { modalDispatch } = useModalContext();
   const [theme, setTheme] = useState<string | null>("");
     useEffect(() => {
@@ -23,6 +28,8 @@ const ExtraMenus: FC<ExtraMenuProps> = ({ isOpen }) => {
     document.documentElement.classList.toggle("dark", selectedTheme === "dark");
     localStorage.theme = selectedTheme;
   }, [theme]);
+  useClickOutside(menuRef, () => setIsOpen(false))
+  
   const ExtraMenusLists = [
     {
       id: 1,
@@ -64,7 +71,9 @@ const ExtraMenus: FC<ExtraMenuProps> = ({ isOpen }) => {
   if (!isOpen) return null;
 
   return (
-      <div
+    <div
+      id="extramenu"
+      ref={menuRef}
         className={`relative w-full flex-col justify-center space-y-1 bg-white dark:bg-black lg:space-y-3  ${
           isOpen ? "flex animate-fadeIn" : "hidden animate-fadeOut"
         }`}
@@ -100,7 +109,7 @@ const ExtraMenus: FC<ExtraMenuProps> = ({ isOpen }) => {
           </ul>
         </div>
       </div>
-  );
-};
+  ); 
+}
 
 export default ExtraMenus;

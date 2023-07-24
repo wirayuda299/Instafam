@@ -1,7 +1,7 @@
 import dynamic from "next/dynamic";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
-import {  useEffect, useState } from "react";
+import {  useEffect, useRef, useState } from "react";
 
 import { useStateContext } from "@/stores/Global/StateContext";
 import { useModalContext } from "@/stores/Modal/ModalStatesContext";
@@ -20,24 +20,7 @@ const Sidebar = () => {
   const { drawerStates: { isSearchDrawerOpen, notificationDrawer }, drawerDispatch } = useDrawerContext();
   
   const { modalDispatch } = useModalContext();  
-
-  useEffect(() => {
-     document.addEventListener("click", handleClickOutside);
-     return () => {
-      document.removeEventListener("click",handleClickOutside);
-    };
-  }, []);
-
-  function handleClickOutside(e: MouseEvent) {
-    e.stopPropagation()
-
-    if(!e.target) return 
-    // @ts-ignore
-    const isTargetClicked = e.target.id === 'extraLists';
-
-    if (!isTargetClicked) return setIsOpen(false)
-  }
-
+  const menuRef = useRef(null)
   
   if (!session) return null;
 
@@ -71,27 +54,6 @@ const Sidebar = () => {
     });
   };
 
-  const handleSearchDrawer = () => {
-    drawerDispatch({
-      type: "TOGGLE_SEARCH_DRAWER",
-      payload: {
-        searchDrawer: true,
-      },
-    });
-    Dispatch({
-      type: "SET_RESULT",
-      payload: {
-        result: [],
-      },
-    });
-    drawerDispatch({
-      type: "TOGGLE_NOTIFICATION_DRAWER",
-      payload: {
-        notificationDrawer: false,
-      },
-    });
-  };
-
   const openCreateModal = () => {
     modalDispatch({
       type: "TOGGLE_POST_CREATE_MODAL",
@@ -118,7 +80,6 @@ const Sidebar = () => {
             ) : null}
             <NavLink
               handleNotificationDrawer={handleNotificationDrawer}
-              handleSearchDrawer={handleSearchDrawer}
               notificationDrawer={notificationDrawer}
               session={session}
               drawer={isSearchDrawerOpen}
@@ -126,9 +87,10 @@ const Sidebar = () => {
               pathname={pathname}
               openCreateModal={openCreateModal}
             />
-            <ExtraMenus isOpen={isOpen} />
+            <ExtraMenus isOpen={isOpen} setIsOpen={setIsOpen} menuRef={menuRef} />
           </div>
-          <ExtraMenuBtn
+        <ExtraMenuBtn
+          isOpen={isOpen}
             setIsOpen={setIsOpen}
             notificationdrawer={notificationDrawer}
             drawer={isSearchDrawerOpen}

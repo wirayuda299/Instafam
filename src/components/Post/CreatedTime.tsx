@@ -1,7 +1,8 @@
-import { useModalContext } from "@/stores/Modal/ModalStatesContext";
-import { getCreatedDate } from "@/utils/postDate";
 import Link from "next/link";
 import type { FC } from "react";
+
+import { useModalContext } from "@/stores/Modal/ModalStatesContext";
+import { getCreatedDate } from "@/utils/postDate";
 
 type Props = {
   author: string;

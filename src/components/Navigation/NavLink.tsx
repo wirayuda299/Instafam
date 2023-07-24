@@ -20,7 +20,6 @@ type NavLinkProps = {
   pathname: string;
   drawer: boolean;
   notificationDrawer: boolean;
-  handleSearchDrawer: () => void;
   handleNotificationDrawer: () => void;
   openCreateModal: () => void;
 };
@@ -32,7 +31,6 @@ const NavLink: FC<NavLinkProps> = (props) => {
     pathname,
     drawer,
     handleNotificationDrawer,
-    handleSearchDrawer,
     notificationDrawer,
     openCreateModal,
   } = props;
