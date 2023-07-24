@@ -1,7 +1,8 @@
-import { useModalContext } from "@/stores/Modal/ModalStatesContext";
 import Image from "next/image";
 import Link from "next/link";
 import type { FC } from "react";
+
+import { useModalContext } from "@/stores/Modal/ModalStatesContext";
 
 const SuggestionMobile: FC<{ user: IUser }> = ({ user }) => {
   const { modalDispatch } = useModalContext();

@@ -1,8 +1,9 @@
 import { AiOutlineClose } from "react-icons/ai";
 import dynamic from "next/dynamic";
 import { createPortal } from "react-dom";
-import { useStateContext } from "@/stores/Global/StateContext";
 import Link from "next/link";
+
+import { useStateContext } from "@/stores/Global/StateContext";
 import { useModalContext } from "@/stores/Modal/ModalStatesContext";
 
 const PostImage = dynamic(() => import("@/components/Post/Image"), {
