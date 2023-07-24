@@ -1,8 +1,9 @@
 import { AiOutlineWarning } from "react-icons/ai";
 import { BsMoonFill } from "react-icons/bs";
 import { BiSun } from "react-icons/bi";
+import { FC, useEffect, useState } from "react";
+
 import { useModalContext } from "@/stores/Modal/ModalStatesContext";
-import { FC, useState } from "react";
 
 type ExtraMenuProps = {
   isOpen: boolean;
@@ -11,7 +12,17 @@ type ExtraMenuProps = {
 const ExtraMenus: FC<ExtraMenuProps> = ({ isOpen }) => {
   const { modalDispatch } = useModalContext();
   const [theme, setTheme] = useState<string | null>("");
+    useEffect(() => {
+    const prefersDarkMode = window.matchMedia(
+      "(prefers-color-scheme: dark)"
+    ).matches;
 
+    const selectedTheme =
+      theme || localStorage.theme || (prefersDarkMode ? "dark" : "light");
+
+    document.documentElement.classList.toggle("dark", selectedTheme === "dark");
+    localStorage.theme = selectedTheme;
+  }, [theme]);
   const ExtraMenusLists = [
     {
       id: 1,
