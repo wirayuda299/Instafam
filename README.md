@@ -4,29 +4,22 @@ Welcome to Instafam!, This is my first nextjs project. Please if you have sugges
 
 ## Features
 
-- Login
-- Log out
+- Login/Log out
 - Like and comment on posts
 - Follow and unFollow other users
 - Search for users by username or name
 - View your profile
 - Crop photo before upload
 - View other users' profiles
-- View your feed
 - Save posts to your profile
 - View your saved posts
-- Create a post
-- View your posts
-- Delete your posts
+- Create, read, update and delete, report a post
 - Simple detection of nudity in images while create a post
-- Load more posts,
 - Navigate to spesific post,
 - Copy post link
 - Share post
 - Responsive design
-- Update your posts
-- Report posts
-- Dark mode toggler
+- Dark mode switch
 - Send messages to other users
 
 Other features is comming soon.
