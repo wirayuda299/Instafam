@@ -1,7 +1,8 @@
 import dynamic from "next/dynamic";
 import { AiOutlineSearch } from "react-icons/ai";
-import { memo, useEffect, useRef } from "react";
+import { memo, useRef } from "react";
 
+import useClickOutSide from "@/hooks/useClickoutside";
 import { useDrawerContext } from "@/stores/Drawer/DrawerStates";
 const Form = dynamic(() => import("./Form"), { ssr: false });
 
@@ -11,24 +12,14 @@ const SearchDrawer = () => {
   } = useDrawerContext();
   const searchRef = useRef<HTMLDivElement>(null)
   
-   useEffect(() => {
-      document.addEventListener("click", handleClickOutside);
-      return () => {
-        document.removeEventListener("click",handleClickOutside);
-      };
-   }, []);  
-
-  function handleClickOutside(e: MouseEvent) {
-    e.stopPropagation()    
-
-    if (!e.target || !searchRef.current) return 
-    
-    const isTargetClicked = e.clientX > 330
-    const search = searchRef.current.id === 'search'
-
-    if (isTargetClicked || !search) return drawerDispatch({ type: 'TOGGLE_SEARCH_DRAWER', payload: { searchDrawer: false } })
-    
-  }
+  useClickOutSide(searchRef, () => {
+    drawerDispatch({
+      type: 'TOGGLE_SEARCH_DRAWER',
+      payload: {
+        searchDrawer:false
+      }
+    })
+  })
 
   if (!isSearchDrawerOpen) return null;
 

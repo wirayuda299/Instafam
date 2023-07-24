@@ -2,6 +2,7 @@ import dynamic from "next/dynamic";
 import Image from "next/image";
 import { type FC, memo } from "react";
 import { useSession } from "next-auth/react";
+
 import { useModalContext } from "@/stores/Modal/ModalStatesContext";
 
 const Footer = dynamic(() => import("@/components/Footer"));

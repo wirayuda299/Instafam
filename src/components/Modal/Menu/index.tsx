@@ -1,17 +1,17 @@
-import useUser from "@/hooks/useUser";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
-import Lists from "./Lists";
 import { createPortal } from "react-dom";
 import { memo } from "react";
+
+import useUser from "@/hooks/useUser";
+import Lists from "./Lists";
 import { useStateContext } from "@/stores/Global/StateContext";
 import { useModalContext } from "@/stores/Modal/ModalStatesContext";
+import { AiOutlineClose } from "react-icons/ai";
 
 const Menu = () => {
   const { state: { selectedPost } } = useStateContext();
-  
   const { modalStates: { menuModal }, modalDispatch } = useModalContext();
-
   const { replace, asPath } = useRouter();
   const refreshData = () => replace(asPath);
   const { data: session } = useSession();
@@ -31,7 +31,6 @@ const Menu = () => {
       },
     });
   };
-
   
   const closeMenuModal = () => {
     modalDispatch({
@@ -61,19 +60,19 @@ const Menu = () => {
             )
           ? "UnFollow"
           : "Follow",
-      event: async () => {
-        const { postActions } = await import("@/helper/postActions");
-        await postActions(
-          selectedPost as IUserPostProps,
-          session,
-          refreshData,
-          closeMenuModal
-        );
-      },
-    },
-    {
-      id: 3,
-      name: "Copy Link",
+          event: async () => {
+            const { postActions } = await import("@/helper/postActions");
+            await postActions(
+              selectedPost as IUserPostProps,
+              session,
+              refreshData,
+              closeMenuModal
+              );
+            },
+          },
+          {
+            id: 3,
+            name: "Copy Link",
       event: async () => {
         const { copyLink } = await import("@/utils/copyLink");
         copyLink(`${process.env.NEXTAUTH_URL}/post/${selectedPost?.postId}`);
@@ -123,7 +122,7 @@ const Menu = () => {
       aria-modal="true"
       role="dialog"
     >
-      <div className="mx-auto h-full max-w-5xl text-center ">
+      <div className="mx-auto h-full max-w-5xl text-center " >
         <div className="flex h-full flex-col items-center justify-center">
           <ul className="flex min-w-[400px] flex-col rounded-lg !bg-white p-5 text-black dark:!bg-black  ">
             <Lists
@@ -135,6 +134,9 @@ const Menu = () => {
           </ul>
         </div>
       </div>
+      <button className="absolute top-5 right-5" onClick={closeMenuModal}>
+        <AiOutlineClose size={30}/>
+      </button>
     </div>,
     document.getElementById("modal") as Element
   );

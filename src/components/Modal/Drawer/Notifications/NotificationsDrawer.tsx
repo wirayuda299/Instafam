@@ -1,13 +1,14 @@
 import { db } from "@/config/firebase";
-import { useDrawerContext } from "@/stores/Drawer/DrawerStates";
 import { onSnapshot, doc } from "firebase/firestore";
 import { useSession } from "next-auth/react";
 import dynamic from "next/dynamic";
 import { useEffect, useRef, useState } from "react";
+
+import { useDrawerContext } from "@/stores/Drawer/DrawerStates";
+import useClickOutSide from "@/hooks/useClickoutside";
 const Empty = dynamic(() => import("@/components/Notifications/Empty"), {
   ssr: false,
 });
-
 const NotificationUser = dynamic(
   () => import("@/components/Notifications/NotificationUser"),
   {
@@ -38,25 +39,12 @@ const NotificationsDrawer = () => {
     };
   }, [db, notificationDrawer]);
 
-  useEffect(() => {
-      document.addEventListener("click", handleClickOutside);
-      return () => {
-        document.removeEventListener("click",handleClickOutside);
-      };
-   }, []);  
-
-  function handleClickOutside(e: MouseEvent) {
-    e.stopPropagation()
-
-    if (!e.target  || !notif.current) return
-    
-    const isTargetClicked = e.clientX > 478
-    // @ts-ignore
-    const offset = notif.current.id === 'notif'
-
-    if (isTargetClicked || !offset) return drawerDispatch({ type: 'TOGGLE_NOTIFICATION_DRAWER', payload: {  notificationDrawer:false } })
-    
-  }
+  useClickOutSide(notif, () => drawerDispatch({
+    type:'TOGGLE_NOTIFICATION_DRAWER',
+    payload: {
+      notificationDrawer:false,
+    },
+  }))
 
   if (!notificationDrawer) return null;
 

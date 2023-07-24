@@ -1,5 +1,3 @@
-import { ActionsTypeUsersPage } from "@/types/ActionsTypes";
-import { handleTabClick } from "@/utils/handleTabChanges";
 import {
   type FC,
   useEffect,
@@ -10,6 +8,9 @@ import {
   SetStateAction,
 } from "react";
 import { BsGrid3X3Gap, BsBookmark, BsPersonSquare } from "react-icons/bs";
+
+import { ActionsTypeUsersPage } from "@/types/ActionsTypes";
+import { handleTabClick } from "@/utils/handleTabChanges";
 
 type Props = {
   activeTab: number;
