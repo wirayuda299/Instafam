@@ -1,10 +1,11 @@
-import SuggestionMobile from "@/components/Suggestions/SuggestionMobile";
-import { getUserRecommendation } from "@/helper/getUser";
-import { useModalContext } from "@/stores/Modal/ModalStatesContext";
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import { AiOutlineClose } from "react-icons/ai";
+
+import SuggestionMobile from "@/components/Suggestions/SuggestionMobile";
+import { getUserRecommendation } from "@/helper/getUser";
+import { useModalContext } from "@/stores/Modal/ModalStatesContext";
 
 const Recommendations = () => {
   const {
