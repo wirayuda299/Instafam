@@ -19,7 +19,7 @@ export const ExtraMenus:FC<ExtraMenuProps<HTMLDivElement>> = ({isOpen, menuRef, 
   const [theme, setTheme] = useState<string | null>("");
   useClickOutside(menuRef, () => setIsOpen(false))
 
-     useEffect(() => {
+    useEffect(() => {
     const prefersDarkMode = window.matchMedia(
       "(prefers-color-scheme: dark)"
     ).matches;
