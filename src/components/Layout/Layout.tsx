@@ -1,9 +1,11 @@
+import dynamic from "next/dynamic";
+import { type ReactNode } from "react";
+
 import useWindowResize from "@/hooks/useWindowResize";
 import { useModalContext } from "@/stores/Modal/ModalStatesContext";
 import { useStateContext } from "@/stores/Global/StateContext";
-import dynamic from "next/dynamic";
-import { type ReactNode, useEffect, useState } from "react";
 import { useDrawerContext } from "@/stores/Drawer/DrawerStates";
+import useTheme from "@/hooks/useTheme";
 const AllUsers = dynamic(
   () => import("@/components/Modal/Users/Recommendations")
 );
@@ -51,21 +53,9 @@ export default function Layout({ children }: { children: ReactNode }) {
   const { Dispatch } = useStateContext();
   const { modalDispatch } = useModalContext();
   const { drawerDispatch } = useDrawerContext();
+  const { theme, setTheme} =useTheme()
 
   useWindowResize(Dispatch, modalDispatch, drawerDispatch);
-  const [theme, setTheme] = useState<string | null>("");
-  
-  useEffect(() => {
-    const prefersDarkMode = window.matchMedia(
-      "(prefers-color-scheme: dark)"
-    ).matches;
-
-    const selectedTheme =
-      theme || localStorage.theme || (prefersDarkMode ? "dark" : "light");
-
-    document.documentElement.classList.toggle("dark", selectedTheme === "dark");
-    localStorage.theme = selectedTheme;
-  }, [theme]);
 
   return (
     <div className="h-screen w-full bg-white text-black dark:bg-black dark:text-white">

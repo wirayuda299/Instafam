@@ -7,7 +7,8 @@ import {
   query,
   startAfter,
   where,
-} from "firebase/firestore";
+} from "firebase/firestore"
+
 
 export const getPosts = async (num: number) => {
   try {

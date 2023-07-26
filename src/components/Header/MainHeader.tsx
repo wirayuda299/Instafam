@@ -7,6 +7,7 @@ import { BsMoonFill } from "react-icons/bs";
 
 import { useModalContext } from "@/stores/Modal/ModalStatesContext";
 import { useState } from "react";
+import useTheme from "@/hooks/useTheme";
 
 const playfair = Playfair_Display({
   fallback: ["sans-serif"],
@@ -19,10 +20,11 @@ const playfair = Playfair_Display({
 
 const Header = () => {
   const { data: session } = useSession();
-  const [theme, setTheme] = useState<string | null>('');
   const { modalDispatch } = useModalContext();
+  const {theme, setTheme} = useTheme()
 
-  const changeTheme = () => {};
+  const changeTheme = () => setTheme(theme === 'light' ? 'dark' : 'light');
+  
   if (!session) return null;
 
   return (
