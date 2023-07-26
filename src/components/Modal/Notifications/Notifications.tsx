@@ -36,7 +36,7 @@ const NotificationsModal = () => {
 
   return createPortal(
     <div
-      className={` fixed left-0 top-0 z-[99] h-screen w-full select-none !overflow-y-auto  !overflow-x-hidden shadow-sm  md:hidden lg:hidden   ${
+      className={` fixed left-0 top-0 z-[99] h-screen w-full select-none !overflow-y-auto bg-white dark:bg-black !overflow-x-hidden shadow-sm  md:hidden lg:hidden   ${
         notificationModal ? "animate-fadeIn" : "hidden animate-fadeOut"
       }`}
       aria-modal="true"
