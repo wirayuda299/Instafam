@@ -1,14 +1,17 @@
+import { useEffect, type Dispatch } from "react";
+
+import { DrawerActionsType } from "@/stores/reducerFunctions/drawer";
 import {
   ActionsModalTypes,
   ActionsType,
-  DrawerActionsTypes,
 } from "@/types/ActionsTypes";
-import { useEffect, type Dispatch } from "react";
+
 type Props = {
   Dispatch: Dispatch<ActionsType>;
   modalDispatch: Dispatch<ActionsModalTypes>;
-  drawerDispatch: Dispatch<DrawerActionsTypes>;
+  drawerDispatch: Dispatch<DrawerActionsType>;
 };
+
 export default function useWindowResize(
   Dispatch: Props["Dispatch"],
   modalDispatch: Props["modalDispatch"],
