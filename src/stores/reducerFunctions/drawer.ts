@@ -1,9 +1,17 @@
-import { DrawerActionsTypes } from "@/types/ActionsTypes";
 import { initialStates } from "../Drawer/DrawerStates";
+
+type PayloadType =
+  | { type: "TOGGLE_NOTIFICATION_DRAWER"; payload: { notificationDrawer: boolean } }
+  | { type: "TOGGLE_RECEIVER_DRAWER"; payload: { receiverDrawer: boolean } }
+  | { type: "TOGGLE_RESULT_DRAWER"; payload: { resultDrawer: boolean } }
+  | { type: "TOGGLE_SEARCH_DRAWER"; payload: { searchDrawer: boolean } };
+
+
+export type DrawerActionsType = PayloadType;
 
 export function drawerreducer(
   state: typeof initialStates,
-  action: DrawerActionsTypes
+  action: DrawerActionsType
 ) {
   switch (action.type) {
     case "TOGGLE_RECEIVER_DRAWER":

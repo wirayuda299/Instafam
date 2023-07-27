@@ -1,3 +1,30 @@
+interface ActionMap<TType, TPayload> {
+  type: TType
+  payload:T
+}
+
+type ActionTypes =
+  "TOGGLE_POST_MODAL" | 
+  "TOGGLE_POST_CREATE_MODAL" | 
+  "TOGGLE_FEED_MODAL" |
+  "TOGGLE_POST_COMMENT_MODAL" |
+  "SELECT_POST" |
+  "SET_RESULT" |
+  "TOGGLE_MENU_MODAL" |
+  "TOGGLE_POST_PREVIEW_MODAL" |
+  "TOGGLE_NOTIFICATION_MODAL" |
+  "TOGGLE_POST_REPORT_MODAL"|
+  "SET_BLUR_HASH"|
+  "SET_PREVIEW_URL"|
+  "SET_CROPPED_IMAGE"|
+  "TOGGLE_MESSAGE_MODAL"|  
+  "SET_CHAT_ROOM_SELECTED"|
+  "SET_SELECTED_ACTIVITY" |
+  "SET_SELECTED_CHAT" |
+  "SHOW_REPORT_MODAL"
+
+
+
 type PostModalAction = {
   type: "TOGGLE_POST_MODAL";
   payload: {
@@ -11,18 +38,7 @@ type PostCreateModalAction = {
     postCreateModal: boolean;
   };
 };
-type NotificationDrawerAction = {
-  type: "TOGGLE_NOTIFICATION_DRAWER";
-  payload: {
-    notificationDrawer: boolean;
-  };
-};
-type ResultDrawerAction = {
-  type: "TOGGLE_RESULT_DRAWER";
-  payload: {
-    resultDrawer: boolean;
-  };
-};
+
 type FeedModalAction = {
   type: "TOGGLE_FEED_MODAL";
   payload: {
@@ -39,13 +55,6 @@ type SelectPostAction = {
   type: "SELECT_POST";
   payload: {
     post: IUserPostProps | null;
-  };
-};
-
-type ToggleSearchDrawerAction = {
-  type: "TOGGLE_SEARCH_DRAWER";
-  payload: {
-    searchDrawer: boolean;
   };
 };
 
@@ -97,12 +106,6 @@ type CroppedImageAction = {
   type: "SET_CROPPED_IMAGE";
   payload: {
     croppedImage: string;
-  };
-};
-type ReceiverDrawerAction = {
-  type: "TOGGLE_RECEIVER_DRAWER";
-  payload: {
-    receiverDrawer: boolean;
   };
 };
 type MessageModalAction = {
@@ -190,7 +193,9 @@ export type ActionsType =
   | SelectedActivityActions
   | SelectedChatAction;
 
-type ActionsModalTypes = ToggleMenuModalAction | TogglePostPreviewModalAction
+type ActionsModalTypes =
+  ToggleMenuModalAction
+  | TogglePostPreviewModalAction 
   | FeedModalAction
   | PostModalAction
   | NotificationModalAction
@@ -200,9 +205,3 @@ type ActionsModalTypes = ToggleMenuModalAction | TogglePostPreviewModalAction
   | MessageModalAction
   | ShowUsersModalActions
   | ShowReportModalActions
-
-type DrawerActionsTypes =
-  | ToggleSearchDrawerAction
-  | ResultDrawerAction
-  | NotificationDrawerAction
-  | ReceiverDrawerAction;

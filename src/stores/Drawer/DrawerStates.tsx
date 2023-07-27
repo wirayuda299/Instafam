@@ -1,17 +1,16 @@
-import { DrawerActionsTypes } from "@/types/ActionsTypes";
 import {
-  Dispatch,
-  ReactNode,
+  type Dispatch,
+ type ReactNode,
   createContext,
   useContext,
   useMemo,
   useReducer,
 } from "react";
-import { drawerreducer } from "../reducerFunctions/drawer";
+import { DrawerActionsType, drawerreducer } from "../reducerFunctions/drawer";
 
 type DrawerStatesproviderTypes = {
   drawerStates: DrawerStatesTypes;
-  drawerDispatch: Dispatch<DrawerActionsTypes>;
+  drawerDispatch: Dispatch<DrawerActionsType>;
 };
 export const initialStates = {
   isSearchDrawerOpen: false,

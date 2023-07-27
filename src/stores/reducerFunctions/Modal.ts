@@ -1,5 +1,6 @@
 import { ActionsModalTypes } from "@/types/ActionsTypes";
 
+
 export function modalReducer(state: ModalStates, action: ActionsModalTypes) {
   switch (action.type) {
     case "SHOW_REPORT_MODAL":
