@@ -9,6 +9,7 @@ export type StatesTypes = {
   savedPosts: IUserPostProps[];
   showUsers: boolean;
 };
+
 export function reducer(state: StatesTypes, action: ActionsTypeUsersPage) {
   switch (action.type) {
     case "SET_POST_TAB":
