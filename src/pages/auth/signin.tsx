@@ -26,9 +26,7 @@ export default function SignIn({ providers }: { providers: Providers }) {
       <div className="grid h-screen w-full place-items-center p-5 text-black dark:text-white">
         <div className="flex items-center justify-between gap-4 overflow-hidden">
           <div className="flex aspect-square max-h-[512px] max-w-lg flex-col items-center justify-center text-center">
-            <div className="text-9xl  ">
-              <Logo />
-            </div>
+
             <h1 className=" bg-gradient-to-r from-pink-600 from-50% to-orange-400 bg-clip-text text-3xl font-bold text-transparent  sm:text-4xl md:text-5xl ">
               Welcome Back to Instafam
             </h1>

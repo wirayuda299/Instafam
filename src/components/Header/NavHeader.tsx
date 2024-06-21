@@ -1,7 +1,6 @@
 import Link from "next/link";
 import { Playfair_Display } from "next/font/google";
 
-import Logo from "../Logo/Logo";
 import { useDrawerContext } from "@/stores/Drawer/DrawerStates";
 
 const playfair = Playfair_Display({
@@ -25,15 +24,9 @@ const NavHeader = () => {
         href="/"
         className={`text-3xl font-semibold transition-transform lg:pt-5`}
       >
-        {isSearchDrawerOpen || notificationDrawer ? (
-          <Logo />
-        ) : (
-          <>
-            <h1 className="hidden lg:block">Instafams</h1>
-            <span className="block lg:hidden">
-              <Logo />
-            </span>
-          </>
+        {!isSearchDrawerOpen || !notificationDrawer && (
+          <h1 className="hidden lg:block">Instafams</h1>
+
         )}
       </Link>
     </header>
