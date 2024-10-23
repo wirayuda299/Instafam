@@ -34,7 +34,7 @@
     "format": "prettier --write /**/*"
   },
   "dependencies": {
-    "@types/node": "18.16.19",
+    "@types/node": "18.19.59",
     "@types/react": "18.2.14",
     "@types/react-dom": "18.2.6",
     "blurhash": "^2.0.5",
